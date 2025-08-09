@@ -1,156 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Hacı Celal Aygar - Portfolio</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Celal Aygar Portfolio</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .slider-item {
+      min-width: calc(50% - 1rem);
+      transition: transform 0.5s ease-in-out;
+    }
+  </style>
 </head>
 <body class="bg-gray-100 text-gray-800">
 
-<!-- Top Menu -->
-<header class="bg-white shadow-md fixed top-0 left-0 w-full z-50">
-  <div class="max-w-7xl mx-auto flex justify-between items-center px-4 py-3">
-    <a href="#" class="text-xl font-bold text-indigo-600">HCA Portfolio</a>
-    <div class="flex items-center space-x-4">
-      <nav class="hidden md:flex space-x-6">
-        <a href="#about" class="hover:text-indigo-500">About</a>
-        <a href="#projects" class="hover:text-indigo-500">Projects</a>
-        <a href="#contact" class="hover:text-indigo-500">Contact</a>
-      </nav>
-      <select id="languageSelect" class="border border-gray-300 rounded p-1 text-sm">
-        <option value="en">English</option>
-        <option value="tr">Türkçe</option>
+  <!-- Top Menu -->
+  <header class="bg-white shadow sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 flex justify-between items-center h-16">
+      <div class="text-lg font-bold">Celal Aygar</div>
+      <select id="langSelect" class="border rounded px-2 py-1">
+        <option value="en">EN</option>
+        <option value="tr">TR</option>
       </select>
     </div>
-  </div>
-</header>
+  </header>
 
-<!-- Slider -->
-<section id="projects" class="mt-20 relative max-w-7xl mx-auto px-4">
-  <h2 class="text-3xl font-bold mb-4 text-center">Projects</h2>
-  <div class="relative overflow-hidden">
-    <div id="slider" class="flex transition-transform duration-500">
-      <!-- Slide Items -->
-      <div class="min-w-[50%] p-2">
-        <a href="https://celalaygar.github.io/" target="_blank" class="block bg-white rounded-xl shadow hover:shadow-lg overflow-hidden">
-          <img src="https://picsum.photos/id/1050/600/400" alt="Portfolio" class="w-full h-48 object-cover">
-          <div class="p-4">
-            <h3 class="font-bold text-lg">Portfolio</h3>
-            <p class="text-sm text-gray-600">My personal portfolio website.</p>
-          </div>
-        </a>
-      </div>
-      <div class="min-w-[50%] p-2">
-        <a href="https://celalaygar.github.io/main/snake-game/" target="_blank" class="block bg-white rounded-xl shadow hover:shadow-lg overflow-hidden">
-          <img src="https://picsum.photos/id/1015/600/400" alt="Snake Game" class="w-full h-48 object-cover">
-          <div class="p-4">
-            <h3 class="font-bold text-lg">Snake Game</h3>
-            <p class="text-sm text-gray-600">Classic snake game built with JavaScript.</p>
-          </div>
-        </a>
-      </div>
-      <div class="min-w-[50%] p-2">
-        <a href="https://celalaygar.github.io/main/flappy-bird-game/" target="_blank" class="block bg-white rounded-xl shadow hover:shadow-lg overflow-hidden">
-          <img src="https://picsum.photos/id/1025/600/400" alt="Flappy Bird" class="w-full h-48 object-cover">
-          <div class="p-4">
-            <h3 class="font-bold text-lg">Flappy Bird</h3>
-            <p class="text-sm text-gray-600">Flappy Bird clone with HTML5 Canvas.</p>
-          </div>
-        </a>
-      </div>
-      <div class="min-w-[50%] p-2">
-        <a href="https://celalaygar.github.io/main/tetris-game/" target="_blank" class="block bg-white rounded-xl shadow hover:shadow-lg overflow-hidden">
-          <img src="https://picsum.photos/id/1035/600/400" alt="Tetris" class="w-full h-48 object-cover">
-          <div class="p-4">
-            <h3 class="font-bold text-lg">Tetris</h3>
-            <p class="text-sm text-gray-600">Tetris game with JavaScript.</p>
-          </div>
-        </a>
-      </div>
+  <!-- Slider -->
+  <section class="max-w-7xl mx-auto px-4 mt-6 relative">
+    <div id="slider" class="flex gap-4 overflow-hidden">
+      <a href="https://celalaygar.github.io/" class="slider-item flex items-center justify-center bg-gradient-to-r from-indigo-500 to-purple-500 text-white text-xl font-bold rounded-lg h-40">Portfolio</a>
+      <a href="https://celalaygar.github.io/main/snake-game/" class="slider-item flex items-center justify-center bg-gradient-to-r from-green-500 to-teal-500 text-white text-xl font-bold rounded-lg h-40">Snake Game</a>
+      <a href="https://celalaygar.github.io/main/flappy-bird-game/" class="slider-item flex items-center justify-center bg-gradient-to-r from-yellow-500 to-orange-500 text-white text-xl font-bold rounded-lg h-40">Flappy Bird</a>
+      <a href="https://celalaygar.github.io/main/tetris-game/" class="slider-item flex items-center justify-center bg-gradient-to-r from-pink-500 to-red-500 text-white text-xl font-bold rounded-lg h-40">Tetris</a>
     </div>
-    <!-- Controls -->
-    <button id="prevBtn" class="absolute left-0 top-1/2 -translate-y-1/2 bg-indigo-600 text-white p-2 rounded-full shadow hover:bg-indigo-700">
-      <i class="fas fa-chevron-left"></i>
-    </button>
-    <button id="nextBtn" class="absolute right-0 top-1/2 -translate-y-1/2 bg-indigo-600 text-white p-2 rounded-full shadow hover:bg-indigo-700">
-      <i class="fas fa-chevron-right"></i>
-    </button>
-  </div>
-</section>
+    <button id="prev" class="absolute top-1/2 -translate-y-1/2 left-0 bg-white p-2 rounded-full shadow hover:bg-gray-100">⬅</button>
+    <button id="next" class="absolute top-1/2 -translate-y-1/2 right-0 bg-white p-2 rounded-full shadow hover:bg-gray-100">➡</button>
+  </section>
 
-<!-- About -->
-<section id="about" class="py-12 bg-white mt-8">
-  <div class="max-w-5xl mx-auto px-4 text-center">
-    <h2 id="aboutTitle" class="text-3xl font-bold mb-6">About Me</h2>
-    <p id="aboutText" class="text-lg text-gray-700 max-w-3xl mx-auto">
-      I'm a Full Stack Developer. I'm Hacı Celal Aygar. I graduated from Karabük University, Department of Computer Engineering. 
-      I have been working as a Full Stack developer and Java developer for around 5 years.
-      My goal is to work in companies that produce projects using technologies in the fields of computer engineering and to continue to improve myself. 
-      I also continue to share many of my sample works on my Github account.
-      Also I am constantly working to make life easier and trying to find solutions to the common problems of people. 
-      I’m currently learning client side technologies by using especially Github and Stackoverflow.
+  <!-- About -->
+  <section class="max-w-5xl mx-auto px-4 mt-10 text-center">
+    <h2 class="text-2xl font-bold mb-4" data-en="About Me" data-tr="Hakkımda">About Me</h2>
+    <p class="mb-4" id="aboutText">
+      I'm a Full Stack Developer. I’m Hacı Celal Aygar. I graduated from Karabük University, Department of Computer Engineering. I have been working as a Full Stack developer and Java developer around 5 years. My goal is to work in companies that produce projects using technologies in the fields of computer engineering and to continue to improve myself. I also continue to share many of my sample works on my Github account. Also I am constantly working to make life easier and trying to find solutions to the common problems of people. I’m currently learning client side technologies by using especially Github and Stackoverflow.
     </p>
-    <!-- Social Links -->
-    <div class="flex flex-wrap justify-center gap-6 mt-6">
-      <a href="https://www.youtube.com/@celalaygar" target="_blank" class="text-red-500 hover:text-red-700 text-3xl"><i class="fab fa-youtube"></i></a>
-      <a href="https://www.linkedin.com/in/celalaygar/" target="_blank" class="text-blue-600 hover:text-blue-800 text-3xl"><i class="fab fa-linkedin"></i></a>
-      <a href="https://stackoverflow.com/users/12014524/hac%c4%b1-celal-aygar" target="_blank" class="text-orange-500 hover:text-orange-700 text-3xl"><i class="fab fa-stack-overflow"></i></a>
-      <a href="https://medium.com/@celalaygar" target="_blank" class="text-gray-700 hover:text-black text-3xl"><i class="fab fa-medium"></i></a>
-    </div>
-  </div>
-</section>
+  </section>
 
-<!-- JS -->
-<script>
-const slider = document.getElementById('slider');
-let offset = 0;
-const itemWidth = slider.children[0].offsetWidth;
-const totalItems = slider.children.length;
+  <!-- Social Links -->
+  <section class="max-w-5xl mx-auto px-4 mt-6 grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
+    <a href="https://www.youtube.com/@celalaygar" target="_blank" class="bg-red-500 text-white py-3 rounded-lg font-semibold">YouTube</a>
+    <a href="https://www.linkedin.com/in/celalaygar/" target="_blank" class="bg-blue-600 text-white py-3 rounded-lg font-semibold">LinkedIn</a>
+    <a href="https://stackoverflow.com/users/12014524/hac%c4%b1-celal-aygar" target="_blank" class="bg-orange-500 text-white py-3 rounded-lg font-semibold">Stack Overflow</a>
+    <a href="https://medium.com/@celalaygar" target="_blank" class="bg-gray-800 text-white py-3 rounded-lg font-semibold">Medium</a>
+  </section>
 
-document.getElementById('nextBtn').addEventListener('click', () => {
-  if (offset < (totalItems - 2) * itemWidth) {
-    offset += itemWidth;
-    slider.style.transform = `translateX(-${offset}px)`;
-  }
-});
+  <script>
+    // Slider logic
+    const slider = document.getElementById('slider');
+    const next = document.getElementById('next');
+    const prev = document.getElementById('prev');
+    let scrollAmount = 0;
 
-document.getElementById('prevBtn').addEventListener('click', () => {
-  if (offset > 0) {
-    offset -= itemWidth;
-    slider.style.transform = `translateX(-${offset}px)`;
-  }
-});
+    next.addEventListener('click', () => {
+      if (scrollAmount < slider.scrollWidth - slider.clientWidth) {
+        scrollAmount += slider.clientWidth / 2;
+        slider.scrollTo({ left: scrollAmount, behavior: 'smooth' });
+      }
+    });
 
-// Language toggle
-const translations = {
-  en: {
-    aboutTitle: "About Me",
-    aboutText: `I'm a Full Stack Developer. I'm Hacı Celal Aygar. I graduated from Karabük University, Department of Computer Engineering. 
-    I have been working as a Full Stack developer and Java developer for around 5 years.
-    My goal is to work in companies that produce projects using technologies in the fields of computer engineering and to continue to improve myself. 
-    I also continue to share many of my sample works on my Github account.
-    Also I am constantly working to make life easier and trying to find solutions to the common problems of people. 
-    I’m currently learning client side technologies by using especially Github and Stackoverflow.`
-  },
-  tr: {
-    aboutTitle: "Hakkımda",
-    aboutText: `Ben bir Full Stack Developer'ım. Ben Hacı Celal Aygar. Karabük Üniversitesi Bilgisayar Mühendisliği bölümünden mezun oldum. 
-    Yaklaşık 5 yıldır Full Stack developer ve Java developer olarak çalışmaktayım.
-    Amacım, bilgisayar mühendisliği alanlarında teknolojiler kullanan şirketlerde çalışmak ve kendimi geliştirmeye devam etmektir. 
-    Ayrıca birçok örnek çalışmamı Github hesabımda paylaşmaya devam ediyorum.
-    Bunun yanında hayatı kolaylaştırmak için sürekli çalışıyor ve insanların ortak problemlerine çözümler bulmaya çalışıyorum. 
-    Şu anda özellikle Github ve Stackoverflow kullanarak istemci tarafı teknolojilerini öğreniyorum.`
-  }
-};
+    prev.addEventListener('click', () => {
+      if (scrollAmount > 0) {
+        scrollAmount -= slider.clientWidth / 2;
+        slider.scrollTo({ left: scrollAmount, behavior: 'smooth' });
+      }
+    });
 
-document.getElementById('languageSelect').addEventListener('change', function() {
-  const lang = this.value;
-  document.getElementById('aboutTitle').textContent = translations[lang].aboutTitle;
-  document.getElementById('aboutText').textContent = translations[lang].aboutText;
-});
-</script>
+    // Language switcher
+    const langSelect = document.getElementById('langSelect');
+    const aboutText = document.getElementById('aboutText');
+    const aboutTitle = document.querySelector('h2');
+
+    const aboutContent = {
+      en: "I'm a Full Stack Developer. I’m Hacı Celal Aygar. I graduated from Karabük University, Department of Computer Engineering. I have been working as a Full Stack developer and Java developer around 5 years. My goal is to work in companies that produce projects using technologies in the fields of computer engineering and to continue to improve myself. I also continue to share many of my sample works on my Github account. Also I am constantly working to make life easier and trying to find solutions to the common problems of people. I’m currently learning client side technologies by using especially Github and Stackoverflow.",
+      tr: "Ben bir Full Stack Geliştiriciyim. Ben Hacı Celal Aygar. Karabük Üniversitesi Bilgisayar Mühendisliği bölümünden mezun oldum. Yaklaşık 5 yıldır Full Stack ve Java geliştiricisi olarak çalışıyorum. Amacım, bilgisayar mühendisliği alanlarında teknolojiler kullanarak projeler üreten firmalarda çalışmak ve kendimi geliştirmeye devam etmek. Ayrıca Github hesabımda birçok örnek çalışmamı paylaşmaya devam ediyorum. Ayrıca hayatı kolaylaştırmak için sürekli çalışıyor ve insanların ortak sorunlarına çözümler bulmaya çalışıyorum. Şu anda özellikle Github ve Stackoverflow kullanarak istemci tarafı teknolojileri öğreniyorum."
+    };
+
+    langSelect.addEventListener('change', () => {
+      const lang = langSelect.value;
+      aboutText.textContent = aboutContent[lang];
+      aboutTitle.textContent = aboutTitle.dataset[lang];
+    });
+  </script>
 
 </body>
 </html>
