@@ -1,0 +1,554 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Pac-Man - Tailwind + JS (Responsive)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* küçük ek stiller */
+    body { -webkit-tap-highlight-color: transparent; }
+    canvas { display:block; background: #000814; border-radius: .5rem; }
+    .btn-circle { width:56px; height:56px; border-radius:9999px; }
+    .ghost-fright { filter: hue-rotate(200deg) brightness(1.1); }
+    /* responsive container için maksimum genişlik */
+    .game-wrap { max-width: 900px; width: 100%; }
+    /* mobil yön tuşları opacity */
+    .mobile-controls button { opacity: 0.95; }
+  </style>
+</head>
+<body class="min-h-screen bg-gradient-to-b from-slate-900 via-slate-900 to-slate-800 text-white flex items-center justify-center p-6">
+
+  <div class="game-wrap w-full">
+    <header class="flex items-center justify-between mb-4">
+      <h1 class="text-2xl md:text-3xl font-bold">Pac-Man (Responsive)</h1>
+      <div class="flex items-center gap-4">
+        <div class="bg-white/5 px-3 py-2 rounded-md text-sm font-mono">Skor: <span id="score">0</span></div>
+        <div class="bg-white/5 px-3 py-2 rounded-md text-sm font-mono">Can: <span id="lives">3</span></div>
+        <button id="restartBtn" class="bg-emerald-500 hover:bg-emerald-600 text-black px-3 py-1 rounded-md text-sm">Yeniden Başlat</button>
+      </div>
+    </header>
+
+    <main class="grid md:grid-cols-3 gap-4">
+      <!-- oyun alanı - canvas -->
+      <section class="md:col-span-2 flex justify-center">
+        <div id="canvasContainer" class="w-full">
+          <canvas id="gameCanvas"></canvas>
+        </div>
+      </section>
+
+      <!-- sağ panel: kontrol / açıklama -->
+      <aside class="flex flex-col gap-4">
+        <div class="bg-white/5 p-3 rounded-md">
+          <h2 class="font-semibold mb-2">Nasıl Oynanır</h2>
+          <ul class="text-sm list-disc list-inside space-y-1">
+            <li>Ok tuşları veya W/A/S/D ile kontrol.</li>
+            <li>Pelletleri topla, power pellet yerse hayaletleri yiyebilirsin.</li>
+            <li>Mobilde alttaki yön butonlarını kullan.</li>
+          </ul>
+        </div>
+
+        <div class="bg-white/5 p-3 rounded-md flex flex-col gap-2 items-stretch">
+          <div class="text-sm font-semibold">Durum:</div>
+          <div id="status" class="text-sm text-amber-300">Hazır</div>
+          <button id="pauseBtn" class="mt-2 bg-yellow-400 hover:bg-yellow-500 text-black px-3 py-2 rounded-md">Duraklat</button>
+        </div>
+      </aside>
+    </main>
+
+    <!-- mobil yön butonları -->
+    <div class="mobile-controls fixed bottom-6 left-1/2 -translate-x-1/2 md:hidden grid grid-cols-3 gap-2 items-center">
+      <div></div>
+      <button id="upBtn" class="btn-circle bg-slate-700 hover:bg-slate-600 flex items-center justify-center text-xl">▲</button>
+      <div></div>
+      <button id="leftBtn" class="btn-circle bg-slate-700 hover:bg-slate-600 flex items-center justify-center text-xl">◀</button>
+      <div></div>
+      <button id="rightBtn" class="btn-circle bg-slate-700 hover:bg-slate-600 flex items-center justify-center text-xl">▶</button>
+      <div></div>
+      <button id="downBtn" class="btn-circle bg-slate-700 hover:bg-slate-600 flex items-center justify-center text-xl">▼</button>
+    </div>
+
+    <footer class="mt-6 text-center text-xs text-white/60">Made with Tailwind + Canvas + JS • Responsive</footer>
+  </div>
+
+<script>
+/* -----------------------
+   Basit Responsive Pac-Man
+   - Grid tabanlı
+   - Duvarlar, pellet, power pellet
+   - Pac-Man hareketi, dönme kuyruğu yok (grid snap)
+   - Hayaletler: rastgele / hedefe yönelme (basit)
+   -----------------------*/
+
+const canvas = document.getElementById('gameCanvas');
+const container = document.getElementById('canvasContainer');
+const scoreEl = document.getElementById('score');
+const livesEl = document.getElementById('lives');
+const restartBtn = document.getElementById('restartBtn');
+const pauseBtn = document.getElementById('pauseBtn');
+const statusEl = document.getElementById('status');
+
+const upBtn = document.getElementById('upBtn');
+const downBtn = document.getElementById('downBtn');
+const leftBtn = document.getElementById('leftBtn');
+const rightBtn = document.getElementById('rightBtn');
+
+// responsive ayar: grid boyutu
+let COLS = 21; // genişlik (her zaman tek sayı olmalı ortalama labirent için)
+let ROWS = 21; // yükseklik
+// Eğer istersen burada COLS/ROWS'u değiştirerek labirenti büyütebilirsin.
+
+let cellSize; // piksel
+const wallColor = '#0b3d91';
+const bgColor = '#000814';
+const pelletColor = '#ffd166';
+const powerColor = '#ff6b6b';
+const pacColor = '#ffd43b';
+const ghostColors = ['#ff5c8a','#5eead4','#8b5cf6','#60a5fa'];
+
+let board = []; // 2D array: 0 boş, 1 duvar, 2 pellet, 3 power
+let score = 0;
+let lives = 3;
+let pacman;
+let ghosts = [];
+let gameRunning = true;
+let lastTick = 0;
+let tickInterval = 120; // ms; hızını değiştir
+let powerMode = false;
+let powerTimer = 0;
+const POWER_DURATION = 6000; // ms
+
+// Basit labirent (21x21 için örnek). 1 = duvar, 2 = pellet, 3 = power pellet, 0 = boş
+// Aşağıdaki şablon 21x21 bekler. Eğer COLS/ROWS değişirse labirenti yeniden oluşturacak basit algoritma çalışır.
+// Bu örnek küçük, klasik Pac-Man hissi verecek şekilde el ile ayarlandı.
+const LEVEL_TEMPLATE = [
+"111111111111111111111",
+"1........2...2......1",
+"1.111.111.111.111.11",
+"1.3..1.......1..3..1",
+"1.111.1.11111.1.1111",
+"1.....1...2...1.....1",
+"11111.111.1.111.11111",
+"1.....1...1...1.....1",
+"1.111.111.1.111.1111",
+"1.2........0........1",
+"1111.111111111.11111",
+"1........0........1",
+"1.111.111.1.111.1111",
+"1.....1...1...1.....1",
+"11111.1.11111.1.11111",
+"1...3.1.......1.3...1",
+"1.111.111.111.111.111",
+"1.....2...2...2.....1",
+"1.111.111.111.111.111",
+"1...................1",
+"111111111111111111111",
+];
+
+// Normalize template to numbers, replace '.' with pellet(2), '0' empty, digits as given
+function buildBoardFromTemplate() {
+  board = [];
+  for (let r=0; r<ROWS; r++) {
+    board[r] = new Array(COLS).fill(0);
+    const line = LEVEL_TEMPLATE[r] || ''.padEnd(COLS,'.');
+    for (let c=0; c<COLS; c++) {
+      const ch = line[c] || '.';
+      if (ch === '1') board[r][c] = 1; // wall
+      else if (ch === '.') board[r][c] = 2; // pellet
+      else if (ch === '2') board[r][c] = 2; // pellet
+      else if (ch === '3') board[r][c] = 3; // power
+      else if (ch === '0') board[r][c] = 0; // empty
+      else board[r][c] = 2;
+    }
+  }
+}
+
+// Utility
+function clamp(v,min,max){ return Math.max(min,Math.min(max,v)); }
+function randInt(a,b){ return Math.floor(Math.random()*(b-a+1))+a; }
+
+// Responsive resize: container genişliğine göre canvas boyutunu ayarla.
+// Canvas kare olmalı, cellSize integer olmalı.
+function resizeCanvas(){
+  const maxWidth = container.clientWidth;
+  // prefer full width but keep some margin
+  const desired = Math.min(maxWidth, 720);
+  // choose cellSize such that COLS*cellSize <= desired
+  cellSize = Math.floor(desired / COLS);
+  if (cellSize < 12) cellSize = 12; // minimum görünürlük
+  // set canvas size
+  canvas.width = cellSize * COLS;
+  canvas.height = cellSize * ROWS;
+}
+window.addEventListener('resize', ()=> {
+  resizeCanvas();
+  draw();
+});
+
+// Game objects
+function createPacman(){
+  // place near center-left
+  pacman = {
+    x: Math.floor(COLS/2),
+    y: Math.floor(ROWS/2)+4,
+    dir: {x: -1, y: 0}, // current direction
+    nextDir: {x: -1, y: 0},
+    mouth: 0, // animation
+    speedTick: 0
+  };
+}
+
+function createGhosts(){
+  ghosts = [];
+  const spawn = [
+    {x: Math.floor(COLS/2), y: Math.floor(ROWS/2)-2},
+    {x: Math.floor(COLS/2)+1, y: Math.floor(ROWS/2)-2},
+    {x: Math.floor(COLS/2)-1, y: Math.floor(ROWS/2)-2},
+    {x: Math.floor(COLS/2), y: Math.floor(ROWS/2)-3},
+  ];
+  for (let i=0;i<4;i++){
+    ghosts.push({
+      x: spawn[i].x,
+      y: spawn[i].y,
+      color: ghostColors[i%ghostColors.length],
+      dir: {x: 0, y: 1},
+      scatterTick: 0,
+      frightened: false,
+      speedTick: 0
+    });
+  }
+}
+
+// board helper
+function isWall(x,y){
+  if (x<0 || x>=COLS || y<0 || y>=ROWS) return true;
+  return board[y][x] === 1;
+}
+
+function isPellet(x,y){
+  if (x<0 || x>=COLS || y<0 || y>=ROWS) return false;
+  return board[y][x] === 2;
+}
+function isPower(x,y){
+  if (x<0 || x>=COLS || y<0 || y>=ROWS) return false;
+  return board[y][x] === 3;
+}
+function eatAt(x,y){
+  if (isPellet(x,y)){
+    board[y][x] = 0;
+    score += 10;
+    updateUI();
+  } else if (isPower(x,y)){
+    board[y][x] = 0;
+    score += 50;
+    updateUI();
+    enablePowerMode();
+  }
+}
+
+// power mode
+function enablePowerMode(){
+  powerMode = true;
+  powerTimer = performance.now();
+  ghosts.forEach(g => g.frightened = true);
+  statusEl.textContent = "Power Mode!";
+}
+function updatePower(){
+  if (!powerMode) return;
+  if (performance.now() - powerTimer > POWER_DURATION){
+    powerMode = false;
+    ghosts.forEach(g => g.frightened = false);
+    statusEl.textContent = "Normal";
+  } else {
+    // show remaining
+    const rem = Math.ceil((POWER_DURATION - (performance.now()-powerTimer))/1000);
+    statusEl.textContent = `Power: ${rem}s`;
+  }
+}
+
+// movement helpers
+const DIRS = [
+  {x:1,y:0},{x:-1,y:0},{x:0,y:1},{x:0,y:-1}
+];
+
+function canMove(x,y,dir){
+  return !isWall(x+dir.x, y+dir.y);
+}
+
+// Try to apply queued direction if possible
+function applyNextDirection(){
+  const nd = pacman.nextDir;
+  if (nd.x === pacman.dir.x && nd.y === pacman.dir.y) return;
+  if (canMove(pacman.x, pacman.y, nd)){
+    pacman.dir = {x: nd.x, y: nd.y};
+  }
+}
+
+// Pac-Man step
+function stepPacman(){
+  // attempt to change dir at grid
+  applyNextDirection();
+  if (canMove(pacman.x, pacman.y, pacman.dir)){
+    pacman.x += pacman.dir.x;
+    pacman.y += pacman.dir.y;
+    eatAt(pacman.x, pacman.y);
+  } else {
+    // blocked - do nothing
+  }
+  // mouth animation
+  pacman.mouth = (pacman.mouth + 1) % 20;
+}
+
+// Ghost logic: simple chase/rand
+function stepGhost(g){
+  // frightened -> move away from pacman randomly
+  const possible = [];
+  for (const d of DIRS){
+    if (!isWall(g.x + d.x, g.y + d.y)){
+      // don't immediately reverse direction often
+      if (g.dir.x === -d.x && g.dir.y === -d.y) continue;
+      possible.push(d);
+    }
+  }
+  if (possible.length === 0){
+    // reverse if stuck
+    g.dir.x = -g.dir.x; g.dir.y = -g.dir.y;
+    g.x += g.dir.x; g.y += g.dir.y;
+    return;
+  }
+
+  // if frightened -> prefer to go away from pacman
+  if (g.frightened){
+    possible.sort((a,b)=>{
+      const ax = g.x + a.x - pacman.x; const ay = g.y + a.y - pacman.y;
+      const bx = g.x + b.x - pacman.x; const by = g.y + b.y - pacman.y;
+      return (ax*ax+ay*ay) - (bx*bx+by*by);
+    });
+    const chosen = possible[possible.length-1]; // furthest
+    g.dir = chosen;
+    g.x += g.dir.x; g.y += g.dir.y;
+    return;
+  }
+
+  // otherwise, sometimes chase, sometimes random
+  if (Math.random() < 0.7){
+    // greedy move toward pacman
+    possible.sort((a,b)=>{
+      const ax = g.x + a.x - pacman.x; const ay = g.y + a.y - pacman.y;
+      const bx = g.x + b.x - pacman.x; const by = g.y + b.y - pacman.y;
+      return (ax*ax+ay*ay) - (bx*bx+by*by);
+    });
+    g.dir = possible[0];
+  } else {
+    g.dir = possible[randInt(0, possible.length-1)];
+  }
+  g.x += g.dir.x; g.y += g.dir.y;
+}
+
+// collision pacman & ghost
+function checkGhostCollision(){
+  for (const g of ghosts){
+    if (g.x === pacman.x && g.y === pacman.y){
+      if (g.frightened){
+        // eat ghost -> respawn ghost to center
+        score += 200;
+        updateUI();
+        // teleport ghost to spawn
+        g.x = Math.floor(COLS/2);
+        g.y = Math.floor(ROWS/2)-2;
+        g.frightened = false;
+      } else {
+        // pacman loses life
+        lives--;
+        updateUI();
+        if (lives <= 0){
+          gameOver();
+        } else {
+          // respawn pacman & ghosts
+          createPacman();
+          createGhosts();
+          statusEl.textContent = "Ouch! - Yeniden doğuyorsun";
+        }
+      }
+    }
+  }
+}
+
+function updateUI(){
+  scoreEl.textContent = score;
+  livesEl.textContent = lives;
+}
+
+// Draw functions
+const ctx = canvas.getContext('2d');
+
+function draw(){
+  // clear bg
+  ctx.fillStyle = bgColor;
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+
+  // board
+  for (let r=0;r<ROWS;r++){
+    for (let c=0;c<COLS;c++){
+      const x = c*cellSize, y = r*cellSize;
+      if (board[r][c] === 1){
+        // wall block - draw rounded rect like maze
+        ctx.fillStyle = wallColor;
+        ctx.fillRect(x, y, cellSize, cellSize);
+        // inner darker
+        ctx.fillStyle = '#072b5a';
+        ctx.fillRect(x+cellSize*0.06, y+cellSize*0.06, cellSize*0.88, cellSize*0.88);
+      } else {
+        // pellet or power or empty
+        if (board[r][c] === 2){
+          ctx.fillStyle = pelletColor;
+          const s = cellSize * 0.12;
+          ctx.beginPath();
+          ctx.arc(x + cellSize/2, y + cellSize/2, s, 0, Math.PI*2);
+          ctx.fill();
+        } else if (board[r][c] === 3){
+          ctx.fillStyle = powerColor;
+          const s = cellSize * 0.28;
+          ctx.beginPath();
+          ctx.arc(x + cellSize/2, y + cellSize/2, s, 0, Math.PI*2);
+          ctx.fill();
+        }
+      }
+    }
+  }
+
+  // draw ghosts
+  for (const g of ghosts){
+    const gx = g.x*cellSize, gy = g.y*cellSize;
+    // body
+    ctx.fillStyle = g.frightened ? '#9ecbff' : g.color;
+    ctx.beginPath();
+    ctx.arc(gx+cellSize/2, gy+cellSize*0.45, cellSize*0.4, Math.PI, 0);
+    ctx.fill();
+    // bottom scallops
+    const scallopCount = 4;
+    ctx.fillRect(gx, gy+cellSize*0.45, cellSize, cellSize*0.35);
+    ctx.fillStyle = '#000';
+    // eyes
+    ctx.fillStyle = '#fff';
+    ctx.beginPath();
+    ctx.ellipse(gx+cellSize*0.36, gy+cellSize*0.38, cellSize*0.09, cellSize*0.12, 0, 0, Math.PI*2);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.ellipse(gx+cellSize*0.64, gy+cellSize*0.38, cellSize*0.09, cellSize*0.12, 0, 0, Math.PI*2);
+    ctx.fill();
+    ctx.fillStyle = '#000';
+    ctx.beginPath();
+    ctx.ellipse(gx+cellSize*0.36 + (g.frightened?0:0.02*cellSize), gy+cellSize*0.38, cellSize*0.04, cellSize*0.06, 0, 0, Math.PI*2);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.ellipse(gx+cellSize*0.64 + (g.frightened?0:0.02*cellSize), gy+cellSize*0.38, cellSize*0.04, cellSize*0.06, 0, 0, Math.PI*2);
+    ctx.fill();
+  }
+
+  // draw pacman
+  const px = pacman.x*cellSize, py = pacman.y*cellSize;
+  ctx.fillStyle = pacColor;
+  const mouthOpen = Math.abs(Math.sin(pacman.mouth/4));
+  const centerX = px + cellSize/2, centerY = py + cellSize/2;
+  const radius = cellSize*0.45;
+  // compute angle based on dir
+  let angle = 0;
+  if (pacman.dir.x===1) angle = 0;
+  if (pacman.dir.x===-1) angle = Math.PI;
+  if (pacman.dir.y===1) angle = Math.PI/2;
+  if (pacman.dir.y===-1) angle = -Math.PI/2;
+  const mouthAngle = 0.15 + mouthOpen*0.45;
+  ctx.beginPath();
+  ctx.moveTo(centerX, centerY);
+  ctx.arc(centerX, centerY, radius, angle + mouthAngle, angle - mouthAngle, false);
+  ctx.closePath();
+  ctx.fill();
+
+}
+
+// main loop
+function tick(now){
+  if (!gameRunning) { lastTick = now; requestAnimationFrame(tick); return; }
+  if (!lastTick) lastTick = now;
+  const dt = now - lastTick;
+  if (dt > tickInterval){
+    // step
+    stepPacman();
+    for (const g of ghosts){
+      // ghosts move slower than pacman sometimes, use speedTick
+      g.speedTick = (g.speedTick || 0) + dt;
+      if (g.speedTick > tickInterval*1.2) {
+        stepGhost(g);
+        g.speedTick = 0;
+      }
+    }
+    checkGhostCollision();
+    updatePower();
+    lastTick = now;
+  }
+  draw();
+  requestAnimationFrame(tick);
+}
+
+// Input handling
+window.addEventListener('keydown', (e)=>{
+  const k = e.key.toLowerCase();
+  if (k === 'arrowup' || k === 'w') { pacman.nextDir = {x:0,y:-1}; e.preventDefault(); }
+  if (k === 'arrowdown' || k === 's') { pacman.nextDir = {x:0,y:1}; e.preventDefault(); }
+  if (k === 'arrowleft' || k === 'a') { pacman.nextDir = {x:-1,y:0}; e.preventDefault(); }
+  if (k === 'arrowright' || k === 'd') { pacman.nextDir = {x:1,y:0}; e.preventDefault(); }
+  if (k === 'p') { togglePause(); }
+});
+
+upBtn?.addEventListener('touchstart', ()=> pacman.nextDir={x:0,y:-1});
+downBtn?.addEventListener('touchstart', ()=> pacman.nextDir={x:0,y:1});
+leftBtn?.addEventListener('touchstart', ()=> pacman.nextDir={x:-1,y:0});
+rightBtn?.addEventListener('touchstart', ()=> pacman.nextDir={x:1,y:0});
+upBtn?.addEventListener('mousedown', ()=> pacman.nextDir={x:0,y:-1});
+downBtn?.addEventListener('mousedown', ()=> pacman.nextDir={x:0,y:1});
+leftBtn?.addEventListener('mousedown', ()=> pacman.nextDir={x:-1,y:0});
+rightBtn?.addEventListener('mousedown', ()=> pacman.nextDir={x:1,y:0});
+
+// pause
+function togglePause(){
+  gameRunning = !gameRunning;
+  pauseBtn.textContent = gameRunning ? 'Duraklat' : 'Devam Et';
+  statusEl.textContent = gameRunning ? 'Devam ediyor' : 'Duraklandı';
+}
+pauseBtn.addEventListener('click', togglePause);
+
+// restart
+restartBtn.addEventListener('click', ()=>{
+  initGame();
+});
+
+// Game over
+function gameOver(){
+  gameRunning = false;
+  statusEl.textContent = 'Oyun bitti!';
+  alert('Oyun bitti! Skor: ' + score);
+}
+
+// init
+function initGame(){
+  buildBoardFromTemplate();
+  resizeCanvas();
+  createPacman();
+  createGhosts();
+  score = 0;
+  lives = 3;
+  powerMode = false;
+  updateUI();
+  gameRunning = true;
+  lastTick = 0;
+  statusEl.textContent = 'Başladı';
+  requestAnimationFrame(tick);
+}
+
+// Start
+initGame();
+
+</script>
+</body>
+</html>
