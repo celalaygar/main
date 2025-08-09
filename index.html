@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Game Hub</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+
+<!-- Top Menu -->
+<header class="bg-white shadow-md">
+  <div class="container mx-auto flex items-center justify-between px-4 py-3">
+    <div class="text-xl font-bold">🎮 Game Hub</div>
+
+    <!-- Desktop Menu -->
+    <nav class="hidden md:flex space-x-6">
+      <a href="#" class="nav-home text-blue-500 hover:text-blue-700">Home</a>
+      <a href="#games" class="nav-games hover:text-blue-700">Games</a>
+      <a href="#about" class="nav-about hover:text-blue-700">About</a>
+    </nav>
+
+    <!-- Language Selector -->
+    <select id="langSelect" class="border rounded p-1 text-sm">
+      <option value="en">English</option>
+      <option value="tr">Türkçe</option>
+      <option value="de">Deutsch</option>
+    </select>
+
+    <!-- Mobile Menu Button -->
+    <button id="mobileMenuBtn" class="md:hidden text-2xl">☰</button>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div id="mobileMenu" class="hidden md:hidden bg-white border-t">
+    <a href="#" class="block px-4 py-2 nav-home">Home</a>
+    <a href="#games" class="block px-4 py-2 nav-games">Games</a>
+    <a href="#about" class="block px-4 py-2 nav-about">About</a>
+  </div>
+</header>
+
+<!-- Slider -->
+<section class="relative w-full overflow-hidden mt-4">
+  <div id="slider" class="flex transition-transform duration-500">
+    <!-- Slide 1 -->
+    <div class="min-w-full bg-blue-200 flex flex-col items-center justify-center p-10">
+      <h2 class="text-3xl font-bold mb-2 slider-title">Snake Game</h2>
+      <p class="slider-desc text-center">Classic snake game to test your reflexes.</p>
+      <a href="snake-game/" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded">Play</a>
+    </div>
+    <!-- Slide 2 -->
+    <div class="min-w-full bg-green-200 flex flex-col items-center justify-center p-10">
+      <h2 class="text-3xl font-bold mb-2 slider-title">Flappy Bird</h2>
+      <p class="slider-desc text-center">Fly between pipes without hitting them!</p>
+      <a href="flappy-bird-game/" class="mt-4 bg-green-500 text-white px-4 py-2 rounded">Play</a>
+    </div>
+    <!-- Slide 3 -->
+    <div class="min-w-full bg-yellow-200 flex flex-col items-center justify-center p-10">
+      <h2 class="text-3xl font-bold mb-2 slider-title">Tetris Game</h2>
+      <p class="slider-desc text-center">Stack the blocks and clear lines.</p>
+      <a href="tetris-game/" class="mt-4 bg-yellow-500 text-white px-4 py-2 rounded">Play</a>
+    </div>
+  </div>
+
+  <!-- Slider Controls -->
+  <button id="prevBtn" class="absolute left-2 top-1/2 -translate-y-1/2 bg-white p-2 rounded-full shadow">◀</button>
+  <button id="nextBtn" class="absolute right-2 top-1/2 -translate-y-1/2 bg-white p-2 rounded-full shadow">▶</button>
+</section>
+
+<!-- About Section -->
+<section id="about" class="container mx-auto px-4 py-10">
+  <h2 class="text-2xl font-bold mb-4 about-title">About</h2>
+  <p class="about-text">Welcome to Game Hub! Play our fun games for free.</p>
+</section>
+
+<script>
+  // Mobile Menu Toggle
+  document.getElementById("mobileMenuBtn").addEventListener("click", () => {
+    document.getElementById("mobileMenu").classList.toggle("hidden");
+  });
+
+  // Slider
+  let currentSlide = 0;
+  const slider = document.getElementById("slider");
+  const totalSlides = slider.children.length;
+
+  document.getElementById("nextBtn").addEventListener("click", () => {
+    currentSlide = (currentSlide + 1) % totalSlides;
+    slider.style.transform = `translateX(-${currentSlide * 100}%)`;
+  });
+
+  document.getElementById("prevBtn").addEventListener("click", () => {
+    currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+    slider.style.transform = `translateX(-${currentSlide * 100}%)`;
+  });
+
+  // Language Change
+  const translations = {
+    en: {
+      home: "Home",
+      games: "Games",
+      about: "About",
+      aboutText: "Welcome to Game Hub! Play our fun games for free.",
+      slides: [
+        { title: "Snake Game", desc: "Classic snake game to test your reflexes." },
+        { title: "Flappy Bird", desc: "Fly between pipes without hitting them!" },
+        { title: "Tetris Game", desc: "Stack the blocks and clear lines." }
+      ]
+    },
+    tr: {
+      home: "Ana Sayfa",
+      games: "Oyunlar",
+      about: "Hakkında",
+      aboutText: "Game Hub'a hoş geldiniz! Oyunlarımızı ücretsiz oynayın.",
+      slides: [
+        { title: "Yılan Oyunu", desc: "Reflekslerinizi test eden klasik yılan oyunu." },
+        { title: "Flappy Bird", desc: "Borulara çarpmadan uçun!" },
+        { title: "Tetris Oyunu", desc: "Blokları diz ve satırları temizle." }
+      ]
+    },
+    de: {
+      home: "Startseite",
+      games: "Spiele",
+      about: "Über uns",
+      aboutText: "Willkommen bei Game Hub! Spiele unsere lustigen Spiele kostenlos.",
+      slides: [
+        { title: "Schlangenspiel", desc: "Klassisches Schlangenspiel für Ihre Reflexe." },
+        { title: "Flappy Bird", desc: "Fliegen Sie zwischen Rohren hindurch, ohne sie zu berühren!" },
+        { title: "Tetris-Spiel", desc: "Stapeln Sie die Blöcke und löschen Sie Linien." }
+      ]
+    }
+  };
+
+  document.getElementById("langSelect").addEventListener("change", (e) => {
+    const lang = translations[e.target.value];
+    document.querySelectorAll(".nav-home").forEach(el => el.textContent = lang.home);
+    document.querySelectorAll(".nav-games").forEach(el => el.textContent = lang.games);
+    document.querySelectorAll(".nav-about").forEach(el => el.textContent = lang.about);
+    document.querySelector(".about-title").textContent = lang.about;
+    document.querySelector(".about-text").textContent = lang.aboutText;
+
+    document.querySelectorAll(".slider-title").forEach((el, idx) => {
+      el.textContent = lang.slides[idx].title;
+    });
+    document.querySelectorAll(".slider-desc").forEach((el, idx) => {
+      el.textContent = lang.slides[idx].desc;
+    });
+  });
+</script>
+</body>
+</html>
