@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tetris Genişletilmiş - Tailwind + JS</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background: linear-gradient(135deg, #1e293b, #0f172a);
+      -webkit-tap-highlight-color: transparent;
+    }
+    canvas {
+      background: #0f172a;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgb(0 0 0 / 0.5);
+      display: block;
+    }
+  </style>
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen p-6 select-none">
+
+  <h1 class="text-4xl font-bold text-white ">Tetris  🟦</h1>
+
+  <!-- Oyun alanı ve yan panel -->
+  <div class="flex items-start gap-8">
+    <canvas id="gameCanvas"></canvas>
+
+    <div class="flex flex-col items-center gap-6 text-white font-mono select-none">
+      <div class="text-lg bg-black bg-opacity-40 px-6 py-3 rounded-md shadow-lg w-40 text-center">
+        Puan: <span id="score">0</span>
+      </div>
+      <button id="restartBtn" class="btn bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-6 rounded-md font-semibold shadow-md">
+        Yeniden Başlat
+      </button>
+    </div>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+    const scoreEl = document.getElementById('score');
+    const restartBtn = document.getElementById('restartBtn');
+
+    // --- GENİŞLETİLMİŞ KOLON VE SATIR ---
+    const COLS = 14; // önceki 10'dan 14'e çıktı (sağdan ve soldan ekleme)
+    const ROWS = 20;
+    const BLOCK_SIZE = 30;
+
+    // Canvas boyutunu COLS ve ROWS göre ayarla
+    canvas.width = COLS * BLOCK_SIZE;
+    canvas.height = ROWS * BLOCK_SIZE;
+
+    const COLORS = [
+      null,
+      '#0ea5e9', // I
+      '#f59e0b', // O
+      '#ef4444', // T
+      '#10b981', // S
+      '#f43f5e', // Z
+      '#8b5cf6', // J
+      '#2563eb'  // L
+    ];
+
+    // SHAPES ve diğer kodlar aynen kalacak (önceki koddan al, sadece canvas ayarlarını değiştirdik)
+
+    const SHAPES = [
+      [],
+      [ // I
+        [[0,0,0,0],
+         [1,1,1,1],
+         [0,0,0,0],
+         [0,0,0,0]],
+        [[0,0,1,0],
+         [0,0,1,0],
+         [0,0,1,0],
+         [0,0,1,0]],
+      ],
+      [ // O
+        [[2,2],
+         [2,2]]
+      ],
+      [ // T
+        [[0,3,0],
+         [3,3,3],
+         [0,0,0]],
+        [[0,3,0],
+         [0,3,3],
+         [0,3,0]],
+        [[0,0,0],
+         [3,3,3],
+         [0,3,0]],
+        [[0,3,0],
+         [3,3,0],
+         [0,3,0]],
+      ],
+      [ // S
+        [[0,4,4],
+         [4,4,0],
+         [0,0,0]],
+        [[0,4,0],
+         [0,4,4],
+         [0,0,4]],
+      ],
+      [ // Z
+        [[5,5,0],
+         [0,5,5],
+         [0,0,0]],
+        [[0,0,5],
+         [0,5,5],
+         [0,5,0]],
+      ],
+      [ // J
+        [[6,0,0],
+         [6,6,6],
+         [0,0,0]],
+        [[0,6,6],
+         [0,6,0],
+         [0,6,0]],
+        [[0,0,0],
+         [6,6,6],
+         [0,0,6]],
+        [[0,6,0],
+         [0,6,0],
+         [6,6,0]],
+      ],
+      [ // L
+        [[0,0,7],
+         [7,7,7],
+         [0,0,0]],
+        [[0,7,0],
+         [0,7,0],
+         [0,7,7]],
+        [[0,0,0],
+         [7,7,7],
+         [7,0,0]],
+        [[7,7,0],
+         [0,7,0],
+         [0,7,0]],
+      ],
+    ];
+
+    let board = [];
+
+    function createBoard() {
+      board = [];
+      for (let r=0; r<ROWS; r++) {
+        board[r] = new Array(COLS).fill(0);
+      }
+    }
+
+    function randomPiece() {
+      const typeId = Math.floor(Math.random() * (SHAPES.length -1)) +1;
+      return {
+        typeId,
+        shape: SHAPES[typeId][0],
+        rotationIndex: 0,
+        x: Math.floor(COLS/2) - Math.ceil(SHAPES[typeId][0][0].length / 2),
+        y: 0
+      };
+    }
+
+    let currentPiece = null;
+    let dropCounter = 0;
+    let dropInterval = 800;
+    let lastTime = 0;
+    let score = 0;
+    let gameOver = false;
+
+    function drawBlock(x,y,colorId) {
+      ctx.fillStyle = COLORS[colorId];
+      ctx.strokeStyle = '#111';
+      ctx.lineWidth = 1;
+      ctx.fillRect(x*BLOCK_SIZE, y*BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
+      ctx.strokeRect(x*BLOCK_SIZE, y*BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
+    }
+
+    function drawBoard() {
+      for (let r=0; r<ROWS; r++) {
+        for (let c=0; c<COLS; c++) {
+          if (board[r][c] !== 0) {
+            drawBlock(c,r,board[r][c]);
+          } else {
+            ctx.fillStyle = '#0f172a';
+            ctx.fillRect(c*BLOCK_SIZE, r*BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
+          }
+        }
+      }
+    }
+
+    function drawPiece(piece) {
+      piece.shape.forEach((row, y) => {
+        row.forEach((val, x) => {
+          if (val !== 0) {
+            drawBlock(piece.x + x, piece.y + y, val);
+          }
+        });
+      });
+    }
+
+    function collide(piece, board) {
+      for (let y=0; y<piece.shape.length; y++) {
+        for (let x=0; x<piece.shape[y].length; x++) {
+          if (piece.shape[y][x] !== 0) {
+            let newX = piece.x + x;
+            let newY = piece.y + y;
+            if (newX < 0 || newX >= COLS || newY >= ROWS) return true;
+            if (newY >= 0 && board[newY][newX] !== 0) return true;
+          }
+        }
+      }
+      return false;
+    }
+
+    function merge(piece, board) {
+      piece.shape.forEach((row, y) => {
+        row.forEach((val, x) => {
+          if (val !== 0 && piece.y + y >= 0) {
+            board[piece.y + y][piece.x + x] = val;
+          }
+        });
+      });
+    }
+
+    function sweep() {
+      let lines = 0;
+      outer: for (let y=ROWS-1; y>=0; y--) {
+        for (let x=0; x<COLS; x++) {
+          if (board[y][x] === 0) {
+            continue outer;
+          }
+        }
+        const row = board.splice(y, 1)[0].fill(0);
+        board.unshift(row);
+        lines++;
+        y++;
+      }
+      return lines;
+    }
+
+    function rotate(matrix) {
+      const N = matrix.length;
+      const result = Array.from({length: N}, () => new Array(N).fill(0));
+      for (let y=0; y<N; y++) {
+        for (let x=0; x<N; x++) {
+          result[x][N-1 - y] = matrix[y][x];
+        }
+      }
+      return result;
+    }
+
+    function rotatePiece(piece) {
+      const newShape = rotate(piece.shape);
+      const oldX = piece.x;
+      piece.shape = newShape;
+
+      if (piece.x + piece.shape[0].length > COLS) {
+        piece.x = COLS - piece.shape[0].length;
+      }
+      if (collide(piece, board)) {
+        piece.shape = rotate(rotate(rotate(piece.shape)));
+        piece.x = oldX;
+      }
+    }
+
+    function drop() {
+      currentPiece.y++;
+      if (collide(currentPiece, board)) {
+        currentPiece.y--;
+        merge(currentPiece, board);
+        const cleared = sweep();
+        if (cleared > 0) {
+          score += cleared * 100;
+          scoreEl.textContent = score;
+        }
+        currentPiece = randomPiece();
+        if (collide(currentPiece, board)) {
+          gameOver = true;
+          restartBtn.classList.remove('hidden');
+        }
+      }
+      dropCounter = 0;
+    }
+
+    function moveLeft() {
+      currentPiece.x--;
+      if (collide(currentPiece, board)) {
+        currentPiece.x++;
+      }
+    }
+
+    function moveRight() {
+      currentPiece.x++;
+      if (collide(currentPiece, board)) {
+        currentPiece.x--;
+      }
+    }
+
+    function restartGame() {
+      createBoard();
+      currentPiece = randomPiece();
+      score = 0;
+      gameOver = false;
+      scoreEl.textContent = score;
+      restartBtn.classList.add('hidden');
+      dropCounter = 0;
+      lastTime = 0;
+      requestAnimationFrame(update);
+    }
+
+    function update(time = 0) {
+      if (gameOver) return;
+      const deltaTime = time - lastTime;
+      lastTime = time;
+      dropCounter += deltaTime;
+
+      if (dropCounter > dropInterval) {
+        drop();
+      }
+
+      ctx.clearRect(0,0,canvas.width, canvas.height);
+      drawBoard();
+      drawPiece(currentPiece);
+      requestAnimationFrame(update);
+    }
+
+    window.addEventListener('keydown', e => {
+      if (gameOver) return;
+      switch(e.key) {
+        case 'ArrowLeft': moveLeft(); break;
+        case 'ArrowRight': moveRight(); break;
+        case 'ArrowDown': drop(); break;
+        case 'ArrowUp': rotatePiece(currentPiece); break;
+      }
+    });
+
+    restartBtn.addEventListener('click', () => restartGame());
+
+    restartGame();
+  </script>
+</body>
+</html>
