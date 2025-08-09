@@ -1,166 +1,363 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Celal Aygar Portfolio</title>
+  <title>Hacı Celal Aygar - Modern Slider</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <!-- Font Awesome for icons -->
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <style>
+    /* Slider height */
+    .slider-container {
+      max-width: 900px;
+      margin: 2rem auto;
+      position: relative;
+      overflow: hidden;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgb(0 0 0 / 0.1);
+    }
+    .slides {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+      will-change: transform;
+    }
+    .slide {
+      min-width: 100%;
+      height: 320px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-size: 2.5rem;
+      font-weight: 700;
+      user-select: none;
+      cursor: pointer;
+      border-radius: 12px;
+    }
+    .slide a {
+      color: inherit;
+      text-decoration: none;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    /* Colored backgrounds for each slide */
+    .slide-0 { background: linear-gradient(135deg, #667eea, #764ba2); }
+    .slide-1 { background: linear-gradient(135deg, #43cea2, #185a9d); }
+    .slide-2 { background: linear-gradient(135deg, #f7971e, #ffd200); color: black; }
+    .slide-3 { background: linear-gradient(135deg, #ff416c, #ff4b2b); }
+    /* Arrow buttons */
+    .arrow-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: white;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      box-shadow: 0 2px 8px rgb(0 0 0 / 0.15);
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: background-color 0.3s ease;
+      z-index: 10;
+      user-select: none;
+    }
+    .arrow-btn:hover {
+      background-color: #f0f0f0;
+    }
+    .arrow-left {
+      left: 10px;
+    }
+    .arrow-right {
+      right: 10px;
+    }
+
+    /* Thumbnails container */
+    .thumbnails {
+      max-width: 900px;
+      margin: 1rem auto 0 auto;
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .thumb {
+      flex: 1 1 80px;
+      max-width: 120px;
+      padding: 10px 15px;
+      text-align: center;
+      font-weight: 600;
+      color: #555;
+      background: #eee;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      user-select: none;
+    }
+    .thumb.active {
+      background: #3b82f6;
+      color: white;
+      font-weight: 700;
+    }
+    .thumb:hover {
+      background: #60a5fa;
+      color: white;
+    }
+
+    /* About Section */
+    #about {
+      max-width: 900px;
+      margin: 3rem auto;
+      background: white;
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 6px 15px rgb(0 0 0 / 0.1);
+    }
+    #about h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: #111827;
+    }
+    #about p {
+      font-size: 1.125rem;
+      line-height: 1.6;
+      color: #374151;
+      white-space: pre-line;
+    }
+
+    /* Social Links */
+    #social-links {
+      max-width: 900px;
+      margin: 2rem auto 4rem auto;
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    #social-links a {
+      font-size: 2rem;
+      color: #555;
+      transition: color 0.3s ease;
+    }
+    #social-links a:hover {
+      color: #3b82f6;
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      .slide {
+        font-size: 1.75rem;
+        height: 220px;
+      }
+      .thumbnails {
+        gap: 8px;
+      }
+      .thumb {
+        flex: 1 1 70px;
+        max-width: 100px;
+        padding: 8px 12px;
+        font-size: 0.875rem;
+      }
+      #about {
+        padding: 1.5rem;
+      }
+      #about h2 {
+        font-size: 1.5rem;
+      }
+      #about p {
+        font-size: 1rem;
+      }
+      #social-links a {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
 </head>
-<body class="bg-gray-100 text-gray-800">
+<body class="bg-gray-50">
 
   <!-- Top Menu -->
-  <header class="bg-white shadow sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4 flex justify-between items-center h-16">
-      <div class="text-lg font-bold">Celal Aygar</div>
-      <select id="langSelect" class="border rounded px-2 py-1">
-        <option value="en">EN</option>
-        <option value="tr">TR</option>
-      </select>
+  <header class="bg-white shadow-md fixed top-0 left-0 w-full z-50">
+    <div class="max-w-7xl mx-auto flex justify-between items-center px-4 py-3">
+      <a href="#" class="text-2xl font-bold text-indigo-600 select-none">HCA Portfolio</a>
+      <div class="flex items-center space-x-6">
+        <select id="languageSelect" class="border border-gray-300 rounded p-1 text-sm">
+          <option value="en" selected>English</option>
+          <option value="tr">Türkçe</option>
+        </select>
+      </div>
     </div>
   </header>
 
-  <!-- Slider Section -->
-  <section class="max-w-4xl mx-auto mt-8 px-4 relative">
-    <div class="relative overflow-hidden rounded-lg shadow-lg">
-      <div id="slider" class="flex transition-transform duration-500" style="width: 400%;">
-        <!-- Slider items, each takes 100% of container width -->
-        <a href="https://celalaygar.github.io/" target="_blank" class="flex-shrink-0 w-full h-48 rounded-lg flex items-center justify-center text-white text-3xl font-bold cursor-pointer bg-gradient-to-r from-indigo-500 to-purple-500">
-          Portfolio
-        </a>
-        <a href="https://celalaygar.github.io/main/snake-game/" target="_blank" class="flex-shrink-0 w-full h-48 rounded-lg flex items-center justify-center text-white text-3xl font-bold cursor-pointer bg-gradient-to-r from-green-500 to-teal-500">
-          Snake Game
-        </a>
-        <a href="https://celalaygar.github.io/main/flappy-bird-game/" target="_blank" class="flex-shrink-0 w-full h-48 rounded-lg flex items-center justify-center text-white text-3xl font-bold cursor-pointer bg-gradient-to-r from-yellow-400 to-orange-500">
-          Flappy Bird
-        </a>
-        <a href="https://celalaygar.github.io/main/tetris-game/" target="_blank" class="flex-shrink-0 w-full h-48 rounded-lg flex items-center justify-center text-white text-3xl font-bold cursor-pointer bg-gradient-to-r from-pink-500 to-red-500">
-          Tetris
-        </a>
+  <!-- Slider Container -->
+  <main class="pt-20 px-4">
+    <div class="slider-container">
+
+      <!-- Slides -->
+      <div class="slides" id="slides">
+        <div class="slide slide-0" data-url="https://celalaygar.github.io/" role="button" tabindex="0" aria-label="Portfolio Slide">
+          <a href="https://celalaygar.github.io/" target="_blank" rel="noopener noreferrer">Portfolio</a>
+        </div>
+        <div class="slide slide-1" data-url="https://celalaygar.github.io/main/snake-game/" role="button" tabindex="0" aria-label="Snake Game Slide">
+          <a href="https://celalaygar.github.io/main/snake-game/" target="_blank" rel="noopener noreferrer">Snake Game</a>
+        </div>
+        <div class="slide slide-2" data-url="https://celalaygar.github.io/main/flappy-bird-game/" role="button" tabindex="0" aria-label="Flappy Bird Game Slide">
+          <a href="https://celalaygar.github.io/main/flappy-bird-game/" target="_blank" rel="noopener noreferrer">Flappy Bird</a>
+        </div>
+        <div class="slide slide-3" data-url="https://celalaygar.github.io/main/tetris-game/" role="button" tabindex="0" aria-label="Tetris Game Slide">
+          <a href="https://celalaygar.github.io/main/tetris-game/" target="_blank" rel="noopener noreferrer">Tetris</a>
+        </div>
       </div>
 
-      <!-- Controls -->
-      <button id="prevBtn" aria-label="Previous" class="absolute top-1/2 left-2 -translate-y-1/2 bg-white bg-opacity-80 rounded-full p-2 shadow hover:bg-opacity-100 transition">
-        <i class="fas fa-chevron-left text-xl text-indigo-600"></i>
+      <!-- Navigation Arrows -->
+      <button class="arrow-btn arrow-left" id="prevBtn" aria-label="Previous Slide">
+        <i class="fas fa-chevron-left"></i>
       </button>
-      <button id="nextBtn" aria-label="Next" class="absolute top-1/2 right-2 -translate-y-1/2 bg-white bg-opacity-80 rounded-full p-2 shadow hover:bg-opacity-100 transition">
-        <i class="fas fa-chevron-right text-xl text-indigo-600"></i>
+      <button class="arrow-btn arrow-right" id="nextBtn" aria-label="Next Slide">
+        <i class="fas fa-chevron-right"></i>
       </button>
     </div>
 
-    <!-- Thumbnail navigation below slider -->
-    <div id="thumbnails" class="flex justify-center mt-4 gap-4">
-      <div data-index="0" class="cursor-pointer w-20 h-12 rounded-lg flex items-center justify-center bg-indigo-500 text-white font-semibold text-center select-none hover:bg-indigo-600 transition">Portfolio</div>
-      <div data-index="1" class="cursor-pointer w-20 h-12 rounded-lg flex items-center justify-center bg-green-500 text-white font-semibold text-center select-none hover:bg-green-600 transition">Snake</div>
-      <div data-index="2" class="cursor-pointer w-20 h-12 rounded-lg flex items-center justify-center bg-yellow-400 text-white font-semibold text-center select-none hover:bg-yellow-500 transition">Flappy</div>
-      <div data-index="3" class="cursor-pointer w-20 h-12 rounded-lg flex items-center justify-center bg-pink-500 text-white font-semibold text-center select-none hover:bg-pink-600 transition">Tetris</div>
+    <!-- Thumbnails -->
+    <div class="thumbnails" id="thumbnails" role="tablist" aria-label="Slider Navigation">
+      <button class="thumb active" data-index="0" role="tab" aria-selected="true" tabindex="0">Portfolio</button>
+      <button class="thumb" data-index="1" role="tab" tabindex="-1">Snake Game</button>
+      <button class="thumb" data-index="2" role="tab" tabindex="-1">Flappy Bird</button>
+      <button class="thumb" data-index="3" role="tab" tabindex="-1">Tetris</button>
     </div>
-  </section>
 
-  <!-- About Section -->
-  <section class="max-w-4xl mx-auto mt-12 px-4 text-center">
-    <h2 id="aboutTitle" class="text-3xl font-bold mb-6">About Me</h2>
-    <p id="aboutText" class="text-lg text-gray-700 max-w-3xl mx-auto">
-      I'm a Full Stack Developer. I’m Hacı Celal Aygar. I graduated from Karabük University, Department of Computer Engineering. 
-      I have been working as a Full Stack developer and Java developer for around 5 years.
-      My goal is to work in companies that produce projects using technologies in the fields of computer engineering and to continue to improve myself. 
-      I also continue to share many of my sample works on my Github account.
-      Also I am constantly working to make life easier and trying to find solutions to the common problems of people. 
-      I’m currently learning client side technologies by using especially Github and Stackoverflow.
-    </p>
+    <!-- About Section -->
+    <section id="about" class="bg-white rounded-lg p-8 mt-12 max-w-3xl mx-auto shadow-md">
+      <h2 id="aboutTitle" class="text-3xl font-bold mb-6 text-gray-900 select-none">About Me</h2>
+      <p id="aboutText" class="text-gray-700 whitespace-pre-line text-lg select-text">
+        I'm a Full Stack Developer.
+
+        I'm Hacı Celal Aygar. I graduated from Karabük University, Department of Computer Engineering. I have been working as a Full Stack developer and Java developer around 5 years.
+
+        My goal is to work in companies that produce projects using technologies in the fields of computer engineering and to continue to improve myself. I also continue to share many of my sample works on my Github account.
+
+        Also I am constantly working to make life easier and trying to find solutions to the common problems of people. I’m currently learning client side technologies by using especially Github and Stackoverflow.
+      </p>
+    </section>
 
     <!-- Social Links -->
-    <div class="flex justify-center gap-8 mt-8 text-3xl">
-      <a href="https://www.youtube.com/@celalaygar" target="_blank" aria-label="YouTube" class="text-red-600 hover:text-red-800 transition">
+    <div id="social-links" class="flex justify-center flex-wrap gap-8 mt-10 max-w-3xl mx-auto">
+      <a href="https://www.youtube.com/@celalaygar" target="_blank" aria-label="YouTube" class="hover:text-red-600 text-3xl text-red-500 transition-colors">
         <i class="fab fa-youtube"></i>
       </a>
-      <a href="https://www.linkedin.com/in/celalaygar/" target="_blank" aria-label="LinkedIn" class="text-blue-700 hover:text-blue-900 transition">
+      <a href="https://www.linkedin.com/in/celalaygar/" target="_blank" aria-label="LinkedIn" class="hover:text-blue-700 text-3xl text-blue-600 transition-colors">
         <i class="fab fa-linkedin"></i>
       </a>
-      <a href="https://stackoverflow.com/users/12014524/hac%c4%b1-celal-aygar" target="_blank" aria-label="Stack Overflow" class="text-orange-600 hover:text-orange-800 transition">
+      <a href="https://stackoverflow.com/users/12014524/hac%c4%b1-celal-aygar" target="_blank" aria-label="Stack Overflow" class="hover:text-orange-600 text-3xl text-orange-500 transition-colors">
         <i class="fab fa-stack-overflow"></i>
       </a>
-      <a href="https://medium.com/@celalaygar" target="_blank" aria-label="Medium" class="text-gray-800 hover:text-black transition">
+      <a href="https://medium.com/@celalaygar" target="_blank" aria-label="Medium" class="hover:text-gray-900 text-3xl text-gray-700 transition-colors">
         <i class="fab fa-medium"></i>
       </a>
     </div>
-  </section>
+  </main>
 
-<script>
-  const slider = document.getElementById('slider');
-  const prevBtn = document.getElementById('prevBtn');
-  const nextBtn = document.getElementById('nextBtn');
-  const thumbnails = document.querySelectorAll('#thumbnails > div');
-  let currentIndex = 0;
-  const totalItems = thumbnails.length;
+  <!-- JavaScript -->
+  <script>
+    const slides = document.getElementById('slides');
+    const thumbs = document.querySelectorAll('.thumb');
+    const totalSlides = thumbs.length;
+    let currentIndex = 0;
 
-  function updateSlider(index) {
-    if(index < 0) index = 0;
-    if(index >= totalItems) index = totalItems -1;
-    currentIndex = index;
-    slider.style.transform = `translateX(-${index * 100}%)`;
-    updateActiveThumbnail();
-  }
+    function updateSlider(index) {
+      currentIndex = index;
+      slides.style.transform = `translateX(-${index * 100}%)`;
 
-  function updateActiveThumbnail(){
-    thumbnails.forEach((thumb,i) => {
-      if(i === currentIndex) {
-        thumb.classList.add('ring', 'ring-indigo-600');
-      } else {
-        thumb.classList.remove('ring', 'ring-indigo-600');
-      }
-    });
-  }
-
-  // Controls
-  prevBtn.addEventListener('click', () => {
-    if(currentIndex > 0) updateSlider(currentIndex -1);
-  });
-  nextBtn.addEventListener('click', () => {
-    if(currentIndex < totalItems -1) updateSlider(currentIndex +1);
-  });
-
-  // Thumbnails click
-  thumbnails.forEach(thumb => {
-    thumb.addEventListener('click', () => {
-      const index = parseInt(thumb.dataset.index);
-      updateSlider(index);
-    });
-  });
-
-  // Initialize
-  updateSlider(0);
-
-  // Language switcher
-  const langSelect = document.getElementById('langSelect');
-  const aboutTitle = document.getElementById('aboutTitle');
-  const aboutText = document.getElementById('aboutText');
-
-  const aboutTexts = {
-    en: {
-      title: "About Me",
-      text: `I'm a Full Stack Developer. I’m Hacı Celal Aygar. I graduated from Karabük University, Department of Computer Engineering. 
-      I have been working as a Full Stack developer and Java developer for around 5 years.
-      My goal is to work in companies that produce projects using technologies in the fields of computer engineering and to continue to improve myself. 
-      I also continue to share many of my sample works on my Github account.
-      Also I am constantly working to make life easier and trying to find solutions to the common problems of people. 
-      I’m currently learning client side technologies by using especially Github and Stackoverflow.`
-    },
-    tr: {
-      title: "Hakkımda",
-      text: `Ben bir Full Stack Geliştiriciyim. Ben Hacı Celal Aygar. Karabük Üniversitesi Bilgisayar Mühendisliği bölümünden mezun oldum. 
-      Yaklaşık 5 yıldır Full Stack ve Java geliştiricisi olarak çalışıyorum. Amacım, bilgisayar mühendisliği alanlarında teknolojiler kullanarak projeler üreten firmalarda çalışmak ve kendimi geliştirmeye devam etmek. 
-      Ayrıca Github hesabımda birçok örnek çalışmamı paylaşmaya devam ediyorum. Ayrıca hayatı kolaylaştırmak için sürekli çalışıyor ve insanların ortak sorunlarına çözümler bulmaya çalışıyorum. 
-      Şu anda özellikle Github ve Stackoverflow kullanarak istemci tarafı teknolojileri öğreniyorum.`
+      thumbs.forEach((thumb, i) => {
+        if(i === index) {
+          thumb.classList.add('active');
+          thumb.setAttribute('aria-selected', 'true');
+          thumb.tabIndex = 0;
+        } else {
+          thumb.classList.remove('active');
+          thumb.setAttribute('aria-selected', 'false');
+          thumb.tabIndex = -1;
+        }
+      });
     }
-  };
 
-  langSelect.addEventListener('change', () => {
-    const lang = langSelect.value;
-    aboutTitle.textContent = aboutTexts[lang].title;
-    aboutText.textContent = aboutTexts[lang].text;
-  });
-</script>
+    document.getElementById('prevBtn').addEventListener('click', () => {
+      let newIndex = currentIndex - 1;
+      if (newIndex < 0) newIndex = totalSlides - 1;
+      updateSlider(newIndex);
+    });
+
+    document.getElementById('nextBtn').addEventListener('click', () => {
+      let newIndex = (currentIndex + 1) % totalSlides;
+      updateSlider(newIndex);
+    });
+
+    thumbs.forEach((thumb, i) => {
+      thumb.addEventListener('click', () => {
+        updateSlider(i);
+      });
+      // Allow keyboard navigation
+      thumb.addEventListener('keydown', e => {
+        if(e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          updateSlider(i);
+        }
+      });
+    });
+
+    // Language toggle
+    const translations = {
+      en: {
+        aboutTitle: "About Me",
+        aboutText: `I'm a Full Stack Developer.
+
+I'm Hacı Celal Aygar. I graduated from Karabük University, Department of Computer Engineering. I have been working as a Full Stack developer and Java developer around 5 years.
+
+My goal is to work in companies that produce projects using technologies in the fields of computer engineering and to continue to improve myself. I also continue to share many of my sample works on my Github account.
+
+Also I am constantly working to make life easier and trying to find solutions to the common problems of people. I’m currently learning client side technologies by using especially Github and Stackoverflow.`,
+        slides: ['Portfolio', 'Snake Game', 'Flappy Bird', 'Tetris']
+      },
+      tr: {
+        aboutTitle: "Hakkımda",
+        aboutText: `Ben bir Full Stack Developer'ım.
+
+Ben Hacı Celal Aygar. Karabük Üniversitesi Bilgisayar Mühendisliği bölümünden mezun oldum. Yaklaşık 5 yıldır Full Stack developer ve Java developer olarak çalışmaktayım.
+
+Amacım, bilgisayar mühendisliği alanlarında teknolojiler kullanan şirketlerde çalışmak ve kendimi geliştirmeye devam etmektir. Ayrıca birçok örnek çalışmamı Github hesabımda paylaşmaya devam ediyorum.
+
+Bunun yanında hayatı kolaylaştırmak için sürekli çalışıyor ve insanların ortak problemlerine çözümler bulmaya çalışıyorum. Şu anda özellikle Github ve Stackoverflow kullanarak istemci tarafı teknolojilerini öğreniyorum.`,
+        slides: ['Portfolyo', 'Yılan Oyunu', 'Flappy Bird', 'Tetris']
+      }
+    };
+
+    const languageSelect = document.getElementById('languageSelect');
+    const aboutTitle = document.getElementById('aboutTitle');
+    const aboutText = document.getElementById('aboutText');
+    const thumbButtons = document.querySelectorAll('.thumb');
+
+    function updateLanguage(lang) {
+      aboutTitle.textContent = translations[lang].aboutTitle;
+      aboutText.textContent = translations[lang].aboutText;
+
+      thumbButtons.forEach((btn, i) => {
+        btn.textContent = translations[lang].slides[i];
+      });
+    }
+
+    languageSelect.addEventListener('change', () => {
+      updateLanguage(languageSelect.value);
+    });
+
+    // Initialize page with English
+    updateLanguage('en');
+    updateSlider(0);
+  </script>
 
 </body>
 </html>
