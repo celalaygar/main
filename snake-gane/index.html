@@ -1,0 +1,330 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Tailwind Yılan Oyunu</title>
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Küçük ekstra stiller */
+    body { -webkit-tap-highlight-color: transparent; }
+    canvas { background: linear-gradient(180deg, #0f172a, #071029); border-radius: .5rem; display:block; }
+    .btn-circle { width:56px; height:56px; border-radius:9999px; }
+  </style>
+</head>
+<body class="min-h-screen bg-slate-900 text-slate-100 flex items-center justify-center p-6">
+  <div class="w-full max-w-3xl">
+    <header class="flex items-center justify-between mb-4">
+      <h1 class="text-2xl font-semibold">Yılan Oyunu 🐍</h1>
+      <div class="text-right">
+        <div class="text-sm text-slate-300">Puan: <span id="score" class="font-mono">0</span></div>
+        <div class="text-sm text-slate-400">En yüksek: <span id="highscore" class="font-mono">0</span></div>
+      </div>
+    </header>
+
+    <main class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <!-- Oyun Alanı -->
+      <div class="md:col-span-2 flex items-center justify-center">
+        <canvas id="gameCanvas" width="600" height="600" class="w-full max-w-[600px] h-auto shadow-lg"></canvas>
+      </div>
+
+      <!-- Kontroller ve Ayarlar -->
+      <aside class="flex flex-col gap-3">
+        <div class="bg-slate-800 p-3 rounded-lg shadow-inner">
+          <div class="flex items-center justify-between mb-2">
+            <div class="text-sm text-slate-300">Hız (ms aralığı)</div>
+            <div id="speedLabel" class="text-sm font-mono">120</div>
+          </div>
+          <input id="speedRange" type="range" min="50" max="240" value="120" class="w-full" />
+        </div>
+
+        <div class="bg-slate-800 p-3 rounded-lg text-center">
+          <button id="startBtn" class="w-full px-3 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-md font-medium">Başla / Devam Et</button>
+          <button id="pauseBtn" class="w-full mt-2 px-3 py-2 bg-yellow-500 hover:bg-yellow-600 text-slate-900 rounded-md font-medium">Duraklat</button>
+          <button id="resetBtn" class="w-full mt-2 px-3 py-2 bg-red-600 hover:bg-red-700 text-white rounded-md font-medium">Yeniden Başlat</button>
+        </div>
+
+        <div class="bg-slate-800 p-3 rounded-lg text-sm text-slate-300">
+          Kontroller:
+          <ul class="list-disc list-inside mt-2">
+            <li>Ok tuşları veya WASD ile yön değiştir.</li>
+            <li>Mobilde yön tuşlarını kullan.</li>
+          </ul>
+        </div>
+      </aside>
+    </main>
+
+    <!-- Mobil yön butonları -->
+    <div class="fixed left-4 bottom-6 md:bottom-10 md:hidden">
+      <div class="grid grid-cols-3 gap-2 items-center">
+        <div></div>
+        <button id="upBtn" class="btn-circle bg-slate-700 hover:bg-slate-600 flex items-center justify-center text-xl">▲</button>
+        <div></div>
+        <button id="leftBtn" class="btn-circle bg-slate-700 hover:bg-slate-600 flex items-center justify-center text-xl">◀</button>
+        <div></div>
+        <button id="rightBtn" class="btn-circle bg-slate-700 hover:bg-slate-600 flex items-center justify-center text-xl">▶</button>
+        <div></div>
+        <button id="downBtn" class="btn-circle bg-slate-700 hover:bg-slate-600 flex items-center justify-center text-xl">▼</button>
+      </div>
+    </div>
+
+    <footer class="mt-6 text-center text-slate-400 text-xs">
+      Yapım: Tailwind + Vanilla JS • Kaydetmek için sayfayı yeniden yükleyin.
+    </footer>
+  </div>
+
+  <script>
+    // --- Oyun Ayarları ---
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+    const scoreEl = document.getElementById('score');
+    const highscoreEl = document.getElementById('highscore');
+    const startBtn = document.getElementById('startBtn');
+    const pauseBtn = document.getElementById('pauseBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const speedRange = document.getElementById('speedRange');
+    const speedLabel = document.getElementById('speedLabel');
+
+    // Mobil butonlar
+    const upBtn = document.getElementById('upBtn');
+    const downBtn = document.getElementById('downBtn');
+    const leftBtn = document.getElementById('leftBtn');
+    const rightBtn = document.getElementById('rightBtn');
+
+    // Grid ayarları
+    const GRID_SIZE = 20; // hücre sayısı (canvas 600x600 ise 20 -> hücre 30px)
+    const CELL_COUNT = 30; // kare sayısı (600/20=30) -> daha iyi görünüm için canvas 600
+    const CELL_SIZE = canvas.width / CELL_COUNT;
+
+    // Oyun değişkenleri
+    let snake = [];
+    let direction = { x: 1, y: 0 }; // başlangıç sağ
+    let nextDirection = { x: 1, y: 0 };
+    let food = null;
+    let score = 0;
+    let highscore = parseInt(localStorage.getItem('snakeHighscore') || '0', 10);
+    highscoreEl.textContent = highscore;
+    let gameInterval = null;
+    let speed = parseInt(speedRange.value, 10); // ms
+    speedLabel.textContent = speed;
+
+    let running = false;
+
+    // Başlangıç kur
+    function resetGame() {
+      snake = [
+        { x: Math.floor(CELL_COUNT/2), y: Math.floor(CELL_COUNT/2) },
+        { x: Math.floor(CELL_COUNT/2)-1, y: Math.floor(CELL_COUNT/2) },
+        { x: Math.floor(CELL_COUNT/2)-2, y: Math.floor(CELL_COUNT/2) }
+      ];
+      direction = { x: 1, y: 0 };
+      nextDirection = { x: 1, y: 0 };
+      spawnFood();
+      score = 0;
+      scoreEl.textContent = score;
+      running = false;
+      clearInterval(gameInterval);
+    }
+
+    function spawnFood() {
+      // Rastgele boş bir hücre bul
+      let valid = false;
+      while (!valid) {
+        const x = Math.floor(Math.random() * CELL_COUNT);
+        const y = Math.floor(Math.random() * CELL_COUNT);
+        if (!snake.some(s => s.x === x && s.y === y)) {
+          food = { x, y };
+          valid = true;
+        }
+      }
+    }
+
+    function draw() {
+      // Arkaplan
+      ctx.clearRect(0,0,canvas.width,canvas.height);
+
+      // Grid (hafif)
+      ctx.strokeStyle = 'rgba(255,255,255,0.03)';
+      ctx.lineWidth = 1;
+      for (let i=0;i<=CELL_COUNT;i++) {
+        ctx.beginPath();
+        ctx.moveTo(i*CELL_SIZE,0);
+        ctx.lineTo(i*CELL_SIZE,canvas.height);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(0,i*CELL_SIZE);
+        ctx.lineTo(canvas.width,i*CELL_SIZE);
+        ctx.stroke();
+      }
+
+      // Yiyecek
+      if (food) {
+        ctx.fillStyle = '#ef4444'; // kırmızı
+        roundRect(ctx, food.x*CELL_SIZE+4, food.y*CELL_SIZE+4, CELL_SIZE-8, CELL_SIZE-8, 6, true, false);
+      }
+
+      // Yılan
+      snake.forEach((segment, idx) => {
+        const alpha = 1 - (idx / (snake.length + 5));
+        ctx.fillStyle = idx === 0 ? `rgba(16,185,129,1)` : `rgba(34,197,94,${Math.max(alpha,0.25)})`;
+        roundRect(ctx, segment.x*CELL_SIZE+2, segment.y*CELL_SIZE+2, CELL_SIZE-4, CELL_SIZE-4, 6, true, false);
+
+        // Göz (baş)
+        if (idx === 0) {
+          const eyeSize = Math.max(2, CELL_SIZE*0.08);
+          const ex = segment.x*CELL_SIZE + (CELL_SIZE/2) + (direction.x * CELL_SIZE*0.18);
+          const ey = segment.y*CELL_SIZE + (CELL_SIZE/2) + (direction.y * CELL_SIZE*0.18);
+          ctx.fillStyle = '#052e16';
+          ctx.beginPath();
+          ctx.arc(ex, ey, eyeSize, 0, Math.PI*2);
+          ctx.fill();
+        }
+      });
+    }
+
+    // Yuvarlak köşe için yardımcı
+    function roundRect(ctx, x, y, w, h, r, fill, stroke) {
+      if (typeof r === 'undefined') r = 5;
+      if (typeof r === 'number') r = {tl: r, tr: r, br: r, bl: r};
+      ctx.beginPath();
+      ctx.moveTo(x + r.tl, y);
+      ctx.lineTo(x + w - r.tr, y);
+      ctx.quadraticCurveTo(x + w, y, x + w, y + r.tr);
+      ctx.lineTo(x + w, y + h - r.br);
+      ctx.quadraticCurveTo(x + w, y + h, x + w - r.br, y + h);
+      ctx.lineTo(x + r.bl, y + h);
+      ctx.quadraticCurveTo(x, y + h, x, y + h - r.bl);
+      ctx.lineTo(x, y + r.tl);
+      ctx.quadraticCurveTo(x, y, x + r.tl, y);
+      ctx.closePath();
+      if (fill) ctx.fill();
+      if (stroke) ctx.stroke();
+    }
+
+    function update() {
+      // Yön değişikliği uygula (ani geri dönüşü engelle)
+      if ((nextDirection.x !== -direction.x || nextDirection.y !== -direction.y) &&
+          !(nextDirection.x === direction.x && nextDirection.y === direction.y)) {
+        direction = nextDirection;
+      }
+
+      // Yeni kafa pozisyonu
+      const newHead = { x: snake[0].x + direction.x, y: snake[0].y + direction.y };
+
+      // Kenarlardan geçiş (wrap-around)
+      if (newHead.x < 0) newHead.x = CELL_COUNT - 1;
+      if (newHead.x >= CELL_COUNT) newHead.x = 0;
+      if (newHead.y < 0) newHead.y = CELL_COUNT - 1;
+      if (newHead.y >= CELL_COUNT) newHead.y = 0;
+
+      // Kendi üzerine çarpma -> oyun biter
+      if (snake.some(seg => seg.x === newHead.x && seg.y === newHead.y)) {
+        gameOver();
+        return;
+      }
+
+      // Yılanı hareket ettir
+      snake.unshift(newHead);
+
+      // Yiyecek yendi mi?
+      if (food && newHead.x === food.x && newHead.y === food.y) {
+        score += 10;
+        scoreEl.textContent = score;
+        spawnFood();
+      } else {
+        snake.pop(); // uzama yoksa kuyruk çıkar
+      }
+
+      draw();
+    }
+
+    function gameOver() {
+      running = false;
+      clearInterval(gameInterval);
+      // yüksek puanı güncelle
+      if (score > highscore) {
+        highscore = score;
+        localStorage.setItem('snakeHighscore', highscore);
+        highscoreEl.textContent = highscore;
+      }
+      // kısa bir uyarı
+      flashMessage('Oyun bitti! Yeniden başlat veya Başla ile devam et.');
+    }
+
+    function flashMessage(txt) {
+      const elem = document.createElement('div');
+      elem.className = 'fixed left-1/2 -translate-x-1/2 top-8 bg-white/10 text-white px-4 py-2 rounded-md shadow-lg';
+      elem.textContent = txt;
+      document.body.appendChild(elem);
+      setTimeout(()=> elem.remove(), 2000);
+    }
+
+    // Başlat / Duraklat / Reset
+    function startGame() {
+      if (!running) {
+        running = true;
+        clearInterval(gameInterval);
+        gameInterval = setInterval(update, speed);
+      }
+    }
+
+    function pauseGame() {
+      running = false;
+      clearInterval(gameInterval);
+    }
+
+    function restartGame() {
+      resetGame();
+      startGame();
+    }
+
+    // Klavye kontrolleri
+    window.addEventListener('keydown', (e) => {
+      const key = e.key.toLowerCase();
+      if (key === 'arrowup' || key === 'w') { nextDirection = { x: 0, y: -1 }; e.preventDefault(); }
+      if (key === 'arrowdown' || key === 's') { nextDirection = { x: 0, y: 1 }; e.preventDefault(); }
+      if (key === 'arrowleft' || key === 'a') { nextDirection = { x: -1, y: 0 }; e.preventDefault(); }
+      if (key === 'arrowright' || key === 'd') { nextDirection = { x: 1, y: 0 }; e.preventDefault(); }
+      // Boşluk ile duraklat / devam
+      if (key === ' ') {
+        if (running) pauseGame(); else startGame();
+      }
+    });
+
+    // Mobil butonlar
+    upBtn?.addEventListener('touchstart', () => nextDirection = {x:0,y:-1});
+    downBtn?.addEventListener('touchstart', () => nextDirection = {x:0,y:1});
+    leftBtn?.addEventListener('touchstart', () => nextDirection = {x:-1,y:0});
+    rightBtn?.addEventListener('touchstart', () => nextDirection = {x:1,y:0});
+    upBtn?.addEventListener('mousedown', () => nextDirection = {x:0,y:-1});
+    downBtn?.addEventListener('mousedown', () => nextDirection = {x:0,y:1});
+    leftBtn?.addEventListener('mousedown', () => nextDirection = {x:-1,y:0});
+    rightBtn?.addEventListener('mousedown', () => nextDirection = {x:1,y:0});
+
+    // Butonlar
+    startBtn.addEventListener('click', () => startGame());
+    pauseBtn.addEventListener('click', () => pauseGame());
+    resetBtn.addEventListener('click', () => {
+      resetGame();
+      draw();
+    });
+
+    speedRange.addEventListener('input', (e) => {
+      speed = parseInt(e.target.value, 10);
+      speedLabel.textContent = speed;
+      if (running) {
+        clearInterval(gameInterval);
+        gameInterval = setInterval(update, speed);
+      }
+    });
+
+    // Başlangıç
+    resetGame();
+    draw();
+
+    // Otomatik yeniden boyutlandırma (isteğe bağlı, canvas statik genişlik 600)
+    // Eğer responsive daha iyi istersen, canvas boyutunu JS ile ayarlayıp CELL_SIZE'ı güncelle.
+  </script>
+</body>
+</html>
