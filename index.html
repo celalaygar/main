@@ -7,6 +7,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Font Awesome for icons -->
   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <style>
     /* Slider height */
     .slider-container {
@@ -204,6 +205,9 @@
     justify-content: center;
     gap: 2.5rem;
     flex-wrap: wrap;
+    background: #fff; /* test için arka plan ekle */
+    padding: 1rem; /* test için iç boşluk */
+    border-radius: 8px; /* test için köşe yumuşatma */
   }
   #social-links-after-about a {
     font-size: 2.5rem;
@@ -297,7 +301,7 @@
     </section>
 
     <!-- Yeni sosyal ağlar bölümü about sonrası -->
-    <div id="social-links-after-about" class="flex justify-center flex-wrap gap-8 mt-10 max-w-3xl mx-auto">
+    <div id="social-links-after-about" class="flex justify-center flex-wrap gap-8 mt-10 max-w-3xl mx-auto bg-white p-4 rounded-lg shadow">
       <a href="https://www.youtube.com/@celalaygar" target="_blank" aria-label="YouTube" class="hover:text-red-600 text-3xl text-red-500 transition-colors">
         <i class="fab fa-youtube"></i>
       </a>
