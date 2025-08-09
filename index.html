@@ -177,6 +177,57 @@
         font-size: 1.5rem;
       }
     }
+  /* Thumbnail genişlik ve min-height ayarı */
+  .thumb {
+    flex: 1 1 110px; /* önce 80px'di, biraz genişlettim */
+    max-width: 140px;
+    min-height: 40px; /* yüksekliğin sabit kalması için */
+    padding: 10px 15px;
+    text-align: center;
+    font-weight: 600;
+    color: #555;
+    background: #eee;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    user-select: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* Sosyal ağlar bölümü */
+  #social-links-after-about {
+    max-width: 900px;
+    margin: 2rem auto 4rem auto;
+    display: flex;
+    justify-content: center;
+    gap: 2.5rem;
+    flex-wrap: wrap;
+  }
+  #social-links-after-about a {
+    font-size: 2.5rem;
+    color: #555;
+    transition: color 0.3s ease;
+  }
+  #social-links-after-about a:hover {
+    color: #3b82f6;
+  }
+
+  @media (max-width: 640px) {
+    /* Thumb responsive */
+    .thumb {
+      flex: 1 1 90px;
+      max-width: 120px;
+      min-height: 36px;
+      padding: 8px 12px;
+      font-size: 0.875rem;
+    }
+    /* Sosyal ağlar responsive */
+    #social-links-after-about a {
+      font-size: 2rem;
+    }
+  }
   </style>
 </head>
 <body class="bg-gray-50">
@@ -245,8 +296,8 @@
       </p>
     </section>
 
-    <!-- Social Links -->
-    <div id="social-links" class="flex justify-center flex-wrap gap-8 mt-10 max-w-3xl mx-auto">
+    <!-- Yeni sosyal ağlar bölümü about sonrası -->
+    <div id="social-links-after-about" class="flex justify-center flex-wrap gap-8 mt-10 max-w-3xl mx-auto">
       <a href="https://www.youtube.com/@celalaygar" target="_blank" aria-label="YouTube" class="hover:text-red-600 text-3xl text-red-500 transition-colors">
         <i class="fab fa-youtube"></i>
       </a>
