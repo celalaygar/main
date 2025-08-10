@@ -1,532 +1,81 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Mini Platformer — Tailwind + JS (Responsive)</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kelime Bulmaca</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    body { -webkit-tap-highlight-color: transparent; }
-    canvas { display:block; background: linear-gradient(180deg,#7dd3fc,#0369a1); border-radius: 12px; box-shadow: 0 8px 30px rgba(2,6,23,0.5); }
-    .touch-btn { width:64px; height:64px; border-radius:12px; }
-    .game-wrap { max-width:1100px; width:100%; }
-    /* küçük ekranlarda mobil kontrol koyu yap */
-    @media (max-width: 768px) {
-      .desktop-hide-md { display:none; }
-    }
-  </style>
 </head>
-<body class="min-h-screen bg-slate-900 flex items-center justify-center p-4 text-slate-100">
+<body class="bg-gradient-to-br from-indigo-600 to-purple-700 min-h-screen flex items-center justify-center p-4">
 
-  <div class="game-wrap w-full">
-    <header class="flex items-center justify-between mb-3">
-      <div class="flex items-center gap-3">
-        <h1 class="text-xl md:text-2xl font-semibold">Mini Platformer</h1>
-        <div class="hidden md:flex gap-2 text-sm text-slate-300">
-          <div class="bg-white/5 px-3 py-1 rounded">Skor: <span id="score">0</span></div>
-          <div class="bg-white/5 px-3 py-1 rounded">Can: <span id="lives">3</span></div>
-        </div>
-      </div>
+  <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-md">
+    <h1 class="text-2xl font-bold text-center mb-4 text-indigo-700">Kelime Bulmaca 🧩</h1>
 
-      <div class="flex gap-2">
-        <button id="startBtn" class="px-3 py-1 bg-emerald-500 hover:bg-emerald-600 text-black rounded">Başlat</button>
-        <button id="pauseBtn" class="px-3 py-1 bg-yellow-400 hover:bg-yellow-500 text-black rounded">Duraklat</button>
-        <button id="restartBtn" class="px-3 py-1 bg-red-600 hover:bg-red-700 text-white rounded">Yeniden</button>
-      </div>
-    </header>
+    <div class="text-center text-lg font-mono mb-4" id="scrambledWord">----</div>
 
-    <main class="grid md:grid-cols-4 gap-4">
-      <section class="md:col-span-3 flex justify-center items-start">
-        <div id="canvasContainer" class="w-full">
-          <canvas id="gameCanvas"></canvas>
-        </div>
-      </section>
+    <input 
+      type="text" 
+      id="userGuess" 
+      placeholder="Tahmininizi girin..." 
+      class="border border-gray-300 rounded w-full p-2 mb-4 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+    />
 
-      <aside class="flex flex-col gap-3 items-stretch">
-        <div class="bg-white/5 p-3 rounded-md">
-          <div class="text-sm text-slate-200">Kontroller</div>
-          <ul class="text-xs text-slate-300 mt-2 list-disc list-inside">
-            <li>Ok tuşları / A-D ile hareket</li>
-            <li>W / Space / Yukarı ile zıpla</li>
-            <li>Mobilde ekran altındaki butonları kullan</li>
-          </ul>
-        </div>
-
-        <div class="bg-white/5 p-3 rounded-md text-sm hidden md:block">
-          Amaç: tüm yıldızları topla ve bitiş bayrağına ulaş. Her yıldız +10 puan.
-        </div>
-      </aside>
-    </main>
-
-    <!-- mobile controls -->
-    <div class="fixed left-1/2 -translate-x-1/2 bottom-4 md:hidden flex gap-3 items-center">
-      <button id="leftBtn" class="touch-btn bg-slate-700 hover:bg-slate-600 text-2xl">◀</button>
-      <button id="jumpBtn" class="touch-btn bg-amber-400 hover:bg-amber-300 text-2xl">▲</button>
-      <button id="rightBtn" class="touch-btn bg-slate-700 hover:bg-slate-600 text-2xl">▶</button>
+    <div class="flex gap-2">
+      <button id="checkBtn" class="flex-1 bg-green-500 hover:bg-green-600 text-white py-2 rounded transition">Kontrol Et</button>
+      <button id="skipBtn" class="flex-1 bg-yellow-500 hover:bg-yellow-600 text-white py-2 rounded transition">Geç</button>
     </div>
 
-    <footer class="mt-4 text-center text-xs text-slate-400">Responsive Mini Platformer • Tailwind + Canvas + JS</footer>
+    <div class="mt-4 text-center">
+      <p class="text-gray-700">Puan: <span id="score">0</span></p>
+      <p id="message" class="text-sm mt-2 font-semibold"></p>
+    </div>
   </div>
 
-<script>
-/* Simple responsive platformer
-   - grid-based platforms (but pixel positions)
-   - player physics: vx, vy, gravity, jump
-   - collision detection AABB
-   - camera follows player horizontally and vertically (clamped)
-   - stars collectible (score)
-   - responsive canvas sizing
-*/
+  <script>
+    const words = ["javascript", "tailwind", "responsive", "kelime", "bulmaca", "oyun", "mobil", "tasarim", "web", "kod"];
+    let currentWord = "";
+    let scrambled = "";
+    let score = 0;
 
-const canvas = document.getElementById('gameCanvas');
-const container = document.getElementById('canvasContainer');
-const ctx = canvas.getContext('2d');
+    const scrambledWordEl = document.getElementById("scrambledWord");
+    const userGuessEl = document.getElementById("userGuess");
+    const scoreEl = document.getElementById("score");
+    const messageEl = document.getElementById("message");
 
-const startBtn = document.getElementById('startBtn');
-const pauseBtn = document.getElementById('pauseBtn');
-const restartBtn = document.getElementById('restartBtn');
-
-const leftBtn = document.getElementById('leftBtn');
-const rightBtn = document.getElementById('rightBtn');
-const jumpBtn = document.getElementById('jumpBtn');
-
-const scoreEl = document.getElementById('score');
-const livesEl = document.getElementById('lives');
-
-let WIDTH, HEIGHT, scale;
-function resizeCanvas(){
-  // fill container width but keep 16:9-ish ratio
-  const maxW = container.clientWidth;
-  const maxH = window.innerHeight * 0.72;
-  let desiredW = Math.min(maxW, 900);
-  let desiredH = desiredW * 0.62;
-  if (desiredH > maxH) {
-    desiredH = maxH;
-    desiredW = desiredH / 0.62;
-  }
-  WIDTH = Math.floor(desiredW);
-  HEIGHT = Math.floor(desiredH);
-  canvas.width = WIDTH;
-  canvas.height = HEIGHT;
-  scale = WIDTH / 800; // base scale reference
-}
-window.addEventListener('resize', ()=> { resizeCanvas(); draw(); });
-resizeCanvas();
-
-/* GAME WORLD */
-const GRAVITY = 1500; // px/s^2
-const MOVE_ACCEL = 2200; // px/s^2
-const MAX_MOVE_SPEED = 300; // px/s
-const JUMP_SPEED = 520; // px/s (initial)
-const FRICTION = 0.85;
-
-let lastTime = 0;
-let running = false;
-let paused = false;
-
-/* Level design: array of platforms and items in world coordinates (px).
-   For simplicity coordinates assume base width of 800 and scale accordingly.
-   You can design larger levels by changing positions.
-*/
-const baseW = 800;
-const baseH = 500;
-
-const level = {
-  width: 2400, // world width in base units
-  height: 1000,
-  platforms: [],
-  stars: [],
-  playerStart: { x: 80, y: 300 },
-  goal: { x: 2200, y: 300, w: 48, h: 80 }
-};
-
-// helper to create platforms: x,y,w,h in base units
-function addPlatform(x,y,w,h){
-  level.platforms.push({ x, y, w, h });
-}
-
-// Create a simple multi-level platform layout (base units)
-function buildLevel(){
-  level.platforms = [];
-  level.stars = [];
-
-  // ground
-  addPlatform(-200, 420, 2600, 80);
-
-  // floating platforms
-  addPlatform(160, 340, 140, 16);
-  addPlatform(340, 280, 160, 16);
-  addPlatform(560, 240, 120, 16);
-  addPlatform(760, 320, 160, 16);
-  addPlatform(980, 260, 120, 16);
-  addPlatform(1160, 340, 200, 16);
-  addPlatform(1380, 300, 160, 16);
-  addPlatform(1580, 240, 120, 16);
-  addPlatform(1780, 320, 220, 16);
-  addPlatform(2020, 260, 160, 16);
-
-  // tall block columns
-  addPlatform(880, 380, 40, 40);
-  addPlatform(1140, 380, 40, 40);
-  addPlatform(1500, 380, 40, 40);
-
-  // place stars near platforms
-  const starPositions = [
-    {x: 200, y: 300},{x: 420,y:240},{x:600,y:200},{x:820,y:280},
-    {x:1000,y:220},{x:1200,y:300},{x:1400,y:260},{x:1600,y:200},
-    {x:1820,y:280},{x:2060,y:220}
-  ];
-  starPositions.forEach(s => level.stars.push({x: s.x, y: s.y, r: 12, taken:false}));
-
-  // player start and goal already set
-  level.playerStart = { x: 100, y: 360 };
-  level.goal = { x: 2200, y: 260, w: 48, h: 80 };
-}
-
-/* Player */
-let player = {
-  x: 0, y: 0, w: 36, h: 48,
-  vx: 0, vy: 0,
-  onGround: false,
-  direction: 1 // 1 right, -1 left for facing
-};
-
-let camera = { x: 0, y: 0 }; // world coordinates of top-left of viewport
-
-let score = 0;
-let lives = 3;
-
-/* Input state */
-const keys = { left:false, right:false, up:false };
-let touchLeft = false, touchRight = false, touchJump = false;
-
-/* utilities */
-function worldToScreen(wx, wy){ return { x: Math.round((wx - camera.x) * scale), y: Math.round((wy - camera.y) * scale) }; }
-function clamp(v,a,b){ return Math.max(a, Math.min(b, v)); }
-
-/* Physics & collision helpers */
-function rectsOverlap(a,b){
-  return !(a.x + a.w <= b.x || a.x >= b.x + b.w || a.y + a.h <= b.y || a.y >= b.y + b.h);
-}
-
-/* Simple AABB collision resolution between player and platforms */
-function resolveCollisions(dt){
-  player.onGround = false;
-  const px = player.x, py = player.y;
-  const next = { x: player.x + player.vx * dt, y: player.y + player.vy * dt, w: player.w, h: player.h };
-
-  // X movement and collisions
-  player.x = next.x;
-  for (const p of level.platforms){
-    const plat = { x: p.x, y: p.y, w: p.w, h: p.h };
-    if (rectsOverlap(player, plat)){
-      if (player.vx > 0){
-        // hit from left
-        player.x = plat.x - player.w - 0.01;
-        player.vx = 0;
-      } else if (player.vx < 0){
-        // hit from right
-        player.x = plat.x + plat.w + 0.01;
-        player.vx = 0;
-      }
+    function shuffleWord(word) {
+      return word.split("").sort(() => Math.random() - 0.5).join("");
     }
-  }
 
-  // Y movement and collisions
-  player.y = next.y;
-  for (const p of level.platforms){
-    const plat = { x: p.x, y: p.y, w: p.w, h: p.h };
-    if (rectsOverlap(player, plat)){
-      // We need to determine from which side we collided
-      const prevBottom = py + player.h;
-      const prevTop = py;
-      const platTop = plat.y;
-      const platBottom = plat.y + plat.h;
-
-      if (prevBottom <= platTop){
-        // landing on platform
-        player.y = platTop - player.h;
-        player.vy = 0;
-        player.onGround = true;
-      } else if (prevTop >= platBottom){
-        // hit from below
-        player.y = platBottom + 0.01;
-        player.vy = 0;
-      } else {
-        // side collision fallback
-        if (player.vy > 0){
-          player.y = platTop - player.h;
-          player.vy = 0;
-          player.onGround = true;
-        } else {
-          player.y = platBottom + 0.01;
-          player.vy = 0;
-        }
-      }
+    function newWord() {
+      currentWord = words[Math.floor(Math.random() * words.length)];
+      scrambled = shuffleWord(currentWord);
+      scrambledWordEl.textContent = scrambled;
+      userGuessEl.value = "";
+      messageEl.textContent = "";
     }
-  }
-}
 
-/* Camera follow player (centered with clamping to level bounds) */
-function updateCamera(){
-  const viewW = WIDTH / scale;
-  const viewH = HEIGHT / scale;
-  camera.x = player.x + player.w/2 - viewW/2;
-  camera.y = player.y + player.h/2 - viewH/2;
-  camera.x = clamp(camera.x, 0, level.width - viewW);
-  camera.y = clamp(camera.y, 0, level.height - viewH);
-}
-
-/* Game step */
-function update(dt){
-  if (!running || paused) return;
-
-  // input
-  const moveLeft = keys.left || touchLeft;
-  const moveRight = keys.right || touchRight;
-  const jumpPressed = keys.up || touchJump;
-
-  // horizontal acceleration
-  if (moveLeft && !moveRight){
-    player.vx -= MOVE_ACCEL * dt;
-    player.direction = -1;
-  } else if (moveRight && !moveLeft){
-    player.vx += MOVE_ACCEL * dt;
-    player.direction = 1;
-  } else {
-    // apply friction
-    player.vx *= FRICTION;
-    if (Math.abs(player.vx) < 5) player.vx = 0;
-  }
-
-  player.vx = clamp(player.vx, -MAX_MOVE_SPEED, MAX_MOVE_SPEED);
-
-  // gravity
-  player.vy += GRAVITY * dt;
-
-  // jump (edge triggered)
-  if (jumpPressed && player.onGround){
-    player.vy = -JUMP_SPEED;
-    player.onGround = false;
-  }
-
-  // integrate & collision
-  resolveCollisions(dt);
-
-  // clamp world bounds
-  player.x = clamp(player.x, -1000, level.width + 1000);
-  player.y = clamp(player.y, -1000, level.height + 1000);
-
-  // collect stars
-  for (const s of level.stars){
-    if (!s.taken){
-      const starRect = { x: s.x - s.r, y: s.y - s.r, w: s.r*2, h: s.r*2 };
-      if (rectsOverlap(player, starRect)){
-        s.taken = true;
+    document.getElementById("checkBtn").addEventListener("click", () => {
+      const guess = userGuessEl.value.trim().toLowerCase();
+      if (guess === currentWord) {
         score += 10;
+        scoreEl.textContent = score;
+        messageEl.textContent = "✅ Doğru!";
+        messageEl.className = "text-green-600 font-bold mt-2";
+        setTimeout(newWord, 1000);
+      } else {
+        messageEl.textContent = "❌ Yanlış, tekrar deneyin!";
+        messageEl.className = "text-red-600 font-bold mt-2";
       }
-    }
-  }
+    });
 
-  // check goal reached (player intersects goal)
-  const goalRect = { x: level.goal.x, y: level.goal.y, w: level.goal.w, h: level.goal.h };
-  if (rectsOverlap(player, goalRect)){
-    // win: simple message and reset to start
-    running = false;
-    setTimeout(()=> alert('Tebrikler! Tüm yıldızları toplamayı ve bitişe ulaşmayı deneyebilirsin.'), 50);
-  }
+    document.getElementById("skipBtn").addEventListener("click", () => {
+      score -= 5;
+      if (score < 0) score = 0;
+      scoreEl.textContent = score;
+      newWord();
+    });
 
-  // falling below world -> lose life and respawn
-  if (player.y > level.height + 400){
-    lives--;
-    if (lives <= 0){
-      running = false;
-      setTimeout(()=> {
-        alert('Oyun bitti! Skor: ' + score);
-      }, 50);
-    } else {
-      // respawn
-      spawnPlayer();
-    }
-  }
-
-  updateCamera();
-}
-
-/* spawn player at start */
-function spawnPlayer(){
-  player.x = level.playerStart.x;
-  player.y = level.playerStart.y;
-  player.vx = 0; player.vy = 0; player.onGround = false;
-}
-
-/* Drawing */
-function draw(){
-  // clear background gradient already set by canvas style; clear for safety
-  ctx.clearRect(0,0,WIDTH,HEIGHT);
-
-  // compute scale factor between base and current scale
-  const s = scale;
-
-  // draw sky / background (we use canvas background in CSS, but draw subtle ground)
-  ctx.save();
-  // translate camera and scale world coords to screen
-  ctx.scale(s, s);
-  ctx.translate(-camera.x, -camera.y);
-
-  // draw platforms
-  for (const p of level.platforms){
-    ctx.fillStyle = '#5b21b6';
-    roundRect(ctx, p.x, p.y, p.w, p.h, 6, true);
-    ctx.fillStyle = 'rgba(0,0,0,0.12)';
-    ctx.fillRect(p.x + 4, p.y + 4, p.w - 8, p.h - 8);
-  }
-
-  // draw goal flag
-  ctx.fillStyle = '#f97316';
-  ctx.fillRect(level.goal.x + level.goal.w - 6, level.goal.y - 20, 6, 20);
-  ctx.fillStyle = '#fff';
-  ctx.fillRect(level.goal.x + level.goal.w - 2, level.goal.y - 20, 20, 12);
-
-  // draw stars
-  for (const sObj of level.stars){
-    if (sObj.taken) continue;
-    drawStar(ctx, sObj.x, sObj.y, sObj.r, '#ffd43b', '#ffb020');
-  }
-
-  // draw player (simple rectangle with face)
-  ctx.fillStyle = '#06b6d4';
-  ctx.fillRect(player.x, player.y, player.w, player.h);
-  // eye
-  ctx.fillStyle = '#041526';
-  const eyeX = player.x + (player.direction === 1 ? player.w*0.65 : player.w*0.25);
-  ctx.fillRect(eyeX, player.y + player.h*0.25, 6, 6);
-
-  // HUD in world-space? We'll draw HUD in screen space after restore
-  ctx.restore();
-
-  // HUD (screen space)
-  ctx.fillStyle = 'rgba(0,0,0,0.35)';
-  ctx.fillRect(12, 12, 160, 40);
-  ctx.fillStyle = '#fff';
-  ctx.font = `${14 * Math.max(1, scale)}px Inter, system-ui, Arial`;
-  ctx.fillText(`Skor: ${score}`, 22, 32);
-  ctx.fillText(`Can: ${lives}`, 110, 32);
-}
-
-/* small helper to draw rounded rect */
-function roundRect(ctx,x,y,w,h,r,fill){
-  ctx.beginPath();
-  ctx.moveTo(x + r, y);
-  ctx.arcTo(x + w, y, x + w, y + h, r);
-  ctx.arcTo(x + w, y + h, x, y + h, r);
-  ctx.arcTo(x, y + h, x, y, r);
-  ctx.arcTo(x, y, x + w, y, r);
-  ctx.closePath();
-  if (fill) ctx.fill();
-}
-
-/* draw star */
-function drawStar(ctx,x,y,r,fill,stroke){
-  ctx.save();
-  ctx.beginPath();
-  const spikes = 5;
-  const outer = r;
-  const inner = r * 0.5;
-  let rot = Math.PI / 2 * 3;
-  let cx = x;
-  let cy = y;
-  let step = Math.PI / spikes;
-  ctx.moveTo(cx, cy - outer);
-  for (let i=0;i<spikes;i++){
-    ctx.lineTo(cx + Math.cos(rot) * outer, cy + Math.sin(rot) * outer);
-    rot += step;
-    ctx.lineTo(cx + Math.cos(rot) * inner, cy + Math.sin(rot) * inner);
-    rot += step;
-  }
-  ctx.lineTo(cx, cy - outer);
-  ctx.closePath();
-  ctx.fillStyle = fill;
-  ctx.fill();
-  ctx.lineWidth = 2;
-  ctx.strokeStyle = stroke;
-  ctx.stroke();
-  ctx.restore();
-}
-
-/* Game loop */
-function loop(ts){
-  if (!lastTime) lastTime = ts;
-  const dt = Math.min(0.032, (ts - lastTime) / 1000); // cap dt to avoid huge jumps
-  lastTime = ts;
-
-  update(dt);
-  draw();
-
-  requestAnimationFrame(loop);
-}
-
-/* Input handlers */
-window.addEventListener('keydown', (e)=>{
-  if (e.key === 'ArrowLeft' || e.key.toLowerCase() === 'a'){ keys.left = true; }
-  if (e.key === 'ArrowRight' || e.key.toLowerCase() === 'd'){ keys.right = true; }
-  if (e.key === 'ArrowUp' || e.key.toLowerCase() === 'w' || e.code === 'Space'){ keys.up = true; }
-});
-window.addEventListener('keyup', (e)=>{
-  if (e.key === 'ArrowLeft' || e.key.toLowerCase() === 'a'){ keys.left = false; }
-  if (e.key === 'ArrowRight' || e.key.toLowerCase() === 'd'){ keys.right = false; }
-  if (e.key === 'ArrowUp' || e.key.toLowerCase() === 'w' || e.code === 'Space'){ keys.up = false; }
-});
-
-// Mobile touch buttons
-leftBtn?.addEventListener('touchstart', (e)=>{ e.preventDefault(); touchLeft = true; }, {passive:false});
-leftBtn?.addEventListener('touchend', (e)=>{ e.preventDefault(); touchLeft = false; }, {passive:false});
-rightBtn?.addEventListener('touchstart', (e)=>{ e.preventDefault(); touchRight = true; }, {passive:false});
-rightBtn?.addEventListener('touchend', (e)=>{ e.preventDefault(); touchRight = false; }, {passive:false});
-jumpBtn?.addEventListener('touchstart', (e)=>{ e.preventDefault(); touchJump = true; setTimeout(()=> touchJump = false, 200); }, {passive:false});
-
-// Also support click on mobile buttons
-leftBtn?.addEventListener('mousedown', ()=> touchLeft = true);
-leftBtn?.addEventListener('mouseup', ()=> touchLeft = false);
-rightBtn?.addEventListener('mousedown', ()=> touchRight = true);
-rightBtn?.addEventListener('mouseup', ()=> touchRight = false);
-jumpBtn?.addEventListener('mousedown', ()=> { touchJump = true; setTimeout(()=> touchJump = false, 200); });
-
-/* Start / pause / restart */
-startBtn.addEventListener('click', ()=>{
-  if (!running){
-    running = true;
-    paused = false;
-    lastTime = 0;
-    requestAnimationFrame(loop);
-  }
-});
-pauseBtn.addEventListener('click', ()=>{
-  paused = !paused;
-  pauseBtn.textContent = paused ? 'Devam Et' : 'Duraklat';
-});
-restartBtn.addEventListener('click', ()=>{
-  initGame();
-});
-
-/* init game */
-function initGame(){
-  buildLevel();
-  resizeCanvas();
-  spawnPlayer();
-  score = 0;
-  lives = 3;
-  // mark all stars as available
-  level.stars.forEach(s => s.taken = false);
-  running = true;
-  paused = false;
-  lastTime = 0;
-  requestAnimationFrame(loop);
-}
-
-/* initialize */
-initGame();
-
-</script>
+    newWord();
+  </script>
 </body>
 </html>
