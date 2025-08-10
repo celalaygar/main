@@ -3,389 +3,418 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Platformer - Tailwind + JS (Responsive & Mobile)</title>
+  <title>Mini Platformer — Tailwind + JS (Responsive)</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    body { -webkit-tap-highlight-color: transparent; background: linear-gradient(180deg,#071024,#04203a); }
-    canvas { display:block; border-radius:12px; background: linear-gradient(180deg,#0b1220,#072033); box-shadow: 0 8px 30px rgba(2,6,23,0.7); }
-    .touch-btn{ width:64px; height:64px; border-radius:12px; }
-    .game-wrap{ max-width:1100px; width:100%; }
-    /* küçük cihazda kontroller hafif saydam */
-    @media(max-width:640px){
-      .mobile-controls button{ opacity:0.95; }
+    body { -webkit-tap-highlight-color: transparent; }
+    canvas { display:block; background: linear-gradient(180deg,#7dd3fc,#0369a1); border-radius: 12px; box-shadow: 0 8px 30px rgba(2,6,23,0.5); }
+    .touch-btn { width:64px; height:64px; border-radius:12px; }
+    .game-wrap { max-width:1100px; width:100%; }
+    /* küçük ekranlarda mobil kontrol koyu yap */
+    @media (max-width: 768px) {
+      .desktop-hide-md { display:none; }
     }
   </style>
 </head>
-<body class="min-h-screen flex items-center justify-center p-6 text-slate-100">
+<body class="min-h-screen bg-slate-900 flex items-center justify-center p-4 text-slate-100">
 
   <div class="game-wrap w-full">
-    <header class="flex flex-col md:flex-row items-center justify-between gap-4 mb-4">
-      <div class="flex items-center gap-4">
-        <h1 class="text-2xl md:text-3xl font-bold">Mini Platformer</h1>
+    <header class="flex items-center justify-between mb-3">
+      <div class="flex items-center gap-3">
+        <h1 class="text-xl md:text-2xl font-semibold">Mini Platformer</h1>
         <div class="hidden md:flex gap-2 text-sm text-slate-300">
-          <span class="bg-white/5 px-3 py-1 rounded-md">Seviye: <span id="level">1</span></span>
-          <span class="bg-white/5 px-3 py-1 rounded-md">Puan: <span id="score">0</span></span>
-          <span class="bg-white/5 px-3 py-1 rounded-md">Can: <span id="lives">3</span></span>
+          <div class="bg-white/5 px-3 py-1 rounded">Skor: <span id="score">0</span></div>
+          <div class="bg-white/5 px-3 py-1 rounded">Can: <span id="lives">3</span></div>
         </div>
       </div>
 
-      <div class="flex items-center gap-3">
-        <button id="startBtn" class="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-black rounded-md font-medium shadow">Başlat</button>
-        <button id="pauseBtn" class="px-4 py-2 bg-yellow-400 hover:bg-yellow-500 text-black rounded-md font-medium shadow">Duraklat</button>
-        <button id="resetBtn" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-md font-medium shadow">Yeniden Başlat</button>
+      <div class="flex gap-2">
+        <button id="startBtn" class="px-3 py-1 bg-emerald-500 hover:bg-emerald-600 text-black rounded">Başlat</button>
+        <button id="pauseBtn" class="px-3 py-1 bg-yellow-400 hover:bg-yellow-500 text-black rounded">Duraklat</button>
+        <button id="restartBtn" class="px-3 py-1 bg-red-600 hover:bg-red-700 text-white rounded">Yeniden</button>
       </div>
     </header>
 
-    <main class="grid md:grid-cols-3 gap-6">
-      <section class="md:col-span-2 flex justify-center">
-        <div id="canvasHolder" class="w-full">
+    <main class="grid md:grid-cols-4 gap-4">
+      <section class="md:col-span-3 flex justify-center items-start">
+        <div id="canvasContainer" class="w-full">
           <canvas id="gameCanvas"></canvas>
         </div>
       </section>
 
-      <aside class="flex flex-col gap-4">
-        <div class="bg-white/5 p-4 rounded-lg">
-          <div class="text-slate-200">Puan: <strong id="scoreSide">0</strong></div>
-          <div class="text-slate-200">Can: <strong id="livesSide">3</strong></div>
-          <div class="text-slate-200">Seviye: <strong id="levelSide">1</strong></div>
-        </div>
-
-        <div class="bg-white/5 p-4 rounded-lg">
-          <h3 class="font-semibold mb-2">Nasıl Oynanır</h3>
-          <ul class="text-sm text-slate-300 list-disc list-inside space-y-1">
-            <li>Masaüstü: Ok tuşları ile hareket, Boşluk veya Yukarı ok ile zıpla.</li>
-            <li>Mobil: Altdaki butonlarla sola/sağa hareket ve zıpla.</li>
-            <li>Tüm yıldızları toplayıp kapıya ulaşırsan seviye geçersin.</li>
+      <aside class="flex flex-col gap-3 items-stretch">
+        <div class="bg-white/5 p-3 rounded-md">
+          <div class="text-sm text-slate-200">Kontroller</div>
+          <ul class="text-xs text-slate-300 mt-2 list-disc list-inside">
+            <li>Ok tuşları / A-D ile hareket</li>
+            <li>W / Space / Yukarı ile zıpla</li>
+            <li>Mobilde ekran altındaki butonları kullan</li>
           </ul>
         </div>
 
-        <div class="bg-white/5 p-4 rounded-lg md:hidden flex flex-col items-center gap-3">
-          <div class="flex gap-3">
-            <button id="btnLeft" class="touch-btn bg-slate-700 hover:bg-slate-600 text-xl">◀</button>
-            <button id="btnRight" class="touch-btn bg-slate-700 hover:bg-slate-600 text-xl">▶</button>
-          </div>
-          <button id="btnJump" class="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-black rounded-md font-medium">Zıpla</button>
+        <div class="bg-white/5 p-3 rounded-md text-sm hidden md:block">
+          Amaç: tüm yıldızları topla ve bitiş bayrağına ulaş. Her yıldız +10 puan.
         </div>
       </aside>
     </main>
 
-    <footer class="mt-6 text-center text-xs text-slate-400">Responsive Platformer • Tailwind + Canvas + JS</footer>
+    <!-- mobile controls -->
+    <div class="fixed left-1/2 -translate-x-1/2 bottom-4 md:hidden flex gap-3 items-center">
+      <button id="leftBtn" class="touch-btn bg-slate-700 hover:bg-slate-600 text-2xl">◀</button>
+      <button id="jumpBtn" class="touch-btn bg-amber-400 hover:bg-amber-300 text-2xl">▲</button>
+      <button id="rightBtn" class="touch-btn bg-slate-700 hover:bg-slate-600 text-2xl">▶</button>
+    </div>
+
+    <footer class="mt-4 text-center text-xs text-slate-400">Responsive Mini Platformer • Tailwind + Canvas + JS</footer>
   </div>
 
 <script>
-/* =========================
-   Responsive Platformer Game
-   - Canvas scales to holder width
-   - Simple physics, platforms, collectibles, goal
-   - Keyboard + mobile touch buttons
-   ========================= */
+/* Simple responsive platformer
+   - grid-based platforms (but pixel positions)
+   - player physics: vx, vy, gravity, jump
+   - collision detection AABB
+   - camera follows player horizontally and vertically (clamped)
+   - stars collectible (score)
+   - responsive canvas sizing
+*/
 
 const canvas = document.getElementById('gameCanvas');
-const holder = document.getElementById('canvasHolder');
+const container = document.getElementById('canvasContainer');
 const ctx = canvas.getContext('2d');
 
 const startBtn = document.getElementById('startBtn');
 const pauseBtn = document.getElementById('pauseBtn');
-const resetBtn = document.getElementById('resetBtn');
+const restartBtn = document.getElementById('restartBtn');
+
+const leftBtn = document.getElementById('leftBtn');
+const rightBtn = document.getElementById('rightBtn');
+const jumpBtn = document.getElementById('jumpBtn');
 
 const scoreEl = document.getElementById('score');
 const livesEl = document.getElementById('lives');
-const levelEl = document.getElementById('level');
 
-const scoreSide = document.getElementById('scoreSide');
-const livesSide = document.getElementById('livesSide');
-const levelSide = document.getElementById('levelSide');
-
-const btnLeft = document.getElementById('btnLeft');
-const btnRight = document.getElementById('btnRight');
-const btnJump = document.getElementById('btnJump');
-
-let WIDTH, HEIGHT, SCALE;
-
-// responsive canvas sizing
+let WIDTH, HEIGHT, scale;
 function resizeCanvas(){
-  const maxW = holder.clientWidth;
-  const desiredW = Math.min(maxW, 900);
-  // keep ~4:3 ratio
-  let desiredH = Math.min(window.innerHeight * 0.72, desiredW * 0.65);
+  // fill container width but keep 16:9-ish ratio
+  const maxW = container.clientWidth;
+  const maxH = window.innerHeight * 0.72;
+  let desiredW = Math.min(maxW, 900);
+  let desiredH = desiredW * 0.62;
+  if (desiredH > maxH) {
+    desiredH = maxH;
+    desiredW = desiredH / 0.62;
+  }
   WIDTH = Math.floor(desiredW);
   HEIGHT = Math.floor(desiredH);
   canvas.width = WIDTH;
   canvas.height = HEIGHT;
-  // base unit size for drawing
-  SCALE = WIDTH / 800; // base layout on 800px width
+  scale = WIDTH / 800; // base scale reference
 }
 window.addEventListener('resize', ()=> { resizeCanvas(); draw(); });
 resizeCanvas();
 
-/* GAME STATE */
-let level = 1;
-let score = 0;
-let lives = 3;
+/* GAME WORLD */
+const GRAVITY = 1500; // px/s^2
+const MOVE_ACCEL = 2200; // px/s^2
+const MAX_MOVE_SPEED = 300; // px/s
+const JUMP_SPEED = 520; // px/s (initial)
+const FRICTION = 0.85;
+
+let lastTime = 0;
 let running = false;
 let paused = false;
 
-/* world layout uses tile grid (cols x rows) but we draw in pixels */
-const TILE_SIZE = 40; // base tile size (will be scaled by SCALE in drawing)
-let tilesX = Math.floor(WIDTH / (TILE_SIZE * SCALE));
-let tilesY = Math.floor(HEIGHT / (TILE_SIZE * SCALE));
+/* Level design: array of platforms and items in world coordinates (px).
+   For simplicity coordinates assume base width of 800 and scale accordingly.
+   You can design larger levels by changing positions.
+*/
+const baseW = 800;
+const baseH = 500;
+
+const level = {
+  width: 2400, // world width in base units
+  height: 1000,
+  platforms: [],
+  stars: [],
+  playerStart: { x: 80, y: 300 },
+  goal: { x: 2200, y: 300, w: 48, h: 80 }
+};
+
+// helper to create platforms: x,y,w,h in base units
+function addPlatform(x,y,w,h){
+  level.platforms.push({ x, y, w, h });
+}
+
+// Create a simple multi-level platform layout (base units)
+function buildLevel(){
+  level.platforms = [];
+  level.stars = [];
+
+  // ground
+  addPlatform(-200, 420, 2600, 80);
+
+  // floating platforms
+  addPlatform(160, 340, 140, 16);
+  addPlatform(340, 280, 160, 16);
+  addPlatform(560, 240, 120, 16);
+  addPlatform(760, 320, 160, 16);
+  addPlatform(980, 260, 120, 16);
+  addPlatform(1160, 340, 200, 16);
+  addPlatform(1380, 300, 160, 16);
+  addPlatform(1580, 240, 120, 16);
+  addPlatform(1780, 320, 220, 16);
+  addPlatform(2020, 260, 160, 16);
+
+  // tall block columns
+  addPlatform(880, 380, 40, 40);
+  addPlatform(1140, 380, 40, 40);
+  addPlatform(1500, 380, 40, 40);
+
+  // place stars near platforms
+  const starPositions = [
+    {x: 200, y: 300},{x: 420,y:240},{x:600,y:200},{x:820,y:280},
+    {x:1000,y:220},{x:1200,y:300},{x:1400,y:260},{x:1600,y:200},
+    {x:1820,y:280},{x:2060,y:220}
+  ];
+  starPositions.forEach(s => level.stars.push({x: s.x, y: s.y, r: 12, taken:false}));
+
+  // player start and goal already set
+  level.playerStart = { x: 100, y: 360 };
+  level.goal = { x: 2200, y: 260, w: 48, h: 80 };
+}
 
 /* Player */
 let player = {
-  x: 80, y: 0, w: 34, h: 46,
+  x: 0, y: 0, w: 36, h: 48,
   vx: 0, vy: 0,
-  speed: 240, // px/s
-  jumpVel: -520,
-  grounded: false,
-  facing: 1
+  onGround: false,
+  direction: 1 // 1 right, -1 left for facing
 };
 
-/* World objects */
-let platforms = []; // {x,y,w,h}
-let stars = [];     // collectibles {x,y,r, collected}
-let goal = null;    // goal rect {x,y,w,h}
-let gravity = 1600; // px/s^2
+let camera = { x: 0, y: 0 }; // world coordinates of top-left of viewport
 
-/* timing */
-let lastTime = 0;
+let score = 0;
+let lives = 3;
 
-/* helpful scaling helpers */
-function s(n){ return n * SCALE; } // for drawing sizes relative to base
+/* Input state */
+const keys = { left:false, right:false, up:false };
+let touchLeft = false, touchRight = false, touchJump = false;
 
-/* build a simple level generator (different each level) */
-function buildLevel(l){
-  platforms = [];
-  stars = [];
-  // recalc tile counts
-  tilesX = Math.max(10, Math.floor(WIDTH / (TILE_SIZE * SCALE)));
-  tilesY = Math.max(8, Math.floor(HEIGHT / (TILE_SIZE * SCALE)));
+/* utilities */
+function worldToScreen(wx, wy){ return { x: Math.round((wx - camera.x) * scale), y: Math.round((wy - camera.y) * scale) }; }
+function clamp(v,a,b){ return Math.max(a, Math.min(b, v)); }
 
-  // ground
-  platforms.push({ x:0, y: HEIGHT - s(48), w: WIDTH, h: s(48) });
-
-  // some floating platforms (pattern changes with level)
-  const rows = Math.min(6, 3 + l);
-  for (let r=0; r<rows; r++){
-    const count = 2 + (r%3);
-    for (let i=0;i<count;i++){
-      const pw = s(120 + (i*10));
-      const px = s(40 + i * 220 + ((r%2)*80)) + (Math.random()*80*(r+1));
-      const py = s(HEIGHT*0.15 + r * s(80)) + Math.random()*s(30);
-      // keep within bounds
-      const nx = Math.max(20, Math.min(px % (WIDTH - pw - 40), WIDTH - pw - 20));
-      platforms.push({ x: nx, y: py, w: pw, h: s(18) });
-    }
-  }
-
-  // some walls (left/right) occasional
-  platforms.push({ x: s(12), y: s(HEIGHT*0.4), w: s(24), h: s(140) });
-  platforms.push({ x: WIDTH - s(36), y: s(HEIGHT*0.52), w: s(24), h: s(180) });
-
-  // place stars scattered above platforms
-  for (const p of platforms){
-    if (p.h < s(100)) {
-      // place a star sometimes on platform
-      if (Math.random() < 0.5 && stars.length < 8 + l*2){
-        stars.push({ x: p.x + p.w/2 + (Math.random()*s(40)-s(20)), y: p.y - s(20), r: s(8), collected:false });
-      }
-    }
-  }
-
-  // add some random free-floating stars
-  for (let i=0;i<3 + l;i++){
-    stars.push({ x: s(80 + i*160 + Math.random()*80), y: s(50 + i*40 + Math.random()*100), r: s(8), collected:false });
-  }
-
-  // goal at far right top-ish
-  goal = { x: WIDTH - s(120), y: s(HEIGHT*0.15), w: s(80), h: s(80) };
-
-  // reset player
-  player.x = s(60);
-  player.y = s(HEIGHT - 200);
-  player.vx = 0;
-  player.vy = 0;
-  player.grounded = false;
-}
-
-/* collision helpers: axis-aligned rectangle intersection */
+/* Physics & collision helpers */
 function rectsOverlap(a,b){
   return !(a.x + a.w <= b.x || a.x >= b.x + b.w || a.y + a.h <= b.y || a.y >= b.y + b.h);
 }
 
-/* physics step (dt seconds) */
-function step(dt){
+/* Simple AABB collision resolution between player and platforms */
+function resolveCollisions(dt){
+  player.onGround = false;
+  const px = player.x, py = player.y;
+  const next = { x: player.x + player.vx * dt, y: player.y + player.vy * dt, w: player.w, h: player.h };
+
+  // X movement and collisions
+  player.x = next.x;
+  for (const p of level.platforms){
+    const plat = { x: p.x, y: p.y, w: p.w, h: p.h };
+    if (rectsOverlap(player, plat)){
+      if (player.vx > 0){
+        // hit from left
+        player.x = plat.x - player.w - 0.01;
+        player.vx = 0;
+      } else if (player.vx < 0){
+        // hit from right
+        player.x = plat.x + plat.w + 0.01;
+        player.vx = 0;
+      }
+    }
+  }
+
+  // Y movement and collisions
+  player.y = next.y;
+  for (const p of level.platforms){
+    const plat = { x: p.x, y: p.y, w: p.w, h: p.h };
+    if (rectsOverlap(player, plat)){
+      // We need to determine from which side we collided
+      const prevBottom = py + player.h;
+      const prevTop = py;
+      const platTop = plat.y;
+      const platBottom = plat.y + plat.h;
+
+      if (prevBottom <= platTop){
+        // landing on platform
+        player.y = platTop - player.h;
+        player.vy = 0;
+        player.onGround = true;
+      } else if (prevTop >= platBottom){
+        // hit from below
+        player.y = platBottom + 0.01;
+        player.vy = 0;
+      } else {
+        // side collision fallback
+        if (player.vy > 0){
+          player.y = platTop - player.h;
+          player.vy = 0;
+          player.onGround = true;
+        } else {
+          player.y = platBottom + 0.01;
+          player.vy = 0;
+        }
+      }
+    }
+  }
+}
+
+/* Camera follow player (centered with clamping to level bounds) */
+function updateCamera(){
+  const viewW = WIDTH / scale;
+  const viewH = HEIGHT / scale;
+  camera.x = player.x + player.w/2 - viewW/2;
+  camera.y = player.y + player.h/2 - viewH/2;
+  camera.x = clamp(camera.x, 0, level.width - viewW);
+  camera.y = clamp(camera.y, 0, level.height - viewH);
+}
+
+/* Game step */
+function update(dt){
   if (!running || paused) return;
 
-  // apply horizontal input - velocities updated via input flags
-  // player.vx already set by input handler (px/s)
-  // apply gravity
-  player.vy += gravity * dt;
+  // input
+  const moveLeft = keys.left || touchLeft;
+  const moveRight = keys.right || touchRight;
+  const jumpPressed = keys.up || touchJump;
 
-  // integrate
-  const nextX = player.x + player.vx * dt;
-  const nextY = player.y + player.vy * dt;
-
-  // prepare AABB for movement detection
-  const horizBox = { x: nextX, y: player.y, w: player.w, h: player.h };
-  const vertBox = { x: player.x, y: nextY, w: player.w, h: player.h };
-
-  // horizontal collision against platforms
-  let collidedX = false;
-  for (const p of platforms){
-    if (rectsOverlap(horizBox, p)){
-      collidedX = true;
-      if (player.vx > 0){
-        // hit right side of platform: place to left
-        player.x = p.x - player.w - 0.5;
-      } else if (player.vx < 0) {
-        player.x = p.x + p.w + 0.5;
-      }
-      player.vx = 0;
-      break;
-    }
+  // horizontal acceleration
+  if (moveLeft && !moveRight){
+    player.vx -= MOVE_ACCEL * dt;
+    player.direction = -1;
+  } else if (moveRight && !moveLeft){
+    player.vx += MOVE_ACCEL * dt;
+    player.direction = 1;
+  } else {
+    // apply friction
+    player.vx *= FRICTION;
+    if (Math.abs(player.vx) < 5) player.vx = 0;
   }
-  if (!collidedX) player.x = nextX;
 
-  // vertical collision
-  let collidedY = false;
-  player.grounded = false;
-  for (const p of platforms){
-    if (rectsOverlap(vertBox, p)){
-      collidedY = true;
-      if (player.vy > 0){
-        // landing on top
-        player.y = p.y - player.h - 0.5;
-        player.vy = 0;
-        player.grounded = true;
-      } else if (player.vy < 0){
-        // hitting bottom of platform
-        player.y = p.y + p.h + 0.5;
-        player.vy = 0;
-      }
-      break;
-    }
-  }
-  if (!collidedY) player.y = nextY;
+  player.vx = clamp(player.vx, -MAX_MOVE_SPEED, MAX_MOVE_SPEED);
 
-  // world bounds: left/right wrap or clamp - we'll clamp
-  if (player.x < 0) player.x = 0;
-  if (player.x + player.w > WIDTH) player.x = WIDTH - player.w;
-  // bottom -> lose life and respawn
-  if (player.y > HEIGHT + s(40)){
-    loseLife();
+  // gravity
+  player.vy += GRAVITY * dt;
+
+  // jump (edge triggered)
+  if (jumpPressed && player.onGround){
+    player.vy = -JUMP_SPEED;
+    player.onGround = false;
   }
+
+  // integrate & collision
+  resolveCollisions(dt);
+
+  // clamp world bounds
+  player.x = clamp(player.x, -1000, level.width + 1000);
+  player.y = clamp(player.y, -1000, level.height + 1000);
 
   // collect stars
-  for (const st of stars){
-    if (!st.collected){
-      const starBox = { x: st.x - st.r, y: st.y - st.r, w: st.r*2, h: st.r*2 };
-      const playerBox = { x: player.x, y: player.y, w: player.w, h: player.h };
-      if (rectsOverlap(playerBox, starBox)){
-        st.collected = true;
-        score += 50;
+  for (const s of level.stars){
+    if (!s.taken){
+      const starRect = { x: s.x - s.r, y: s.y - s.r, w: s.r*2, h: s.r*2 };
+      if (rectsOverlap(player, starRect)){
+        s.taken = true;
+        score += 10;
       }
     }
   }
 
-  // check goal (only if all stars collected)
-  const remaining = stars.filter(s => !s.collected).length;
-  const playerBox = { x: player.x, y: player.y, w: player.w, h: player.h };
-  if (remaining === 0 && rectsOverlap(playerBox, goal)){
-    // level complete
-    levelComplete();
-  }
-}
-
-/* lose life */
-function loseLife(){
-  lives--;
-  if (lives <= 0){
+  // check goal reached (player intersects goal)
+  const goalRect = { x: level.goal.x, y: level.goal.y, w: level.goal.w, h: level.goal.h };
+  if (rectsOverlap(player, goalRect)){
+    // win: simple message and reset to start
     running = false;
-    setTimeout(()=> {
-      alert(`Oyun bitti! Skor: ${score}`);
-      resetGame();
-    }, 50);
-  } else {
-    // respawn player on current level start spot
-    player.x = s(60);
-    player.y = s(HEIGHT - 200);
-    player.vx = 0;
-    player.vy = 0;
+    setTimeout(()=> alert('Tebrikler! Tüm yıldızları toplamayı ve bitişe ulaşmayı deneyebilirsin.'), 50);
   }
-  updateUI();
+
+  // falling below world -> lose life and respawn
+  if (player.y > level.height + 400){
+    lives--;
+    if (lives <= 0){
+      running = false;
+      setTimeout(()=> {
+        alert('Oyun bitti! Skor: ' + score);
+      }, 50);
+    } else {
+      // respawn
+      spawnPlayer();
+    }
+  }
+
+  updateCamera();
 }
 
-/* level complete */
-function levelComplete(){
-  running = false;
-  setTimeout(()=> {
-    level++;
-    score += 500;
-    buildLevel(level);
-    running = true;
-  }, 500);
-  updateUI();
+/* spawn player at start */
+function spawnPlayer(){
+  player.x = level.playerStart.x;
+  player.y = level.playerStart.y;
+  player.vx = 0; player.vy = 0; player.onGround = false;
 }
 
-/* rendering */
+/* Drawing */
 function draw(){
-  // clear
+  // clear background gradient already set by canvas style; clear for safety
   ctx.clearRect(0,0,WIDTH,HEIGHT);
 
-  // background gradient
-  const g = ctx.createLinearGradient(0,0,0,HEIGHT);
-  g.addColorStop(0, '#061129');
-  g.addColorStop(1, '#071024');
-  ctx.fillStyle = g;
-  ctx.fillRect(0,0,WIDTH,HEIGHT);
+  // compute scale factor between base and current scale
+  const s = scale;
+
+  // draw sky / background (we use canvas background in CSS, but draw subtle ground)
+  ctx.save();
+  // translate camera and scale world coords to screen
+  ctx.scale(s, s);
+  ctx.translate(-camera.x, -camera.y);
 
   // draw platforms
-  for (const p of platforms){
-    ctx.fillStyle = '#2b6cb0';
-    roundRect(ctx, p.x, p.y, p.w, p.h, 8 * SCALE, true);
-    ctx.fillStyle = 'rgba(255,255,255,0.06)';
-    ctx.fillRect(p.x + 6*SCALE, p.y + 6*SCALE, Math.max(0, p.w - 12*SCALE), Math.max(0, p.h - 12*SCALE));
+  for (const p of level.platforms){
+    ctx.fillStyle = '#5b21b6';
+    roundRect(ctx, p.x, p.y, p.w, p.h, 6, true);
+    ctx.fillStyle = 'rgba(0,0,0,0.12)';
+    ctx.fillRect(p.x + 4, p.y + 4, p.w - 8, p.h - 8);
   }
+
+  // draw goal flag
+  ctx.fillStyle = '#f97316';
+  ctx.fillRect(level.goal.x + level.goal.w - 6, level.goal.y - 20, 6, 20);
+  ctx.fillStyle = '#fff';
+  ctx.fillRect(level.goal.x + level.goal.w - 2, level.goal.y - 20, 20, 12);
 
   // draw stars
-  for (const st of stars){
-    if (st.collected) continue;
-    drawStar(st.x, st.y, st.r, '#ffd166', '#ffb703');
+  for (const sObj of level.stars){
+    if (sObj.taken) continue;
+    drawStar(ctx, sObj.x, sObj.y, sObj.r, '#ffd43b', '#ffb020');
   }
 
-  // draw goal
-  ctx.fillStyle = '#34d399';
-  roundRect(ctx, goal.x, goal.y, goal.w, goal.h, 10*SCALE, true);
-  ctx.fillStyle = '#052e16';
-  ctx.font = `${16 * SCALE}px Inter, Arial`;
-  ctx.fillText('GOAL', goal.x + goal.w*0.15, goal.y + goal.h*0.55);
-
   // draw player (simple rectangle with face)
-  ctx.save();
-  ctx.translate(player.x + player.w/2, player.y + player.h/2);
-  ctx.scale(player.facing, 1);
-  ctx.translate(- (player.x + player.w/2), - (player.y + player.h/2));
-  // body
-  ctx.fillStyle = '#ffd43b';
-  roundRect(ctx, player.x, player.y, player.w, player.h, 6*SCALE, true);
-  // eyes
-  ctx.fillStyle = '#000';
-  ctx.beginPath();
-  ctx.arc(player.x + player.w*0.65, player.y + player.h*0.35, 3*SCALE, 0, Math.PI*2);
-  ctx.fill();
+  ctx.fillStyle = '#06b6d4';
+  ctx.fillRect(player.x, player.y, player.w, player.h);
+  // eye
+  ctx.fillStyle = '#041526';
+  const eyeX = player.x + (player.direction === 1 ? player.w*0.65 : player.w*0.25);
+  ctx.fillRect(eyeX, player.y + player.h*0.25, 6, 6);
+
+  // HUD in world-space? We'll draw HUD in screen space after restore
   ctx.restore();
 
-  // HUD
-  ctx.fillStyle = 'rgba(255,255,255,0.03)';
-  ctx.fillRect(0,0,WIDTH,50*SCALE);
+  // HUD (screen space)
+  ctx.fillStyle = 'rgba(0,0,0,0.35)';
+  ctx.fillRect(12, 12, 160, 40);
   ctx.fillStyle = '#fff';
-  ctx.font = `${16 * SCALE}px Inter, Arial`;
-  ctx.fillText(`Seviye: ${level}`, 12 * SCALE, 32 * SCALE);
-  ctx.fillText(`Puan: ${score}`, 140 * SCALE, 32 * SCALE);
-  ctx.fillText(`Can: ${lives}`, 280 * SCALE, 32 * SCALE);
+  ctx.font = `${14 * Math.max(1, scale)}px Inter, system-ui, Arial`;
+  ctx.fillText(`Skor: ${score}`, 22, 32);
+  ctx.fillText(`Can: ${lives}`, 110, 32);
 }
 
-/* small helper: rounded rect */
+/* small helper to draw rounded rect */
 function roundRect(ctx,x,y,w,h,r,fill){
   ctx.beginPath();
   ctx.moveTo(x + r, y);
@@ -397,82 +426,73 @@ function roundRect(ctx,x,y,w,h,r,fill){
   if (fill) ctx.fill();
 }
 
-/* draw star symbol */
-function drawStar(cx, cy, r, color1, color2){
+/* draw star */
+function drawStar(ctx,x,y,r,fill,stroke){
   ctx.save();
-  ctx.translate(cx, cy);
-  ctx.fillStyle = color1;
   ctx.beginPath();
-  for (let i=0;i<5;i++){
-    ctx.lineTo(Math.cos((18 + i*72) / 180 * Math.PI) * r, -Math.sin((18 + i*72) / 180 * Math.PI) * r);
-    ctx.lineTo(Math.cos((54 + i*72) / 180 * Math.PI) * r/2, -Math.sin((54 + i*72) / 180 * Math.PI) * r/2);
+  const spikes = 5;
+  const outer = r;
+  const inner = r * 0.5;
+  let rot = Math.PI / 2 * 3;
+  let cx = x;
+  let cy = y;
+  let step = Math.PI / spikes;
+  ctx.moveTo(cx, cy - outer);
+  for (let i=0;i<spikes;i++){
+    ctx.lineTo(cx + Math.cos(rot) * outer, cy + Math.sin(rot) * outer);
+    rot += step;
+    ctx.lineTo(cx + Math.cos(rot) * inner, cy + Math.sin(rot) * inner);
+    rot += step;
   }
+  ctx.lineTo(cx, cy - outer);
   ctx.closePath();
+  ctx.fillStyle = fill;
   ctx.fill();
-  ctx.fillStyle = color2;
-  ctx.beginPath();
-  ctx.arc(0,0, r*0.18, 0, Math.PI*2);
-  ctx.fill();
+  ctx.lineWidth = 2;
+  ctx.strokeStyle = stroke;
+  ctx.stroke();
   ctx.restore();
 }
 
-/* GAME LOOP */
+/* Game loop */
 function loop(ts){
   if (!lastTime) lastTime = ts;
-  const dt = Math.min(0.05, (ts - lastTime) / 1000); // clamp dt
-  step(dt);
-  draw();
+  const dt = Math.min(0.032, (ts - lastTime) / 1000); // cap dt to avoid huge jumps
   lastTime = ts;
+
+  update(dt);
+  draw();
+
   requestAnimationFrame(loop);
 }
 
-/* INPUT HANDLING */
-// keyboard
-const input = { left:false, right:false, jump:false };
-window.addEventListener('keydown', e => {
-  if (e.key === 'ArrowLeft' || e.key === 'a') input.left = true;
-  if (e.key === 'ArrowRight' || e.key === 'd') input.right = true;
-  if (e.key === 'ArrowUp' || e.key === ' ' || e.key === 'w') {
-    if (!input.jump){
-      // only trigger jump on keydown
-      attemptJump();
-    }
-    input.jump = true;
-  }
+/* Input handlers */
+window.addEventListener('keydown', (e)=>{
+  if (e.key === 'ArrowLeft' || e.key.toLowerCase() === 'a'){ keys.left = true; }
+  if (e.key === 'ArrowRight' || e.key.toLowerCase() === 'd'){ keys.right = true; }
+  if (e.key === 'ArrowUp' || e.key.toLowerCase() === 'w' || e.code === 'Space'){ keys.up = true; }
 });
-window.addEventListener('keyup', e => {
-  if (e.key === 'ArrowLeft' || e.key === 'a') input.left = false;
-  if (e.key === 'ArrowRight' || e.key === 'd') input.right = false;
-  if (e.key === 'ArrowUp' || e.key === ' ' || e.key === 'w') input.jump = false;
+window.addEventListener('keyup', (e)=>{
+  if (e.key === 'ArrowLeft' || e.key.toLowerCase() === 'a'){ keys.left = false; }
+  if (e.key === 'ArrowRight' || e.key.toLowerCase() === 'd'){ keys.right = false; }
+  if (e.key === 'ArrowUp' || e.key.toLowerCase() === 'w' || e.code === 'Space'){ keys.up = false; }
 });
 
-// mobile buttons
-btnLeft?.addEventListener('touchstart', (e)=>{ e.preventDefault(); input.left = true; });
-btnLeft?.addEventListener('touchend', (e)=>{ e.preventDefault(); input.left = false; });
-btnRight?.addEventListener('touchstart', (e)=>{ e.preventDefault(); input.right = true; });
-btnRight?.addEventListener('touchend', (e)=>{ e.preventDefault(); input.right = false; });
-btnJump?.addEventListener('touchstart', (e)=>{ e.preventDefault(); attemptJump(); });
+// Mobile touch buttons
+leftBtn?.addEventListener('touchstart', (e)=>{ e.preventDefault(); touchLeft = true; }, {passive:false});
+leftBtn?.addEventListener('touchend', (e)=>{ e.preventDefault(); touchLeft = false; }, {passive:false});
+rightBtn?.addEventListener('touchstart', (e)=>{ e.preventDefault(); touchRight = true; }, {passive:false});
+rightBtn?.addEventListener('touchend', (e)=>{ e.preventDefault(); touchRight = false; }, {passive:false});
+jumpBtn?.addEventListener('touchstart', (e)=>{ e.preventDefault(); touchJump = true; setTimeout(()=> touchJump = false, 200); }, {passive:false});
 
-// apply continuous movement each frame (in step) by setting player.vx
-function applyInput(){
-  let targetVx = 0;
-  if (input.left) { targetVx = -player.speed; player.facing = -1; }
-  if (input.right) { targetVx = player.speed; player.facing = 1; }
-  // smooth acceleration could be applied; we'll set directly
-  player.vx = targetVx;
-}
+// Also support click on mobile buttons
+leftBtn?.addEventListener('mousedown', ()=> touchLeft = true);
+leftBtn?.addEventListener('mouseup', ()=> touchLeft = false);
+rightBtn?.addEventListener('mousedown', ()=> touchRight = true);
+rightBtn?.addEventListener('mouseup', ()=> touchRight = false);
+jumpBtn?.addEventListener('mousedown', ()=> { touchJump = true; setTimeout(()=> touchJump = false, 200); });
 
-/* attempt jump */
-function attemptJump(){
-  if (player.grounded){
-    player.vy = player.jumpVel;
-    player.grounded = false;
-  } else {
-    // allow coyote-time or double-jump optionally (not implemented)
-  }
-}
-
-/* START / PAUSE / RESET UI */
+/* Start / pause / restart */
 startBtn.addEventListener('click', ()=>{
   if (!running){
     running = true;
@@ -485,59 +505,27 @@ pauseBtn.addEventListener('click', ()=>{
   paused = !paused;
   pauseBtn.textContent = paused ? 'Devam Et' : 'Duraklat';
 });
-resetBtn.addEventListener('click', ()=> resetGame());
+restartBtn.addEventListener('click', ()=>{
+  initGame();
+});
 
-/* update UI labels */
-function updateUI(){
-  scoreEl.textContent = score;
-  livesEl.textContent = lives;
-  levelEl.textContent = level;
-
-  scoreSide.textContent = score;
-  livesSide.textContent = lives;
-  levelSide.textContent = level;
-}
-
-/* main step override to include input */
-const originalStep = step;
-step = function(dt){
-  applyInput();
-  originalStep(dt);
-  updateUI();
-};
-
-/* reset game and start level 1 */
-function resetGame(){
-  level = 1;
+/* init game */
+function initGame(){
+  buildLevel();
+  resizeCanvas();
+  spawnPlayer();
   score = 0;
   lives = 3;
-  buildLevel(level);
-  running = false;
+  // mark all stars as available
+  level.stars.forEach(s => s.taken = false);
+  running = true;
   paused = false;
   lastTime = 0;
-  updateUI();
-  draw();
+  requestAnimationFrame(loop);
 }
 
 /* initialize */
-buildLevel(level);
-draw();
-updateUI();
-
-/* ensure canvas resizes correctly and rebuild levels on resize to keep layout consistent */
-let resizeTimer = null;
-window.addEventListener('resize', ()=>{
-  // debounce
-  clearTimeout(resizeTimer);
-  resizeTimer = setTimeout(()=>{
-    resizeCanvas();
-    buildLevel(level);
-    draw();
-  }, 120);
-});
-
-/* start auto-loop but paused until user presses Start */
-requestAnimationFrame(loop);
+initGame();
 
 </script>
 </body>
