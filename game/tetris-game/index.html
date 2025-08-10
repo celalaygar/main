@@ -7,17 +7,17 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body { -webkit-tap-highlight-color: transparent; }
-    canvas { display:block; border-radius:12px; background: linear-gradient(180deg,#071025,#0b1220); box-shadow: 0 10px 30px rgba(2,6,23,0.7); }
-    .btn { @apply px-4 py-2 rounded-md font-medium shadow-md; }
-    /* tile text not selectable */
-    .tile { user-select: none; -webkit-user-select: none; -ms-user-select: none; }
+    canvas { display:block; border-radius:10px; background: linear-gradient(180deg,#051026,#071427); box-shadow: 0 10px 30px rgba(2,6,23,0.7); }
+    .btn { @apply px-4 py-2 rounded-md font-medium shadow-sm; }
+    .no-select { user-select: none; -webkit-user-select: none; -ms-user-select: none; }
+    .tile { user-select: none; -webkit-user-select: none; }
   </style>
 </head>
 <body class="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 text-slate-100 flex items-center justify-center p-4">
 
   <div class="w-full max-w-4xl">
     <header class="flex flex-col md:flex-row items-center justify-between gap-4 mb-4">
-      <h1 class="text-2xl md:text-3xl font-bold">Tetris • Responsive</h1>
+      <h1 class="text-2xl md:text-3xl font-bold">Tetris (Responsive)</h1>
 
       <div class="flex items-center gap-3">
         <div class="bg-white/5 px-3 py-2 rounded-md text-sm">
@@ -26,78 +26,94 @@
         <div class="bg-white/5 px-3 py-2 rounded-md text-sm">
           Seviye: <span id="level" class="font-mono">1</span>
         </div>
-        <button id="startBtn" class="btn bg-emerald-500 hover:bg-emerald-600 text-black">Başlat</button>
-        <button id="pauseBtn" class="btn bg-yellow-400 hover:bg-yellow-500 text-black">Duraklat</button>
-        <button id="resetBtn" class="btn bg-red-600 hover:bg-red-700 text-white">Yeniden</button>
+        <div class="bg-white/5 px-3 py-2 rounded-md text-sm hidden sm:block">
+          En Yüksek: <span id="highscore" class="font-mono">0</span>
+        </div>
+
+        <button id="startBtn" class="btn bg-emerald-500 hover:bg-emerald-600 text-black no-select">Başlat</button>
+        <button id="pauseBtn" class="btn bg-yellow-400 hover:bg-yellow-500 text-black no-select">Duraklat</button>
+        <button id="resetBtn" class="btn bg-red-600 hover:bg-red-700 text-white no-select">Yeniden</button>
       </div>
     </header>
 
     <main class="grid md:grid-cols-3 gap-6 items-start">
-      <!-- Canvas alanı -->
+      <!-- Canvas -->
       <section class="md:col-span-2 flex justify-center">
         <div id="canvasWrap" class="w-full max-w-[640px]">
-          <canvas id="boardCanvas"></canvas>
+          <canvas id="tetrisCanvas"></canvas>
         </div>
       </section>
 
-      <!-- Sağ panel: kontrol + açıklama -->
+      <!-- Sağ panel -->
       <aside class="flex flex-col gap-4">
         <div class="bg-white/5 p-4 rounded-md">
           <h2 class="font-semibold mb-2">Kontroller</h2>
           <ul class="text-sm list-disc list-inside space-y-1">
-            <li>Ok tuşları: Sol/Sağ (hareket), Yukarı (döndür), Aşağı (hızlı düşür).</li>
-            <li>Mobil: Kare üzerine swipe veya ekrandaki yön düğmeleri.</li>
-            <li>Başlat / Duraklat / Yeniden butonları üstte.</li>
+            <li>Ok tuşları — Sol/Sağ hareket, Yukarı döndür, Aşağı hızlandır.</li>
+            <li>Boşluk — Hard drop (hızlı bırakma).</li>
+            <li>Mobil: ekran üzerinde swipe (solda/sağda hareket, yukarı döndür, aşağı hızlı düşür).</li>
           </ul>
         </div>
 
-        <div class="bg-white/5 p-4 rounded-md flex flex-col gap-2 items-stretch">
-          <div class="text-sm">Satır temizleme: klasik puanlama.</div>
-          <div class="text-sm">Hız her seviye ile artar.</div>
+        <div class="bg-white/5 p-4 rounded-md">
+          <h3 class="font-semibold mb-2">Next (Önizleme)</h3>
+          <canvas id="previewCanvas" width="120" height="120" class="w-full rounded-md"></canvas>
         </div>
 
-        <!-- Mobil yön düğmeleri (sadece mobilde görünür) -->
+        <!-- Mobil butonlar (sadece küçük ekranda görünür) -->
         <div class="md:hidden bg-white/5 p-3 rounded-md flex flex-col items-center gap-2">
-          <div class="grid grid-cols-3 gap-2">
+          <div class="grid grid-cols-3 gap-2 w-full">
             <div></div>
-            <button id="mUp" class="bg-slate-700 px-4 py-3 rounded-md">▲</button>
+            <button id="btnUp" class="bg-slate-700 px-4 py-3 rounded-md">▲</button>
             <div></div>
 
-            <button id="mLeft" class="bg-slate-700 px-4 py-3 rounded-md">◀</button>
-            <button id="mDown" class="bg-slate-700 px-4 py-3 rounded-md">▼</button>
-            <button id="mRight" class="bg-slate-700 px-4 py-3 rounded-md">▶</button>
+            <button id="btnLeft" class="bg-slate-700 px-4 py-3 rounded-md">◀</button>
+            <button id="btnDown" class="bg-slate-700 px-4 py-3 rounded-md">▼</button>
+            <button id="btnRight" class="bg-slate-700 px-4 py-3 rounded-md">▶</button>
           </div>
-          <div class="w-full mt-2">
-            <button id="mDrop" class="w-full bg-emerald-500 hover:bg-emerald-600 py-2 rounded-md text-black">Hızlı Düşür</button>
-          </div>
+          <button id="btnDrop" class="w-full bg-emerald-500 hover:bg-emerald-600 py-2 rounded-md text-black">Hızlı Düşür</button>
         </div>
       </aside>
     </main>
 
-    <footer class="mt-6 text-center text-xs text-slate-400">Made with Tailwind + Canvas + JS — Responsive Tetris</footer>
+    <footer class="mt-6 text-center text-xs text-slate-400">Tailwind + Canvas + Vanilla JS — Responsive Tetris</footer>
   </div>
 
 <script>
-/* Responsive Tetris
- - Playable on mobile (touch swipes + on-screen buttons)
- - Canvas resizes to available container width
- - Classic 10x20 grid
- - Basic wall-kick: if rotation collides, try small x shifts
+/* Responsive Tetris (10x20)
+   - Klavye & Dokunmatik (swipe) & Mobil butonlar
+   - Score, level, next preview, restart/pause/start
+   - Simple wall-kick attempts
 */
 
-// CONFIG
-const COLS = 10;
-const ROWS = 20;
-const COLORS = [
-  null,
-  '#00f0f0', // I
-  '#f0a000', // O
-  '#a000f0', // T
-  '#00c000', // S
-  '#f04040', // Z
-  '#0000f0', // J
-  '#f0c000'  // L
-];
+// DOM
+const canvas = document.getElementById('tetrisCanvas');
+const wrap = document.getElementById('canvasWrap');
+const previewCanvas = document.getElementById('previewCanvas');
+const ctx = canvas.getContext('2d');
+const pctx = previewCanvas.getContext('2d');
+
+const scoreEl = document.getElementById('score');
+const levelEl = document.getElementById('level');
+const highscoreEl = document.getElementById('highscore');
+
+const startBtn = document.getElementById('startBtn');
+const pauseBtn = document.getElementById('pauseBtn');
+const resetBtn = document.getElementById('resetBtn');
+
+const btnLeft = document.getElementById('btnLeft');
+const btnRight = document.getElementById('btnRight');
+const btnUp = document.getElementById('btnUp');
+const btnDown = document.getElementById('btnDown');
+const btnDrop = document.getElementById('btnDrop');
+
+const HIGH_KEY = 'tetris_highscore_v1';
+let highscore = parseInt(localStorage.getItem(HIGH_KEY) || '0', 10);
+highscoreEl.textContent = highscore;
+
+// Config
+const COLS = 10, ROWS = 20;
+const COLORS = [null, '#00d8ff', '#ffd14d', '#9b8cff', '#7ee787', '#ff6b6b', '#6aa0ff', '#ffd07a'];
 
 const SHAPES = [
   [],
@@ -129,25 +145,7 @@ const SHAPES = [
    [[7,7,0],[0,7,0],[0,7,0]]]
 ];
 
-// DOM
-const canvas = document.getElementById('boardCanvas');
-const wrap = document.getElementById('canvasWrap');
-const scoreEl = document.getElementById('score');
-const levelEl = document.getElementById('level');
-const startBtn = document.getElementById('startBtn');
-const pauseBtn = document.getElementById('pauseBtn');
-const resetBtn = document.getElementById('resetBtn');
-
-// Mobile controls
-const mLeft = document.getElementById('mLeft');
-const mRight = document.getElementById('mRight');
-const mUp = document.getElementById('mUp');
-const mDown = document.getElementById('mDown');
-const mDrop = document.getElementById('mDrop');
-
-const ctx = canvas.getContext('2d');
-
-// state
+// Game state
 let board = [];
 let current = null;
 let nextPiece = null;
@@ -157,23 +155,22 @@ let lastTime = 0;
 let score = 0;
 let level = 1;
 let rowsClearedTotal = 0;
-let running = false;
-let paused = false;
-let touchStartX = 0, touchStartY = 0;
+let running = false, paused = false;
 
 // sizing
-let CELL; // pixel cell size
+let CELL = 24;
 function resizeCanvas(){
-  // width limited by wrap width
-  const maxWidth = wrap.clientWidth;
-  // target: make board square-ish: height = rows/cells * width => calculate cell size by width or viewport height
-  const maxHeight = window.innerHeight * 0.72;
-  // prefer width-limited size
-  let cellByWidth = Math.floor(maxWidth / COLS);
-  let cellByHeight = Math.floor(maxHeight / ROWS);
-  CELL = Math.max(18, Math.min(cellByWidth, cellByHeight)); // ensure minimum cell size
+  const maxW = wrap.clientWidth;
+  const maxH = window.innerHeight * 0.72;
+  // choose cell by width or height
+  let cellByWidth = Math.floor(maxW / COLS);
+  let cellByHeight = Math.floor(maxH / ROWS);
+  CELL = Math.max(16, Math.min(cellByWidth, cellByHeight)); // minimal readable
   canvas.width = CELL * COLS;
   canvas.height = CELL * ROWS;
+  // preview canvas scale
+  previewCanvas.width = CELL * 3;
+  previewCanvas.height = CELL * 3;
   draw();
 }
 window.addEventListener('resize', resizeCanvas);
@@ -182,31 +179,27 @@ window.addEventListener('resize', resizeCanvas);
 function createEmptyBoard(){
   board = Array.from({length: ROWS}, ()=> Array(COLS).fill(0));
 }
-
-function randomPiece(){
+function randPiece(){
   const id = Math.floor(Math.random() * (SHAPES.length - 1)) + 1;
   const variants = SHAPES[id];
-  const shape = JSON.parse(JSON.stringify(variants[0])); // clone
+  const shape = JSON.parse(JSON.stringify(variants[0])); // clone base rotation
   const rotation = 0;
   const x = Math.floor((COLS - shape[0].length) / 2);
-  const y = - (shape.length); // start above board to allow initial drop
+  const y = -shape.length; // start above visible area
   return { id, shape, rotation, x, y };
 }
-
-function rotateMatrix(matrix){
-  const N = matrix.length;
-  const result = Array.from({length:N}, ()=> Array(N).fill(0));
-  for (let y=0;y<N;y++) for (let x=0;x<N;x++) result[x][N-1-y] = matrix[y][x];
-  return result;
+function rotateMatrix(m){
+  const N = m.length;
+  const res = Array.from({length:N}, ()=> Array(N).fill(0));
+  for (let y=0;y<N;y++) for (let x=0;x<N;x++) res[x][N-1-y] = m[y][x];
+  return res;
 }
-
-// collision
-function collide(piece, bx=piece.x, by=piece.y){
+function collide(piece, px=piece.x, py=piece.y){
   for (let y=0;y<piece.shape.length;y++){
     for (let x=0;x<piece.shape[y].length;x++){
-      if (piece.shape[y][x] !== 0){
-        const nx = bx + x;
-        const ny = by + y;
+      if (piece.shape[y][x]){
+        const nx = px + x;
+        const ny = py + y;
         if (nx < 0 || nx >= COLS || ny >= ROWS) return true;
         if (ny >= 0 && board[ny][nx] !== 0) return true;
       }
@@ -214,23 +207,19 @@ function collide(piece, bx=piece.x, by=piece.y){
   }
   return false;
 }
-
-// place piece
 function merge(piece){
   for (let y=0;y<piece.shape.length;y++){
     for (let x=0;x<piece.shape[y].length;x++){
-      if (piece.shape[y][x] !== 0 && piece.y + y >= 0){
+      if (piece.shape[y][x] && piece.y + y >= 0){
         board[piece.y + y][piece.x + x] = piece.id;
       }
     }
   }
 }
-
-// clear lines
 function sweep(){
   let lines = 0;
-  outer: for (let y = ROWS - 1; y >= 0; y--) {
-    for (let x = 0; x < COLS; x++) {
+  outer: for (let y = ROWS - 1; y >= 0; y--){
+    for (let x=0;x<COLS;x++){
       if (board[y][x] === 0) continue outer;
     }
     const row = board.splice(y,1)[0].fill(0);
@@ -238,36 +227,41 @@ function sweep(){
     lines++;
     y++;
   }
-  if (lines > 0) {
-    // scoring typical: 1 line=100, 2=300, 3=500, 4=800 (scaled)
-    const scoreMap = {1:100,2:300,3:500,4:800};
+  if (lines > 0){
+    const scoreMap = {1: 100, 2: 300, 3: 500, 4: 800};
     score += (scoreMap[lines] || lines*200) * level;
     rowsClearedTotal += lines;
     level = Math.floor(rowsClearedTotal / 10) + 1;
-    // increase speed a bit per level
-    dropInterval = Math.max(100, 800 - (level - 1) * 60);
+    dropInterval = Math.max(80, 800 - (level - 1) * 60);
     updateUI();
   }
 }
 
-// draw
-function drawCell(x,y,colorId){
+// Draw
+function roundRect(ctx,x,y,w,h,r,fill){
+  ctx.beginPath();
+  ctx.moveTo(x+r,y);
+  ctx.arcTo(x+w,y,x+w,y+h,r);
+  ctx.arcTo(x+w,y+h,x,y+h,r);
+  ctx.arcTo(x,y+h,x,y,r);
+  ctx.arcTo(x,y,x+w,y,r);
+  ctx.closePath();
+  if (fill) ctx.fill();
+}
+
+function drawCell(x,y,id){
   const px = x * CELL, py = y * CELL;
-  ctx.fillStyle = '#0b1220';
-  // tile background
-  ctx.fillStyle = colorId ? COLORS[colorId] : '#07101a';
+  ctx.fillStyle = id ? COLORS[id] : '#07121a';
   roundRect(ctx, px+1, py+1, CELL-2, CELL-2, Math.max(3, CELL*0.08), true);
-  // inner highlight
-  if (colorId){
+  if (id){
     ctx.fillStyle = 'rgba(255,255,255,0.06)';
-    ctx.fillRect(px+2, py+2, CELL-4, CELL*0.35);
+    ctx.fillRect(px+2, py+2, CELL-4, CELL*0.3);
   }
 }
 
 function draw(){
   if (!CELL) return;
-  // background grid
-  ctx.fillStyle = '#04101a';
+  ctx.fillStyle = '#041127';
   ctx.fillRect(0,0,canvas.width,canvas.height);
 
   // board
@@ -287,62 +281,51 @@ function draw(){
       }
     }
   }
-  // next piece preview (small)
-  // draw a small preview rectangle at top-left of canvas
-  const previewSize = CELL * 4;
-  ctx.fillStyle = 'rgba(255,255,255,0.02)';
-  ctx.fillRect(6,6,previewSize,previewSize);
-  if (nextPiece){
-    const offX = 8, offY = 8;
-    const s = nextPiece.shape;
-    for (let y=0;y<s.length;y++){
-      for (let x=0;x<s[y].length;x++){
-        if (s[y][x]){
-          // scale preview smaller
-          const w = Math.floor((previewSize - 16) / 4);
-          ctx.fillStyle = COLORS[nextPiece.id];
-          roundRect(ctx, 6 + offX + x * w, 6 + offY + y * w, w - 4, w - 4, 4, true);
-        }
+
+  // preview
+  drawPreview();
+}
+
+function drawPreview(){
+  pctx.clearRect(0,0,previewCanvas.width, previewCanvas.height);
+  pctx.fillStyle = 'rgba(255,255,255,0.02)';
+  pctx.fillRect(0,0,previewCanvas.width, previewCanvas.height);
+  if (!nextPiece) return;
+  const s = nextPiece.shape;
+  const cell = Math.floor(previewCanvas.width / 4);
+  for (let y=0;y<s.length;y++){
+    for (let x=0;x<s[y].length;x++){
+      if (s[y][x]){
+        const px = x * cell + cell/2, py = y * cell + cell/2;
+        pctx.fillStyle = COLORS[nextPiece.id];
+        roundRect(pctx, x*cell + 6, y*cell + 6, cell-12, cell-12, 6, true);
       }
     }
-    // label
-    ctx.fillStyle = 'rgba(255,255,255,0.5)';
-    ctx.font = `${10}px system-ui`;
-    ctx.fillText('Next', 10, previewSize - 6);
   }
+  pctx.fillStyle = 'rgba(255,255,255,0.6)';
+  pctx.font = `${12}px system-ui`;
+  pctx.fillText('Next', 6, previewCanvas.height - 6);
 }
 
-function roundRect(ctx,x,y,w,h,r,fill){
-  ctx.beginPath();
-  ctx.moveTo(x+r, y);
-  ctx.arcTo(x+w, y, x+w, y+h, r);
-  ctx.arcTo(x+w, y+h, x, y+h, r);
-  ctx.arcTo(x, y+h, x, y, r);
-  ctx.arcTo(x, y, x+w, y, r);
-  ctx.closePath();
-  if (fill) ctx.fill();
-}
-
-// piece movement
+// Piece functions
 function spawnPiece(){
-  current = nextPiece || randomPiece();
-  nextPiece = randomPiece();
-  // if immediately collides -> game over
+  current = nextPiece || randPiece();
+  nextPiece = randPiece();
   if (collide(current)) {
-    // lock board and stop
     running = false;
-    alert('Oyun bitti!\nPuan: ' + score);
+    // update highscore
+    if (score > highscore){ highscore = score; localStorage.setItem(HIGH_KEY, highscore); highscoreEl.textContent = highscore; }
+    setTimeout(()=> alert('Oyun bitti! Puan: ' + score), 80);
   }
 }
 
-// rotation with simple wall-kick attempts
 function rotateCurrent(){
   if (!current) return;
-  const oldShape = current.shape;
-  const newShape = rotateMatrix(oldShape);
+  const old = current.shape;
+  const rotated = rotateMatrix(old);
   const oldX = current.x;
-  current.shape = newShape;
-  // try small shifts: 0, +1, -1, +2, -2
+  current.shape = rotated;
+  // try wall kicks
   const shifts = [0,1,-1,2,-2];
   let ok = false;
   for (const s of shifts){
@@ -353,16 +336,15 @@ function rotateCurrent(){
     }
   }
   if (!ok){
-    // restore
-    current.shape = oldShape;
+    // revert
+    current.shape = old;
     current.x = oldX;
   }
 }
 
-// move left/right/down
 function moveCurrent(dx,dy){
   if (!current) return false;
-  if (!collide(current, current.x + dx, current.y + dy)) {
+  if (!collide(current, current.x + dx, current.y + dy)){
     current.x += dx;
     current.y += dy;
     return true;
@@ -370,30 +352,28 @@ function moveCurrent(dx,dy){
   return false;
 }
 
-// hard drop one step
 function softDrop(){
   if (!current) return;
   if (!moveCurrent(0,1)){
-    // lock
     merge(current);
     sweep();
     spawnPiece();
   }
 }
 
-// hard drop to bottom
 function hardDrop(){
   if (!current) return;
-  while (moveCurrent(0,1)) {}
+  while (moveCurrent(0,1)){}
   merge(current);
   sweep();
   spawnPiece();
 }
 
-// update UI
+// UI
 function updateUI(){
   scoreEl.textContent = score;
   levelEl.textContent = level;
+  highscoreEl.textContent = highscore;
 }
 
 // game loop
@@ -405,9 +385,7 @@ function update(time=0){
     dropCounter += delta;
     if (dropCounter > dropInterval){
       dropCounter = 0;
-      // try move down
       if (!moveCurrent(0,1)){
-        // lock and spawn
         merge(current);
         sweep();
         spawnPiece();
@@ -418,7 +396,7 @@ function update(time=0){
   requestAnimationFrame(update);
 }
 
-// Input handlers
+// input: keyboard
 window.addEventListener('keydown', (e)=>{
   if (!running) return;
   if (paused && e.key !== 'p') return;
@@ -433,96 +411,73 @@ window.addEventListener('keydown', (e)=>{
   draw();
 });
 
-// Touch swipe handling (mobile)
-let touchActive = false;
+// touch swipe (mobile)
+let touchStartX = 0, touchStartY = 0, touchActive = false;
 window.addEventListener('touchstart', (e)=>{
   if (!running) return;
   const t = e.touches[0];
-  touchStartX = t.clientX; touchStartY = t.clientY;
-  touchActive = true;
+  touchStartX = t.clientX; touchStartY = t.clientY; touchActive = true;
 });
 window.addEventListener('touchmove', (e)=>{
   if (!touchActive || !running) return;
   const t = e.touches[0];
   const dx = t.clientX - touchStartX;
   const dy = t.clientY - touchStartY;
-  // interpret horizontal swipes for left/right (threshold)
-  if (Math.abs(dx) > 30 && Math.abs(dx) > Math.abs(dy)){
-    if (dx > 0){
-      moveCurrent(1,0);
-    } else {
-      moveCurrent(-1,0);
-    }
-    touchStartX = t.clientX; // update to allow consecutive moves
+  if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 30){
+    if (dx > 0) moveCurrent(1,0); else moveCurrent(-1,0);
+    touchStartX = t.clientX;
     draw();
-  } else if (Math.abs(dy) > 30 && Math.abs(dy) > Math.abs(dx)){
-    if (dy > 0){
-      // swipe down -> soft drop
-      softDrop();
-    } else {
-      // swipe up -> rotate
-      rotateCurrent();
-    }
+  } else if (Math.abs(dy) > Math.abs(dx) && Math.abs(dy) > 30){
+    if (dy > 0) softDrop(); else rotateCurrent();
     touchStartY = t.clientY;
     draw();
   }
 }, {passive:true});
 window.addEventListener('touchend', ()=> { touchActive = false; });
 
-// mobile on-screen buttons
-mLeft?.addEventListener('touchstart', (e)=> { e.preventDefault(); moveCurrent(-1,0); draw(); }, {passive:false});
-mRight?.addEventListener('touchstart', (e)=> { e.preventDefault(); moveCurrent(1,0); draw(); }, {passive:false});
-mUp?.addEventListener('touchstart', (e)=> { e.preventDefault(); rotateCurrent(); draw(); }, {passive:false});
-mDown?.addEventListener('touchstart', (e)=> { e.preventDefault(); softDrop(); draw(); }, {passive:false});
-mDrop?.addEventListener('touchstart', (e)=> { e.preventDefault(); hardDrop(); draw(); }, {passive:false});
+// mobile buttons
+btnLeft?.addEventListener('click', ()=> { if (running) moveCurrent(-1,0); draw(); });
+btnRight?.addEventListener('click', ()=> { if (running) moveCurrent(1,0); draw(); });
+btnUp?.addEventListener('click', ()=> { if (running) rotateCurrent(); draw(); });
+btnDown?.addEventListener('click', ()=> { if (running) softDrop(); draw(); });
+btnDrop?.addEventListener('click', ()=> { if (running) hardDrop(); draw(); });
 
 // buttons
 startBtn.addEventListener('click', ()=>{
-  if (!running){
-    startGame();
-  }
-  paused = false;
-  pauseBtn.textContent = 'Duraklat';
+  if (!running){ startGame(); }
+  paused = false; pauseBtn.textContent = 'Duraklat';
 });
 pauseBtn.addEventListener('click', ()=>{
   paused = !paused;
   pauseBtn.textContent = paused ? 'Devam Et' : 'Duraklat';
 });
-resetBtn.addEventListener('click', ()=> {
-  init();
-});
+resetBtn.addEventListener('click', init);
 
-// init & start
+// init & helper
 function init(){
   createEmptyBoard();
   current = null;
-  nextPiece = randomPiece();
+  nextPiece = randPiece();
   spawnPiece();
   score = 0; level = 1; rowsClearedTotal = 0;
-  dropInterval = 800;
-  running = false;
-  paused = false;
+  dropInterval = 800; dropCounter = 0; lastTime = 0;
+  running = false; paused = false;
   updateUI();
   resizeCanvas();
-  draw();
+  requestAnimationFrame(update);
 }
 
-// start the actual play
 function startGame(){
   if (!running){
     running = true;
-    // ensure a current piece exists
     if (!current) spawnPiece();
     lastTime = 0;
     requestAnimationFrame(update);
   }
 }
 
-// start immediately
+// start
 init();
-
-// utility: simple clamp
-function clamp(v,a,b){ return Math.max(a, Math.min(b, v)); }
 
 </script>
 </body>
