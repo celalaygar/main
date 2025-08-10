@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Basit Endless Runner</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body, html {
+      margin: 0; padding: 0; height: 100%;
+      overflow-x: hidden;
+      background: linear-gradient(to top, #90cdf4, #3182ce);
+      -webkit-tap-highlight-color: transparent;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+    #game {
+      position: relative;
+      width: 100%;
+      max-width: 480px;
+      height: 300px;
+      background: #c6f6d5;
+      border-radius: 0.75rem;
+      overflow: hidden;
+      box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+      margin: 20px auto;
+    }
+    #player {
+      position: absolute;
+      bottom: 0;
+      left: 50px;
+      width: 40px;
+      height: 60px;
+      background: #f56565;
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+      transition: bottom 0.2s ease-out;
+      z-index: 10;
+    }
+    .obstacle {
+      position: absolute;
+      bottom: 0;
+      width: 30px;
+      height: 50px;
+      background: #2d3748;
+      border-radius: 0.3rem;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.4);
+      animation-timing-function: linear;
+    }
+  </style>
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen select-none">
+
+  <h1 class="text-3xl font-bold text-white mb-4 select-none">Basit Endless Runner</h1>
+
+  <div id="game"></div>
+
+  <div class="flex justify-between max-w-md w-full px-4">
+    <div class="text-white font-semibold text-lg select-none">Puan: <span id="score">0</span></div>
+    <button id="restartBtn" class="bg-white text-blue-600 font-bold px-4 py-2 rounded shadow hover:bg-gray-100 transition select-none">Yeniden Başlat</button>
+  </div>
+
+  <script>
+    const game = document.getElementById('game');
+    const scoreEl = document.getElementById('score');
+    const restartBtn = document.getElementById('restartBtn');
+
+    const player = document.createElement('div');
+    player.id = 'player';
+    game.appendChild(player);
+
+    let isJumping = false;
+    let gravity = 0;
+    let playerBottom = 0;
+
+    let obstacles = [];
+    let gameSpeed = 4; // engel hız
+    let spawnInterval = 2000; // milisaniye
+    let score = 0;
+    let gameOver = false;
+
+    // Zıplama fonksiyonu
+    function jump() {
+      if (isJumping) return;
+      isJumping = true;
+      gravity = 20;
+    }
+
+    // Engel oluştur
+    function createObstacle() {
+      const obstacle = document.createElement('div');
+      obstacle.classList.add('obstacle');
+      obstacle.style.right = '-40px';
+      obstacle.style.height = (30 + Math.random() * 30) + 'px';
+      obstacle.style.bottom = '0px';
+      game.appendChild(obstacle);
+      obstacles.push(obstacle);
+    }
+
+    // Oyun döngüsü
+    function gameLoop() {
+      if (gameOver) return;
+
+      // Player zıplama fizik
+      playerBottom += gravity;
+      gravity -= 1;
+      if (playerBottom <= 0) {
+        playerBottom = 0;
+        isJumping = false;
+        gravity = 0;
+      }
+      player.style.bottom = playerBottom + 'px';
+
+      // Engelleri hareket ettir
+      obstacles.forEach((obs, index) => {
+        const currentRight = parseFloat(obs.style.right);
+        obs.style.right = (currentRight + gameSpeed) + 'px';
+
+        // Engel ekrandan çıktıysa temizle ve skor artır
+        if (currentRight + obs.offsetWidth > game.offsetWidth + 50) {
+          game.removeChild(obs);
+          obstacles.splice(index, 1);
+          if (!gameOver) {
+            score++;
+            scoreEl.textContent = score;
+          }
+        }
+
+        // Çarpışma kontrolü
+        const playerRect = player.getBoundingClientRect();
+        const obsRect = obs.getBoundingClientRect();
+
+        if (
+          playerRect.right > obsRect.left &&
+          playerRect.left < obsRect.right &&
+          playerRect.bottom > obsRect.top &&
+          playerRect.top < obsRect.bottom
+        ) {
+          endGame();
+        }
+      });
+
+      requestAnimationFrame(gameLoop);
+    }
+
+    // Engel oluşturma zamanlayıcısı
+    let obstacleTimer = null;
+    function startObstacleTimer() {
+      obstacleTimer = setInterval(() => {
+        if (!gameOver) createObstacle();
+      }, spawnInterval);
+    }
+
+    // Oyunu başlat
+    function startGame() {
+      resetGame();
+      startObstacleTimer();
+      gameLoop();
+    }
+
+    // Oyunu durdur ve oyun bitti mesajı
+    function endGame() {
+      gameOver = true;
+      clearInterval(obstacleTimer);
+      messageEl.textContent = "Oyun Bitti! Puanınız: " + score;
+      alert("Oyun Bitti! Puanınız: " + score);
+    }
+
+    // Oyunu sıfırla
+    function resetGame() {
+      gameOver = false;
+      score = 0;
+      scoreEl.textContent = score;
+      obstacles.forEach(obs => {
+        if (game.contains(obs)) game.removeChild(obs);
+      });
+      obstacles = [];
+      player.style.bottom = '0px';
+      isJumping = false;
+      gravity = 0;
+      messageEl.textContent = '';
+    }
+
+    // Klavye ve dokunmatik zıplama kontrolü
+    window.addEventListener('keydown', e => {
+      if (e.code === 'Space' || e.code === 'ArrowUp') {
+        e.preventDefault();
+        jump();
+      }
+    });
+    window.addEventListener('touchstart', e => {
+      e.preventDefault();
+      jump();
+    }, { passive: false });
+
+    // Restart butonu
+    restartBtn.addEventListener('click', () => {
+      resetGame();
+      startObstacleTimer();
+      gameLoop();
+    });
+
+    // Mesaj alanı
+    const messageEl = document.createElement('p');
+    messageEl.className = "text-white text-center mt-4 font-semibold";
+    game.after(messageEl);
+
+    // Oyunu başlat
+    startGame();
+  </script>
+
+</body>
+</html>
