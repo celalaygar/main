@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Simon Says Oyunu</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .btn {
+      width: 120px;
+      height: 120px;
+      border-radius: 1rem;
+      box-shadow: 0 4px #666;
+      transition: filter 0.2s;
+      user-select: none;
+      touch-action: manipulation;
+    }
+    .btn:active {
+      box-shadow: 0 2px #444;
+      transform: translateY(2px);
+    }
+    .btn.flash {
+      filter: brightness(150%);
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-purple-600 to-indigo-700 min-h-screen flex flex-col items-center justify-center p-4">
+
+  <h1 class="text-3xl font-bold mb-6 text-white select-none">Simon Says Oyunu</h1>
+
+  <div class="grid grid-cols-2 gap-6 max-w-sm w-full mb-6">
+    <button id="red" class="btn bg-red-600 hover:bg-red-700 active:bg-red-800"></button>
+    <button id="green" class="btn bg-green-600 hover:bg-green-700 active:bg-green-800"></button>
+    <button id="blue" class="btn bg-blue-600 hover:bg-blue-700 active:bg-blue-800"></button>
+    <button id="yellow" class="btn bg-yellow-400 hover:bg-yellow-500 active:bg-yellow-600"></button>
+  </div>
+
+  <div class="text-white text-center mb-6 select-none">
+    <p>Tur: <span id="round">0</span></p>
+    <p>Puan: <span id="score">0</span></p>
+  </div>
+
+  <button id="startBtn" class="bg-white text-indigo-700 font-bold px-6 py-2 rounded shadow hover:bg-gray-100 transition select-none">Oyunu Başlat</button>
+
+  <p id="message" class="text-white mt-4 min-h-[1.5rem] font-semibold select-none"></p>
+
+  <script>
+    const buttons = {
+      red: document.getElementById('red'),
+      green: document.getElementById('green'),
+      blue: document.getElementById('blue'),
+      yellow: document.getElementById('yellow')
+    };
+    const roundEl = document.getElementById('round');
+    const scoreEl = document.getElementById('score');
+    const messageEl = document.getElementById('message');
+    const startBtn = document.getElementById('startBtn');
+
+    let sequence = [];
+    let playerSequence = [];
+    let round = 0;
+    let score = 0;
+    let acceptingInput = false;
+
+    function sleep(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    async function flashButton(color) {
+      buttons[color].classList.add('flash');
+      await sleep(500);
+      buttons[color].classList.remove('flash');
+      await sleep(200);
+    }
+
+    async function playSequence() {
+      acceptingInput = false;
+      for (const color of sequence) {
+        await flashButton(color);
+      }
+      acceptingInput = true;
+      playerSequence = [];
+      messageEl.textContent = "Sıra sende!";
+    }
+
+    function addRandomColor() {
+      const colors = Object.keys(buttons);
+      const randomColor = colors[Math.floor(Math.random() * colors.length)];
+      sequence.push(randomColor);
+    }
+
+    function resetGame() {
+      sequence = [];
+      playerSequence = [];
+      round = 0;
+      score = 0;
+      roundEl.textContent = round;
+      scoreEl.textContent = score;
+      messageEl.textContent = "";
+      acceptingInput = false;
+      startBtn.disabled = false;
+      startBtn.textContent = "Oyunu Başlat";
+    }
+
+    async function nextRound() {
+      round++;
+      roundEl.textContent = round;
+      addRandomColor();
+      await playSequence();
+    }
+
+    async function handlePlayerInput(color) {
+      if (!acceptingInput) return;
+      playerSequence.push(color);
+
+      // Kısa ışık efekti kullanıcı butonuna bastığında
+      buttons[color].classList.add('flash');
+      setTimeout(() => buttons[color].classList.remove('flash'), 200);
+
+      // Doğruluk kontrolü
+      const currentIndex = playerSequence.length - 1;
+      if (playerSequence[currentIndex] !== sequence[currentIndex]) {
+        messageEl.textContent = "Yanlış! Oyun bitti.";
+        acceptingInput = false;
+        startBtn.disabled = false;
+        startBtn.textContent = "Tekrar Oyna";
+        return;
+      }
+
+      if (playerSequence.length === sequence.length) {
+        score += round * 10;
+        scoreEl.textContent = score;
+        messageEl.textContent = "Doğru! Bir sonraki tura geçiliyor...";
+        acceptingInput = false;
+        await sleep(1000);
+        nextRound();
+      }
+    }
+
+    // Butonlara tıklama veya dokunma olayları
+    Object.keys(buttons).forEach(color => {
+      buttons[color].addEventListener('click', () => handlePlayerInput(color));
+      buttons[color].addEventListener('touchstart', e => {
+        e.preventDefault();
+        handlePlayerInput(color);
+      }, { passive: false });
+    });
+
+    // Oyunu başlat butonu
+    startBtn.addEventListener('click', () => {
+      resetGame();
+      startBtn.disabled = true;
+      startBtn.textContent = "Oyun Devam Ediyor...";
+      nextRound();
+    });
+  </script>
+</body>
+</html>
