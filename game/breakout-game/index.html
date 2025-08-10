@@ -167,4 +167,321 @@
 
   function adaptSizes(){
     paddle.w = Math.max(80, Math.floor(BASE_PADDLE_W * scale));
-    pad
+    paddle.h = Math.max(10, Math.floor(BASE_PADDLE_H * scale));
+    paddle.y = HEIGHT - paddle.h - Math.floor(18 * scale);
+    paddle.x = Math.floor((WIDTH - paddle.w)/2);
+
+    ball.r = Math.max(6, Math.floor(BASE_BALL_R * scale));
+    ball.x = paddle.x + Math.floor(paddle.w / 2);
+    ball.y = paddle.y - ball.r - 6;
+    ball.vx = 0;
+    ball.vy = -5 * scale;
+    ball.stuck = true;
+    paddle.speed = Math.max(6, Math.floor(10 * scale));
+  }
+
+  // Build bricks adaptive columns
+  function buildBricks(){
+    bricks = [];
+    const cols = Math.max(6, Math.floor((WIDTH / BASE.width) * BRICK_COLS_BASE));
+    const areaW = WIDTH - (BRICK_PADDING * 2);
+    const brickW = Math.floor((areaW - (cols -1) * BRICK_PADDING) / cols);
+    const rows = BRICK_ROWS + Math.floor((level-1)/2);
+    for (let r=0;r<rows;r++){
+      for (let c=0;c<cols;c++){
+        bricks.push({
+          x: BRICK_PADDING + c*(brickW + BRICK_PADDING),
+          y: BASE_TOP * scale + r * (BRICK_HEIGHT * scale + BRICK_PADDING),
+          w: brickW,
+          h: Math.floor(BRICK_HEIGHT * scale),
+          hits: Math.min(3, 1 + Math.floor((r + level)/3)),
+          alive: true
+        });
+      }
+    }
+    brickCountEl.textContent = bricks.filter(b=>b.alive).length;
+  }
+
+  // Drawing helpers
+  function roundRect(ctx,x,y,w,h,r,fill){
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.arcTo(x + w, y, x + w, y + h, r);
+    ctx.arcTo(x + w, y + h, x, y + h, r);
+    ctx.arcTo(x, y + h, x, y, r);
+    ctx.arcTo(x, y, x + w, y, r);
+    ctx.closePath();
+    if (fill) ctx.fill();
+  }
+
+  function drawPaddle(){
+    const grad = ctx.createLinearGradient(paddle.x, paddle.y, paddle.x + paddle.w, paddle.y);
+    grad.addColorStop(0, '#f97316'); grad.addColorStop(1, '#fb7185');
+    ctx.fillStyle = grad;
+    roundRect(ctx, paddle.x, paddle.y, paddle.w, paddle.h, 8 * scale, true);
+    // glossy highlight
+    ctx.fillStyle = 'rgba(255,255,255,0.12)';
+    ctx.fillRect(paddle.x + paddle.w*0.08, paddle.y + paddle.h*0.12, paddle.w*0.84, paddle.h*0.28);
+  }
+
+  function drawBall(){
+    ctx.beginPath();
+    ctx.fillStyle = '#ffd43b';
+    ctx.arc(ball.x, ball.y, ball.r, 0, Math.PI*2);
+    ctx.fill();
+    ctx.fillStyle = 'rgba(0,0,0,0.22)';
+    ctx.beginPath();
+    ctx.arc(ball.x + ball.r*0.25, ball.y + ball.r*0.25, ball.r*0.7, 0, Math.PI*2);
+    ctx.fill();
+  }
+
+  function drawBricks(){
+    for (const b of bricks){
+      if (!b.alive) continue;
+      let col;
+      if (b.hits >= 3) col = ['#ef4444','#f97316'];
+      else if (b.hits === 2) col = ['#60a5fa','#3b82f6'];
+      else col = ['#34d399','#059669'];
+      const grad = ctx.createLinearGradient(b.x, b.y, b.x + b.w, b.y + b.h);
+      grad.addColorStop(0, col[0]);
+      grad.addColorStop(1, col[1]);
+      ctx.fillStyle = grad;
+      roundRect(ctx, b.x, b.y, b.w, b.h, 6 * scale, true);
+      ctx.strokeStyle = 'rgba(0,0,0,0.18)';
+      ctx.strokeRect(b.x, b.y, b.w, b.h);
+    }
+  }
+
+  function drawHUD(){
+    ctx.fillStyle = 'rgba(255,255,255,0.02)';
+    ctx.fillRect(0, 0, WIDTH, 48 * scale);
+    ctx.fillStyle = '#fff';
+    ctx.font = `${12 * scale}px Inter, system-ui`;
+    ctx.fillText(`Puan: ${score}`, 12 * scale, 30 * scale);
+    ctx.fillText(`Can: ${lives}`, 128 * scale, 30 * scale);
+    ctx.fillText(`Seviye: ${level}`, 220 * scale, 30 * scale);
+  }
+
+  function draw(){
+    // bg
+    ctx.clearRect(0,0,WIDTH,HEIGHT);
+    ctx.fillStyle = 'rgba(255,255,255,0.01)';
+    ctx.fillRect(0,0,WIDTH,HEIGHT);
+
+    drawBricks();
+    drawPaddle();
+    drawBall();
+    drawHUD();
+  }
+
+  // Collision & physics
+  function rectCircleColliding(cx, cy, r, rx, ry, rw, rh){
+    const closestX = clamp(cx, rx, rx + rw);
+    const closestY = clamp(cy, ry, ry + rh);
+    const dx = cx - closestX; const dy = cy - closestY;
+    return (dx*dx + dy*dy) <= (r*r);
+  }
+  function clamp(v,a,b){ return Math.max(a, Math.min(b, v)); }
+
+  function resetBall(){
+    ball.stuck = true;
+    ball.x = paddle.x + paddle.w/2;
+    ball.y = paddle.y - ball.r - 6;
+    ball.vx = 0;
+    ball.vy = -5 * scale;
+  }
+
+  function resetLevel(increment=false){
+    if (increment) level++;
+    adaptSizes();
+    buildBricks();
+    paddle.x = Math.floor((WIDTH - paddle.w) / 2);
+    resetBall();
+    updateUI();
+  }
+
+  function updateUI(){
+    scoreEl.textContent = score;
+    livesEl.textContent = lives;
+    levelEl.textContent = level;
+    highscoreEl.textContent = highscore;
+    brickCountEl.textContent = bricks.filter(b=>b.alive).length;
+    muteBtn.textContent = muted ? 'Ses: Kapalı' : 'Ses: Açık';
+    pauseBtn.textContent = paused ? 'Devam Et' : 'Duraklat';
+  }
+
+  // Step logic
+  function step(){
+    if (!running || paused) return;
+    // ball movement
+    if (!ball.stuck){
+      ball.x += ball.vx;
+      ball.y += ball.vy;
+    } else {
+      // follow paddle
+      ball.x = paddle.x + paddle.w/2;
+      ball.y = paddle.y - ball.r - 6;
+    }
+
+    // wall collisions
+    if (ball.x - ball.r <= 0){ ball.x = ball.r; ball.vx *= -1; playBeep(600,0.03); }
+    if (ball.x + ball.r >= WIDTH){ ball.x = WIDTH - ball.r; ball.vx *= -1; playBeep(600,0.03); }
+    if (ball.y - ball.r <= 48*scale){ ball.y = 48*scale + ball.r; ball.vy *= -1; playBeep(640,0.03); }
+
+    // paddle collision
+    if (rectCircleColliding(ball.x, ball.y, ball.r, paddle.x, paddle.y, paddle.w, paddle.h) && ball.vy > 0){
+      const hitPos = (ball.x - (paddle.x + paddle.w/2)) / (paddle.w/2); // -1..1
+      const angle = hitPos * (Math.PI/3);
+      const speed = Math.hypot(ball.vx, ball.vy) || (6*scale);
+      ball.vx = speed * Math.sin(angle);
+      ball.vy = -Math.abs(speed * Math.cos(angle));
+      // add slight paddle motion
+      playBeep(900 + Math.abs(hitPos)*300, 0.02, 0.06);
+    }
+
+    // brick collisions
+    for (const b of bricks){
+      if (!b.alive) continue;
+      if (rectCircleColliding(ball.x, ball.y, ball.r, b.x, b.y, b.w, b.h)){
+        b.hits--;
+        if (b.hits <= 0){ b.alive = false; score += 100; playBeep(1200,0.03,0.09); }
+        else { score += 25; playBeep(1000,0.02,0.06); }
+        // simple rebound: choose axis by overlap
+        const overlapX = Math.min(ball.x + ball.r - b.x, b.x + b.w - (ball.x - ball.r));
+        const overlapY = Math.min(ball.y + ball.r - b.y, b.y + b.h - (ball.y - ball.r));
+        if (overlapX < overlapY) ball.vx *= -1; else ball.vy *= -1;
+        break;
+      }
+    }
+
+    // bottom -> lose life
+    if (ball.y - ball.r > HEIGHT){
+      lives--;
+      playBeep(200,0.18,0.12);
+      if (lives <= 0){
+        running = false;
+        if (score > highscore){ highscore = score; localStorage.setItem('breakoutHighscore', highscore); }
+        updateUI();
+        setTimeout(()=> alert(`Oyun bitti! Skor: ${score}`), 80);
+      } else {
+        resetBall();
+      }
+    }
+
+    // level clear
+    if (bricks.filter(b=>b.alive).length === 0){
+      score += 500;
+      resetLevel(true);
+      playBeep(1600,0.12,0.12);
+    }
+
+    updateUI();
+  }
+
+  // Launch ball
+  function launchBall(){
+    if (!running){ running = true; paused = false; tryInitAudio(); }
+    if (!ball.stuck) return;
+    ball.stuck = false;
+    ball.vx = (Math.random() * 6 - 3) * scale;
+    ball.vy = -6 * scale;
+    playBeep(1000,0.04,0.08);
+  }
+
+  // Game loop
+  let last = 0;
+  function loop(ts){
+    const dt = ts - last;
+    step();
+    draw();
+    last = ts;
+    requestAnimationFrame(loop);
+  }
+
+  // Controls: mouse, touch, keyboard
+  // Mouse move paddle
+  let isDragging = false;
+  canvas.addEventListener('mousemove', (e)=>{
+    const rect = canvas.getBoundingClientRect();
+    const mx = e.clientX - rect.left;
+    paddle.x = clamp(mx - paddle.w/2, 6*scale, WIDTH - paddle.w - 6*scale);
+    if (ball.stuck) ball.x = paddle.x + paddle.w/2;
+  });
+  canvas.addEventListener('mousedown', ()=> isDragging = true);
+  window.addEventListener('mouseup', ()=> isDragging = false);
+
+  // Touch drag
+  canvas.addEventListener('touchstart', (e)=>{
+    e.preventDefault();
+    isDragging = true;
+    const t = e.touches[0];
+    const rect = canvas.getBoundingClientRect();
+    const tx = t.clientX - rect.left;
+    paddle.x = clamp(tx - paddle.w/2, 6*scale, WIDTH - paddle.w - 6*scale);
+    if (ball.stuck) ball.x = paddle.x + paddle.w/2;
+  }, {passive:false});
+  canvas.addEventListener('touchmove', (e)=>{
+    e.preventDefault();
+    const t = e.touches[0];
+    const rect = canvas.getBoundingClientRect();
+    const tx = t.clientX - rect.left;
+    paddle.x = clamp(tx - paddle.w/2, 6*scale, WIDTH - paddle.w - 6*scale);
+    if (ball.stuck) ball.x = paddle.x + paddle.w/2;
+  }, {passive:false});
+  canvas.addEventListener('touchend', ()=> { isDragging = false; });
+
+  // Keyboard
+  window.addEventListener('keydown', (e)=>{
+    if (e.code === 'ArrowLeft'){ paddle.x = clamp(paddle.x - paddle.speed, 6*scale, WIDTH - paddle.w - 6*scale); if (ball.stuck) ball.x = paddle.x + paddle.w/2; }
+    if (e.code === 'ArrowRight'){ paddle.x = clamp(paddle.x + paddle.speed, 6*scale, WIDTH - paddle.w - 6*scale); if (ball.stuck) ball.x = paddle.x + paddle.w/2; }
+    if (e.code === 'Space'){ launchBall(); e.preventDefault(); }
+  });
+
+  // Mobile buttons
+  btnLeft?.addEventListener('touchstart', ()=> { paddle.x = clamp(paddle.x - paddle.speed*3, 6*scale, WIDTH - paddle.w - 6*scale); if (ball.stuck) ball.x = paddle.x + paddle.w/2; }, {passive:true});
+  btnLeft?.addEventListener('click', ()=> { paddle.x = clamp(paddle.x - paddle.speed*3, 6*scale, WIDTH - paddle.w - 6*scale); if (ball.stuck) ball.x = paddle.x + paddle.w/2; });
+  btnRight?.addEventListener('touchstart', ()=> { paddle.x = clamp(paddle.x + paddle.speed*3, 6*scale, WIDTH - paddle.w - 6*scale); if (ball.stuck) ball.x = paddle.x + paddle.w/2; }, {passive:true});
+  btnRight?.addEventListener('click', ()=> { paddle.x = clamp(paddle.x + paddle.speed*3, 6*scale, WIDTH - paddle.w - 6*scale); if (ball.stuck) ball.x = paddle.x + paddle.w/2; });
+  btnLaunch?.addEventListener('click', ()=> launchBall());
+  btnPause?.addEventListener('click', ()=> { paused = !paused; updateUI(); });
+
+  // Buttons
+  startBtn.addEventListener('click', ()=>{
+    if (!running) running = true;
+    paused = false;
+    tryInitAudio();
+    updateUI();
+  });
+  pauseBtn.addEventListener('click', ()=>{
+    paused = !paused;
+    updateUI();
+  });
+  resetBtn.addEventListener('click', ()=>{
+    level = 1; score = 0; lives = 3; running = false; paused = false;
+    resetLevel(false);
+    if (score > highscore){ highscore = score; localStorage.setItem('breakoutHighscore', highscore); }
+    updateUI();
+  });
+  muteBtn.addEventListener('click', ()=>{
+    muted = !muted;
+    updateUI();
+  });
+
+  // Init
+  function init(){
+    adaptSizes();
+    resetLevel(false);
+    score = 0; lives = 3; level = 1; running = false; paused = false;
+    updateUI();
+    resizeCanvas();
+    requestAnimationFrame(loop);
+  }
+
+  init();
+
+  // Utility function
+  function clamp(v,a,b){ return Math.max(a, Math.min(b, v)); }
+
+  </script>
+</body>
+</html>
