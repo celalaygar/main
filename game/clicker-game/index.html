@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Clicker Game • Tailwind + JS</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* küçük ekstra stiller */
+    body { -webkit-tap-highlight-color: transparent; }
+    .pop-anim {
+      transform-origin: center;
+      transition: transform 140ms cubic-bezier(.2,.9,.2,1);
+    }
+    .pop-anim:active { transform: scale(.95); }
+    .float-point {
+      position: absolute;
+      font-weight: 700;
+      pointer-events: none;
+      filter: drop-shadow(0 6px 12px rgba(0,0,0,0.35));
+      transform: translateY(0);
+      opacity: 1;
+      transition: transform 700ms ease-out, opacity 700ms ease-out;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-700 text-slate-50 flex items-center justify-center p-4">
+
+  <div id="app" class="w-full max-w-4xl bg-white/5 rounded-xl shadow-xl p-4 md:p-6">
+    <header class="flex flex-col md:flex-row items-center justify-between gap-4 mb-4">
+      <div>
+        <h1 class="text-2xl md:text-3xl font-bold">Clicker Game 🎯</h1>
+        <p class="text-sm text-slate-300 mt-1">Tıkla, kazan, otomatik yükselt ve skorunu büyüt!</p>
+      </div>
+
+      <div class="flex items-center gap-4">
+        <div class="bg-white/6 px-4 py-2 rounded-md text-sm text-slate-100 font-mono">
+          Puan: <span id="score">0</span>
+        </div>
+        <div class="bg-white/6 px-4 py-2 rounded-md text-sm text-slate-100 font-mono">
+          CPS: <span id="cps">0</span>
+        </div>
+        <button id="resetBtn" class="ml-2 bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded-md text-sm">Sıfırla</button>
+      </div>
+    </header>
+
+    <main class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <!-- oyun ana panel -->
+      <section class="md:col-span-2 flex flex-col items-center gap-4">
+        <div class="w-full rounded-lg bg-gradient-to-b from-yellow-400 to-yellow-300 p-6 shadow-inner relative overflow-hidden">
+          <button id="bigBtn" class="w-full md:w-2/3 mx-auto bg-yellow-500 hover:bg-yellow-600 text-slate-900 font-bold text-xl md:text-2xl py-6 rounded-lg pop-anim shadow-lg">
+            TIKLA!
+          </button>
+          <div id="floatLayer" class="absolute inset-0 pointer-events-none"></div>
+        </div>
+
+        <div class="w-full grid grid-cols-2 gap-3">
+          <div class="bg-white/6 p-3 rounded-md">
+            <div class="text-xs text-slate-300">Her tık</div>
+            <div class="text-2xl font-bold" id="perClick">1</div>
+          </div>
+          <div class="bg-white/6 p-3 rounded-md">
+            <div class="text-xs text-slate-300">Toplam tıklama</div>
+            <div class="text-2xl font-bold" id="totalClicks">0</div>
+          </div>
+        </div>
+
+        <div class="w-full bg-white/6 p-3 rounded-md">
+          <div class="text-sm text-slate-200 mb-2 font-semibold">Hızlı İpuçları</div>
+          <ul class="text-sm text-slate-300 list-disc list-inside space-y-1">
+            <li>Butona hızlıca tıklayarak puan kazan.</li>
+            <li>Auto-Clicker satın alarak otomatik gelir elde et.</li>
+            <li>Multiplier ile her tıklamanın ve CPS'in değerini artır.</li>
+            <li>Oyun verileri tarayıcıda saklanır (localStorage).</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- shop / upgrades -->
+      <aside class="flex flex-col gap-4">
+        <div class="bg-white/6 p-3 rounded-md">
+          <div class="flex items-center justify-between mb-2">
+            <div class="text-sm text-slate-200 font-semibold">Mağaza</div>
+            <div class="text-xs text-slate-300">Puan: <span id="scoreSide">0</span></div>
+          </div>
+
+          <div id="shop" class="space-y-3">
+            <!-- öğeler JS ile eklenecek -->
+          </div>
+        </div>
+
+        <div class="bg-white/6 p-3 rounded-md">
+          <div class="text-sm text-slate-200 font-semibold mb-2">İlerlemeni Kaydet</div>
+          <div class="text-sm text-slate-300">Oyun otomatik olarak kaydedilir. İstersen manuel kaydet veya yükle.</div>
+          <div class="mt-3 flex gap-2">
+            <button id="saveBtn" class="flex-1 bg-emerald-500 hover:bg-emerald-600 text-black px-3 py-2 rounded-md">Kaydet</button>
+            <button id="loadBtn" class="flex-1 bg-slate-600 hover:bg-slate-700 text-white px-3 py-2 rounded-md">Yükle</button>
+          </div>
+        </div>
+      </aside>
+    </main>
+
+    <footer class="mt-6 text-center text-xs text-slate-400">Responsive • Tailwind + Vanilla JS • LocalStorage</footer>
+  </div>
+
+<script>
+/* ===========================
+   Basit Clicker Game Logic
+   ===========================*/
+
+const LS_KEY = 'clicker_save_v1';
+
+// DOM
+const scoreEl = document.getElementById('score');
+const scoreSideEl = document.getElementById('scoreSide');
+const cpsEl = document.getElementById('cps');
+const bigBtn = document.getElementById('bigBtn');
+const perClickEl = document.getElementById('perClick');
+const totalClicksEl = document.getElementById('totalClicks');
+const shopEl = document.getElementById('shop');
+const floatLayer = document.getElementById('floatLayer');
+const saveBtn = document.getElementById('saveBtn');
+const loadBtn = document.getElementById('loadBtn');
+const resetBtn = document.getElementById('resetBtn');
+
+// Game state
+let state = {
+  score: 0,
+  perClick: 1,
+  cps: 0, // points per second
+  totalClicks: 0,
+  items: {
+    autoClicker: { level: 0, basePrice: 50, cpsPerLevel: 1 },
+    multiplier: { level: 0, basePrice: 100, multiplierPerLevel: 0.15 } // increases perClick by 15% each
+  },
+  lastTick: performance.now()
+};
+
+// Shop definitions (ordered)
+const SHOP_DEFS = [
+  {
+    id: 'autoClicker',
+    name: 'Auto-Clicker',
+    desc: 'Her seviye CPS arttırır.',
+    priceFn: (lvl, base) => Math.floor(base * Math.pow(1.6, lvl)),
+    onBuy: (lvlBefore) => {
+      // purchasing increases level handled in buy
+    },
+    renderBadge: () => 'CPS'
+  },
+  {
+    id: 'multiplier',
+    name: 'Multiplier',
+    desc: 'Her seviye tıklama değerini ve CPS\'i artırır.',
+    priceFn: (lvl, base) => Math.floor(base * Math.pow(1.7, lvl)),
+    onBuy: (lvlBefore) => {},
+    renderBadge: () => 'x'
+  }
+];
+
+// Utilities
+function fmt(n) {
+  if (n >= 1e9) return (n/1e9).toFixed(2) + 'B';
+  if (n >= 1e6) return (n/1e6).toFixed(2) + 'M';
+  if (n >= 1e3) return (n/1e3).toFixed(2) + 'k';
+  return Math.floor(n);
+}
+
+// Floating point popup when clicking
+function spawnFloat(text, xPercent=50) {
+  const el = document.createElement('div');
+  el.className = 'float-point text-yellow-300';
+  el.style.left = xPercent + '%';
+  el.style.top = '40%';
+  el.style.transform = 'translate(-50%, 0)';
+  el.textContent = text;
+  floatLayer.appendChild(el);
+  requestAnimationFrame(()=> {
+    el.style.transform = 'translate(-50%, -120px)';
+    el.style.opacity = '0';
+  });
+  setTimeout(()=> el.remove(), 750);
+}
+
+// Update UI
+function updateUI() {
+  scoreEl.textContent = fmt(state.score);
+  scoreSideEl.textContent = fmt(state.score);
+  cpsEl.textContent = (Math.round(state.cps * 100)/100).toFixed(2);
+  perClickEl.textContent = Math.round(state.perClick * 100)/100;
+  totalClicksEl.textContent = state.totalClicks;
+  renderShop();
+}
+
+// Shop render
+function renderShop() {
+  shopEl.innerHTML = '';
+  SHOP_DEFS.forEach(def => {
+    const item = state.items[def.id];
+    const price = def.priceFn(item.level, item.basePrice || item.basePrice);
+    const canBuy = state.score >= price;
+    const card = document.createElement('div');
+    card.className = 'bg-white/4 p-3 rounded-md flex flex-col gap-2';
+    card.innerHTML = `
+      <div class="flex items-center justify-between">
+        <div>
+          <div class="font-semibold text-slate-100">${def.name}</div>
+          <div class="text-xs text-slate-300">${def.desc}</div>
+        </div>
+        <div class="text-right">
+          <div class="text-sm text-slate-200">${def.renderBadge()}</div>
+          <div class="text-lg font-bold text-slate-100">${fmt(price)}</div>
+        </div>
+      </div>
+      <div class="flex items-center justify-between gap-2">
+        <div class="text-xs text-slate-300">Seviye: <span class="font-mono">${item.level}</span></div>
+        <button class="buyBtn bg-emerald-500 hover:bg-emerald-600 text-black px-3 py-1 rounded-md text-sm ${canBuy ? '' : 'opacity-50 cursor-not-allowed'}">Satın Al</button>
+      </div>
+    `;
+    const btn = card.querySelector('.buyBtn');
+    btn.addEventListener('click', ()=> {
+      if (!canBuy) return;
+      buyItem(def.id);
+    });
+    shopEl.appendChild(card);
+  });
+}
+
+// Buy logic
+function buyItem(id) {
+  const def = SHOP_DEFS.find(d => d.id === id);
+  const item = state.items[id];
+  const price = def.priceFn(item.level, item.basePrice || item.basePrice);
+  if (state.score < price) return;
+  state.score -= price;
+  item.level += 1;
+
+  // apply effects
+  if (id === 'autoClicker') {
+    // increase cps by cpsPerLevel
+    state.cps += item.cpsPerLevel;
+  } else if (id === 'multiplier') {
+    // each level increases perClick and cps by multiplierPerLevel fraction of current perClick/cps baseline
+    const inc = item.multiplierPerLevel;
+    state.perClick *= (1 + inc);
+    state.cps *= (1 + inc);
+  }
+
+  updateUI();
+  saveGame();
+  // small feedback
+  spawnFloat('-' + fmt(price), 80);
+}
+
+// Clicking
+bigBtn.addEventListener('click', (e)=> {
+  const rect = bigBtn.getBoundingClientRect();
+  // award points
+  state.score += state.perClick;
+  state.totalClicks += 1;
+  updateUI();
+  // spawn float near click
+  const clickX = ((e.clientX - rect.left) / rect.width) * 100;
+  spawnFloat('+' + Math.round(state.perClick), clickX);
+  // tiny pop
+  bigBtn.animate([{ transform: 'scale(1)' }, { transform: 'scale(0.97)' }, { transform: 'scale(1)' }], { duration: 120, easing: 'ease-out' });
+});
+
+// Passive CPS ticker (per second)
+let lastFrame = performance.now();
+function tick(now) {
+  const dt = now - lastFrame;
+  if (dt >= 1000) {
+    // apply cps each second
+    state.score += state.cps * Math.floor(dt / 1000);
+    lastFrame = now;
+    updateUI();
+    saveGameThrottled();
+  }
+  requestAnimationFrame(tick);
+}
+
+// Save/load
+function saveGame() {
+  try {
+    localStorage.setItem(LS_KEY, JSON.stringify(state));
+  } catch(e) { console.warn('save failed', e); }
+}
+let saveTimeout = null;
+function saveGameThrottled() {
+  clearTimeout(saveTimeout);
+  saveTimeout = setTimeout(()=> saveGame(), 400);
+}
+function loadGame() {
+  try {
+    const raw = localStorage.getItem(LS_KEY);
+    if (!raw) return false;
+    const loaded = JSON.parse(raw);
+    // small validation
+    if (loaded && typeof loaded.score === 'number') {
+      state = loaded;
+      // ensure shop defs have basePrice etc (back compat)
+      SHOP_DEFS.forEach(def => {
+        if (!state.items[def.id].basePrice) state.items[def.id].basePrice = def.basePrice || def.basePrice;
+      });
+      updateUI();
+      return true;
+    }
+  } catch(e) { console.warn('load failed', e); }
+  return false;
+}
+
+// Manual save/load buttons
+saveBtn.addEventListener('click', ()=> {
+  saveGame();
+  spawnFloat('Saved!', 85);
+});
+loadBtn.addEventListener('click', ()=> {
+  const ok = loadGame();
+  spawnFloat(ok ? 'Loaded!' : 'No Save', 85);
+});
+
+// Reset game
+resetBtn.addEventListener('click', ()=> {
+  if (!confirm('Oyun sıfırlansın mı? Tüm ilerleme silinecek.')) return;
+  localStorage.removeItem(LS_KEY);
+  // reset state
+  state = {
+    score: 0,
+    perClick: 1,
+    cps: 0,
+    totalClicks: 0,
+    items: {
+      autoClicker: { level: 0, basePrice: 50, cpsPerLevel: 1 },
+      multiplier: { level: 0, basePrice: 100, multiplierPerLevel: 0.15 }
+    },
+    lastTick: performance.now()
+  };
+  updateUI();
+  saveGame();
+});
+
+// initialize shop state (include basePrice fields)
+function initShopState(){
+  SHOP_DEFS.forEach(def => {
+    if (!state.items[def.id]) {
+      // fallback default from def
+      state.items[def.id] = {
+        level: 0,
+        basePrice: def.basePrice || def.basePrice || 50,
+        cpsPerLevel: def.cpsPerLevel || (def.id === 'autoClicker' ? 1 : 0),
+        multiplierPerLevel: def.multiplierPerLevel || (def.id === 'multiplier' ? 0.15 : 0)
+      };
+    } else {
+      // ensure fields exist
+      state.items[def.id].basePrice = state.items[def.id].basePrice || def.basePrice || state.items[def.id].basePrice || 50;
+      state.items[def.id].cpsPerLevel = state.items[def.id].cpsPerLevel || def.cpsPerLevel || (def.id === 'autoClicker' ? 1 : 0);
+      state.items[def.id].multiplierPerLevel = state.items[def.id].multiplierPerLevel || def.multiplierPerLevel || (def.id === 'multiplier' ? 0.15 : 0);
+    }
+  });
+}
+
+// On load, try to load; otherwise init default
+(function start(){
+  // if there is a saved game - load else default
+  const loaded = loadGame();
+  initShopState();
+  if (!loaded) {
+    // ensure base items exist
+    state.items.autoClicker.basePrice = state.items.autoClicker.basePrice || 50;
+    state.items.multiplier.basePrice = state.items.multiplier.basePrice || 100;
+    saveGame();
+  }
+  updateUI();
+  requestAnimationFrame(tick);
+})();
+
+</script>
+</body>
+</html>
