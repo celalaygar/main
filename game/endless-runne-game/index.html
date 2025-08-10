@@ -1,161 +1,146 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Endless Runner</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<style>
-  body {
-    overscroll-behavior: none;
-    touch-action: manipulation;
-  }
-  #game {
-    background: linear-gradient(to bottom, #87ceeb, #e0f7fa);
-    overflow: hidden;
-    position: relative;
-  }
-  .player {
-    position: absolute;
-    bottom: 0;
-    left: 50px;
-    width: 40px;
-    height: 40px;
-    background-color: #ff3b3b;
-    border-radius: 8px;
-  }
-  .obstacle {
-    position: absolute;
-    bottom: 0;
-    width: 40px;
-    background-color: #2e7d32;
-    border-radius: 4px;
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Endless Runner</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    #game {
+      position: relative;
+      width: 100%;
+      height: 250px;
+      background-color: #f0f0f0;
+      overflow: hidden;
+    }
+    #player {
+      position: absolute;
+      bottom: 20px;
+      left: 50px;
+      width: 40px;
+      height: 40px;
+      background-color: #3b82f6;
+      border-radius: 0.5rem;
+    }
+    #obstacle {
+      position: absolute;
+      bottom: 20px;
+      right: -40px;
+      width: 40px;
+      height: 40px;
+      background-color: #ef4444;
+      border-radius: 0.5rem;
+      animation: moveObstacle 3s linear infinite;
+    }
+    @keyframes moveObstacle {
+      from { right: -40px; }
+      to { right: 100%; }
+    }
+    .jump {
+      animation: jump 0.6s ease-out;
+    }
+    @keyframes jump {
+      0% { bottom: 20px; }
+      50% { bottom: 100px; }
+      100% { bottom: 20px; }
+    }
+  </style>
 </head>
-<body class="bg-gray-900 flex flex-col items-center justify-center min-h-screen p-4">
+<body class="bg-gradient-to-br from-indigo-500 to-purple-600 min-h-screen flex flex-col items-center justify-center p-4">
 
-<h1 class="text-3xl font-bold text-white mb-4">Endless Runner</h1>
+  <h1 class="text-3xl font-bold text-white mb-4">Endless Runner</h1>
 
-<div id="game" class="w-full max-w-2xl h-64 rounded-lg shadow-lg relative"></div>
+  <div id="game" class="rounded-lg shadow-lg mb-4">
+    <div id="player"></div>
+    <div id="obstacle"></div>
+  </div>
 
-<div class="flex items-center justify-between w-full max-w-2xl mt-4 px-2">
-  <div class="text-white">Skor: <span id="score">0</span></div>
-  <button id="startBtn" class="bg-white text-gray-900 font-semibold px-4 py-2 rounded shadow hover:bg-gray-100">Başlat</button>
-</div>
+  <div class="flex items-center gap-6 text-white font-semibold mb-4">
+    <p>Puan: <span id="score">0</span></p>
+  </div>
 
-<p class="text-gray-400 mt-2 text-sm">Zıplamak için boşluk tuşuna bas veya ekrana dokun</p>
+  <button id="startBtn" class="bg-white text-indigo-600 font-bold px-6 py-2 rounded-lg shadow hover:bg-gray-100 transition">Başlat</button>
 
-<script>
-const game = document.getElementById('game');
-const scoreEl = document.getElementById('score');
-const startBtn = document.getElementById('startBtn');
+  <p id="message" class="text-white mt-3 min-h-[1.5rem] font-semibold"></p>
 
-let player, playerY, velocityY, gravity;
-let obstacles = [];
-let score;
-let gameInterval, obstacleInterval;
-let isJumping = false;
-let gameRunning = false;
+  <script>
+    const player = document.getElementById('player');
+    const obstacle = document.getElementById('obstacle');
+    const scoreEl = document.getElementById('score');
+    const startBtn = document.getElementById('startBtn');
+    const messageEl = document.getElementById('message');
+    const game = document.getElementById('game');
 
-function initGame() {
-  game.innerHTML = '';
-  player = document.createElement('div');
-  player.classList.add('player');
-  game.appendChild(player);
+    let score = 0;
+    let isJumping = false;
+    let gameRunning = false;
+    let scoreInterval;
 
-  playerY = 0;
-  velocityY = 0;
-  gravity = 0.6;
-  obstacles = [];
-  score = 0;
-  scoreEl.textContent = score;
-}
-
-function startGame() {
-  if (gameRunning) return;
-  gameRunning = true;
-  initGame();
-
-  gameInterval = setInterval(updateGame, 16);
-  obstacleInterval = setInterval(spawnObstacle, 1500);
-}
-
-function endGame() {
-  gameRunning = false;
-  clearInterval(gameInterval);
-  clearInterval(obstacleInterval);
-  alert(`Oyun Bitti! Skorunuz: ${score}`);
-}
-
-function jump() {
-  if (!gameRunning) return;
-  if (!isJumping) {
-    velocityY = -10;
-    isJumping = true;
-  }
-}
-
-function spawnObstacle() {
-  const obstacle = document.createElement('div');
-  obstacle.classList.add('obstacle');
-  const height = Math.random() * 40 + 40; // 40-80px yükseklik
-  obstacle.style.height = `${height}px`;
-  obstacle.style.right = '-40px';
-  game.appendChild(obstacle);
-  obstacles.push(obstacle);
-}
-
-function updateGame() {
-  // Oyuncu hareketi
-  velocityY += gravity;
-  playerY += velocityY;
-  if (playerY < 0) playerY = 0;
-  if (playerY > game.clientHeight - 40) {
-    playerY = game.clientHeight - 40;
-    isJumping = false;
-  }
-  player.style.bottom = `${playerY}px`;
-
-  // Engellerin hareketi
-  obstacles.forEach((obs, index) => {
-    let obsX = parseInt(obs.style.right);
-    obsX += 4;
-    obs.style.right = `${obsX}px`;
-
-    // Çarpışma kontrolü
-    const playerRect = player.getBoundingClientRect();
-    const obsRect = obs.getBoundingClientRect();
-    if (
-      playerRect.left < obsRect.right &&
-      playerRect.right > obsRect.left &&
-      playerRect.top < obsRect.bottom &&
-      playerRect.bottom > obsRect.top
-    ) {
-      endGame();
+    function jump() {
+      if (!isJumping) {
+        isJumping = true;
+        player.classList.add('jump');
+        setTimeout(() => {
+          player.classList.remove('jump');
+          isJumping = false;
+        }, 600);
+      }
     }
 
-    // Engel geçtiyse skor artır
-    if (obsX > game.clientWidth) {
-      obs.remove();
-      obstacles.splice(index, 1);
-      score++;
+    function checkCollision() {
+      const playerRect = player.getBoundingClientRect();
+      const obstacleRect = obstacle.getBoundingClientRect();
+      const gameRect = game.getBoundingClientRect();
+
+      if (
+        playerRect.right > obstacleRect.left &&
+        playerRect.left < obstacleRect.right &&
+        playerRect.bottom > obstacleRect.top &&
+        playerRect.top < obstacleRect.bottom
+      ) {
+        endGame();
+      }
+    }
+
+    function startGame() {
+      score = 0;
       scoreEl.textContent = score;
+      messageEl.textContent = '';
+      gameRunning = true;
+      obstacle.style.animationPlayState = 'running';
+
+      scoreInterval = setInterval(() => {
+        if (gameRunning) {
+          score++;
+          scoreEl.textContent = score;
+          checkCollision();
+        }
+      }, 100);
     }
-  });
-}
 
-// Kontroller
-document.addEventListener('keydown', e => {
-  if (e.code === 'Space') {
-    e.preventDefault();
-    jump();
-  }
-});
-game.addEventListener('touchstart', jump);
+    function endGame() {
+      gameRunning = false;
+      clearInterval(scoreInterval);
+      obstacle.style.animationPlayState = 'paused';
+      messageEl.textContent = 'Oyun Bitti! Puanınız: ' + score;
+    }
 
-startBtn.addEventListener('click', startGame);
-</script>
+    // Başlat Butonu
+    startBtn.addEventListener('click', () => {
+      startGame();
+    });
 
+    // Klavye ile zıplama
+    document.addEventListener('keydown', (e) => {
+      if (e.code === 'Space' || e.code === 'ArrowUp') {
+        jump();
+      }
+    });
+
+    // Dokunma ile zıplama (mobil)
+    game.addEventListener('touchstart', () => {
+      jump();
+    });
+  </script>
 </body>
 </html>
