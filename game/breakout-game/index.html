@@ -3,569 +3,534 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Breakout / Arkanoid — Tailwind + JS (Responsive)</title>
+  <title>Breakout / Arkanoid — Tailwind + JS</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    body { -webkit-tap-highlight-color: transparent; }
-    canvas { display:block; border-radius: .5rem; background: linear-gradient(180deg,#071027,#0b1220); box-shadow: 0 8px 30px rgba(2,6,23,0.7); margin:0 auto; }
-    .btn { @apply px-4 py-2 rounded-md font-semibold shadow-md transition; }
-    .control-btn { width:56px; height:56px; border-radius:9999px; }
-    /* küçük ekranlarda butonları hafif küçült */
-    @media (max-width:480px){ .control-btn{width:48px;height:48px} }
+    body { -webkit-tap-highlight-color: transparent; background: linear-gradient(180deg,#0f172a,#04203a); }
+    canvas { display:block; border-radius:12px; box-shadow: 0 8px 30px rgba(2,6,23,0.7); background: linear-gradient(180deg,#05223a 0%, #02111a 100%); }
+    /* mobile control sizes */
+    .touch-btn { width:64px; height:64px; border-radius:12px; }
+    /* small helper for centered layout */
+    .game-wrap { max-width:1100px; width:100%; }
   </style>
 </head>
-<body class="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 text-white flex items-center justify-center p-6">
+<body class="min-h-screen flex items-center justify-center p-6 text-slate-100">
 
-  <div class="w-full max-w-4xl">
-    <header class="flex items-center justify-between mb-4">
-      <h1 class="text-xl md:text-2xl font-bold">Breakout / Arkanoid</h1>
+  <div class="game-wrap w-full">
+    <header class="flex flex-col md:flex-row items-center justify-between gap-4 mb-4">
+      <div class="flex items-center gap-4">
+        <div class="text-2xl font-semibold">Breakout / Arkanoid</div>
+        <div class="hidden md:flex items-center gap-2 text-sm text-slate-300">
+          <span class="bg-white/5 px-3 py-1 rounded-md">Seviye: <span id="level">1</span></span>
+          <span class="bg-white/5 px-3 py-1 rounded-md">Can: <span id="lives">3</span></span>
+          <span class="bg-white/5 px-3 py-1 rounded-md">Puan: <span id="score">0</span></span>
+          <span class="bg-white/5 px-3 py-1 rounded-md">En Yüksek: <span id="highscore">0</span></span>
+        </div>
+      </div>
+
       <div class="flex items-center gap-3">
-        <div class="bg-white/5 px-3 py-2 rounded-md text-sm font-mono">Puan: <span id="score">0</span></div>
-        <div class="bg-white/5 px-3 py-2 rounded-md text-sm font-mono">Can: <span id="lives">3</span></div>
-        <div class="bg-white/5 px-3 py-2 rounded-md text-sm font-mono">En yüksek: <span id="best">0</span></div>
+        <button id="startBtn" class="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-black rounded-md font-medium shadow">Başlat</button>
+        <button id="pauseBtn" class="px-4 py-2 bg-yellow-400 hover:bg-yellow-500 text-black rounded-md font-medium shadow">Duraklat</button>
+        <button id="resetBtn" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-md font-medium shadow">Yeniden Başlat</button>
+        <button id="muteBtn" class="px-3 py-2 bg-white/5 hover:bg-white/10 rounded-md text-sm">Ses: Açık</button>
       </div>
     </header>
 
-    <main class="grid md:grid-cols-3 gap-4">
-      <section class="md:col-span-2 flex justify-center">
-        <div id="canvasWrap" class="w-full">
+    <main class="grid md:grid-cols-4 gap-6">
+      <!-- Canvas area -->
+      <section class="md:col-span-3 flex items-center justify-center">
+        <div id="canvasHolder" class="w-full">
           <canvas id="gameCanvas"></canvas>
         </div>
       </section>
 
-      <aside class="flex flex-col gap-4">
-        <div class="bg-white/5 p-3 rounded-md">
-          <div class="flex gap-2">
-            <button id="startBtn" class="btn bg-emerald-500 hover:bg-emerald-600 text-black">Başlat</button>
-            <button id="pauseBtn" class="btn bg-yellow-400 hover:bg-yellow-500 text-black">Duraklat</button>
-            <button id="resetBtn" class="btn bg-red-600 hover:bg-red-700 text-white">Yeniden</button>
-          </div>
-          <div class="text-sm text-slate-300 mt-3">
-            Kontroller: Fare / Dokunmatik sürükle veya ← → ok tuşları.
+      <!-- Right panel: stats + mobile controls -->
+      <aside class="flex flex-col gap-4 items-stretch">
+        <div class="bg-white/5 p-4 rounded-lg">
+          <div class="flex flex-col gap-3">
+            <div class="text-slate-200">Puan: <strong id="scoreSide">0</strong></div>
+            <div class="text-slate-200">Can: <strong id="livesSide">3</strong></div>
+            <div class="text-slate-200">Seviye: <strong id="levelSide">1</strong></div>
+            <div class="text-slate-200">En Yüksek: <strong id="highscoreSide">0</strong></div>
           </div>
         </div>
 
-        <div class="bg-white/5 p-3 rounded-md">
-          <h2 class="font-semibold">Açıklama</h2>
-          <p class="text-sm text-slate-300 mt-2">Top tüm tuğlaları kırınca seviye atlanır (yeni dizilim). Paddle'ı sürükleyerek topu yönlendir.</p>
+        <div class="bg-white/5 p-4 rounded-lg">
+          <h3 class="font-semibold mb-2">Kontroller</h3>
+          <ul class="text-sm text-slate-300 list-disc list-inside space-y-1">
+            <li>Fare/Touch ile paddle'ı hareket ettir.</li>
+            <li>Sol/Sağ ok tuşları ile hareket.</li>
+            <li>Boşluk ile topu fırlat.</li>
+          </ul>
         </div>
 
-        <div class="hidden md:flex md:flex-col gap-2">
-          <div class="text-xs text-slate-400">Mobil kontroller:</div>
-          <div class="flex gap-2">
-            <button id="leftControl" class="control-btn bg-slate-700 hover:bg-slate-600 text-xl">◀</button>
-            <button id="rightControl" class="control-btn bg-slate-700 hover:bg-slate-600 text-xl">▶</button>
+        <!-- Mobile touch controls (görünebilir) -->
+        <div class="bg-white/5 p-3 rounded-lg flex flex-col items-center gap-3 md:hidden">
+          <div class="flex gap-3">
+            <button id="btnLeft" class="touch-btn bg-slate-700 hover:bg-slate-600 text-xl">◀</button>
+            <button id="btnRight" class="touch-btn bg-slate-700 hover:bg-slate-600 text-xl">▶</button>
           </div>
+          <button id="btnLaunch" class="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-black rounded-md font-medium">Fırlat</button>
         </div>
       </aside>
     </main>
 
-    <!-- mobil alt paddle sürükleme ipucu -->
-    <div class="md:hidden mt-4 text-center text-sm text-slate-300">Mobil: paddle'ı sürükleyin veya alt okları kullanın.</div>
+    <footer class="mt-6 text-center text-xs text-slate-400">Responsive Breakout • Tailwind + HTML5 Canvas + Vanilla JS</footer>
   </div>
 
 <script>
-/* Responsive Breakout / Arkanoid
-   - Tek dosya
-   - Canvas responsive: canvas width = min(containerWidth, 900)
-   - DevicePixelRatio destekli for sharpness
-*/
+/* ----------------------------
+   Responsive Breakout / Arkanoid
+   - Single-file
+   - Canvas resizes to container
+   - Paddle with mouse/touch/keys
+   - Bricks, levels, score, lives
+   - Start / Pause / Reset / Mute
+   ----------------------------*/
 
-// UI
 const canvas = document.getElementById('gameCanvas');
-const wrap = document.getElementById('canvasWrap');
-const scoreEl = document.getElementById('score');
-const livesEl = document.getElementById('lives');
-const bestEl = document.getElementById('best');
+const holder = document.getElementById('canvasHolder');
+const ctx = canvas.getContext('2d');
+
 const startBtn = document.getElementById('startBtn');
 const pauseBtn = document.getElementById('pauseBtn');
 const resetBtn = document.getElementById('resetBtn');
-const leftControl = document.getElementById('leftControl');
-const rightControl = document.getElementById('rightControl');
+const muteBtn = document.getElementById('muteBtn');
 
-let ctx = canvas.getContext('2d');
+const scoreEl = document.getElementById('score');
+const livesEl = document.getElementById('lives');
+const levelEl = document.getElementById('level');
+const highscoreEl = document.getElementById('highscore');
 
-// Game settings (logical)
-let GAME = {
-  cols: 10,           // brick columns (will adapt)
-  rows: 5,            // brick rows
-  brickPadding: 8,    // px (will scale)
-  paddleWidthRatio: 0.18, // paddle width as fraction of canvas width
-  paddleHeight: 14,
-  ballRadius: 8,
-  brickTopOffsetRatio: 0.06, // distance from top as fraction
-  brickHeightRatio: 0.06, // brick height relative to canvas height
-  speedMultiplier: 1,   // increases per level
-};
+const scoreSide = document.getElementById('scoreSide');
+const livesSide = document.getElementById('livesSide');
+const levelSide = document.getElementById('levelSide');
+const highscoreSide = document.getElementById('highscoreSide');
 
-// dynamic state
-let cw = 600, ch = 360;      // canvas css pixels
-let DPR = Math.max(1, window.devicePixelRatio || 1);
-let paddle = null;
-let ball = null;
+const btnLeft = document.getElementById('btnLeft');
+const btnRight = document.getElementById('btnRight');
+const btnLaunch = document.getElementById('btnLaunch');
+
+let WIDTH, HEIGHT, scale;
+function resizeCanvas(){
+  // Keep a 4:3 ratio or adapt to holder width
+  const maxW = holder.clientWidth;
+  const maxH = window.innerHeight * 0.7;
+  // prefer width-based size but ensure not too tall
+  let desiredW = Math.min(maxW, 900);
+  let desiredH = desiredW * 0.6;
+  if (desiredH > maxH) {
+    desiredH = maxH;
+    desiredW = desiredH / 0.6;
+  }
+  WIDTH = Math.floor(desiredW);
+  HEIGHT = Math.floor(desiredH);
+  canvas.width = WIDTH;
+  canvas.height = HEIGHT;
+  scale = WIDTH / 800; // base scale for sizes
+}
+window.addEventListener('resize', ()=> { resizeCanvas(); draw(); });
+resizeCanvas();
+
+/* Game parameters (scaled) */
+const PADDLE_WIDTH = 140; // base
+const PADDLE_HEIGHT = 16;
+const BALL_RADIUS = 10;
+const BRICK_ROWS = 5;
+const BRICK_COLS_BASE = 10; // will adapt with width
+const BRICK_PADDING = 8;
+const BRICK_HEIGHT = 24;
+const TOP_OFFSET = 80;
+
+/* State */
+let paddle = { x: 0, y: 0, w: PADDLE_WIDTH, h: PADDLE_HEIGHT, speed: 10 };
+let ball = { x: 0, y: 0, vx: 0, vy: 0, r: BALL_RADIUS, stuck: true };
 let bricks = [];
 let score = 0;
 let lives = 3;
-let best = parseInt(localStorage.getItem('breakoutBest') || '0', 10);
-bestEl.textContent = best;
+let level = 1;
 let running = false;
 let paused = false;
-let animationId = null;
-let lastTime = 0;
-let level = 1;
+let muted = false;
+let highscore = parseInt(localStorage.getItem('breakoutHighscore') || '0', 10);
 
-// responsive sizing
-function resizeCanvas(){
-  const maxWidth = Math.min(900, wrap.clientWidth);
-  cw = Math.floor(maxWidth);
-  ch = Math.floor(cw * 0.6); // 3:5 ratio height
-  // scale for DPR
-  canvas.style.width = cw + 'px';
-  canvas.style.height = ch + 'px';
-  canvas.width = Math.floor(cw * DPR);
-  canvas.height = Math.floor(ch * DPR);
-  ctx.setTransform(DPR,0,0,DPR,0,0); // scale drawing to CSS pixels
-  // recalc layout
-  rebuildLevelLayout();
-  draw(); // immediate draw
+/* Sounds (simple using WebAudio or fallback to no sound) */
+let audioCtx = null;
+function tryInitAudio(){ if (!audioCtx && !muted){ audioCtx = new (window.AudioContext||window.webkitAudioContext)(); } }
+function playBeep(freq=440, time=0.05, gain=0.08){
+  if (muted) return;
+  tryInitAudio();
+  if (!audioCtx) return;
+  const o = audioCtx.createOscillator();
+  const g = audioCtx.createGain();
+  o.type = 'sine';
+  o.frequency.value = freq;
+  g.gain.value = gain;
+  o.connect(g); g.connect(audioCtx.destination);
+  o.start();
+  o.stop(audioCtx.currentTime + time);
 }
-window.addEventListener('resize', resizeCanvas);
 
-// build bricks and paddles based on current canvas size
-function rebuildLevelLayout(){
-  // adapt columns based on width
-  GAME.cols = Math.max(8, Math.floor(cw / 60)); // ~60px per brick
-  GAME.rows = Math.max(4, Math.floor((ch * 0.28) / 30)); // depends on height
-  GAME.brickPadding = Math.max(6, Math.floor(cw * 0.012));
-  GAME.brickHeight = Math.max(18, Math.floor(ch * GAME.brickHeightRatio));
-  GAME.brickTopOffset = Math.floor(ch * GAME.brickTopOffsetRatio);
+/* Helpers */
+function adaptSizes(){
+  // scale sizes to canvas
+  paddle.w = Math.max(80, Math.floor(PADDLE_WIDTH * scale));
+  paddle.h = Math.max(10, Math.floor(PADDLE_HEIGHT * scale));
+  paddle.y = HEIGHT - paddle.h - Math.floor(18 * scale);
+  paddle.speed = Math.max(6, Math.floor(10 * scale));
+  ball.r = Math.max(6, Math.floor(BALL_RADIUS * scale));
+}
 
-  // create bricks grid width-wise
-  const totalPaddingX = GAME.brickPadding * (GAME.cols + 1);
-  const brickWidth = Math.floor((cw - totalPaddingX) / GAME.cols);
-  GAME.brickWidth = brickWidth;
-
-  paddle = {
-    w: Math.max(60, Math.floor(cw * GAME.paddleWidthRatio)),
-    h: GAME.paddleHeight,
-    x: (cw - Math.max(60, Math.floor(cw * GAME.paddleWidthRatio))) / 2,
-    y: ch - 30,
-    speed: Math.max(8, cw * 0.02),
-  };
-
-  ball = {
-    x: cw / 2,
-    y: paddle.y - 12,
-    vx: 4 * GAME.speedMultiplier,
-    vy: -4 * GAME.speedMultiplier,
-    r: Math.max(6, GAME.ballRadius),
-    stuck: true // stuck to paddle until start
-  };
-
-  // bricks array
+function buildBricks(){
   bricks = [];
-  for (let r = 0; r < GAME.rows; r++){
-    for (let c = 0; c < GAME.cols; c++){
-      const x = GAME.brickPadding + c*(GAME.brickWidth + GAME.brickPadding);
-      const y = GAME.brickTopOffset + r*(GAME.brickHeight + GAME.brickPadding);
-      bricks.push({
-        x, y,
-        w: GAME.brickWidth,
-        h: GAME.brickHeight,
-        hp: 1 + Math.floor((level-1)/2), // higher levels tougher
+  // adapt columns to width
+  const targetCols = Math.max(6, Math.floor((WIDTH / 800) * BRICK_COLS_BASE));
+  const brickAreaWidth = WIDTH - (BRICK_PADDING * 2);
+  const brickW = Math.floor((brickAreaWidth - (targetCols - 1) * BRICK_PADDING) / targetCols);
+  for (let r=0;r<BRICK_ROWS + Math.floor((level-1)/2); r++){
+    const row = [];
+    for (let c=0;c<targetCols;c++){
+      // randomize brick strength by level
+      const strength = Math.min(3, 1 + Math.floor((r + level) / 3));
+      row.push({
+        x: BRICK_PADDING + c * (brickW + BRICK_PADDING),
+        y: TOP_OFFSET + r * (BRICK_HEIGHT + BRICK_PADDING),
+        w: brickW,
+        h: BRICK_HEIGHT,
         alive: true,
-        color: brickColorForRow(r)
+        hits: strength
       });
     }
+    bricks.push(...row);
   }
 }
 
-// brick color helper
-function brickColorForRow(r){
-  const palette = ['#ef4444','#f97316','#f59e0b','#eab308','#84cc16','#06b6d4'];
-  return palette[r % palette.length];
+/* Reset level */
+function resetLevel(increment=false){
+  if (increment) level++;
+  adaptSizes();
+  buildBricks();
+  // center paddle
+  paddle.x = Math.floor((WIDTH - paddle.w) / 2);
+  // ball atop paddle
+  ball.x = paddle.x + Math.floor(paddle.w / 2);
+  ball.y = paddle.y - ball.r - 6;
+  ball.vx = 0;
+  ball.vy = -5 * scale;
+  ball.stuck = true;
+  updateUI();
 }
 
-// drawing
-function clear(){
-  ctx.clearRect(0,0,cw,ch);
-  // background gradient
-  const g = ctx.createLinearGradient(0,0,0,ch);
-  g.addColorStop(0, '#071027');
-  g.addColorStop(1, '#071021');
-  ctx.fillStyle = g;
-  ctx.fillRect(0,0,cw,ch);
+/* UI update */
+function updateUI(){
+  scoreEl.textContent = score;
+  livesEl.textContent = lives;
+  levelEl.textContent = level;
+  highscoreEl.textContent = highscore;
+
+  scoreSide.textContent = score;
+  livesSide.textContent = lives;
+  levelSide.textContent = level;
+  highscoreSide.textContent = highscore;
+
+  muteBtn.textContent = muted ? 'Ses: Kapalı' : 'Ses: Açık';
+  pauseBtn.textContent = paused ? 'Devam Et' : 'Duraklat';
 }
 
+/* Drawing */
 function drawPaddle(){
-  ctx.fillStyle = '#e2e8f0';
-  roundRect(ctx, paddle.x, paddle.y, paddle.w, paddle.h, 6, true, false);
+  // gradient
+  const grad = ctx.createLinearGradient(paddle.x, paddle.y, paddle.x + paddle.w, paddle.y);
+  grad.addColorStop(0, '#f97316');
+  grad.addColorStop(1, '#fb7185');
+  ctx.fillStyle = grad;
+  roundRect(ctx, paddle.x, paddle.y, paddle.w, paddle.h, 8 * scale, true);
+  // glossy strip
+  ctx.fillStyle = 'rgba(255,255,255,0.12)';
+  ctx.fillRect(paddle.x + paddle.w*0.08, paddle.y + paddle.h*0.1, paddle.w*0.84, paddle.h*0.28);
 }
 
 function drawBall(){
   ctx.beginPath();
-  ctx.fillStyle = '#ffd166';
+  ctx.fillStyle = '#ffd43b';
   ctx.arc(ball.x, ball.y, ball.r, 0, Math.PI*2);
   ctx.fill();
-  // small shine
+  // small shadow
+  ctx.fillStyle = 'rgba(0,0,0,0.2)';
   ctx.beginPath();
-  ctx.fillStyle = 'rgba(255,255,255,0.35)';
-  ctx.arc(ball.x - ball.r*0.4, ball.y - ball.r*0.4, Math.max(1, ball.r*0.35), 0, Math.PI*2);
+  ctx.arc(ball.x+ball.r*0.25, ball.y+ball.r*0.25, ball.r*0.7, 0, Math.PI*2);
   ctx.fill();
 }
 
 function drawBricks(){
   for (const b of bricks){
     if (!b.alive) continue;
-    ctx.fillStyle = b.color;
-    roundRect(ctx, b.x, b.y, b.w, b.h, 6, true, false);
-    // small inner highlight
-    ctx.fillStyle = 'rgba(255,255,255,0.06)';
-    ctx.fillRect(b.x + 3, b.y + 3, b.w - 6, b.h - 6);
+    // color by hits
+    let col;
+    if (b.hits >= 3) col = ['#ef4444','#f97316'];
+    else if (b.hits === 2) col = ['#60a5fa','#3b82f6'];
+    else col = ['#34d399','#059669'];
+    const grad = ctx.createLinearGradient(b.x, b.y, b.x + b.w, b.y + b.h);
+    grad.addColorStop(0, col[0]);
+    grad.addColorStop(1, col[1]);
+    ctx.fillStyle = grad;
+    roundRect(ctx, b.x, b.y, b.w, b.h, 6 * scale, true);
+    // border
+    ctx.strokeStyle = 'rgba(0,0,0,0.2)';
+    ctx.strokeRect(b.x, b.y, b.w, b.h);
   }
 }
 
 function drawHUD(){
-  // optionally draw center message when paused
-  if (!running){
-    ctx.fillStyle = 'rgba(0,0,0,0.4)';
-    ctx.fillRect(0,ch/2 - 40, cw, 80);
-    ctx.fillStyle = '#fff';
-    ctx.textAlign = 'center';
-    ctx.font = '18px system-ui';
-    ctx.fillText('Başlamak için Başlat', cw/2, ch/2);
-  }
-  if (paused){
-    ctx.fillStyle = 'rgba(0,0,0,0.4)';
-    ctx.fillRect(0,ch/2 - 40, cw, 80);
-    ctx.fillStyle = '#fff';
-    ctx.textAlign = 'center';
-    ctx.font = '18px system-ui';
-    ctx.fillText('Duraklatıldı', cw/2, ch/2);
-  }
+  // top bar
+  ctx.fillStyle = 'rgba(255,255,255,0.03)';
+  ctx.fillRect(0, 0, WIDTH, 48*scale);
+  ctx.fillStyle = '#fff';
+  ctx.font = `${14*scale}px Inter, system-ui, Arial`;
+  ctx.fillText(`Puan: ${score}`, 14*scale, 30*scale);
+  ctx.fillText(`Can: ${lives}`, 140*scale, 30*scale);
+  ctx.fillText(`Seviye: ${level}`, 220*scale, 30*scale);
 }
 
+/* Main draw */
 function draw(){
-  clear();
+  // clear
+  ctx.clearRect(0,0,WIDTH,HEIGHT);
+  // background subtle pattern
+  ctx.fillStyle = 'rgba(255,255,255,0.02)';
+  ctx.fillRect(0,0,WIDTH,HEIGHT);
+
   drawBricks();
   drawPaddle();
   drawBall();
-  // if level cleared, show message
-  if (bricks.every(b => !b.alive)){
-    ctx.fillStyle = 'rgba(0,0,0,0.45)';
-    ctx.fillRect(0, ch/2 - 36, cw, 72);
-    ctx.fillStyle = '#fff';
-    ctx.textAlign = 'center';
-    ctx.font = '20px system-ui';
-    ctx.fillText('Seviye Tamamlandı! Yeniden başlat ile devam et.', cw/2, ch/2);
-  }
+  drawHUD();
 }
 
-// rounded rect
-function roundRect(ctx, x, y, w, h, r, fill, stroke){
-  if (typeof r === 'undefined') r = 5;
+/* Utils */
+function roundRect(ctx,x,y,w,h,r,fill){
   ctx.beginPath();
   ctx.moveTo(x + r, y);
-  ctx.lineTo(x + w - r, y);
-  ctx.quadraticCurveTo(x + w, y, x + w, y + r);
-  ctx.lineTo(x + w, y + h - r);
-  ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
-  ctx.lineTo(x + r, y + h);
-  ctx.quadraticCurveTo(x, y + h, x, y + h - r);
-  ctx.lineTo(x, y + r);
-  ctx.quadraticCurveTo(x, y, x + r, y);
+  ctx.arcTo(x + w, y, x + w, y + h, r);
+  ctx.arcTo(x + w, y + h, x, y + h, r);
+  ctx.arcTo(x, y + h, x, y, r);
+  ctx.arcTo(x, y, x + w, y, r);
   ctx.closePath();
   if (fill) ctx.fill();
-  if (stroke) ctx.stroke();
 }
 
-// physics / collisions
-function rectCircleColliding(cx, cy, cr, rx, ry, rw, rh){
-  // find closest point
-  const closestX = clamp(cx, rx, rx+rw);
-  const closestY = clamp(cy, ry, ry+rh);
+/* Collisions */
+function rectCircleColliding(cx, cy, r, rx, ry, rw, rh){
+  const closestX = clamp(cx, rx, rx + rw);
+  const closestY = clamp(cy, ry, ry + rh);
   const dx = cx - closestX;
   const dy = cy - closestY;
-  return (dx*dx + dy*dy) <= cr*cr;
+  return (dx*dx + dy*dy) <= (r*r);
 }
+function clamp(v,a,b){ return Math.max(a, Math.min(b, v)); }
 
-function clamp(v, a, b){ return Math.max(a, Math.min(b, v)); }
-
-function updatePhysics(delta){
+/* Game logic step */
+function step(){
   if (!running || paused) return;
-
-  // ball sticky to paddle before start
-  if (ball.stuck){
-    ball.x = clamp(ball.x, paddle.x + ball.r, paddle.x + paddle.w - ball.r);
-    ball.y = paddle.y - ball.r - 2;
+  // move ball
+  if (!ball.stuck){
+    ball.x += ball.vx;
+    ball.y += ball.vy;
   } else {
-    ball.x += ball.vx * (delta/16);
-    ball.y += ball.vy * (delta/16);
+    // follow paddle
+    ball.x = paddle.x + paddle.w/2;
+    ball.y = paddle.y - ball.r - 6*scale;
+  }
 
-    // wall collisions
-    if (ball.x - ball.r <= 0){
-      ball.x = ball.r;
-      ball.vx = -ball.vx;
-    } else if (ball.x + ball.r >= cw){
-      ball.x = cw - ball.r;
-      ball.vx = -ball.vx;
-    }
-    if (ball.y - ball.r <= 0){
-      ball.y = ball.r;
-      ball.vy = -ball.vy;
-    }
+  // wall collisions
+  if (ball.x - ball.r <= 0){ ball.x = ball.r; ball.vx *= -1; playBeep(600,0.03); }
+  if (ball.x + ball.r >= WIDTH){ ball.x = WIDTH - ball.r; ball.vx *= -1; playBeep(600,0.03); }
+  if (ball.y - ball.r <= 48*scale){ ball.y = 48*scale + ball.r; ball.vy *= -1; playBeep(640,0.03); }
 
-    // paddle collision
-    if (rectCircleColliding(ball.x, ball.y, ball.r, paddle.x, paddle.y, paddle.w, paddle.h) && ball.vy > 0){
-      // place ball above paddle
-      ball.y = paddle.y - ball.r - 1;
-      // compute hit position relative to paddle center (-1..1)
-      const rel = (ball.x - (paddle.x + paddle.w/2)) / (paddle.w/2);
-      const maxBounce = Math.PI / 3; // 60 degrees
-      const angle = rel * maxBounce;
-      // speed magnitude
-      const speed = Math.sqrt(ball.vx*ball.vx + ball.vy*ball.vy);
-      // new velocity
-      ball.vx = speed * Math.sin(angle);
-      ball.vy = -Math.abs(speed * Math.cos(angle));
-      // slight speedup
-      ball.vx *= 1.02;
-      ball.vy *= 1.02;
-    }
+  // paddle collision
+  if (rectCircleColliding(ball.x, ball.y, ball.r, paddle.x, paddle.y, paddle.w, paddle.h) && ball.vy > 0){
+    // reflect based on hit position
+    const hitPos = (ball.x - (paddle.x + paddle.w/2)) / (paddle.w/2); // -1 .. 1
+    const angle = hitPos * (Math.PI/3); // -60deg .. 60deg
+    const speed = Math.hypot(ball.vx, ball.vy);
+    ball.vx = speed * Math.sin(angle);
+    ball.vy = -Math.abs(speed * Math.cos(angle));
+    // small add depending on paddle movement
+    playBeep(900 + Math.abs(hitPos)*300, 0.02, 0.06);
+  }
 
-    // bottom (lose life)
-    if (ball.y - ball.r > ch){
-      loseLife();
-    }
-
-    // bricks collision (iterate alive bricks)
-    for (const b of bricks){
-      if (!b.alive) continue;
-      if (rectCircleColliding(ball.x, ball.y, ball.r, b.x, b.y, b.w, b.h)){
-        // simple collision response: reflect based on side
-        // find penetration direction
-        const overlapLeft = (ball.x + ball.r) - b.x;
-        const overlapRight = (b.x + b.w) - (ball.x - ball.r);
-        const overlapTop = (ball.y + ball.r) - b.y;
-        const overlapBottom = (b.y + b.h) - (ball.y - ball.r);
-        const minOverlap = Math.min(overlapLeft, overlapRight, overlapTop, overlapBottom);
-
-        if (minOverlap === overlapLeft) {
-          ball.vx = -Math.abs(ball.vx);
-          ball.x = b.x - ball.r - 1;
-        } else if (minOverlap === overlapRight) {
-          ball.vx = Math.abs(ball.vx);
-          ball.x = b.x + b.w + ball.r + 1;
-        } else if (minOverlap === overlapTop) {
-          ball.vy = -Math.abs(ball.vy);
-          ball.y = b.y - ball.r - 1;
-        } else {
-          ball.vy = Math.abs(ball.vy);
-          ball.y = b.y + b.h + ball.r + 1;
-        }
-
-        // hit brick
-        b.hp--;
-        if (b.hp <= 0){
-          b.alive = false;
-          score += 10;
-        } else {
-          score += 5;
-        }
-        updateUI();
-        // small speed bump for difficulty
-        if (Math.random() < 0.2){
-          ball.vx *= 1.03;
-          ball.vy *= 1.03;
-        }
-        break; // only one brick per frame
+  // brick collisions
+  for (const b of bricks){
+    if (!b.alive) continue;
+    if (rectCircleColliding(ball.x, ball.y, ball.r, b.x, b.y, b.w, b.h)){
+      // determine side hit
+      // simplest: invert vy and vx based on overlap
+      // compute previous position approximate
+      // move back slightly to avoid multiple hits
+      // reduce hit count
+      b.hits--;
+      if (b.hits <= 0){
+        b.alive = false;
+        score += 100;
+        playBeep(1200, 0.03, 0.09);
+      } else {
+        score += 25;
+        playBeep(1000, 0.02, 0.06);
       }
+
+      // determine rebound: pick axis with greater overlap
+      const overlapX = Math.min(ball.x + ball.r - b.x, b.x + b.w - (ball.x - ball.r));
+      const overlapY = Math.min(ball.y + ball.r - b.y, b.y + b.h - (ball.y - ball.r));
+      if (overlapX < overlapY) ball.vx *= -1;
+      else ball.vy *= -1;
+
+      break;
     }
   }
-}
 
-function loseLife(){
-  lives--;
+  // bottom => lose life
+  if (ball.y - ball.r > HEIGHT){
+    lives--;
+    playBeep(200, 0.2, 0.12);
+    if (lives <= 0){
+      // game over
+      running = false;
+      if (score > highscore) { highscore = score; localStorage.setItem('breakoutHighscore', highscore); }
+      updateUI();
+      setTimeout(()=> {
+        alert(`Oyun bitti! Skor: ${score}`);
+      }, 50);
+    } else {
+      resetBall();
+    }
+  }
+
+  // check level clear
+  const aliveBricks = bricks.filter(b => b.alive);
+  if (aliveBricks.length === 0){
+    // next level
+    score += 500;
+    resetLevel(true);
+    playBeep(1600, 0.12, 0.12);
+  }
+
   updateUI();
-  if (lives <= 0){
-    endGame();
-  } else {
-    // reset ball to paddle
-    ball.stuck = true;
-    ball.vx = 4 * Math.sign((Math.random()-.5)) ;
-    ball.vy = -4;
-    ball.x = paddle.x + paddle.w/2;
-    ball.y = paddle.y - ball.r - 2;
-  }
 }
 
-function endGame(){
-  running = false;
-  paused = false;
-  if (score > best){
-    best = score;
-    localStorage.setItem('breakoutBest', best);
-    bestEl.textContent = best;
-  }
-  setTimeout(()=> {
-    alert('Oyun bitti! Skor: ' + score);
-  }, 50);
+/* Ball reset */
+function resetBall(){
+  ball.stuck = true;
+  ball.x = paddle.x + paddle.w/2;
+  ball.y = paddle.y - ball.r - 6*scale;
+  ball.vx = 0;
+  ball.vy = -5 * scale;
 }
 
-// UI sync
-function updateUI(){
-  scoreEl.textContent = score;
-  livesEl.textContent = lives;
-  bestEl.textContent = best;
-}
-
-// game loop
-function loop(timestamp){
-  if (!lastTime) lastTime = timestamp;
-  const delta = timestamp - lastTime;
-  lastTime = timestamp;
-
-  updatePhysics(delta);
+/* Game loop */
+let last = 0;
+function loop(ts){
+  const dt = ts - last;
+  // cap updates at 60fps
+  step();
   draw();
-
-  // level complete?
-  if (bricks.every(b => !b.alive)){
-    running = false;
-    // next level: increase difficulty
-    level++;
-    GAME.speedMultiplier *= 1.08;
-    setTimeout(()=> {
-      // rebuild with new params
-      rebuildLevelLayout();
-      // reset ball/paddle
-      paddle.x = (cw - paddle.w)/2;
-      ball.x = cw/2; ball.y = paddle.y - ball.r - 2;
-      ball.stuck = true;
-      running = true;
-    }, 700);
-  }
-
-  animationId = requestAnimationFrame(loop);
+  last = ts;
+  requestAnimationFrame(loop);
 }
 
-// start/pause/reset
-function startGame(){
-  if (!running){
-    running = true;
-    paused = false;
-    if (ball.stuck) {
-      // release the ball
-      ball.stuck = false;
-    }
-    lastTime = 0;
-    animationId = requestAnimationFrame(loop);
-  }
-}
-function togglePause(){
-  if (!running) return;
-  paused = !paused;
-  pauseBtn.textContent = paused ? 'Devam Et' : 'Duraklat';
-}
-function resetGame(fullReset = true){
-  cancelAnimationFrame(animationId);
-  level = 1;
-  GAME.speedMultiplier = 1;
-  score = 0;
-  lives = 3;
-  running = false;
-  paused = false;
-  // rebuild
-  rebuildLevelLayout();
-  paddle.x = (cw - paddle.w)/2;
-  ball.x = cw/2; ball.y = paddle.y - ball.r - 2;
-  ball.vx = 4; ball.vy = -4; ball.stuck = true;
-  updateUI();
-  draw();
-}
-
-// input handlers
-let dragging = false;
-let dragOffsetX = 0;
-
-canvas.addEventListener('mousedown', (e)=>{
+/* Controls */
+// mouse move to control paddle
+let isDragging = false;
+canvas.addEventListener('mousemove', (e)=>{
   const rect = canvas.getBoundingClientRect();
-  const x = (e.clientX - rect.left);
-  // if click on paddle area -> start dragging
-  if (x >= paddle.x && x <= paddle.x + paddle.w && e.clientY - rect.top >= paddle.y){
-    dragging = true;
-    dragOffsetX = x - paddle.x;
-  } else {
-    // else release ball if stuck
-    if (ball.stuck) {
-      ball.stuck = false;
-    }
-  }
+  const mx = e.clientX - rect.left;
+  paddle.x = clamp(mx - paddle.w/2, 6*scale, WIDTH - paddle.w - 6*scale);
+  if (ball.stuck) { ball.x = paddle.x + paddle.w/2; }
 });
-window.addEventListener('mousemove', (e)=>{
-  if (!dragging) return;
-  const rect = canvas.getBoundingClientRect();
-  let x = (e.clientX - rect.left) - dragOffsetX;
-  paddle.x = clamp(x, 0, cw - paddle.w);
-  if (ball.stuck){
-    ball.x = paddle.x + paddle.w/2;
-  }
-});
-window.addEventListener('mouseup', ()=> dragging = false);
+canvas.addEventListener('mousedown', (e)=> { isDragging = true; });
+window.addEventListener('mouseup', ()=> { isDragging = false; });
 
-// touch
+// touch drag
 canvas.addEventListener('touchstart', (e)=>{
-  const t = e.touches[0];
-  const rect = canvas.getBoundingClientRect();
-  const x = (t.clientX - rect.left);
-  if (x >= paddle.x && x <= paddle.x + paddle.w){
-    dragging = true;
-    dragOffsetX = x - paddle.x;
-  } else {
-    if (ball.stuck) ball.stuck = false;
-  }
   e.preventDefault();
-});
-canvas.addEventListener('touchmove', (e)=>{
-  if (!dragging) return;
+  isDragging = true;
   const t = e.touches[0];
   const rect = canvas.getBoundingClientRect();
-  let x = (t.clientX - rect.left) - dragOffsetX;
-  paddle.x = clamp(x, 0, cw - paddle.w);
+  const tx = t.clientX - rect.left;
+  paddle.x = clamp(tx - paddle.w/2, 6*scale, WIDTH - paddle.w - 6*scale);
   if (ball.stuck) ball.x = paddle.x + paddle.w/2;
+}, {passive:false});
+canvas.addEventListener('touchmove', (e)=>{
   e.preventDefault();
-});
-window.addEventListener('touchend', ()=> dragging = false);
+  const t = e.touches[0];
+  const rect = canvas.getBoundingClientRect();
+  const tx = t.clientX - rect.left;
+  paddle.x = clamp(tx - paddle.w/2, 6*scale, WIDTH - paddle.w - 6*scale);
+  if (ball.stuck) ball.x = paddle.x + paddle.w/2;
+}, {passive:false});
+canvas.addEventListener('touchend', ()=> { isDragging = false; });
 
 // keyboard
 window.addEventListener('keydown', (e)=>{
-  if (e.key === 'ArrowLeft') {
-    paddle.x = clamp(paddle.x - paddle.speed, 0, cw - paddle.w);
-    if (ball.stuck) ball.x = paddle.x + paddle.w/2;
-    e.preventDefault();
-  } else if (e.key === 'ArrowRight') {
-    paddle.x = clamp(paddle.x + paddle.speed, 0, cw - paddle.w);
-    if (ball.stuck) ball.x = paddle.x + paddle.w/2;
-    e.preventDefault();
-  } else if (e.key === ' '){ // space to launch
-    if (ball.stuck) ball.stuck = false;
-    e.preventDefault();
-  }
+  if (e.code === 'ArrowLeft'){ paddle.x = clamp(paddle.x - paddle.speed, 6*scale, WIDTH - paddle.w - 6*scale); if (ball.stuck) ball.x = paddle.x + paddle.w/2; }
+  if (e.code === 'ArrowRight'){ paddle.x = clamp(paddle.x + paddle.speed, 6*scale, WIDTH - paddle.w - 6*scale); if (ball.stuck) ball.x = paddle.x + paddle.w/2; }
+  if (e.code === 'Space'){ launchBall(); e.preventDefault(); }
 });
 
-// mobile control buttons
-leftControl?.addEventListener('mousedown', ()=> paddle.x = clamp(paddle.x - paddle.speed*2, 0, cw - paddle.w));
-rightControl?.addEventListener('mousedown', ()=> paddle.x = clamp(paddle.x + paddle.speed*2, 0, cw - paddle.w));
-leftControl?.addEventListener('touchstart', (e)=> { paddle.x = clamp(paddle.x - paddle.speed*2, 0, cw - paddle.w); e.preventDefault(); });
-rightControl?.addEventListener('touchstart', (e)=> { paddle.x = clamp(paddle.x + paddle.speed*2, 0, cw - paddle.w); e.preventDefault(); });
+// mobile buttons
+btnLeft?.addEventListener('touchstart', ()=> { paddle.x = clamp(paddle.x - paddle.speed*4, 6*scale, WIDTH - paddle.w - 6*scale); if (ball.stuck) ball.x = paddle.x + paddle.w/2; });
+btnLeft?.addEventListener('click', ()=> { paddle.x = clamp(paddle.x - paddle.speed*4, 6*scale, WIDTH - paddle.w - 6*scale); if (ball.stuck) ball.x = paddle.x + paddle.w/2; });
+btnRight?.addEventListener('touchstart', ()=> { paddle.x = clamp(paddle.x + paddle.speed*4, 6*scale, WIDTH - paddle.w - 6*scale); if (ball.stuck) ball.x = paddle.x + paddle.w/2; });
+btnRight?.addEventListener('click', ()=> { paddle.x = clamp(paddle.x + paddle.speed*4, 6*scale, WIDTH - paddle.w - 6*scale); if (ball.stuck) ball.x = paddle.x + paddle.w/2; });
+btnLaunch?.addEventListener('click', ()=> launchBall());
 
-// buttons
-startBtn.addEventListener('click', ()=> { startGame(); });
-pauseBtn.addEventListener('click', ()=> { togglePause(); });
-resetBtn.addEventListener('click', ()=> { resetGame(); });
+/* Buttons */
+startBtn.addEventListener('click', ()=>{
+  if (!running){
+    running = true;
+    paused = false;
+    tryInitAudio();
+  }
+  if (!audioCtx && !muted) tryInitAudio();
+  updateUI();
+});
+pauseBtn.addEventListener('click', ()=>{
+  paused = !paused;
+  updateUI();
+});
+resetBtn.addEventListener('click', ()=>{
+  // reset all
+  level = 1; score = 0; lives = 3;
+  running = false; paused = false;
+  resetLevel(false);
+  updateUI();
+});
+muteBtn.addEventListener('click', ()=>{
+  muted = !muted;
+  updateUI();
+});
 
-// init
-resizeCanvas();
-resetGame(true);
+/* Launch ball */
+function launchBall(){
+  if (!running) { running = true; paused = false; }
+  if (!ball.stuck) return;
+  ball.stuck = false;
+  // initial velocity depends on paddle center
+  ball.vx = (Math.random() * 6 - 3) * scale;
+  ball.vy = -6 * scale;
+  playBeep(1000, 0.04, 0.08);
+}
+
+/* init */
+function init(){
+  adaptSizes();
+  resetLevel(false);
+  score = 0;
+  lives = 3;
+  level = 1;
+  updateUI();
+  requestAnimationFrame(loop);
+}
+
+init();
 
 </script>
 </body>
