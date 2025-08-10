@@ -1,519 +1,247 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>2048 - Tailwind (10x10px hücre, responsive)</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<style>
-  :root{
-    --grid-size: 4;        /* 4x4 klasik 2048 */
-    --tile-px: 10;         /* istediğiniz "10x10 px" burada */
-    --scale: 1;            /* JS ile ayarlanacak */
-    --gap: 8;              /* hücreler arası boşluk (px) */
-  }
-
-  body { -webkit-tap-highlight-color: transparent; }
-
-  /* Game container merkezde */
-  .game-wrap {
-    max-width: 520px;
-    margin: 0 auto;
-  }
-
-  /* Board holder: burada scale uygulanıyor */
-  .board-outer {
-    background: linear-gradient(180deg,#1f2937,#111827);
-    padding: 18px;
-    border-radius: 16px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    display:inline-block;
-  }
-
-  /* İç board gerçek piksel ölçüleri ile oluşturulacak ve sonra ölçeklenecek */
-  .board {
-    display: grid;
-    grid-template-columns: repeat(var(--grid-size), var(--tile-px));
-    grid-template-rows: repeat(var(--grid-size), var(--tile-px));
-    gap: calc(var(--gap) * 1px);
-    width: calc(var(--tile-px) * var(--grid-size) + (var(--gap) * (var(--grid-size)-1)) * 1px);
-    height: calc(var(--tile-px) * var(--grid-size) + (var(--gap) * (var(--grid-size)-1)) * 1px);
-    transform-origin: top left;
-    transform: scale(var(--scale));
-    position: relative;
-  }
-
-  /* Boş hücre stili (görsel ızgara) */
-  .cell {
-    width: var(--tile-px);
-    height: var(--tile-px);
-    border-radius: 6px;
-    background: rgba(255,255,255,0.03);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-weight:700;
-    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto;
-    color: #111827;
-    font-size: 9px; /* küçük temel yazı; scale ile artacak */
-    user-select: none;
-  }
-
-  /* Taşınan / dolu hücre stil (renkler) */
-  .tile{
-    position: absolute;
-    border-radius: 6px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-weight:800;
-    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto;
-    color: white;
-    pointer-events: none;
-    transition: transform 120ms linear, left 120ms linear, top 120ms linear, width 120ms linear, height 120ms linear;
-    box-shadow: 0 4px 8px rgba(2,6,23,0.6);
-  }
-
-  /* Renk paleti basit */
-  .t2{ background:#f59e0b; color:#111827; }  /* 2 */
-  .t4{ background:#f97316; }
-  .t8{ background:#ef4444; }
-  .t16{ background:#ef4444; filter: brightness(0.95); }
-  .t32{ background:#ec4899; }
-  .t64{ background:#8b5cf6; }
-  .t128{ background:#60a5fa; font-size:10px; }
-  .t256{ background:#34d399; font-size:10px; }
-  .t512{ background:#f43f5e; font-size:10px; }
-  .t1024{ background:#f97316; font-size:10px; }
-  .t2048{ background:#ffd43b; color:#111827; font-size:10px; }
-
-  /* küçük ekranlarda containerın altına butonlar yerleşsin */
-  @media (max-width: 640px){
-    .controls-row { flex-direction: column; gap: 8px; }
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>2048 Oyunu</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Hücrelerin rengini 2048 stiline benzetmek için */
+    .tile {
+      transition: all 0.3s ease;
+      font-weight: 700;
+      border-radius: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      color: #776e65;
+    }
+    .tile-0 { background: #cdc1b4; }
+    .tile-2 { background: #eee4da; }
+    .tile-4 { background: #ede0c8; }
+    .tile-8 { background: #f2b179; color: #f9f6f2; }
+    .tile-16 { background: #f59563; color: #f9f6f2; }
+    .tile-32 { background: #f67c5f; color: #f9f6f2; }
+    .tile-64 { background: #f65e3b; color: #f9f6f2; }
+    .tile-128 { background: #edcf72; color: #f9f6f2; font-size: 1.3rem; }
+    .tile-256 { background: #edcc61; color: #f9f6f2; font-size: 1.3rem; }
+    .tile-512 { background: #edc850; color: #f9f6f2; font-size: 1.3rem; }
+    .tile-1024 { background: #edc53f; color: #f9f6f2; font-size: 1.1rem; }
+    .tile-2048 { background: #edc22e; color: #f9f6f2; font-size: 1.1rem; }
+  </style>
 </head>
-<body class="bg-gradient-to-b from-slate-900 to-slate-800 text-white min-h-screen flex items-center justify-center p-4">
+<body class="bg-gradient-to-tr from-yellow-200 via-yellow-300 to-yellow-400 min-h-screen flex flex-col items-center justify-center p-4">
 
-  <div class="game-wrap w-full">
-    <header class="flex items-center justify-between mb-4">
-      <h1 class="text-xl font-semibold">2048 — (Hücre: 10×10 px, responsive)</h1>
-      <div class="flex items-center gap-3">
-        <div class="bg-white/5 px-3 py-1 rounded text-sm">Puan: <span id="score">0</span></div>
-        <div class="bg-white/5 px-3 py-1 rounded text-sm">En Yüksek: <span id="best">0</span></div>
-        <button id="newBtn" class="ml-2 px-3 py-1 bg-emerald-500 text-black rounded">Yeni Oyun</button>
-      </div>
-    </header>
+  <h1 class="text-3xl font-bold mb-6 text-yellow-900 select-none">2048 Oyunu</h1>
 
-    <div class="flex gap-6 items-start">
-      <div class="board-outer">
-        <div id="board" class="board" style="--grid-size:4; --tile-px:10;"></div>
-      </div>
-
-      <aside class="hidden md:block w-48">
-        <div class="bg-white/5 p-3 rounded mb-3">
-          <div class="text-sm text-gray-200 mb-2">Kılavuz</div>
-          <ul class="text-xs text-gray-300 space-y-1">
-            <li>Yukarı/Aşağı/Sağ/Sol ok tuşları ile hareket.</li>
-            <li>Mobilde swipe ile kontrol edebilirsiniz.</li>
-            <li>Her harekette yeni bir taş doğar (2 veya 4).</li>
-          </ul>
-        </div>
-      </aside>
+  <div class="bg-yellow-100 rounded-lg p-4 shadow-lg w-full max-w-md">
+    <div class="flex justify-between items-center mb-4">
+      <div class="text-xl font-semibold text-yellow-900">Skor: <span id="score">0</span></div>
+      <button id="restartBtn" class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded transition select-none">Yeniden Başlat</button>
     </div>
 
-    <div class="mt-4 flex items-center controls-row gap-3">
-      <button id="undoBtn" class="px-3 py-2 bg-yellow-400 text-black rounded">Geri Al</button>
-      <button id="hintBtn" class="px-3 py-2 bg-sky-500 text-black rounded">İpucu</button>
-      <div class="text-sm text-gray-300 ml-auto">Kare boyutu: <span id="tilePx">10</span>px • Grid: 4×4</div>
+    <div id="gameBoard" class="grid grid-cols-4 gap-3 bg-yellow-300 rounded-lg p-3">
+      <!-- 16 hücre buraya JS ile eklenecek -->
     </div>
 
-    <footer class="mt-6 text-xs text-gray-400">Swipe (mobil) veya ok tuşlarıyla oynayın. Hücre gerçek pikseli 10×10, görüntü ekran genişliğine göre ölçeklenir.</footer>
+    <div id="gameMessage" class="mt-4 text-center text-yellow-900 font-semibold text-lg select-none"></div>
   </div>
 
-<script>
-/* 2048 oyun mantığı (klasik)
-   - grid 4x4
-   - hücre gerçek küçük: TILE_PX = 10 (CSS variable)
-   - JS de pozisyon/çizim tile'ları absolute olarak oluşturur ve board div içine koyar
-   - responsive: hesaplanan scale CSS variable olarak uygulanır
-   - mobil swipe desteği
-*/
+  <script>
+    const boardSize = 4;
+    let board = [];
+    let score = 0;
 
-const GRID = 4;
-const TILE_PX = 10; // kullanıcı isteği: 10x10px
-const GAP_PX = 8;
-const boardEl = document.getElementById('board');
-const scoreEl = document.getElementById('score');
-const bestEl = document.getElementById('best');
-const newBtn = document.getElementById('newBtn');
-const undoBtn = document.getElementById('undoBtn');
-const hintBtn = document.getElementById('hintBtn');
-const tilePxEl = document.getElementById('tilePx');
+    const gameBoard = document.getElementById('gameBoard');
+    const scoreEl = document.getElementById('score');
+    const gameMessage = document.getElementById('gameMessage');
+    const restartBtn = document.getElementById('restartBtn');
 
-tilePxEl.textContent = TILE_PX;
-
-// set CSS variables
-boardEl.style.setProperty('--grid-size', GRID);
-boardEl.style.setProperty('--tile-px', TILE_PX);
-
-// game state
-let grid = [];
-let score = 0;
-let best = parseInt(localStorage.getItem('2048_best') || '0', 10) || 0;
-bestEl.textContent = best;
-
-let tilesMap = new Map(); // id -> element
-let nextId = 1;
-
-// for undo
-let prevState = null;
-
-function initGrid(){
-  grid = Array.from({length:GRID}, ()=> new Array(GRID).fill(0));
-}
-
-// helpers
-function copyState(){
-  return {
-    grid: grid.map(r => r.slice()),
-    score
-  };
-}
-function restoreState(state){
-  grid = state.grid.map(r => r.slice());
-  score = state.score;
-  updateScore();
-  refreshTiles();
-}
-
-function updateScore(){
-  scoreEl.textContent = score;
-  if (score > best){
-    best = score;
-    localStorage.setItem('2048_best', best);
-    bestEl.textContent = best;
-  }
-}
-
-// spawn 2 or 4 in random empty cell
-function spawnRandom(){
-  const empties = [];
-  for (let r=0;r<GRID;r++) for (let c=0;c<GRID;c++) if (grid[r][c] === 0) empties.push([r,c]);
-  if (empties.length === 0) return false;
-  const [r,c] = empties[Math.floor(Math.random()*empties.length)];
-  grid[r][c] = Math.random() < 0.9 ? 2 : 4;
-  createTileAt(r,c, grid[r][c]);
-  return true;
-}
-
-// create visual tile DOM
-function createTileAt(row, col, value){
-  const id = nextId++;
-  const tile = document.createElement('div');
-  tile.className = 'tile t' + value;
-  tile.dataset.id = id;
-  tile.dataset.row = row;
-  tile.dataset.col = col;
-  tile.dataset.val = value;
-  tile.style.width = `${TILE_PX}px`;
-  tile.style.height = `${TILE_PX}px`;
-  tile.style.left = calcLeft(col) + 'px';
-  tile.style.top = calcTop(row) + 'px';
-  tile.style.fontSize = Math.max(9, TILE_PX * 0.8) + 'px';
-  tile.textContent = value;
-  boardEl.appendChild(tile);
-  tilesMap.set(id, tile);
-  // animate pop
-  tile.style.transform = 'scale(0.08)';
-  requestAnimationFrame(()=> tile.style.transform = 'scale(1)');
-}
-
-// remove all tile elements and rebuild from grid (used after big moves)
-function refreshTiles(){
-  // remove all current tiles
-  tilesMap.forEach(el => el.remove());
-  tilesMap.clear();
-  nextId = 1;
-  for (let r=0;r<GRID;r++){
-    for (let c=0;c<GRID;c++){
-      const v = grid[r][c];
-      if (v !== 0) createTileAt(r,c,v);
+    // Başlangıçta boş board ve 2 rastgele hücreye 2 veya 4 koy
+    function initGame() {
+      board = [];
+      score = 0;
+      scoreEl.textContent = score;
+      gameMessage.textContent = "";
+      for(let i=0; i<boardSize*boardSize; i++) board.push(0);
+      addRandomTile();
+      addRandomTile();
+      drawBoard();
     }
-  }
-}
 
-// convert grid cell to left/top in px (before scale)
-function calcLeft(col){
-  return col * (TILE_PX + GAP_PX);
-}
-function calcTop(row){
-  return row * (TILE_PX + GAP_PX);
-}
-
-// apply scale to fit board into container width nicely
-function applyScale(){
-  // container available width: board-outer's parent width
-  const outer = boardEl.parentElement;
-  const maxW = Math.min(520, outer.clientWidth - 24); // some margin
-  const rawW = GRID * TILE_PX + (GRID-1) * GAP_PX;
-  let scale = Math.min( Math.floor((maxW / rawW) * 100) / 100 || 1 , 6); // allow fractional, cap 6
-  if (scale < 0.6) scale = 0.6;
-  boardEl.style.setProperty('--scale', scale);
-}
-window.addEventListener('resize', applyScale);
-
-// movement logic utilities
-function slideArray(arr){
-  // slide non-zero to left, merging equal neighbors
-  const result = arr.filter(x=>x!==0);
-  let moved = false;
-  for (let i=0;i<result.length-1;i++){
-    if (result[i] === result[i+1]){
-      result[i] *= 2;
-      score += result[i];
-      result.splice(i+1,1);
-      moved = true;
+    // Random boş hücreye 2 ya da 4 koy
+    function addRandomTile() {
+      const emptyIndices = board.map((v,i) => v === 0 ? i : -1).filter(i => i !== -1);
+      if(emptyIndices.length === 0) return;
+      const randIndex = emptyIndices[Math.floor(Math.random()*emptyIndices.length)];
+      board[randIndex] = Math.random() < 0.9 ? 2 : 4;
     }
-  }
-  while (result.length < GRID) result.push(0);
-  // detect if moved compared to arr
-  for (let i=0;i<GRID;i++) if (arr[i] !== result[i]) moved = true;
-  return {arr: result, moved};
-}
 
-function moveLeft(){
-  prevState = copyState();
-  let movedAny = false;
-  for (let r=0;r<GRID;r++){
-    const row = grid[r].slice();
-    const {arr, moved} = slideArray(row);
-    if (moved) movedAny = true;
-    grid[r] = arr.slice();
-  }
-  if (movedAny) {
-    spawnRandom();
-    refreshTilesWithAnimation();
-    updateScore();
-    checkGameOver();
-  } else { prevState = null; }
-}
-
-function moveRight(){
-  prevState = copyState();
-  let movedAny = false;
-  for (let r=0;r<GRID;r++){
-    const rev = grid[r].slice().reverse();
-    const {arr, moved} = slideArray(rev);
-    if (moved) movedAny = true;
-    grid[r] = arr.reverse();
-  }
-  if (movedAny) {
-    spawnRandom();
-    refreshTilesWithAnimation();
-    updateScore();
-    checkGameOver();
-  } else { prevState = null; }
-}
-
-function moveUp(){
-  prevState = copyState();
-  let movedAny = false;
-  for (let c=0;c<GRID;c++){
-    const col = [];
-    for (let r=0;r<GRID;r++) col.push(grid[r][c]);
-    const {arr, moved} = slideArray(col);
-    if (moved) movedAny = true;
-    for (let r=0;r<GRID;r++) grid[r][c] = arr[r];
-  }
-  if (movedAny) {
-    spawnRandom();
-    refreshTilesWithAnimation();
-    updateScore();
-    checkGameOver();
-  } else { prevState = null; }
-}
-
-function moveDown(){
-  prevState = copyState();
-  let movedAny = false;
-  for (let c=0;c<GRID;c++){
-    const col = [];
-    for (let r=0;r<GRID;r++) col.push(grid[r][c]);
-    const rev = col.reverse();
-    const {arr, moved} = slideArray(rev);
-    if (moved) movedAny = true;
-    const result = arr.reverse();
-    for (let r=0;r<GRID;r++) grid[r][c] = result[r];
-  }
-  if (movedAny) {
-    spawnRandom();
-    refreshTilesWithAnimation();
-    updateScore();
-    checkGameOver();
-  } else { prevState = null; }
-}
-
-// refresh with smooth tile movement: update positions & values
-function refreshTilesWithAnimation(){
-  // simple approach: remove and recreate to keep code short
-  refreshTiles();
-}
-
-// check game over: no moves and no empties
-function checkGameOver(){
-  for (let r=0;r<GRID;r++) for (let c=0;c<GRID;c++) if (grid[r][c] === 0) return false;
-  // check possible merges horizontally or vertically
-  for (let r=0;r<GRID;r++) for (let c=0;c<GRID-1;c++) if (grid[r][c] === grid[r][c+1]) return false;
-  for (let c=0;c<GRID;c++) for (let r=0;r<GRID-1;r++) if (grid[r][c] === grid[r+1][c]) return false;
-  // no moves left
-  setTimeout(()=> alert('Oyun bitti! Skor: ' + score), 50);
-  return true;
-}
-
-// keyboard controls
-window.addEventListener('keydown', (e)=>{
-  switch(e.key){
-    case 'ArrowLeft': moveLeft(); break;
-    case 'ArrowRight': moveRight(); break;
-    case 'ArrowUp': moveUp(); break;
-    case 'ArrowDown': moveDown(); break;
-  }
-});
-
-// mobile swipe detection
-let touchStartX = null, touchStartY = null;
-boardEl.addEventListener('touchstart', (e)=>{
-  const t = e.touches[0];
-  touchStartX = t.clientX;
-  touchStartY = t.clientY;
-}, {passive:true});
-boardEl.addEventListener('touchend', (e)=>{
-  if (touchStartX === null) return;
-  const t = e.changedTouches[0];
-  const dx = t.clientX - touchStartX;
-  const dy = t.clientY - touchStartY;
-  const absX = Math.abs(dx), absY = Math.abs(dy);
-  const threshold = 20; // minimum swipe px to register
-  if (Math.max(absX, absY) < threshold) { touchStartX = null; touchStartY = null; return; }
-  if (absX > absY){
-    if (dx > 0) moveRight(); else moveLeft();
-  } else {
-    if (dy > 0) moveDown(); else moveUp();
-  }
-  touchStartX = null; touchStartY = null;
-}, {passive:true});
-
-// undo
-undoBtn.addEventListener('click', ()=>{
-  if (!prevState) return;
-  restoreState(prevState);
-  prevState = null;
-});
-
-// hint: find a move that changes grid (brute-forced)
-hintBtn.addEventListener('click', ()=>{
-  const copy = copyState();
-  // try moves
-  const tryMoves = [
-    {fn:moveLeft, name:'Sol'},
-    {fn:moveRight, name:'Sağ'},
-    {fn:moveUp, name:'Yukarı'},
-    {fn:moveDown, name:'Aşağı'},
-  ];
-  for (const m of tryMoves){
-    // restore
-    restoreState(copy);
-    // call move without altering prevState detection — so call lower-level logic
-    // we'll simulate in a sandbox
-    const gridCopy = copy.grid.map(r=>r.slice());
-    let moved = false;
-    if (m.name === 'Sol'){
-      for (let r=0;r<GRID;r++){
-        const {arr, moved:mv} = slideArray(gridCopy[r].slice());
-        if (mv) moved = true;
-      }
-    } else if (m.name === 'Sağ'){
-      for (let r=0;r<GRID;r++){
-        const rev = gridCopy[r].slice().reverse();
-        const {arr, moved:mv} = slideArray(rev);
-        if (mv) moved = true;
-      }
-    } else if (m.name === 'Yukarı'){
-      for (let c=0;c<GRID;c++){
-        const col = [];
-        for (let r=0;r<GRID;r++) col.push(gridCopy[r][c]);
-        const {arr, moved:mv} = slideArray(col);
-        if (mv) moved = true;
-      }
-    } else if (m.name === 'Aşağı'){
-      for (let c=0;c<GRID;c++){
-        const col = [];
-        for (let r=0;r<GRID;r++) col.push(gridCopy[r][c]);
-        const rev = col.reverse();
-        const {arr, moved:mv} = slideArray(rev);
-        if (mv) moved = true;
-      }
-    }
-    if (moved){
-      alert('İpucu: "' + m.name + '" hamlesini dene.');
-      restoreState(copy);
-      return;
-    }
-  }
-  alert('Geçerli bir hamle bulunamadı.');
-});
-
-// new game
-newBtn.addEventListener('click', initNewGame);
-
-function initNewGame(){
-  initGrid();
-  score = 0;
-  updateScore();
-  // spawn two tiles
-  spawnRandom();
-  spawnRandom();
-  refreshTiles();
-  applyScale();
-  prevState = null;
-}
-
-// refresh tiles positions (update absolute positions & class by value)
-function refreshTiles(){
-  // remove and recreate for simplicity
-  tilesMap.forEach(el => el.remove());
-  tilesMap.clear();
-  nextId = 1;
-  for (let r=0;r<GRID;r++){
-    for (let c=0;c<GRID;c++){
-      const v = grid[r][c];
-      if (v !== 0){
-        const id = nextId++;
+    // Boardu güncelle ve render et
+    function drawBoard() {
+      gameBoard.innerHTML = '';
+      for(let i=0; i < board.length; i++) {
+        const val = board[i];
         const tile = document.createElement('div');
-        tile.className = 'tile t' + v;
-        tile.dataset.id = id;
-        tile.dataset.row = r;
-        tile.dataset.col = c;
-        tile.dataset.val = v;
-        tile.style.left = calcLeft(c) + 'px';
-        tile.style.top = calcTop(r) + 'px';
-        tile.style.width = TILE_PX + 'px';
-        tile.style.height = TILE_PX + 'px';
-        tile.style.lineHeight = TILE_PX + 'px';
-        tile.style.fontSize = Math.max(9, TILE_PX * 0.8) + 'px';
-        tile.textContent = v;
-        boardEl.appendChild(tile);
-        tilesMap.set(id, tile);
+        tile.classList.add('tile', `tile-${val}`);
+        tile.style.height = '60px';
+        tile.style.userSelect = 'none';
+        tile.textContent = val === 0 ? '' : val;
+        gameBoard.appendChild(tile);
       }
     }
-  }
-  updateScore();
-}
 
-// initial
-initNewGame();
-applyScale();
-</script>
+    // Hareket işlemleri
+    function slide(row) {
+      let arr = row.filter(v => v !== 0);
+      for(let i=0; i<arr.length-1; i++) {
+        if(arr[i] === arr[i+1]) {
+          arr[i] *= 2;
+          score += arr[i];
+          arr[i+1] = 0;
+          i++;
+        }
+      }
+      arr = arr.filter(v => v !== 0);
+      while(arr.length < boardSize) arr.push(0);
+      return arr;
+    }
+
+    // Yukarı, aşağı, sola, sağ hareket fonksiyonları
+    function moveLeft() {
+      let moved = false;
+      for(let r=0; r<boardSize; r++) {
+        let row = board.slice(r*boardSize, r*boardSize + boardSize);
+        let newRow = slide(row);
+        if(newRow.toString() !== row.toString()) moved = true;
+        for(let c=0; c<boardSize; c++) board[r*boardSize + c] = newRow[c];
+      }
+      return moved;
+    }
+
+    function moveRight() {
+      let moved = false;
+      for(let r=0; r<boardSize; r++) {
+        let row = board.slice(r*boardSize, r*boardSize + boardSize).reverse();
+        let newRow = slide(row);
+        newRow.reverse();
+        if(newRow.toString() !== board.slice(r*boardSize, r*boardSize + boardSize).toString()) moved = true;
+        for(let c=0; c<boardSize; c++) board[r*boardSize + c] = newRow[c];
+      }
+      return moved;
+    }
+
+    function moveUp() {
+      let moved = false;
+      for(let c=0; c<boardSize; c++) {
+        let col = [];
+        for(let r=0; r<boardSize; r++) col.push(board[r*boardSize + c]);
+        let newCol = slide(col);
+        if(newCol.toString() !== col.toString()) moved = true;
+        for(let r=0; r<boardSize; r++) board[r*boardSize + c] = newCol[r];
+      }
+      return moved;
+    }
+
+    function moveDown() {
+      let moved = false;
+      for(let c=0; c<boardSize; c++) {
+        let col = [];
+        for(let r=0; r<boardSize; r++) col.push(board[r*boardSize + c]);
+        col.reverse();
+        let newCol = slide(col);
+        newCol.reverse();
+        if(newCol.toString() !== col.reverse().toString()) moved = true;
+        for(let r=0; r<boardSize; r++) board[r*boardSize + c] = newCol[r];
+      }
+      return moved;
+    }
+
+    // Oyun bitti kontrolü
+    function isGameOver() {
+      if(board.includes(0)) return false;
+      // Hareket ettirilebilecek komşu var mı kontrolü
+      for(let r=0; r<boardSize; r++) {
+        for(let c=0; c<boardSize-1; c++) {
+          if(board[r*boardSize+c] === board[r*boardSize+c+1]) return false;
+        }
+      }
+      for(let c=0; c<boardSize; c++) {
+        for(let r=0; r<boardSize-1; r++) {
+          if(board[r*boardSize+c] === board[(r+1)*boardSize+c]) return false;
+        }
+      }
+      return true;
+    }
+
+    // Oyun mesajı göster
+    function showMessage(msg) {
+      gameMessage.textContent = msg;
+    }
+
+    // Oyun hareketlerini yap ve güncelle
+    function makeMove(direction) {
+      let moved = false;
+      switch(direction) {
+        case 'left': moved = moveLeft(); break;
+        case 'right': moved = moveRight(); break;
+        case 'up': moved = moveUp(); break;
+        case 'down': moved = moveDown(); break;
+      }
+      if(moved) {
+        addRandomTile();
+        drawBoard();
+        scoreEl.textContent = score;
+        if(isGameOver()) {
+          showMessage("Oyun bitti! Yeniden başlat.");
+        } else {
+          showMessage("");
+        }
+      }
+    }
+
+    // Klavye ok tuşlarını dinle
+    window.addEventListener('keydown', e => {
+      if(gameMessage.textContent.includes("Oyun bitti")) return; // oyun bittiyse ignore
+      switch(e.key) {
+        case 'ArrowLeft': makeMove('left'); e.preventDefault(); break;
+        case 'ArrowRight': makeMove('right'); e.preventDefault(); break;
+        case 'ArrowUp': makeMove('up'); e.preventDefault(); break;
+        case 'ArrowDown': makeMove('down'); e.preventDefault(); break;
+      }
+    });
+
+    // Dokunmatik hareketleri algılamak için basit swipe algılama
+    let touchStartX = 0;
+    let touchStartY = 0;
+    window.addEventListener('touchstart', e => {
+      const touch = e.changedTouches[0];
+      touchStartX = touch.screenX;
+      touchStartY = touch.screenY;
+    });
+    window.addEventListener('touchend', e => {
+      if(gameMessage.textContent.includes("Oyun bitti")) return;
+      const touch = e.changedTouches[0];
+      const dx = touch.screenX - touchStartX;
+      const dy = touch.screenY - touchStartY;
+      if(Math.abs(dx) > Math.abs(dy)) {
+        if(dx > 30) makeMove('right');
+        else if(dx < -30) makeMove('left');
+      } else {
+        if(dy > 30) makeMove('down');
+        else if(dy < -30) makeMove('up');
+      }
+    });
+
+    // Yeniden başlatma butonu
+    restartBtn.addEventListener('click', () => {
+      initGame();
+    });
+
+    // İlk oyun başlatma
+    initGame();
+  </script>
+
 </body>
 </html>
