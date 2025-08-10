@@ -1,135 +1,161 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Endless Runner</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    * {
-      box-sizing: border-box;
-    }
-    canvas {
-      background: linear-gradient(to top, #4facfe, #00f2fe);
-      display: block;
-      margin: auto;
-      border: 4px solid white;
-      border-radius: 10px;
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Endless Runner</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  body {
+    overscroll-behavior: none;
+    touch-action: manipulation;
+  }
+  #game {
+    background: linear-gradient(to bottom, #87ceeb, #e0f7fa);
+    overflow: hidden;
+    position: relative;
+  }
+  .player {
+    position: absolute;
+    bottom: 0;
+    left: 50px;
+    width: 40px;
+    height: 40px;
+    background-color: #ff3b3b;
+    border-radius: 8px;
+  }
+  .obstacle {
+    position: absolute;
+    bottom: 0;
+    width: 40px;
+    background-color: #2e7d32;
+    border-radius: 4px;
+  }
+</style>
 </head>
-<body class="bg-gray-900 text-white flex flex-col items-center justify-center min-h-screen p-4 select-none">
+<body class="bg-gray-900 flex flex-col items-center justify-center min-h-screen p-4">
 
-  <h1 class="text-3xl font-bold mb-4">🏃 Endless Runner</h1>
-  <p class="mb-2">Puan: <span id="score">0</span></p>
-  <canvas id="gameCanvas" width="480" height="300"></canvas>
-  <button id="startBtn" class="mt-4 px-6 py-2 bg-green-500 rounded-lg font-bold hover:bg-green-600 transition">Başla</button>
-  <p class="mt-2 text-gray-300">Zıplamak için Boşluk veya Dokun</p>
+<h1 class="text-3xl font-bold text-white mb-4">Endless Runner</h1>
 
-  <script>
-    const canvas = document.getElementById("gameCanvas");
-    const ctx = canvas.getContext("2d");
-    const scoreEl = document.getElementById("score");
-    const startBtn = document.getElementById("startBtn");
+<div id="game" class="w-full max-w-2xl h-64 rounded-lg shadow-lg relative"></div>
 
-    let player, obstacles, score, gameSpeed, gravity, isJumping, gameLoopId, playing;
+<div class="flex items-center justify-between w-full max-w-2xl mt-4 px-2">
+  <div class="text-white">Skor: <span id="score">0</span></div>
+  <button id="startBtn" class="bg-white text-gray-900 font-semibold px-4 py-2 rounded shadow hover:bg-gray-100">Başlat</button>
+</div>
 
-    function resetGame() {
-      player = { x: 50, y: 250, w: 30, h: 30, dy: 0 };
-      obstacles = [];
-      score = 0;
-      gameSpeed = 3;
-      gravity = 0.6;
-      isJumping = false;
-      playing = true;
+<p class="text-gray-400 mt-2 text-sm">Zıplamak için boşluk tuşuna bas veya ekrana dokun</p>
+
+<script>
+const game = document.getElementById('game');
+const scoreEl = document.getElementById('score');
+const startBtn = document.getElementById('startBtn');
+
+let player, playerY, velocityY, gravity;
+let obstacles = [];
+let score;
+let gameInterval, obstacleInterval;
+let isJumping = false;
+let gameRunning = false;
+
+function initGame() {
+  game.innerHTML = '';
+  player = document.createElement('div');
+  player.classList.add('player');
+  game.appendChild(player);
+
+  playerY = 0;
+  velocityY = 0;
+  gravity = 0.6;
+  obstacles = [];
+  score = 0;
+  scoreEl.textContent = score;
+}
+
+function startGame() {
+  if (gameRunning) return;
+  gameRunning = true;
+  initGame();
+
+  gameInterval = setInterval(updateGame, 16);
+  obstacleInterval = setInterval(spawnObstacle, 1500);
+}
+
+function endGame() {
+  gameRunning = false;
+  clearInterval(gameInterval);
+  clearInterval(obstacleInterval);
+  alert(`Oyun Bitti! Skorunuz: ${score}`);
+}
+
+function jump() {
+  if (!gameRunning) return;
+  if (!isJumping) {
+    velocityY = -10;
+    isJumping = true;
+  }
+}
+
+function spawnObstacle() {
+  const obstacle = document.createElement('div');
+  obstacle.classList.add('obstacle');
+  const height = Math.random() * 40 + 40; // 40-80px yükseklik
+  obstacle.style.height = `${height}px`;
+  obstacle.style.right = '-40px';
+  game.appendChild(obstacle);
+  obstacles.push(obstacle);
+}
+
+function updateGame() {
+  // Oyuncu hareketi
+  velocityY += gravity;
+  playerY += velocityY;
+  if (playerY < 0) playerY = 0;
+  if (playerY > game.clientHeight - 40) {
+    playerY = game.clientHeight - 40;
+    isJumping = false;
+  }
+  player.style.bottom = `${playerY}px`;
+
+  // Engellerin hareketi
+  obstacles.forEach((obs, index) => {
+    let obsX = parseInt(obs.style.right);
+    obsX += 4;
+    obs.style.right = `${obsX}px`;
+
+    // Çarpışma kontrolü
+    const playerRect = player.getBoundingClientRect();
+    const obsRect = obs.getBoundingClientRect();
+    if (
+      playerRect.left < obsRect.right &&
+      playerRect.right > obsRect.left &&
+      playerRect.top < obsRect.bottom &&
+      playerRect.bottom > obsRect.top
+    ) {
+      endGame();
+    }
+
+    // Engel geçtiyse skor artır
+    if (obsX > game.clientWidth) {
+      obs.remove();
+      obstacles.splice(index, 1);
+      score++;
       scoreEl.textContent = score;
     }
+  });
+}
 
-    function jump() {
-      if (!isJumping) {
-        player.dy = -10;
-        isJumping = true;
-      }
-    }
+// Kontroller
+document.addEventListener('keydown', e => {
+  if (e.code === 'Space') {
+    e.preventDefault();
+    jump();
+  }
+});
+game.addEventListener('touchstart', jump);
 
-    function spawnObstacle() {
-      const height = 30;
-      const width = 30;
-      const x = canvas.width;
-      const y = canvas.height - height;
-      obstacles.push({ x, y, w: width, h: height });
-    }
+startBtn.addEventListener('click', startGame);
+</script>
 
-    function update() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      // Player
-      player.y += player.dy;
-      player.dy += gravity;
-
-      if (player.y + player.h >= canvas.height) {
-        player.y = canvas.height - player.h;
-        isJumping = false;
-      }
-
-      ctx.fillStyle = "#ffdd57";
-      ctx.fillRect(player.x, player.y, player.w, player.h);
-
-      // Obstacles
-      for (let i = obstacles.length - 1; i >= 0; i--) {
-        const obs = obstacles[i];
-        obs.x -= gameSpeed;
-
-        ctx.fillStyle = "#ff4d4d";
-        ctx.fillRect(obs.x, obs.y, obs.w, obs.h);
-
-        // Collision
-        if (
-          player.x < obs.x + obs.w &&
-          player.x + player.w > obs.x &&
-          player.y < obs.y + obs.h &&
-          player.y + player.h > obs.y
-        ) {
-          playing = false;
-        }
-
-        // Remove passed obstacles
-        if (obs.x + obs.w < 0) {
-          obstacles.splice(i, 1);
-          score++;
-          scoreEl.textContent = score;
-          if (score % 5 === 0) gameSpeed += 0.5;
-        }
-      }
-
-      // Spawn obstacles
-      if (Math.random() < 0.02) {
-        spawnObstacle();
-      }
-
-      if (playing) {
-        gameLoopId = requestAnimationFrame(update);
-      } else {
-        ctx.fillStyle = "white";
-        ctx.font = "20px Arial";
-        ctx.fillText("Oyun Bitti - Tekrar başlatmak için Başla", 20, canvas.height / 2);
-      }
-    }
-
-    // Kontroller
-    document.addEventListener("keydown", (e) => {
-      if (e.code === "Space") jump();
-    });
-
-    canvas.addEventListener("touchstart", () => {
-      jump();
-    });
-
-    startBtn.addEventListener("click", () => {
-      cancelAnimationFrame(gameLoopId);
-      resetGame();
-      update();
-    });
-  </script>
 </body>
 </html>
