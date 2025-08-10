@@ -3,535 +3,168 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Breakout / Arkanoid — Tailwind + JS</title>
+  <title>Breakout • Tailwind + JS (Responsive)</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    body { -webkit-tap-highlight-color: transparent; background: linear-gradient(180deg,#0f172a,#04203a); }
-    canvas { display:block; border-radius:12px; box-shadow: 0 8px 30px rgba(2,6,23,0.7); background: linear-gradient(180deg,#05223a 0%, #02111a 100%); }
-    /* mobile control sizes */
+    body { -webkit-tap-highlight-color: transparent; }
+    canvas { display:block; border-radius:12px; box-shadow: 0 10px 30px rgba(2,6,23,0.6); background: linear-gradient(180deg,#021627 0%, #041428 100%); }
     .touch-btn { width:64px; height:64px; border-radius:12px; }
-    /* small helper for centered layout */
-    .game-wrap { max-width:1100px; width:100%; }
+    .glass { background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02)); border: 1px solid rgba(255,255,255,0.04); }
+    .no-select { user-select: none; -webkit-user-select: none; -ms-user-select: none; }
   </style>
 </head>
-<body class="min-h-screen flex items-center justify-center p-6 text-slate-100">
+<body class="min-h-screen flex items-center justify-center p-4 bg-gradient-to-b from-slate-900 to-slate-800 text-slate-100">
 
-  <div class="game-wrap w-full">
+  <div class="w-full max-w-5xl game-wrap">
     <header class="flex flex-col md:flex-row items-center justify-between gap-4 mb-4">
-      <div class="flex items-center gap-4">
-        <div class="text-2xl font-semibold">Breakout / Arkanoid</div>
-        <div class="hidden md:flex items-center gap-2 text-sm text-slate-300">
-          <span class="bg-white/5 px-3 py-1 rounded-md">Seviye: <span id="level">1</span></span>
-          <span class="bg-white/5 px-3 py-1 rounded-md">Can: <span id="lives">3</span></span>
-          <span class="bg-white/5 px-3 py-1 rounded-md">Puan: <span id="score">0</span></span>
-          <span class="bg-white/5 px-3 py-1 rounded-md">En Yüksek: <span id="highscore">0</span></span>
-        </div>
+      <div>
+        <h1 class="text-2xl md:text-3xl font-bold">Breakout • Arkanoid</h1>
+        <p class="text-sm text-slate-400">Tailwind + Canvas + JS • Responsive & Mobile</p>
       </div>
 
       <div class="flex items-center gap-3">
-        <button id="startBtn" class="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-black rounded-md font-medium shadow">Başlat</button>
-        <button id="pauseBtn" class="px-4 py-2 bg-yellow-400 hover:bg-yellow-500 text-black rounded-md font-medium shadow">Duraklat</button>
-        <button id="resetBtn" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-md font-medium shadow">Yeniden Başlat</button>
-        <button id="muteBtn" class="px-3 py-2 bg-white/5 hover:bg-white/10 rounded-md text-sm">Ses: Açık</button>
+        <div class="glass px-3 py-2 rounded-md text-sm">
+          Puan: <span id="score" class="font-mono">0</span>
+        </div>
+        <div class="glass px-3 py-2 rounded-md text-sm">
+          Can: <span id="lives" class="font-mono">3</span>
+        </div>
+        <div class="glass px-3 py-2 rounded-md text-sm">
+          Seviye: <span id="level" class="font-mono">1</span>
+        </div>
+        <div class="glass px-3 py-2 rounded-md text-sm hidden md:block">
+          En Yüksek: <span id="highscore" class="font-mono">0</span>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <button id="startBtn" class="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-black rounded-md font-medium no-select">Başlat</button>
+          <button id="pauseBtn" class="px-4 py-2 bg-yellow-400 hover:bg-yellow-500 text-black rounded-md font-medium no-select">Duraklat</button>
+          <button id="resetBtn" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-md font-medium no-select">Yeniden</button>
+          <button id="muteBtn" class="px-3 py-2 bg-white/5 hover:bg-white/10 rounded-md text-sm no-select">Ses: Açık</button>
+        </div>
       </div>
     </header>
 
     <main class="grid md:grid-cols-4 gap-6">
-      <!-- Canvas area -->
+      <!-- Canvas alanı -->
       <section class="md:col-span-3 flex items-center justify-center">
-        <div id="canvasHolder" class="w-full">
-          <canvas id="gameCanvas"></canvas>
+        <div id="canvasContainer" class="w-full">
+          <canvas id="gameCanvas" class="w-full"></canvas>
         </div>
       </section>
 
-      <!-- Right panel: stats + mobile controls -->
-      <aside class="flex flex-col gap-4 items-stretch">
-        <div class="bg-white/5 p-4 rounded-lg">
-          <div class="flex flex-col gap-3">
-            <div class="text-slate-200">Puan: <strong id="scoreSide">0</strong></div>
-            <div class="text-slate-200">Can: <strong id="livesSide">3</strong></div>
-            <div class="text-slate-200">Seviye: <strong id="levelSide">1</strong></div>
-            <div class="text-slate-200">En Yüksek: <strong id="highscoreSide">0</strong></div>
-          </div>
-        </div>
-
-        <div class="bg-white/5 p-4 rounded-lg">
-          <h3 class="font-semibold mb-2">Kontroller</h3>
-          <ul class="text-sm text-slate-300 list-disc list-inside space-y-1">
-            <li>Fare/Touch ile paddle'ı hareket ettir.</li>
-            <li>Sol/Sağ ok tuşları ile hareket.</li>
-            <li>Boşluk ile topu fırlat.</li>
+      <!-- Sağ panel -->
+      <aside class="flex flex-col gap-4">
+        <div class="glass p-4 rounded-md">
+          <h3 class="font-semibold mb-2">İpuçları</h3>
+          <ul class="text-sm text-slate-200 list-disc list-inside space-y-1">
+            <li>Fareyle paddle'ı hareket ettir.</li>
+            <li>Mobilde paddle sürükle veya alt butonları kullan.</li>
+            <li>Boşluk ile topu fırlat, Space tekrar oyunu başlatmaz.</li>
           </ul>
         </div>
 
-        <!-- Mobile touch controls (görünebilir) -->
-        <div class="bg-white/5 p-3 rounded-lg flex flex-col items-center gap-3 md:hidden">
+        <div class="glass p-4 rounded-md hidden md:block">
+          <h4 class="font-semibold mb-2">İstatistik</h4>
+          <div class="text-sm text-slate-200">Bricks: <span id="brickCount">0</span></div>
+        </div>
+
+        <!-- Mobil kontrol butonları -->
+        <div class="md:hidden glass p-3 rounded-md flex flex-col items-center gap-3">
           <div class="flex gap-3">
             <button id="btnLeft" class="touch-btn bg-slate-700 hover:bg-slate-600 text-xl">◀</button>
             <button id="btnRight" class="touch-btn bg-slate-700 hover:bg-slate-600 text-xl">▶</button>
           </div>
-          <button id="btnLaunch" class="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-black rounded-md font-medium">Fırlat</button>
+          <div class="w-full grid grid-cols-2 gap-2">
+            <button id="btnLaunch" class="px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-black rounded-md">Fırlat</button>
+            <button id="btnPause" class="px-4 py-2 bg-yellow-400 hover:bg-yellow-500 text-black rounded-md">Duraklat</button>
+          </div>
         </div>
       </aside>
     </main>
 
-    <footer class="mt-6 text-center text-xs text-slate-400">Responsive Breakout • Tailwind + HTML5 Canvas + Vanilla JS</footer>
+    <footer class="mt-6 text-center text-xs text-slate-400">Responsive Breakout • İstersen güçlendiriciler, ekstra top ve seviye efektleri ekleyebilirim.</footer>
   </div>
 
-<script>
-/* ----------------------------
-   Responsive Breakout / Arkanoid
-   - Single-file
-   - Canvas resizes to container
-   - Paddle with mouse/touch/keys
-   - Bricks, levels, score, lives
-   - Start / Pause / Reset / Mute
-   ----------------------------*/
+  <script>
+  /*
+    Responsive Breakout / Arkanoid
+    - Canvas resize to container
+    - Paddle: mouse / touch / left-right keys
+    - Mobile buttons: left / right / launch / pause
+    - Score, lives, level, highscore (localStorage)
+    - Simple sounds via WebAudio (toggleable)
+  */
 
-const canvas = document.getElementById('gameCanvas');
-const holder = document.getElementById('canvasHolder');
-const ctx = canvas.getContext('2d');
+  // DOM
+  const canvas = document.getElementById('gameCanvas');
+  const container = document.getElementById('canvasContainer');
+  const scoreEl = document.getElementById('score');
+  const livesEl = document.getElementById('lives');
+  const levelEl = document.getElementById('level');
+  const highscoreEl = document.getElementById('highscore');
+  const brickCountEl = document.getElementById('brickCount');
 
-const startBtn = document.getElementById('startBtn');
-const pauseBtn = document.getElementById('pauseBtn');
-const resetBtn = document.getElementById('resetBtn');
-const muteBtn = document.getElementById('muteBtn');
+  const startBtn = document.getElementById('startBtn');
+  const pauseBtn = document.getElementById('pauseBtn');
+  const resetBtn = document.getElementById('resetBtn');
+  const muteBtn = document.getElementById('muteBtn');
 
-const scoreEl = document.getElementById('score');
-const livesEl = document.getElementById('lives');
-const levelEl = document.getElementById('level');
-const highscoreEl = document.getElementById('highscore');
+  const btnLeft = document.getElementById('btnLeft');
+  const btnRight = document.getElementById('btnRight');
+  const btnLaunch = document.getElementById('btnLaunch');
+  const btnPause = document.getElementById('btnPause');
 
-const scoreSide = document.getElementById('scoreSide');
-const livesSide = document.getElementById('livesSide');
-const levelSide = document.getElementById('levelSide');
-const highscoreSide = document.getElementById('highscoreSide');
+  const ctx = canvas.getContext('2d');
 
-const btnLeft = document.getElementById('btnLeft');
-const btnRight = document.getElementById('btnRight');
-const btnLaunch = document.getElementById('btnLaunch');
+  // Game state
+  let WIDTH, HEIGHT, scale;
+  let paddle = {}, ball = {}, bricks = [], score = 0, lives = 3, level = 1;
+  let running = false, paused = false, muted = false;
+  let highscore = parseInt(localStorage.getItem('breakoutHighscore') || '0', 10);
 
-let WIDTH, HEIGHT, scale;
-function resizeCanvas(){
-  // Keep a 4:3 ratio or adapt to holder width
-  const maxW = holder.clientWidth;
-  const maxH = window.innerHeight * 0.7;
-  // prefer width-based size but ensure not too tall
-  let desiredW = Math.min(maxW, 900);
-  let desiredH = desiredW * 0.6;
-  if (desiredH > maxH) {
-    desiredH = maxH;
-    desiredW = desiredH / 0.6;
-  }
-  WIDTH = Math.floor(desiredW);
-  HEIGHT = Math.floor(desiredH);
-  canvas.width = WIDTH;
-  canvas.height = HEIGHT;
-  scale = WIDTH / 800; // base scale for sizes
-}
-window.addEventListener('resize', ()=> { resizeCanvas(); draw(); });
-resizeCanvas();
+  // Sizes (base)
+  const BASE = { width: 900, height: 540 };
+  const BASE_PADDLE_W = 140, BASE_PADDLE_H = 16, BASE_BALL_R = 10, BASE_TOP = 70;
+  const BRICK_ROWS = 5, BRICK_PADDING = 8, BRICK_HEIGHT = 24, BRICK_COLS_BASE = 10;
 
-/* Game parameters (scaled) */
-const PADDLE_WIDTH = 140; // base
-const PADDLE_HEIGHT = 16;
-const BALL_RADIUS = 10;
-const BRICK_ROWS = 5;
-const BRICK_COLS_BASE = 10; // will adapt with width
-const BRICK_PADDING = 8;
-const BRICK_HEIGHT = 24;
-const TOP_OFFSET = 80;
-
-/* State */
-let paddle = { x: 0, y: 0, w: PADDLE_WIDTH, h: PADDLE_HEIGHT, speed: 10 };
-let ball = { x: 0, y: 0, vx: 0, vy: 0, r: BALL_RADIUS, stuck: true };
-let bricks = [];
-let score = 0;
-let lives = 3;
-let level = 1;
-let running = false;
-let paused = false;
-let muted = false;
-let highscore = parseInt(localStorage.getItem('breakoutHighscore') || '0', 10);
-
-/* Sounds (simple using WebAudio or fallback to no sound) */
-let audioCtx = null;
-function tryInitAudio(){ if (!audioCtx && !muted){ audioCtx = new (window.AudioContext||window.webkitAudioContext)(); } }
-function playBeep(freq=440, time=0.05, gain=0.08){
-  if (muted) return;
-  tryInitAudio();
-  if (!audioCtx) return;
-  const o = audioCtx.createOscillator();
-  const g = audioCtx.createGain();
-  o.type = 'sine';
-  o.frequency.value = freq;
-  g.gain.value = gain;
-  o.connect(g); g.connect(audioCtx.destination);
-  o.start();
-  o.stop(audioCtx.currentTime + time);
-}
-
-/* Helpers */
-function adaptSizes(){
-  // scale sizes to canvas
-  paddle.w = Math.max(80, Math.floor(PADDLE_WIDTH * scale));
-  paddle.h = Math.max(10, Math.floor(PADDLE_HEIGHT * scale));
-  paddle.y = HEIGHT - paddle.h - Math.floor(18 * scale);
-  paddle.speed = Math.max(6, Math.floor(10 * scale));
-  ball.r = Math.max(6, Math.floor(BALL_RADIUS * scale));
-}
-
-function buildBricks(){
-  bricks = [];
-  // adapt columns to width
-  const targetCols = Math.max(6, Math.floor((WIDTH / 800) * BRICK_COLS_BASE));
-  const brickAreaWidth = WIDTH - (BRICK_PADDING * 2);
-  const brickW = Math.floor((brickAreaWidth - (targetCols - 1) * BRICK_PADDING) / targetCols);
-  for (let r=0;r<BRICK_ROWS + Math.floor((level-1)/2); r++){
-    const row = [];
-    for (let c=0;c<targetCols;c++){
-      // randomize brick strength by level
-      const strength = Math.min(3, 1 + Math.floor((r + level) / 3));
-      row.push({
-        x: BRICK_PADDING + c * (brickW + BRICK_PADDING),
-        y: TOP_OFFSET + r * (BRICK_HEIGHT + BRICK_PADDING),
-        w: brickW,
-        h: BRICK_HEIGHT,
-        alive: true,
-        hits: strength
-      });
-    }
-    bricks.push(...row);
-  }
-}
-
-/* Reset level */
-function resetLevel(increment=false){
-  if (increment) level++;
-  adaptSizes();
-  buildBricks();
-  // center paddle
-  paddle.x = Math.floor((WIDTH - paddle.w) / 2);
-  // ball atop paddle
-  ball.x = paddle.x + Math.floor(paddle.w / 2);
-  ball.y = paddle.y - ball.r - 6;
-  ball.vx = 0;
-  ball.vy = -5 * scale;
-  ball.stuck = true;
-  updateUI();
-}
-
-/* UI update */
-function updateUI(){
-  scoreEl.textContent = score;
-  livesEl.textContent = lives;
-  levelEl.textContent = level;
-  highscoreEl.textContent = highscore;
-
-  scoreSide.textContent = score;
-  livesSide.textContent = lives;
-  levelSide.textContent = level;
-  highscoreSide.textContent = highscore;
-
-  muteBtn.textContent = muted ? 'Ses: Kapalı' : 'Ses: Açık';
-  pauseBtn.textContent = paused ? 'Devam Et' : 'Duraklat';
-}
-
-/* Drawing */
-function drawPaddle(){
-  // gradient
-  const grad = ctx.createLinearGradient(paddle.x, paddle.y, paddle.x + paddle.w, paddle.y);
-  grad.addColorStop(0, '#f97316');
-  grad.addColorStop(1, '#fb7185');
-  ctx.fillStyle = grad;
-  roundRect(ctx, paddle.x, paddle.y, paddle.w, paddle.h, 8 * scale, true);
-  // glossy strip
-  ctx.fillStyle = 'rgba(255,255,255,0.12)';
-  ctx.fillRect(paddle.x + paddle.w*0.08, paddle.y + paddle.h*0.1, paddle.w*0.84, paddle.h*0.28);
-}
-
-function drawBall(){
-  ctx.beginPath();
-  ctx.fillStyle = '#ffd43b';
-  ctx.arc(ball.x, ball.y, ball.r, 0, Math.PI*2);
-  ctx.fill();
-  // small shadow
-  ctx.fillStyle = 'rgba(0,0,0,0.2)';
-  ctx.beginPath();
-  ctx.arc(ball.x+ball.r*0.25, ball.y+ball.r*0.25, ball.r*0.7, 0, Math.PI*2);
-  ctx.fill();
-}
-
-function drawBricks(){
-  for (const b of bricks){
-    if (!b.alive) continue;
-    // color by hits
-    let col;
-    if (b.hits >= 3) col = ['#ef4444','#f97316'];
-    else if (b.hits === 2) col = ['#60a5fa','#3b82f6'];
-    else col = ['#34d399','#059669'];
-    const grad = ctx.createLinearGradient(b.x, b.y, b.x + b.w, b.y + b.h);
-    grad.addColorStop(0, col[0]);
-    grad.addColorStop(1, col[1]);
-    ctx.fillStyle = grad;
-    roundRect(ctx, b.x, b.y, b.w, b.h, 6 * scale, true);
-    // border
-    ctx.strokeStyle = 'rgba(0,0,0,0.2)';
-    ctx.strokeRect(b.x, b.y, b.w, b.h);
-  }
-}
-
-function drawHUD(){
-  // top bar
-  ctx.fillStyle = 'rgba(255,255,255,0.03)';
-  ctx.fillRect(0, 0, WIDTH, 48*scale);
-  ctx.fillStyle = '#fff';
-  ctx.font = `${14*scale}px Inter, system-ui, Arial`;
-  ctx.fillText(`Puan: ${score}`, 14*scale, 30*scale);
-  ctx.fillText(`Can: ${lives}`, 140*scale, 30*scale);
-  ctx.fillText(`Seviye: ${level}`, 220*scale, 30*scale);
-}
-
-/* Main draw */
-function draw(){
-  // clear
-  ctx.clearRect(0,0,WIDTH,HEIGHT);
-  // background subtle pattern
-  ctx.fillStyle = 'rgba(255,255,255,0.02)';
-  ctx.fillRect(0,0,WIDTH,HEIGHT);
-
-  drawBricks();
-  drawPaddle();
-  drawBall();
-  drawHUD();
-}
-
-/* Utils */
-function roundRect(ctx,x,y,w,h,r,fill){
-  ctx.beginPath();
-  ctx.moveTo(x + r, y);
-  ctx.arcTo(x + w, y, x + w, y + h, r);
-  ctx.arcTo(x + w, y + h, x, y + h, r);
-  ctx.arcTo(x, y + h, x, y, r);
-  ctx.arcTo(x, y, x + w, y, r);
-  ctx.closePath();
-  if (fill) ctx.fill();
-}
-
-/* Collisions */
-function rectCircleColliding(cx, cy, r, rx, ry, rw, rh){
-  const closestX = clamp(cx, rx, rx + rw);
-  const closestY = clamp(cy, ry, ry + rh);
-  const dx = cx - closestX;
-  const dy = cy - closestY;
-  return (dx*dx + dy*dy) <= (r*r);
-}
-function clamp(v,a,b){ return Math.max(a, Math.min(b, v)); }
-
-/* Game logic step */
-function step(){
-  if (!running || paused) return;
-  // move ball
-  if (!ball.stuck){
-    ball.x += ball.vx;
-    ball.y += ball.vy;
-  } else {
-    // follow paddle
-    ball.x = paddle.x + paddle.w/2;
-    ball.y = paddle.y - ball.r - 6*scale;
-  }
-
-  // wall collisions
-  if (ball.x - ball.r <= 0){ ball.x = ball.r; ball.vx *= -1; playBeep(600,0.03); }
-  if (ball.x + ball.r >= WIDTH){ ball.x = WIDTH - ball.r; ball.vx *= -1; playBeep(600,0.03); }
-  if (ball.y - ball.r <= 48*scale){ ball.y = 48*scale + ball.r; ball.vy *= -1; playBeep(640,0.03); }
-
-  // paddle collision
-  if (rectCircleColliding(ball.x, ball.y, ball.r, paddle.x, paddle.y, paddle.w, paddle.h) && ball.vy > 0){
-    // reflect based on hit position
-    const hitPos = (ball.x - (paddle.x + paddle.w/2)) / (paddle.w/2); // -1 .. 1
-    const angle = hitPos * (Math.PI/3); // -60deg .. 60deg
-    const speed = Math.hypot(ball.vx, ball.vy);
-    ball.vx = speed * Math.sin(angle);
-    ball.vy = -Math.abs(speed * Math.cos(angle));
-    // small add depending on paddle movement
-    playBeep(900 + Math.abs(hitPos)*300, 0.02, 0.06);
-  }
-
-  // brick collisions
-  for (const b of bricks){
-    if (!b.alive) continue;
-    if (rectCircleColliding(ball.x, ball.y, ball.r, b.x, b.y, b.w, b.h)){
-      // determine side hit
-      // simplest: invert vy and vx based on overlap
-      // compute previous position approximate
-      // move back slightly to avoid multiple hits
-      // reduce hit count
-      b.hits--;
-      if (b.hits <= 0){
-        b.alive = false;
-        score += 100;
-        playBeep(1200, 0.03, 0.09);
-      } else {
-        score += 25;
-        playBeep(1000, 0.02, 0.06);
-      }
-
-      // determine rebound: pick axis with greater overlap
-      const overlapX = Math.min(ball.x + ball.r - b.x, b.x + b.w - (ball.x - ball.r));
-      const overlapY = Math.min(ball.y + ball.r - b.y, b.y + b.h - (ball.y - ball.r));
-      if (overlapX < overlapY) ball.vx *= -1;
-      else ball.vy *= -1;
-
-      break;
-    }
-  }
-
-  // bottom => lose life
-  if (ball.y - ball.r > HEIGHT){
-    lives--;
-    playBeep(200, 0.2, 0.12);
-    if (lives <= 0){
-      // game over
-      running = false;
-      if (score > highscore) { highscore = score; localStorage.setItem('breakoutHighscore', highscore); }
-      updateUI();
-      setTimeout(()=> {
-        alert(`Oyun bitti! Skor: ${score}`);
-      }, 50);
-    } else {
-      resetBall();
-    }
-  }
-
-  // check level clear
-  const aliveBricks = bricks.filter(b => b.alive);
-  if (aliveBricks.length === 0){
-    // next level
-    score += 500;
-    resetLevel(true);
-    playBeep(1600, 0.12, 0.12);
-  }
-
-  updateUI();
-}
-
-/* Ball reset */
-function resetBall(){
-  ball.stuck = true;
-  ball.x = paddle.x + paddle.w/2;
-  ball.y = paddle.y - ball.r - 6*scale;
-  ball.vx = 0;
-  ball.vy = -5 * scale;
-}
-
-/* Game loop */
-let last = 0;
-function loop(ts){
-  const dt = ts - last;
-  // cap updates at 60fps
-  step();
-  draw();
-  last = ts;
-  requestAnimationFrame(loop);
-}
-
-/* Controls */
-// mouse move to control paddle
-let isDragging = false;
-canvas.addEventListener('mousemove', (e)=>{
-  const rect = canvas.getBoundingClientRect();
-  const mx = e.clientX - rect.left;
-  paddle.x = clamp(mx - paddle.w/2, 6*scale, WIDTH - paddle.w - 6*scale);
-  if (ball.stuck) { ball.x = paddle.x + paddle.w/2; }
-});
-canvas.addEventListener('mousedown', (e)=> { isDragging = true; });
-window.addEventListener('mouseup', ()=> { isDragging = false; });
-
-// touch drag
-canvas.addEventListener('touchstart', (e)=>{
-  e.preventDefault();
-  isDragging = true;
-  const t = e.touches[0];
-  const rect = canvas.getBoundingClientRect();
-  const tx = t.clientX - rect.left;
-  paddle.x = clamp(tx - paddle.w/2, 6*scale, WIDTH - paddle.w - 6*scale);
-  if (ball.stuck) ball.x = paddle.x + paddle.w/2;
-}, {passive:false});
-canvas.addEventListener('touchmove', (e)=>{
-  e.preventDefault();
-  const t = e.touches[0];
-  const rect = canvas.getBoundingClientRect();
-  const tx = t.clientX - rect.left;
-  paddle.x = clamp(tx - paddle.w/2, 6*scale, WIDTH - paddle.w - 6*scale);
-  if (ball.stuck) ball.x = paddle.x + paddle.w/2;
-}, {passive:false});
-canvas.addEventListener('touchend', ()=> { isDragging = false; });
-
-// keyboard
-window.addEventListener('keydown', (e)=>{
-  if (e.code === 'ArrowLeft'){ paddle.x = clamp(paddle.x - paddle.speed, 6*scale, WIDTH - paddle.w - 6*scale); if (ball.stuck) ball.x = paddle.x + paddle.w/2; }
-  if (e.code === 'ArrowRight'){ paddle.x = clamp(paddle.x + paddle.speed, 6*scale, WIDTH - paddle.w - 6*scale); if (ball.stuck) ball.x = paddle.x + paddle.w/2; }
-  if (e.code === 'Space'){ launchBall(); e.preventDefault(); }
-});
-
-// mobile buttons
-btnLeft?.addEventListener('touchstart', ()=> { paddle.x = clamp(paddle.x - paddle.speed*4, 6*scale, WIDTH - paddle.w - 6*scale); if (ball.stuck) ball.x = paddle.x + paddle.w/2; });
-btnLeft?.addEventListener('click', ()=> { paddle.x = clamp(paddle.x - paddle.speed*4, 6*scale, WIDTH - paddle.w - 6*scale); if (ball.stuck) ball.x = paddle.x + paddle.w/2; });
-btnRight?.addEventListener('touchstart', ()=> { paddle.x = clamp(paddle.x + paddle.speed*4, 6*scale, WIDTH - paddle.w - 6*scale); if (ball.stuck) ball.x = paddle.x + paddle.w/2; });
-btnRight?.addEventListener('click', ()=> { paddle.x = clamp(paddle.x + paddle.speed*4, 6*scale, WIDTH - paddle.w - 6*scale); if (ball.stuck) ball.x = paddle.x + paddle.w/2; });
-btnLaunch?.addEventListener('click', ()=> launchBall());
-
-/* Buttons */
-startBtn.addEventListener('click', ()=>{
-  if (!running){
-    running = true;
-    paused = false;
+  // Audio
+  let audioCtx = null;
+  function tryInitAudio(){ if (!audioCtx && !muted){ audioCtx = new (window.AudioContext||window.webkitAudioContext)(); } }
+  function playBeep(freq=440, time=0.05, gain=0.07){
+    if (muted) return;
     tryInitAudio();
+    if (!audioCtx) return;
+    const o = audioCtx.createOscillator();
+    const g = audioCtx.createGain();
+    o.type = 'sine';
+    o.frequency.value = freq;
+    g.gain.value = gain;
+    o.connect(g); g.connect(audioCtx.destination);
+    o.start();
+    o.stop(audioCtx.currentTime + time);
   }
-  if (!audioCtx && !muted) tryInitAudio();
-  updateUI();
-});
-pauseBtn.addEventListener('click', ()=>{
-  paused = !paused;
-  updateUI();
-});
-resetBtn.addEventListener('click', ()=>{
-  // reset all
-  level = 1; score = 0; lives = 3;
-  running = false; paused = false;
-  resetLevel(false);
-  updateUI();
-});
-muteBtn.addEventListener('click', ()=>{
-  muted = !muted;
-  updateUI();
-});
 
-/* Launch ball */
-function launchBall(){
-  if (!running) { running = true; paused = false; }
-  if (!ball.stuck) return;
-  ball.stuck = false;
-  // initial velocity depends on paddle center
-  ball.vx = (Math.random() * 6 - 3) * scale;
-  ball.vy = -6 * scale;
-  playBeep(1000, 0.04, 0.08);
-}
+  // Responsive sizing
+  function resizeCanvas(){
+    const maxW = container.clientWidth;
+    const maxH = window.innerHeight * 0.72;
+    let desiredW = Math.min(maxW, BASE.width);
+    let desiredH = Math.floor(desiredW * (BASE.height / BASE.width));
+    if (desiredH > maxH){
+      desiredH = maxH;
+      desiredW = Math.floor(desiredH * (BASE.width / BASE.height));
+    }
+    WIDTH = Math.floor(desiredW);
+    HEIGHT = Math.floor(desiredH);
+    canvas.width = WIDTH;
+    canvas.height = HEIGHT;
+    scale = WIDTH / BASE.width;
+    adaptSizes();
+    draw();
+  }
+  window.addEventListener('resize', resizeCanvas);
 
-/* init */
-function init(){
-  adaptSizes();
-  resetLevel(false);
-  score = 0;
-  lives = 3;
-  level = 1;
-  updateUI();
-  requestAnimationFrame(loop);
-}
-
-init();
-
-</script>
-</body>
-</html>
+  function adaptSizes(){
+    paddle.w = Math.max(80, Math.floor(BASE_PADDLE_W * scale));
+    pad
