@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>15×15 Tic-Tac-Toe (Gomoku) — Responsive</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root { --grid-size: 15; --cell-size: 36px; }
+    /* Grid container */
+    #board {
+      display: grid;
+      grid-template-columns: repeat(var(--grid-size), var(--cell-size));
+      grid-auto-rows: var(--cell-size);
+      gap: 4px;
+      justify-content: center;
+      align-content: start;
+      touch-action: manipulation;
+    }
+    .cell {
+      width: var(--cell-size);
+      height: var(--cell-size);
+      border-radius: 8px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.12));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:800;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      color: #0f172a; /* dark for contrast, we'll color X/O */
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    .cell.empty { cursor: pointer; }
+    .cell.x { color: #ef4444; font-size: calc(var(--cell-size) * 0.6); }
+    .cell.o { color: #2563eb; font-size: calc(var(--cell-size) * 0.6); }
+    .cell.win { box-shadow: 0 0 0 3px rgba(250,204,21,0.12), 0 6px 16px rgba(2,6,23,0.4); transform: scale(1.04); }
+    /* overlay */
+    #overlay { background: rgba(2,6,23,0.7); }
+    /* keep controls responsive */
+    @media (max-width: 640px) {
+      :root { --cell-size: 28px; }
+    }
+    @media (min-width: 1200px) {
+      :root { --cell-size: 44px; }
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 text-slate-100 flex items-center justify-center p-4">
+
+  <div class="w-full max-w-6xl">
+    <header class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-4">
+      <div>
+        <h1 class="text-2xl md:text-3xl font-bold">15×15 Tic-Tac-Toe (Gomoku)</h1>
+        <p class="text-sm text-slate-300 mt-1">Five-in-a-row wins. Tap a square to play. Mobile friendly & responsive.</p>
+      </div>
+
+      <div class="flex gap-3 items-center">
+        <div class="bg-white/5 px-3 py-2 rounded-md text-sm">Turn: <span id="turn" class="font-semibold">X</span></div>
+        <div class="bg-white/5 px-3 py-2 rounded-md text-sm">X: <span id="scoreX">0</span></div>
+        <div class="bg-white/5 px-3 py-2 rounded-md text-sm">O: <span id="scoreO">0</span></div>
+        <button id="undoBtn" class="px-3 py-2 bg-slate-700 hover:bg-slate-600 text-white rounded-md text-sm">Undo</button>
+        <button id="restartBtn" class="px-3 py-2 bg-emerald-500 hover:bg-emerald-600 text-black rounded-md text-sm">Restart</button>
+      </div>
+    </header>
+
+    <main class="grid md:grid-cols-3 gap-6">
+      <!-- Board -->
+      <section class="md:col-span-2 flex justify-center">
+        <div id="boardWrap" class="bg-white/3 p-4 rounded-lg shadow-md">
+          <div id="board" aria-label="15 by 15 tic tac toe board"></div>
+        </div>
+      </section>
+
+      <!-- Right panel -->
+      <aside class="flex flex-col gap-4">
+        <div class="bg-white/5 p-4 rounded-md">
+          <h2 class="font-semibold mb-2">About</h2>
+          <p class="text-sm text-slate-200">Place X and O alternately. First to make 5 in a row (horizontal, vertical or diagonal) wins the round.</p>
+        </div>
+
+        <div class="bg-white/5 p-4 rounded-md">
+          <h3 class="font-semibold mb-2">Controls</h3>
+          <ul class="text-sm list-disc list-inside space-y-1">
+            <li>Tap a square to place your mark.</li>
+            <li>Undo last move (single step).</li>
+            <li>Restart resets the board (scores persist).</li>
+          </ul>
+        </div>
+
+        <div class="bg-white/5 p-3 rounded-md text-sm">
+          <div>Round: <span id="roundNum">1</span></div>
+          <div class="mt-2">Status: <span id="status" class="font-medium">Playing</span></div>
+        </div>
+      </aside>
+    </main>
+
+    <!-- Game over modal -->
+    <div id="overlay" class="fixed inset-0 hidden items-center justify-center z-40">
+      <div class="bg-white/5 p-6 rounded-lg text-center w-11/12 max-w-sm">
+        <h2 id="overlayTitle" class="text-2xl font-bold mb-2">Player X wins!</h2>
+        <p id="overlayText" class="mb-4">Five in a row — congratulations.</p>
+        <div class="flex gap-3 justify-center">
+          <button id="nextRoundBtn" class="px-4 py-2 bg-emerald-500 text-black rounded-md">Next Round</button>
+          <button id="overlayClose" class="px-4 py-2 bg-white/5 text-white rounded-md">Close</button>
+        </div>
+      </div>
+    </div>
+
+    <footer class="mt-6 text-center text-xs text-slate-400">Responsive 15×15 Tic-Tac-Toe • Local two-player</footer>
+  </div>
+
+<script>
+/* 15x15 Tic Tac Toe (Gomoku-style) */
+/* Author: assistant
+   - Board: 15x15
+   - Win: 5 consecutive same marks (X or O)
+   - Responsive square cells via CSS var --cell-size, adjusted on resize for fit
+   - Undo (one move), restart, next round overlay, score tracking
+*/
+
+// CONFIG
+const SIZE = 15;
+const WIN_LEN = 5;
+
+// STATE
+let board = []; // 2D array: null / 'X' / 'O'
+let current = 'X';
+let scores = { X: 0, O: 0 };
+let lastMove = null; // {r,c,player}
+let round = 1;
+let gameOver = false;
+
+// DOM
+const boardEl = document.getElementById('board');
+const turnEl = document.getElementById('turn');
+const scoreXEl = document.getElementById('scoreX');
+const scoreOEl = document.getElementById('scoreO');
+const restartBtn = document.getElementById('restartBtn');
+const undoBtn = document.getElementById('undoBtn');
+const overlay = document.getElementById('overlay');
+const overlayTitle = document.getElementById('overlayTitle');
+const overlayText = document.getElementById('overlayText');
+const nextRoundBtn = document.getElementById('nextRoundBtn');
+const overlayClose = document.getElementById('overlayClose');
+const statusEl = document.getElementById('status');
+const roundNumEl = document.getElementById('roundNum');
+
+// init board DOM
+function createBoardDOM(){
+  boardEl.innerHTML = '';
+  boardEl.style.setProperty('--grid-size', SIZE);
+  for (let r=0;r<SIZE;r++){
+    for (let c=0;c<SIZE;c++){
+      const cell = document.createElement('div');
+      cell.className = 'cell empty select-none';
+      cell.dataset.r = r;
+      cell.dataset.c = c;
+      cell.setAttribute('role','button');
+      cell.setAttribute('aria-label', `row ${r+1} column ${c+1}`);
+      cell.addEventListener('click', onCellClick);
+      boardEl.appendChild(cell);
+    }
+  }
+}
+
+// initialize game variables
+function initGame(resetScores=false){
+  board = Array.from({length: SIZE}, ()=> Array(SIZE).fill(null));
+  current = 'X';
+  lastMove = null;
+  gameOver = false;
+  round = resetScores ? 1 : round;
+  if (resetScores) { scores = { X: 0, O: 0 }; updateScores(); }
+  statusEl.textContent = 'Playing';
+  roundNumEl.textContent = round;
+  updateTurn();
+  renderBoard();
+  overlay.classList.add('hidden');
+}
+
+// render board from state
+function renderBoard(){
+  const cells = boardEl.querySelectorAll('.cell');
+  cells.forEach(cell => {
+    const r = +cell.dataset.r, c = +cell.dataset.c;
+    const val = board[r][c];
+    cell.classList.remove('x','o','empty','win');
+    if (val === 'X') { cell.classList.add('x'); cell.textContent = 'X'; }
+    else if (val === 'O') { cell.classList.add('o'); cell.textContent = 'O'; }
+    else { cell.classList.add('empty'); cell.textContent = ''; }
+  });
+}
+
+// handle click
+function onCellClick(e){
+  if (gameOver) return;
+  const r = +this.dataset?.r || +e.currentTarget.dataset.r;
+  const c = +this.dataset?.c || +e.currentTarget.dataset.c;
+  if (board[r][c]) return; // already filled
+  place(r,c,current);
+}
+
+// place move
+function place(r,c,player){
+  board[r][c] = player;
+  lastMove = { r, c, player };
+  renderBoard();
+  // check win or draw
+  const winnerInfo = checkWin(r,c,player);
+  if (winnerInfo.win){
+    // mark winning cells
+    highlightWin(winnerInfo.coords);
+    scores[player]++;
+    updateScores();
+    gameOver = true;
+    statusEl.textContent = `${player} wins`;
+    showOverlay(`${player} wins!`, `Player ${player} achieved ${WIN_LEN} in a row.`);
+    return;
+  }
+  // check draw (board full)
+  if (board.flat().every(cell => cell !== null)){
+    gameOver = true;
+    statusEl.textContent = 'Draw';
+    showOverlay('Draw', 'No more moves available.');
+    return;
+  }
+  // switch turn
+  current = (player === 'X') ? 'O' : 'X';
+  updateTurn();
+}
+
+// update turn display
+function updateTurn(){
+  turnEl.textContent = current;
+  turnEl.classList.toggle('text-amber-300', current === 'X');
+  turnEl.classList.toggle('text-sky-300', current === 'O');
+}
+
+// check win from last placed cell
+function checkWin(r,c,player){
+  // directions: [dr,dc]
+  const dirs = [
+    [0,1], [1,0], [1,1], [1,-1]
+  ];
+  for (const [dr,dc] of dirs){
+    let count = 1;
+    const coords = [[r,c]];
+    // forward
+    let rr = r + dr, cc = c + dc;
+    while (inBounds(rr,cc) && board[rr][cc] === player){
+      coords.push([rr,cc]); count++; rr += dr; cc += dc;
+    }
+    // backward
+    rr = r - dr; cc = c - dc;
+    while (inBounds(rr,cc) && board[rr][cc] === player){
+      coords.unshift([rr,cc]); count++; rr -= dr; cc -= dc;
+    }
+    if (count >= WIN_LEN) return { win: true, coords: coords.slice(0) };
+  }
+  return { win: false };
+}
+
+function inBounds(r,c){
+  return r >= 0 && r < SIZE && c >= 0 && c < SIZE;
+}
+
+// highlight winning coordinates
+function highlightWin(coords){
+  coords.forEach(([r,c])=>{
+    const selector = `.cell[data-r="${r}"][data-c="${c}"]`;
+    const cell = boardEl.querySelector(selector);
+    if (cell) cell.classList.add('win');
+  });
+}
+
+// undo last move (one step)
+undoBtn.addEventListener('click', ()=>{
+  if (!lastMove || gameOver) return;
+  const { r, c } = lastMove;
+  board[r][c] = null;
+  lastMove = null;
+  current = (current === 'X') ? 'X' : 'X'; // ensure turn goes back to who played
+  // simply set current to the player who was undone
+  // if previous move was by X, current should be X (so X plays again)
+  // We stored lastMove.player as who played; after removing, it's that player's turn again
+  // toggle: set current to lastMove.player
+  current = lastMove?.player ? lastMove.player : current;
+  // But since we cleared lastMove, revert to other approach: simpler: toggle
+  current = (current === 'X') ? 'O' : 'X'; // actually better to compute current by count parity
+  // safer approach: compute counts
+  current = nextPlayerByParity();
+  gameOver = false;
+  statusEl.textContent = 'Playing';
+  renderBoard();
+  updateTurn();
+});
+
+// compute next player by parity of X and O counts
+function nextPlayerByParity(){
+  const flat = board.flat();
+  const xCount = flat.filter(v=>v==='X').length;
+  const oCount = flat.filter(v=>v==='O').length;
+  return xCount <= oCount ? 'X' : 'O';
+}
+
+// restart board (same scores)
+restartBtn.addEventListener('click', ()=>{
+  round++;
+  initGame();
+});
+
+// overlay buttons
+nextRoundBtn.addEventListener('click', ()=>{
+  round++;
+  initGame();
+});
+overlayClose.addEventListener('click', ()=> overlay.classList.add('hidden'));
+
+// show overlay
+function showOverlay(title, text){
+  overlayTitle.textContent = title;
+  overlayText.textContent = text;
+  overlay.classList.remove('hidden');
+  finalFocus();
+}
+
+// update score display
+function updateScores(){
+  scoreXEl.textContent = scores.X;
+  scoreOEl.textContent = scores.O;
+}
+
+// responsive cell sizing: compute --cell-size to fit container width and available height,
+// so grid is always square and doesn't break layout
+function adjustCellSize(){
+  const wrap = document.getElementById('boardWrap');
+  const maxWidth = Math.min(wrap.clientWidth - 32, window.innerWidth - 48); // padding safety
+  const maxHeight = window.innerHeight * 0.7;
+  // available area for cells (consider other UI vertically)
+  const sizeByWidth = Math.floor(maxWidth / SIZE);
+  const sizeByHeight = Math.floor(maxHeight / SIZE);
+  // choose smaller to ensure fit
+  let cellSize = Math.max(22, Math.min(sizeByWidth, sizeByHeight));
+  // clamp so not too large
+  cellSize = Math.min(cellSize, 64);
+  document.documentElement.style.setProperty('--cell-size', cellSize + 'px');
+}
+window.addEventListener('resize', adjustCellSize);
+
+// helper to focus overlay close button (accessibility)
+function finalFocus(){
+  overlayClose.focus();
+}
+
+// initialize DOM and game
+createBoardDOM();
+initGame();
+adjustCellSize();
+updateScores();
+renderBoard();
+
+</script>
+</body>
+</html>
