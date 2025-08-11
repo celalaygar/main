@@ -1,0 +1,589 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Asteroids — Responsive</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { -webkit-tap-highlight-color: transparent; }
+    canvas { display:block; background: radial-gradient(circle at 20% 10%, #071021 0%, #000814 40%, #000000 100%); border-radius: 12px; box-shadow: 0 12px 40px rgba(2,6,23,0.7); }
+    .touch-btn { width:64px; height:64px; border-radius:12px; }
+    .no-select { user-select:none; -webkit-user-select:none; }
+    /* HUD text smoothing */
+    .hud { font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; }
+  </style>
+</head>
+<body class="min-h-screen bg-gradient-to-b from-slate-900 via-zinc-900 to-black text-white flex flex-col items-center justify-center p-4">
+
+  <div class="w-full max-w-4xl">
+    <header class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-4">
+      <div>
+        <h1 class="text-2xl md:text-3xl font-bold">Asteroids</h1>
+        <p class="text-sm text-slate-300 mt-1">Use arrows / space or on-screen buttons. Mobile friendly & responsive.</p>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <div class="bg-white/5 px-3 py-2 rounded-md text-sm hud">Score: <span id="score">0</span></div>
+        <div class="bg-white/5 px-3 py-2 rounded-md text-sm hud">Lives: <span id="lives">3</span></div>
+        <div class="bg-white/5 px-3 py-2 rounded-md text-sm hud">Level: <span id="level">1</span></div>
+        <button id="startBtn" class="px-3 py-2 bg-emerald-500 text-black rounded-md">Start</button>
+        <button id="pauseBtn" class="px-3 py-2 bg-yellow-400 text-black rounded-md">Pause</button>
+        <button id="restartBtn" class="px-3 py-2 bg-red-600 text-white rounded-md">Restart</button>
+      </div>
+    </header>
+
+    <main class="grid md:grid-cols-3 gap-6 items-start">
+      <!-- canvas -->
+      <section class="md:col-span-2 flex justify-center">
+        <div id="wrap" class="w-full max-w-[900px] relative">
+          <canvas id="gameCanvas"></canvas>
+
+          <!-- game over / info overlay -->
+          <div id="overlay" class="absolute inset-0 bg-black/70 hidden items-center justify-center p-4 rounded">
+            <div class="bg-white/5 p-6 rounded-lg text-center max-w-md">
+              <h2 id="overlayTitle" class="text-2xl font-bold mb-2">Game Over</h2>
+              <p id="overlayText" class="mb-4">Score: <span id="finalScore">0</span></p>
+              <div class="flex gap-3 justify-center">
+                <button id="overlayRestart" class="px-4 py-2 bg-emerald-500 text-black rounded-md">Restart</button>
+                <button id="overlayClose" class="px-4 py-2 bg-white/5 text-white rounded-md">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- right panel -->
+      <aside class="flex flex-col gap-4">
+        <div class="bg-white/5 p-4 rounded-md">
+          <h3 class="font-semibold mb-2">How to play</h3>
+          <ul class="text-sm list-disc list-inside space-y-1">
+            <li>← / → : Rotate</li>
+            <li>↑ : Thrust forward</li>
+            <li>Space : Shoot</li>
+            <li>P : Pause</li>
+          </ul>
+        </div>
+
+        <div class="bg-white/5 p-4 rounded-md">
+          <h3 class="font-semibold mb-2">Stats</h3>
+          <div class="text-sm hud">Asteroids: <span id="asteroidCount">0</span></div>
+          <div class="text-sm hud mt-2">Bullets on screen: <span id="bulletCount">0</span></div>
+        </div>
+
+        <!-- mobile buttons -->
+        <div class="md:hidden bg-white/5 p-3 rounded-md flex flex-col items-center gap-3">
+          <div class="grid grid-cols-3 gap-2 w-full">
+            <div></div>
+            <button id="btnThrust" class="touch-btn bg-slate-700 text-white no-select">▲</button>
+            <div></div>
+
+            <button id="btnLeft" class="touch-btn bg-slate-700 text-white no-select">◀</button>
+            <button id="btnShoot" class="touch-btn bg-emerald-500 text-black no-select">●</button>
+            <button id="btnRight" class="touch-btn bg-slate-700 text-white no-select">▶</button>
+          </div>
+          <button id="btnPause" class="w-full px-4 py-2 bg-yellow-400 text-black rounded-md">Pause</button>
+        </div>
+      </aside>
+    </main>
+
+    <footer class="mt-6 text-center text-xs text-slate-400">Made with Canvas + Tailwind + Vanilla JS — Mobile ready</footer>
+  </div>
+
+<script>
+/* Asteroids — single-file
+   - Responsive canvas that fits container while keeping gameplay stable
+   - Ship with rotation + thrust, bullets, asteroids splitting, score, lives, levels
+   - Keyboard controls + mobile touch buttons + pause/restart
+*/
+
+(() => {
+  // DOM
+  const canvas = document.getElementById('gameCanvas');
+  const wrap = document.getElementById('wrap');
+  const overlay = document.getElementById('overlay');
+  const overlayTitle = document.getElementById('overlayTitle');
+  const overlayText = document.getElementById('overlayText');
+  const finalScoreEl = document.getElementById('finalScore');
+  const overlayRestart = document.getElementById('overlayRestart');
+  const overlayClose = document.getElementById('overlayClose');
+
+  const scoreEl = document.getElementById('score');
+  const livesEl = document.getElementById('lives');
+  const levelEl = document.getElementById('level');
+  const asteroidCountEl = document.getElementById('asteroidCount');
+  const bulletCountEl = document.getElementById('bulletCount');
+
+  const startBtn = document.getElementById('startBtn');
+  const pauseBtn = document.getElementById('pauseBtn');
+  const restartBtn = document.getElementById('restartBtn');
+
+  // mobile buttons
+  const btnLeft = document.getElementById('btnLeft');
+  const btnRight = document.getElementById('btnRight');
+  const btnThrust = document.getElementById('btnThrust');
+  const btnShoot = document.getElementById('btnShoot');
+  const btnPause = document.getElementById('btnPause');
+
+  const ctx = canvas.getContext('2d');
+
+  // game settings
+  let WIDTH = 800, HEIGHT = 600;
+  let scale = 1;
+  let CELL = 1; // not used directly, kept to mirror other examples
+
+  // state
+  let ship, bullets, asteroids, score, lives, level, keys;
+  let running = false, paused = false, gameOver = false;
+  let lastTime = 0, accum = 0;
+  const BULLET_LIFETIME = 1.2; // seconds
+  const MAX_BULLETS = 6;
+  const SHIP_SPEED_LIMIT = 300;
+  const ASTEROID_MIN_SPEED = 20;
+  const ASTEROID_MAX_SPEED = 90;
+  const ASTEROID_SPLIT = { large: 3, medium: 2, small: 1 }; // sizes
+  const FPS = 60;
+
+  // helpers
+  function rand(min, max){ return Math.random() * (max - min) + min; }
+  function wrapPos(p, max){ if (p < 0) return p + max; if (p >= max) return p - max; return p; }
+  function dist2(a,b){ const dx=a.x-b.x, dy=a.y-b.y; return dx*dx+dy*dy; }
+
+  // responsive canvas
+  function resizeCanvas(){
+    const maxW = wrap.clientWidth;
+    const maxH = window.innerHeight * 0.74;
+    // choose width limited
+    let desiredW = Math.min(maxW, 900);
+    let desiredH = Math.floor(desiredW * 0.66);
+    if (desiredH > maxH){
+      desiredH = maxH;
+      desiredW = Math.floor(desiredH / 0.66);
+    }
+    WIDTH = Math.max(320, desiredW);
+    HEIGHT = Math.max(240, desiredH);
+    canvas.width = WIDTH;
+    canvas.height = HEIGHT;
+    draw(); // redraw to adapt immediately
+  }
+  window.addEventListener('resize', resizeCanvas);
+
+  // initialize objects
+  function resetState(){
+    ship = {
+      x: WIDTH/2, y: HEIGHT/2,
+      angle: -Math.PI/2, // pointing up
+      vx: 0, vy: 0,
+      radius: Math.max(12, Math.floor(Math.min(WIDTH,HEIGHT)*0.025)),
+      thrusting: false,
+      blinkTime: 0,
+      invulnerable: 0
+    };
+    bullets = [];
+    asteroids = [];
+    score = 0;
+    lives = 3;
+    level = 1;
+    keys = { left:false, right:false, thrust:false, shoot:false };
+    running = false;
+    paused = false;
+    gameOver = false;
+    updateHUD();
+  }
+
+  // asteroid object factory
+  function spawnAsteroid(x,y,size){
+    // size: 3=large,2=medium,1=small
+    const s = size || 3;
+    const radius = s === 3 ? Math.max(30, Math.min(WIDTH,HEIGHT)*0.07) :
+                   s === 2 ? Math.max(18, Math.min(WIDTH,HEIGHT)*0.045) :
+                   Math.max(10, Math.min(WIDTH,HEIGHT)*0.025);
+    const angle = rand(0, Math.PI*2);
+    const speed = rand(ASTEROID_MIN_SPEED, ASTEROID_MAX_SPEED) * (1 + 0.08*(level-1));
+    const vx = Math.cos(angle) * speed;
+    const vy = Math.sin(angle) * speed;
+    // create jagged polygon points
+    const verts = 8 + Math.floor(rand(-2,3));
+    const points = [];
+    for (let i=0;i<verts;i++){
+      const a = (i/verts) * Math.PI * 2;
+      const r = radius * rand(0.7, 1.1);
+      points.push({x: Math.cos(a)*r, y: Math.sin(a)*r});
+    }
+    const angVel = rand(-0.6,0.6);
+    return { x, y, vx, vy, points, radius, size:s, ang: rand(0,Math.PI*2), angVel };
+  }
+
+  function addLevelAsteroids(n){
+    for (let i=0;i<n;i++){
+      // spawn near edges not near ship
+      let x = rand(0, WIDTH), y = rand(0, HEIGHT);
+      // ensure distance from ship
+      if (Math.hypot(x-ship.x, y-ship.y) < ship.radius*6){
+        // push to edges
+        if (Math.random() < 0.5) x = Math.random()<0.5?0:WIDTH;
+        else y = Math.random()<0.5?0:HEIGHT;
+      }
+      asteroids.push(spawnAsteroid(x,y,3));
+    }
+  }
+
+  // start level
+  function startLevel(lv){
+    level = lv || level;
+    const base = 3 + Math.floor(level*0.7);
+    addLevelAsteroids(base);
+    updateHUD();
+  }
+
+  // shooting
+  function shoot(){
+    if (bullets.length >= MAX_BULLETS) return;
+    const bSpeed = 420 + 30*level;
+    const bx = ship.x + Math.cos(ship.angle) * (ship.radius + 4);
+    const by = ship.y + Math.sin(ship.angle) * (ship.radius + 4);
+    const bvx = ship.vx + Math.cos(ship.angle) * bSpeed;
+    const bvy = ship.vy + Math.sin(ship.angle) * bSpeed;
+    bullets.push({ x:bx, y:by, vx:bvx, vy:bvy, life:BULLET_LIFETIME });
+  }
+
+  // physics update
+  function update(dt){
+    if (gameOver || paused) return;
+
+    // ship rotation & thrust
+    if (keys.left) ship.angle -= 3 * dt; // radians per second
+    if (keys.right) ship.angle += 3 * dt;
+    if (keys.thrust){
+      // accelerate in direction
+      const accel = 200; // pixels/s^2
+      ship.vx += Math.cos(ship.angle) * accel * dt;
+      ship.vy += Math.sin(ship.angle) * accel * dt;
+      // limit speed
+      const sp = Math.hypot(ship.vx, ship.vy);
+      if (sp > SHIP_SPEED_LIMIT) {
+        ship.vx = (ship.vx / sp) * SHIP_SPEED_LIMIT;
+        ship.vy = (ship.vy / sp) * SHIP_SPEED_LIMIT;
+      }
+    } else {
+      // small friction
+      ship.vx *= 0.999;
+      ship.vy *= 0.999;
+    }
+
+    // apply velocity
+    ship.x += ship.vx * dt;
+    ship.y += ship.vy * dt;
+    ship.x = wrapPos(ship.x, WIDTH);
+    ship.y = wrapPos(ship.y, HEIGHT);
+
+    // bullets
+    for (let i = bullets.length-1; i >= 0; i--){
+      const b = bullets[i];
+      b.x += b.vx * dt;
+      b.y += b.vy * dt;
+      b.life -= dt;
+      if (b.life <= 0){
+        bullets.splice(i,1);
+        continue;
+      }
+      // wrap bullets too
+      b.x = wrapPos(b.x, WIDTH);
+      b.y = wrapPos(b.y, HEIGHT);
+    }
+
+    // asteroids movement
+    for (const a of asteroids){
+      a.x += a.vx * dt;
+      a.y += a.vy * dt;
+      a.ang += a.angVel * dt;
+      a.x = wrapPos(a.x, WIDTH);
+      a.y = wrapPos(a.y, HEIGHT);
+    }
+
+    // collisions: bullets vs asteroids
+    for (let i = bullets.length-1; i >= 0; i--){
+      const b = bullets[i];
+      for (let j = asteroids.length-1; j >= 0; j--){
+        const a = asteroids[j];
+        const rsum = a.radius;
+        const d2 = (b.x - a.x)*(b.x - a.x) + (b.y - a.y)*(b.y - a.y);
+        if (d2 < rsum*rsum){
+          // hit
+          bullets.splice(i,1);
+          splitAsteroid(j);
+          score += (a.size === 3 ? 20 : a.size === 2 ? 50 : 100);
+          updateHUD();
+          break;
+        }
+      }
+    }
+
+    // collisions: ship vs asteroids
+    if (ship.invulnerable <= 0){
+      for (let j = asteroids.length-1; j >= 0; j--){
+        const a = asteroids[j];
+        const rsum = a.radius + ship.radius*0.8;
+        const d2 = (ship.x - a.x)*(ship.x - a.x) + (ship.y - a.y)*(ship.y - a.y);
+        if (d2 < rsum*rsum){
+          // collision
+          explodeShip();
+          break;
+        }
+      }
+    } else {
+      ship.invulnerable -= dt;
+    }
+
+    // level clear?
+    if (asteroids.length === 0){
+      // next level
+      startLevel(level+1);
+    }
+
+    updateHUD();
+  }
+
+  function splitAsteroid(index){
+    const a = asteroids[index];
+    const size = a.size;
+    if (size > 1){
+      const n = size === 3 ? 2 : 2;
+      for (let k=0;k<n;k++){
+        const child = spawnAsteroid(a.x + rand(-10,10), a.y + rand(-10,10), size-1);
+        // give children slightly altered velocity
+        child.vx += rand(-40,40);
+        child.vy += rand(-40,40);
+        asteroids.push(child);
+      }
+    }
+    // remove parent
+    asteroids.splice(index,1);
+  }
+
+  function explodeShip(){
+    // remove one life, respawn ship in center with invulnerability
+    lives--;
+    updateHUD();
+    if (lives <= 0){
+      endGame();
+      return;
+    }
+    // clear bullets slightly
+    bullets = [];
+    ship.x = WIDTH/2; ship.y = HEIGHT/2;
+    ship.vx = ship.vy = 0;
+    ship.invulnerable = 2; // seconds
+  }
+
+  function endGame(){
+    gameOver = true; running = false;
+    overlayTitle.textContent = 'Game Over';
+    overlayText.textContent = 'Final score: ' + score;
+    finalScoreEl.textContent = score;
+    overlay.classList.remove('hidden');
+  }
+
+  // HUD update
+  function updateHUD(){
+    scoreEl.textContent = score;
+    livesEl.textContent = lives;
+    levelEl.textContent = level;
+    asteroidCountEl.textContent = asteroids.length;
+    bulletCountEl.textContent = bullets.length;
+  }
+
+  // render frame
+  function draw(){
+    ctx.clearRect(0,0,WIDTH,HEIGHT);
+    // stars background (simple)
+    const stars = 60;
+    ctx.fillStyle = '#0b1220';
+    ctx.fillRect(0,0,WIDTH,HEIGHT);
+
+    // draw asteroids
+    ctx.save();
+    for (const a of asteroids){
+      ctx.translate(a.x, a.y);
+      ctx.rotate(a.ang);
+      ctx.beginPath();
+      const pts = a.points;
+      ctx.moveTo(pts[0].x, pts[0].y);
+      for (let i=1;i<pts.length;i++) ctx.lineTo(pts[i].x, pts[i].y);
+      ctx.closePath();
+      ctx.fillStyle = '#6b6b6b';
+      ctx.fill();
+      ctx.strokeStyle = '#303030';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+      ctx.setTransform(1,0,0,1,0,0);
+    }
+    ctx.restore();
+
+    // draw ship (triangle)
+    ctx.save();
+    ctx.translate(ship.x, ship.y);
+    ctx.rotate(ship.angle);
+    ctx.beginPath();
+    ctx.moveTo(ship.radius, 0);
+    ctx.lineTo(-ship.radius*0.7, ship.radius*0.7);
+    ctx.lineTo(-ship.radius*0.7, -ship.radius*0.7);
+    ctx.closePath();
+    // ship fill
+    if (ship.invulnerable > 0){
+      ctx.fillStyle = 'rgba(255,255,255,0.6)';
+    } else {
+      ctx.fillStyle = '#fafafa';
+    }
+    ctx.fill();
+    ctx.strokeStyle = '#333';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    // thrust flame
+    if (keys.thrust){
+      ctx.beginPath();
+      ctx.moveTo(-ship.radius*0.7, -ship.radius*0.3);
+      ctx.lineTo(-ship.radius - rand(6,12), 0);
+      ctx.lineTo(-ship.radius*0.7, ship.radius*0.3);
+      ctx.closePath();
+      ctx.fillStyle = 'orange';
+      ctx.fill();
+    }
+    ctx.restore();
+
+    // bullets
+    ctx.fillStyle = '#fffb8f';
+    for (const b of bullets){
+      ctx.beginPath();
+      ctx.arc(b.x, b.y, 3, 0, Math.PI*2);
+      ctx.fill();
+    }
+
+    // HUD overlay small
+    ctx.fillStyle = 'rgba(0,0,0,0.3)';
+    ctx.fillRect(8,8,160,56);
+    ctx.fillStyle = '#fff';
+    ctx.font = `${14}px Inter, system-ui`;
+    ctx.fillText('Score: ' + score, 16, 28);
+    ctx.fillText('Lives: ' + lives + '  Level: ' + level, 16, 48);
+  }
+
+  // main loop
+  function loop(ts){
+    if (!lastTime) lastTime = ts;
+    const dt = Math.min(0.05, (ts - lastTime) / 1000); // clamp dt for stability
+    lastTime = ts;
+    if (running && !paused && !gameOver){
+      update(dt);
+    }
+    draw();
+    requestAnimationFrame(loop);
+  }
+
+  // input handlers
+  window.addEventListener('keydown', (e)=>{
+    if (e.key === 'ArrowLeft') keys.left = true;
+    if (e.key === 'ArrowRight') keys.right = true;
+    if (e.key === 'ArrowUp') keys.thrust = true;
+    if (e.code === 'Space') {
+      keys.shoot = true;
+      shoot();
+    }
+    if (e.key === 'p' || e.key === 'P'){
+      paused = !paused;
+      pauseBtn.textContent = paused ? 'Resume' : 'Pause';
+    }
+  });
+  window.addEventListener('keyup', (e)=>{
+    if (e.key === 'ArrowLeft') keys.left = false;
+    if (e.key === 'ArrowRight') keys.right = false;
+    if (e.key === 'ArrowUp') keys.thrust = false;
+    if (e.code === 'Space') keys.shoot = false;
+  });
+
+  // mobile buttons touch
+  function bindTouch(btn, onStart, onEnd){
+    if (!btn) return;
+    btn.addEventListener('touchstart', (e)=>{ e.preventDefault(); onStart(); }, {passive:false});
+    btn.addEventListener('touchend', (e)=>{ e.preventDefault(); onEnd(); }, {passive:false});
+    btn.addEventListener('mousedown', (e)=>{ e.preventDefault(); onStart(); }, {passive:false});
+    btn.addEventListener('mouseup', (e)=>{ e.preventDefault(); onEnd(); }, {passive:false});
+  }
+
+  bindTouch(btnLeft, ()=> keys.left = true, ()=> keys.left = false);
+  bindTouch(btnRight, ()=> keys.right = true, ()=> keys.right = false);
+  bindTouch(btnThrust, ()=> keys.thrust = true, ()=> keys.thrust = false);
+  bindTouch(btnShoot, ()=> { shoot(); }, ()=> { /* nothing */ });
+  bindTouch(btnPause, ()=> { paused = !paused; pauseBtn.textContent = paused ? 'Resume' : 'Pause'; }, ()=> { /* noop */ });
+
+  // buttons
+  startBtn.addEventListener('click', ()=> { if (!running && !gameOver){ running = true; lastTime = 0; requestAnimationFrame(loop); }});
+  pauseBtn.addEventListener('click', ()=> { paused = !paused; pauseBtn.textContent = paused ? 'Resume' : 'Pause'; });
+  restartBtn.addEventListener('click', ()=> { overlay.classList.add('hidden'); resetState(); startLevel(1); running = true; lastTime = 0; requestAnimationFrame(loop); });
+  overlayRestart.addEventListener('click', ()=> { overlay.classList.add('hidden'); resetState(); startLevel(1); running = true; lastTime = 0; requestAnimationFrame(loop); });
+  overlayClose.addEventListener('click', ()=> overlay.classList.add('hidden'));
+
+  // initial start
+  function init(){
+    resetState();
+    resizeCanvas();
+    // minimal asteroids for initial idle screen
+    addLevelAsteroids(3);
+    draw();
+    requestAnimationFrame(loop);
+  }
+
+  // helper to add asteroids n times (used by right panel)
+  function addLevelAsteroids(n){
+    for (let i=0;i<n;i++){
+      // spawn on random edge
+      let x = Math.random() < 0.5 ? (Math.random()<0.5?0:WIDTH) : rand(0,WIDTH);
+      let y = Math.random() < 0.5 ? (Math.random()<0.5?0:HEIGHT) : rand(0,HEIGHT);
+      // push away from ship if too close
+      if (Math.hypot(x-ship.x, y-ship.y) < ship.radius*6){
+        if (Math.random() < 0.5) x = Math.random()<0.5?0:WIDTH; else y = Math.random()<0.5?0:HEIGHT;
+      }
+      asteroids.push(spawnAsteroid(x,y,3));
+    }
+    updateHUD();
+  }
+
+  // spawnAsteroid wrapper used above; define it here (was earlier inside)
+  function spawnAsteroid(x,y,size){
+    const s = size || 3;
+    const radius = s === 3 ? Math.max(30, Math.min(WIDTH,HEIGHT)*0.07) :
+                   s === 2 ? Math.max(18, Math.min(WIDTH,HEIGHT)*0.045) :
+                   Math.max(10, Math.min(WIDTH,HEIGHT)*0.025);
+    const angle = rand(0, Math.PI*2);
+    const speed = rand(ASTEROID_MIN_SPEED, ASTEROID_MAX_SPEED) * (1 + 0.08*(level-1));
+    const vx = Math.cos(angle) * speed;
+    const vy = Math.sin(angle) * speed;
+    const verts = 8 + Math.floor(rand(-2,3));
+    const points = [];
+    for (let i=0;i<verts;i++){
+      const a = (i/verts) * Math.PI * 2;
+      const r = radius * rand(0.7, 1.1);
+      points.push({x: Math.cos(a)*r, y: Math.sin(a)*r});
+    }
+    const angVel = rand(-0.6,0.6);
+    return { x, y, vx, vy, points, radius, size:s, ang: rand(0,Math.PI*2), angVel };
+  }
+
+  // start first level on play
+  init();
+
+  // small UX: detect tap on canvas to shoot (mobile)
+  canvas.addEventListener('touchstart', (e) => {
+    if (e.touches.length === 1){
+      shoot();
+    }
+  }, {passive:false});
+
+  // expose for debugging (optional)
+  window._asteroids = { startLevel, resetState, addLevelAsteroids };
+
+})();
+</script>
+</body>
+</html>
