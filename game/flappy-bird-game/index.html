@@ -1,226 +1,171 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Flappy Bird - Tailwind + JS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Flappy Bird</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body {
-      background: linear-gradient(180deg, #6ee7b7, #3b82f6);
-      -webkit-tap-highlight-color: transparent;
+      overflow: hidden;
+      touch-action: manipulation;
     }
-    canvas {
-      background: #87ceeb;
-      border-radius: 12px;
-      display: block;
-      margin: 0 auto;
-      box-shadow: 0 0 15px rgb(0 0 0 / 0.2);
-    }
-    .btn {
-      @apply bg-green-500 hover:bg-green-600 text-white py-2 px-6 rounded-md font-semibold shadow-md transition;
+
+    #gameCanvas {
+      background: linear-gradient(to bottom, #87CEEB, #E0F7FA);
     }
   </style>
 </head>
-<body class="flex flex-col items-center justify-center min-h-screen p-6 select-none">
 
-  <header class="flex items-center justify-center gap-6 mb-4">
-    <h1 class="text-3xl font-bold text-white">Flappy Bird 🐦</h1>
-    <div class="text-white text-lg font-mono bg-black bg-opacity-40 px-4 py-2 rounded-md select-none">
-      Puan: <span id="score">0</span>
-    </div> 
-    <div class="text-white text-lg font-mono bg-black bg-opacity-40 px-4 py-2 rounded-md select-none">
-      <button id="restartBtn" class="btn hidden">Yeniden Başlat</button>
-    </div> 
-    
-  </header>
+<body class="flex items-center justify-center min-h-screen bg-gray-100">
 
-  <canvas id="gameCanvas" width="400" height="600" class="shadow-lg rounded-lg"></canvas>
-
-
+  <div class="relative">
+    <canvas id="gameCanvas" width="360" height="640"></canvas>
+    <div id="startScreen"
+      class="absolute inset-0 flex flex-col items-center justify-center bg-black bg-opacity-50 text-white">
+      <h1 class="text-3xl font-bold mb-4">Flappy Bird</h1>
+      <button id="startButton" class="px-6 py-3 bg-green-500 rounded-full text-xl font-semibold">Başla</button>
+    </div>
+    <div id="gameOverScreen"
+      class="absolute inset-0 hidden flex-col items-center justify-center bg-black bg-opacity-50 text-white">
+      <h2 class="text-2xl font-bold mb-2">Oyun Bitti!</h2>
+      <p class="text-xl mb-4">Skor: <span id="finalScore">0</span></p>
+      <button id="restartButton" class="px-6 py-3 bg-red-500 rounded-full text-xl font-semibold">Yeniden Başla</button>
+    </div>
+  </div>
 
   <script>
     const canvas = document.getElementById('gameCanvas');
     const ctx = canvas.getContext('2d');
-    const scoreEl = document.getElementById('score');
-    const restartBtn = document.getElementById('restartBtn');
-
-    const WIDTH = canvas.width;
-    const HEIGHT = canvas.height;
+    const startScreen = document.getElementById('startScreen');
+    const gameOverScreen = document.getElementById('gameOverScreen');
+    const startButton = document.getElementById('startButton');
+    const restartButton = document.getElementById('restartButton');
+    const finalScoreEl = document.getElementById('finalScore');
 
     // Oyun değişkenleri
-    let bird = {
-      x: 80,
-      y: HEIGHT / 2,
-      width: 34,
-      height: 24,
-      velocity: 0,
-      gravity: 0.5,
-      lift: -8,
-    };
-
+    let bird = { x: 50, y: canvas.height / 2, width: 30, height: 30, gravity: 0.2, velocity: 0, jump: -5 };
     let pipes = [];
-    let pipeWidth = 60;
-    let pipeGap = 150;
-    let pipeInterval = 1500; // ms
-    let lastPipeTime = 0;
-
     let score = 0;
-    let running = false;
+    let gameRunning = false;
+    let frameCount = 0;
+    const pipeWidth = 60;
+    const pipeGap = 180;
+    const pipeSpeed = 3;
 
-    // Başlangıç fonksiyonu
-    function resetGame() {
-      bird.y = HEIGHT / 2;
+    // Başlatma
+    startButton.addEventListener('click', startGame);
+    restartButton.addEventListener('click', startGame);
+
+    function startGame() {
+      bird.y = canvas.height / 2;
       bird.velocity = 0;
       pipes = [];
       score = 0;
-      scoreEl.textContent = score;
-      running = true;
-      restartBtn.classList.add('hidden');
-      lastPipeTime = performance.now();
-      requestAnimationFrame(gameLoop);
+      gameRunning = true;
+      startScreen.classList.add('hidden');
+      gameOverScreen.classList.add('hidden');
+      frameCount = 0;
+      loop();
     }
 
-    // Boru oluştur
-    function createPipe() {
-      const minHeight = 50;
-      const maxHeight = HEIGHT - pipeGap - minHeight;
-      const topHeight = Math.floor(Math.random() * (maxHeight - minHeight + 1)) + minHeight;
-      pipes.push({
-        x: WIDTH,
-        topHeight,
-        bottomY: topHeight + pipeGap,
-        passed: false,
-      });
+    // Zıplama
+    function jump() {
+      if (gameRunning) bird.velocity = bird.jump;
     }
 
-    // Çarpışma kontrolü
-    function collision(pipe) {
-      // Kuşun kutu alanı
-      const bx = bird.x;
-      const by = bird.y;
-      const bw = bird.width;
-      const bh = bird.height;
+    canvas.addEventListener('click', jump);
+    window.addEventListener('keydown', (e) => {
+      if (e.code === 'Space') jump();
+    });
 
-      // Boru üst
-      if (
-        bx + bw > pipe.x &&
-        bx < pipe.x + pipeWidth &&
-        by < pipe.topHeight
-      ) return true;
+    // Ana oyun döngüsü
+    function loop() {
+      if (!gameRunning) return;
 
-      // Boru alt
-      if (
-        bx + bw > pipe.x &&
-        bx < pipe.x + pipeWidth &&
-        by + bh > pipe.bottomY
-      ) return true;
+      update();
+      draw();
 
-      // Zemin ve tavan kontrolü
-      if (by < 0 || by + bh > HEIGHT) return true;
-
-      return false;
+      requestAnimationFrame(loop);
     }
 
-    // Kuşu çiz
-    function drawBird() {
-      ctx.fillStyle = '#facc15'; // sarı kuş
-      ctx.beginPath();
-      ctx.ellipse(bird.x + bird.width / 2, bird.y + bird.height / 2, bird.width / 2, bird.height / 2, 0, 0, Math.PI * 2);
-      ctx.fill();
-      // Göz
-      ctx.fillStyle = '#000';
-      ctx.beginPath();
-      ctx.arc(bird.x + bird.width * 0.7, bird.y + bird.height * 0.3, 4, 0, Math.PI * 2);
-      ctx.fill();
-    }
-
-    // Boruları çiz
-    function drawPipes() {
-      ctx.fillStyle = '#059669'; // yeşil boru
-
-      pipes.forEach(pipe => {
-        // Üst boru
-        ctx.fillRect(pipe.x, 0, pipeWidth, pipe.topHeight);
-        // Alt boru
-        ctx.fillRect(pipe.x, pipe.bottomY, pipeWidth, HEIGHT - pipe.bottomY);
-      });
-    }
-
-    // Puan ve oyun döngüsü
-    function gameLoop(timestamp) {
-      if (!running) return;
-
-      ctx.clearRect(0, 0, WIDTH, HEIGHT);
-
-      // Kuş hareket
+    function update() {
+      // Kuş
       bird.velocity += bird.gravity;
       bird.y += bird.velocity;
 
-      // Boruların hareketi ve yönetimi
-      if (timestamp - lastPipeTime > pipeInterval) {
-        createPipe();
-        lastPipeTime = timestamp;
-      }
-
-      pipes.forEach(pipe => {
-        pipe.x -= 3;
-
-        // Kuş geçerse puan artar
-        if (!pipe.passed && pipe.x + pipeWidth < bird.x) {
-          pipe.passed = true;
-          score++;
-          scoreEl.textContent = score;
-        }
-      });
-
-      // Boruları temizle (ekrandan çıkınca)
-      pipes = pipes.filter(pipe => pipe.x + pipeWidth > 0);
-
-      drawPipes();
-      drawBird();
-
-      // Çarpışma kontrolü
-      for (let pipe of pipes) {
-        if (collision(pipe)) {
-          running = false;
-          restartBtn.classList.remove('hidden');
-          return;
-        }
-      }
-
-      // Zemin ve tavan kontrolü (oyun bitti)
-      if (bird.y + bird.height > HEIGHT || bird.y < 0) {
-        running = false;
-        restartBtn.classList.remove('hidden');
+      // Yer veya gökyüzü çarpışma
+      if (bird.y + bird.height >= canvas.height || bird.y <= 0) {
+        gameOver();
         return;
       }
 
-      requestAnimationFrame(gameLoop);
-    }
-
-    // Kuşu zıplat
-    function flap() {
-      if (!running) return;
-      bird.velocity = bird.lift;
-    }
-
-    // Eventler
-    window.addEventListener('keydown', e => {
-      if (e.code === 'Space' || e.code === 'ArrowUp') {
-        flap();
-        e.preventDefault();
+      // Borular
+      if (frameCount % 100 === 0) {
+        const gapY = Math.floor(Math.random() * (canvas.height - pipeGap - 20)) + 10;
+        pipes.push({
+          x: canvas.width,
+          y: gapY,
+          passed: false
+        });
       }
-    });
 
-    canvas.addEventListener('click', () => flap());
+      // Boruları hareket ettir
+      pipes.forEach((pipe, index) => {
+        pipe.x -= pipeSpeed;
 
-    restartBtn.addEventListener('click', () => {
-      resetGame();
-    });
+        // Skor
+        if (!pipe.passed && pipe.x + pipeWidth < bird.x) {
+          pipe.passed = true;
+          score++;
+        }
 
-    // Başlat
-    resetGame();
+        // Çarpışma kontrolü
+        if (
+          bird.x + bird.width > pipe.x &&
+          bird.x < pipe.x + pipeWidth &&
+          (bird.y < pipe.y || bird.y + bird.height > pipe.y + pipeGap)
+        ) {
+          gameOver();
+        }
+
+        // Ekrandan çıkan boruları kaldır
+        if (pipe.x + pipeWidth < 0) {
+          pipes.splice(index, 1);
+        }
+      });
+
+      frameCount++;
+    }
+
+    function draw() {
+      // Arka plan
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Kuş
+      ctx.fillStyle = '#FFD700';
+      ctx.fillRect(bird.x, bird.y, bird.width, bird.height);
+
+      // Borular
+      ctx.fillStyle = '#228B22';
+      pipes.forEach(pipe => {
+        ctx.fillRect(pipe.x, 0, pipeWidth, pipe.y);
+        ctx.fillRect(pipe.x, pipe.y + pipeGap, pipeWidth, canvas.height);
+      });
+
+      // Skor
+      ctx.fillStyle = '#FFF';
+      ctx.font = '24px Arial';
+      ctx.fillText(`Skor: ${score}`, 10, 30);
+    }
+
+    function gameOver() {
+      gameRunning = false;
+      finalScoreEl.textContent = score;
+      gameOverScreen.classList.remove('hidden');
+    }
   </script>
 </body>
+
 </html>
