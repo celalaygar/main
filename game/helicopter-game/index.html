@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="tr">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Helicopter Game — Responsive</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    canvas {
+      display: block;
+      border-radius: 12px;
+      box-shadow: 0 12px 40px rgba(2, 6, 23, 0.7);
+    }
+
+    .hud {
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+
+    .touch-btn {
+      width: 100%;
+      height: 64px;
+      border-radius: 12px;
+    }
+  </style>
+</head>
+
+<body
+  class="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 text-white flex items-center justify-center p-4">
+
+  <div class="w-full max-w-4xl">
+    <header class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-4">
+      <div>
+        <h1 class="text-2xl md:text-3xl font-bold">Helicopter Game</h1>
+        <p class="text-sm text-slate-300 mt-1">Basılı tut → yüksel. Bırak → düş. Mobil & masaüstü uyumlu.</p>
+      </div>
+      <div class="flex items-center gap-3">
+        <div class="bg-white/5 px-3 py-2 rounded-md text-sm hud">Skor: <span id="score">0</span></div>
+        <div class="bg-white/5 px-3 py-2 rounded-md text-sm hud">En İyi: <span id="best">0</span></div>
+        <button id="startBtn" class="px-3 py-2 bg-emerald-500 text-black rounded-md">Başlat</button>
+        <button id="pauseBtn" class="px-3 py-2 bg-yellow-400 text-black rounded-md">Duraklat</button>
+        <button id="restartBtn" class="px-3 py-2 bg-red-600 text-white rounded-md">Yeniden</button>
+      </div>
+    </header>
+
+    <main class="grid md:grid-cols-3 gap-6 items-start">
+      <!-- Oyun Alanı -->
+      <section class="md:col-span-2 flex justify-center">
+        <div id="wrap" class="w-full max-w-[900px] relative">
+          <canvas id="gameCanvas" width="800" height="450"></canvas>
+
+          <!-- Overlay -->
+          <div id="overlay" class="absolute inset-0 bg-black/70 hidden items-center justify-center p-4 rounded">
+            <div class="bg-white/5 p-6 rounded-lg text-center max-w-md">
+              <h2 id="overlayTitle" class="text-2xl font-bold mb-2">Oyun Bitti</h2>
+              <p id="overlayText" class="mb-4">Skor: <span id="finalScore">0</span> • En İyi: <span
+                  id="finalBest">0</span></p>
+              <div class="flex gap-3 justify-center">
+                <button id="overlayRestart" class="px-4 py-2 bg-emerald-500 text-black rounded-md">Yeniden
+                  Başlat</button>
+                <button id="overlayClose" class="px-4 py-2 bg-white/5 text-white rounded-md">Kapat</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Sağ Panel -->
+      <aside class="flex flex-col gap-4">
+        <div class="bg-white/5 p-4 rounded-md">
+          <h3 class="font-semibold mb-2">Nasıl Oynanır?</h3>
+          <ul class="text-sm list-disc list-inside space-y-1">
+            <li>Basılı tut: yükselir, bırak: düşer.</li>
+            <li><strong>Space / ↑</strong> ya da fare basılı tut (PC)</li>
+            <li><strong>P</strong> ile duraklat/başlat.</li>
+            <li>Engellere ve zemine/ tavana çarpmadan ilerle.</li>
+          </ul>
+        </div>
+
+        <div class="bg-white/5 p-4 rounded-md">
+          <h3 class="font-semibold mb-2">İpucu</h3>
+          <p class="text-sm text-slate-200">Mesafe arttıkça hız biraz yükselir, boşluk daralır. Sakin bas-çek ritmi en
+            iyisi.</p>
+        </div>
+
+        <!-- Mobil Uçuş Butonu -->
+        <div class="md:hidden bg-white/5 p-3 rounded-md">
+          <button id="btnFly" class="touch-btn bg-emerald-500 text-black text-lg font-semibold">Fly (Basılı
+            Tut)</button>
+          <button id="btnPause" class="mt-3 w-full px-4 py-2 bg-yellow-400 text-black rounded-md">Duraklat</button>
+        </div>
+      </aside>
+    </main>
+
+    <footer class="mt-6 text-center text-xs text-slate-400">Canvas + Tailwind + Vanilla JS • Responsive • Tek dosya
+    </footer>
+  </div>
+
+  <script>
+    /* Helicopter Game — single file, responsive canvas (CSS scale), mobile friendly */
+    (() => {
+      // Sabit sanal çözünürlük (fizik burada çalışır)
+      const VW = 800, VH = 450;
+
+      // DOM
+      const canvas = document.getElementById('gameCanvas');
+      const wrap = document.getElementById('wrap');
+      const ctx = canvas.getContext('2d');
+
+      const scoreEl = document.getElementById('score');
+      const bestEl = document.getElementById('best');
+      const startBtn = document.getElementById('startBtn');
+      const pauseBtn = document.getElementById('pauseBtn');
+      const restartBtn = document.getElementById('restartBtn');
+      const btnFly = document.getElementById('btnFly');
+      const btnPause = document.getElementById('btnPause');
+
+      const overlay = document.getElementById('overlay');
+      const overlayTitle = document.getElementById('overlayTitle');
+      const overlayText = document.getElementById('overlayText');
+      const overlayRestart = document.getElementById('overlayRestart');
+      const overlayClose = document.getElementById('overlayClose');
+      const finalScoreEl = document.getElementById('finalScore');
+      const finalBestEl = document.getElementById('finalBest');
+
+      // Responsive: canvas CSS boyutu container'a göre ayarlanır (iç çözünürlük sabit)
+      function fitCanvas() {
+        const maxW = wrap.clientWidth;
+        const maxH = window.innerHeight * 0.72;
+        let w = Math.min(maxW, 900);
+        let h = Math.floor(w * (VH / VW));
+        if (h > maxH) { h = Math.floor(maxH); w = Math.floor(h * (VW / VH)); }
+        canvas.style.width = w + 'px';
+        canvas.style.height = h + 'px';
+      }
+      window.addEventListener('resize', fitCanvas);
+
+      // Oyun durumu
+      let heli, particles, walls, score, best, speed, gap, gravity, thrust, running, paused, gameOver;
+      let lastTime = 0;
+
+      function resetState() {
+        heli = {
+          x: VW * 0.2, y: VH * 0.5,
+          vx: 0, vy: 0,
+          w: 42, h: 22,
+          alive: true
+        };
+        particles = [];
+        walls = []; // her eleman: {x, gapY, gapH, w}
+        score = 0;
+        speed = 180;       // px/sn (scroll hızı)
+        gap = 160;       // boşluk yüksekliği
+        gravity = 520;     // px/sn^2
+        thrust = -700;    // basınca yukarı ivme
+        running = false;
+        paused = false;
+        gameOver = false;
+        spawnInitialWalls();
+        updateHUD();
+      }
+
+      // En iyi skor (localStorage)
+      best = Number(localStorage.getItem('helicopterBest') || 0);
+      bestEl.textContent = best;
+
+      function spawnInitialWalls() {
+        walls.length = 0;
+        let x = VW + 60;
+        for (let i = 0; i < 6; i++) {
+          addWall(x);
+          x += 240;
+        }
+      }
+
+      function addWall(xpos) {
+        const margin = 60;
+        const minGap = Math.max(110, gap - 0); // başlangıçta gap
+        const gy = Math.random() * (VH - minGap - margin * 2) + margin;
+        walls.push({ x: xpos, gapY: gy, gapH: gap, w: 70, passed: false });
+      }
+
+      function update(dt) {
+        if (!running || paused || gameOver) return;
+
+        // Zorluk artışı
+        speed += 2 * dt;                   // gittikçe hız artsın
+        gap = Math.max(100, gap - 4 * dt);   // boşluk yavaşça daralsın
+
+        // Helikopter fizik
+        heli.vy += gravity * dt;
+        if (input.fly) heli.vy += thrust * dt;
+        heli.y += heli.vy * dt;
+
+        // Yer/ tavan çarpışma
+        if (heli.y < 0) { heli.y = 0; die(); }
+        if (heli.y + heli.h > VH) { heli.y = VH - heli.h; die(); }
+
+        // Duvar hareketi ve spawn
+        for (const w of walls) {
+          w.x -= speed * dt;
+        }
+        // Ekranı geçenleri kaldırıp yeni ekle
+        while (walls.length && walls[0].x + walls[0].w < -10) {
+          walls.shift();
+          const lastX = walls.length ? walls[walls.length - 1].x : VW + 200;
+          addWall(lastX + 240);
+        }
+
+        // Skor ve çarpışma
+        for (const w of walls) {
+          if (!w.passed && heli.x > w.x + w.w) { w.passed = true; score += 1; }
+          // Çarpışma kontrol: gap dışına değerse
+          const inX = heli.x + heli.w > w.x && heli.x < w.x + w.w;
+          if (inX) {
+            const topH = w.gapY, botY = w.gapY + w.gapH;
+            const hitTop = heli.y < topH;
+            const hitBot = (heli.y + heli.h) > botY;
+            if (hitTop || hitBot) { die(); }
+          }
+        }
+
+        // Egzoz parçacıkları (ufak görsellik)
+        if (input.fly && Math.random() < 0.7) {
+          particles.push({
+            x: heli.x - 6, y: heli.y + heli.h / 2,
+            vx: -speed * 0.6 - Math.random() * 60, vy: (Math.random() - 0.5) * 60,
+            r: 2 + Math.random() * 2, a: 0.9
+          });
+        }
+        for (const p of particles) {
+          p.x += p.vx * dt; p.y += p.vy * dt; p.a -= 1.6 * dt;
+        }
+        particles = particles.filter(p => p.a > 0);
+
+        updateHUD();
+      }
+
+      function die() {
+        if (gameOver) return;
+        gameOver = true; running = false;
+        // Best skor
+        if (score > best) { best = score; localStorage.setItem('helicopterBest', best); }
+        finalScoreEl.textContent = score;
+        finalBestEl.textContent = best;
+        overlayTitle.textContent = 'Oyun Bitti';
+        overlayText.textContent = `Skor: ${score} • En İyi: ${best}`;
+        overlay.classList.remove('hidden');
+      }
+
+      function draw() {
+        // Arka plan (katmanlı gradient ve şeritler)
+        const g = ctx.createLinearGradient(0, 0, 0, VH);
+        g.addColorStop(0, '#0b1220'); g.addColorStop(1, '#020617');
+        ctx.fillStyle = g; ctx.fillRect(0, 0, VW, VH);
+
+        // Yumuşak yıldızlar
+        ctx.fillStyle = 'rgba(255,255,255,0.06)';
+        for (let i = 0; i < 48; i++) {
+          const x = (i * 67) % VW;
+          const y = (i * 131) % VH;
+          ctx.fillRect(x, y, 2, 2);
+        }
+
+        // Duvarlar
+        for (const w of walls) {
+          // üst blok
+          ctx.fillStyle = '#1f2937';
+          ctx.fillRect(w.x, 0, w.w, w.gapY);
+          // alt blok
+          ctx.fillRect(w.x, w.gapY + w.gapH, w.w, VH - (w.gapY + w.gapH));
+          // kenarlık
+          ctx.strokeStyle = '#0f172a';
+          ctx.lineWidth = 2;
+          ctx.strokeRect(w.x + 0.5, 0.5, w.w - 1, w.gapY - 1);
+          ctx.strokeRect(w.x + 0.5, w.gapY + w.gapH + 0.5, w.w - 1, VH - (w.gapY + w.gapH) - 1);
+        }
+
+        // Helikopter (basit gövde + rotor)
+        ctx.save();
+        ctx.translate(heli.x, heli.y);
+        // gövde
+        ctx.fillStyle = '#22d3ee';
+        ctx.fillRect(0, 0, heli.w, heli.h);
+        // burun
+        ctx.fillStyle = '#67e8f9';
+        ctx.fillRect(heli.w - 10, 4, 10, heli.h - 8);
+        // kuyruk
+        ctx.fillStyle = '#0891b2';
+        ctx.fillRect(-10, 6, 10, heli.h - 12);
+        // rotor
+        ctx.fillStyle = '#e5e7eb';
+        const blade = (Date.now() % 300) / 300;
+        const bw = 34 + Math.sin(blade * Math.PI * 2) * 10;
+        ctx.fillRect(heli.w / 2 - bw / 2, -6, bw, 4);
+        // egzoz alevi
+        if (input.fly) {
+          ctx.fillStyle = 'orange';
+          ctx.beginPath();
+          ctx.moveTo(-10, heli.h / 2 - 2);
+          ctx.lineTo(-18 - Math.random() * 6, heli.h / 2);
+          ctx.lineTo(-10, heli.h / 2 + 2);
+          ctx.closePath();
+          ctx.fill();
+        }
+        ctx.restore();
+
+        // Parçacıklar
+        for (const p of particles) {
+          ctx.globalAlpha = Math.max(0, p.a);
+          ctx.fillStyle = '#94a3b8';
+          ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill();
+          ctx.globalAlpha = 1;
+        }
+
+        // HUD
+        ctx.fillStyle = 'rgba(0,0,0,0.35)';
+        ctx.fillRect(8, 8, 190, 56);
+        ctx.fillStyle = '#fff';
+        ctx.font = `${14}px Inter, system-ui`;
+        ctx.fillText('Skor: ' + score, 16, 28);
+        ctx.fillText('En İyi: ' + best, 16, 48);
+      }
+
+      function loop(ts) {
+        if (!lastTime) lastTime = ts;
+        const dt = Math.min(0.05, (ts - lastTime) / 1000);
+        lastTime = ts;
+        update(dt);
+        draw();
+        requestAnimationFrame(loop);
+      }
+
+      function updateHUD() {
+        scoreEl.textContent = score;
+        bestEl.textContent = best;
+      }
+
+      // Girişler
+      const input = { fly: false };
+      function setFly(v) { input.fly = v; }
+      // Mouse
+      canvas.addEventListener('mousedown', e => { e.preventDefault(); setFly(true); });
+      window.addEventListener('mouseup', () => setFly(false));
+      // Touch (tüm canvas ve mobil buton)
+      canvas.addEventListener('touchstart', e => { e.preventDefault(); setFly(true); }, { passive: false });
+      canvas.addEventListener('touchend', e => { e.preventDefault(); setFly(false); }, { passive: false });
+      if (btnFly) {
+        const down = e => { e.preventDefault(); setFly(true); };
+        const up = e => { e.preventDefault(); setFly(false); };
+        btnFly.addEventListener('touchstart', down, { passive: false });
+        btnFly.addEventListener('touchend', up, { passive: false });
+        btnFly.addEventListener('mousedown', down);
+        btnFly.addEventListener('mouseup', up);
+        btnFly.addEventListener('mouseleave', up);
+      }
+      // Klavye
+      window.addEventListener('keydown', (e) => {
+        if (e.code === 'Space' || e.key === 'ArrowUp') { setFly(true); }
+        if (e.key === 'p' || e.key === 'P') { togglePause(); }
+      });
+      window.addEventListener('keyup', (e) => {
+        if (e.code === 'Space' || e.key === 'ArrowUp') { setFly(false); }
+      });
+
+      // Butonlar
+      startBtn.addEventListener('click', () => { if (!running && !gameOver) { running = true; } });
+      pauseBtn.addEventListener('click', togglePause);
+      if (btnPause) btnPause.addEventListener('click', togglePause);
+      restartBtn.addEventListener('click', restart);
+      overlayRestart.addEventListener('click', () => { overlay.classList.add('hidden'); restart(); });
+      overlayClose.addEventListener('click', () => overlay.classList.add('hidden'));
+
+      function togglePause() {
+        if (gameOver) return;
+        paused = !paused;
+        pauseBtn.textContent = paused ? 'Devam' : 'Duraklat';
+        if (btnPause) btnPause.textContent = paused ? 'Devam' : 'Duraklat';
+      }
+
+      function restart() {
+        overlay.classList.add('hidden');
+        resetState();
+        running = true;
+      }
+
+      // Başlat
+      function init() {
+        fitCanvas();
+        resetState();
+        requestAnimationFrame(loop);
+      }
+      window.addEventListener('resize', () => draw());
+      init();
+    })();
+  </script>
+</body>
+
+</html>
