@@ -1,0 +1,540 @@
+<!doctype html>
+<html lang="tr">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Space Invaders — Responsive</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    canvas {
+      display: block;
+      background: radial-gradient(circle at 30% 10%, #0b1022 0%, #050914 45%, #000 100%);
+      border-radius: 12px;
+      box-shadow: 0 12px 40px rgba(2, 6, 23, 0.7);
+    }
+
+    .touch-btn {
+      width: 64px;
+      height: 64px;
+      border-radius: 12px;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .no-select {
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    .hud {
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+  </style>
+</head>
+
+<body
+  class="min-h-screen bg-gradient-to-b from-slate-900 via-zinc-900 to-black text-white flex items-center justify-center p-4">
+
+  <div class="w-full max-w-4xl">
+    <header class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-4">
+      <div>
+        <h1 class="text-2xl md:text-3xl font-bold">Space Invaders</h1>
+        <p class="text-sm text-slate-300 mt-1">← → hareket, Space ateş, P duraklat • Mobil butonlar aktif</p>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <div class="bg-white/5 px-3 py-2 rounded-md text-sm hud">Skor: <span id="score">0</span></div>
+        <div class="bg-white/5 px-3 py-2 rounded-md text-sm hud">Can: <span id="lives">3</span></div>
+        <div class="bg-white/5 px-3 py-2 rounded-md text-sm hud">Seviye: <span id="level">1</span></div>
+        <button id="startBtn" class="px-3 py-2 bg-emerald-500 text-black rounded-md">Başlat</button>
+        <button id="pauseBtn" class="px-3 py-2 bg-yellow-400 text-black rounded-md">Duraklat</button>
+        <button id="restartBtn" class="px-3 py-2 bg-red-600 text-white rounded-md">Yeniden</button>
+      </div>
+    </header>
+
+    <main class="grid md:grid-cols-3 gap-6 items-start">
+      <!-- Oyun Alanı -->
+      <section class="md:col-span-2 flex justify-center">
+        <div id="wrap" class="w-full max-w-[900px] relative">
+          <canvas id="game"></canvas>
+
+          <!-- Overlay -->
+          <div id="overlay" class="absolute inset-0 bg-black/70 hidden items-center justify-center p-4 rounded">
+            <div class="bg-white/5 p-6 rounded-lg text-center max-w-md">
+              <h2 id="overlayTitle" class="text-2xl font-bold mb-2">Oyun Bitti</h2>
+              <p id="overlayText" class="mb-4">Skor: <span id="finalScore">0</span></p>
+              <div class="flex gap-3 justify-center">
+                <button id="overlayRestart" class="px-4 py-2 bg-emerald-500 text-black rounded-md">Yeniden
+                  Başlat</button>
+                <button id="overlayClose" class="px-4 py-2 bg-white/5 text-white rounded-md">Kapat</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Sağ Panel -->
+      <aside class="flex flex-col gap-4">
+        <div class="bg-white/5 p-4 rounded-md">
+          <h3 class="font-semibold mb-2">Nasıl Oynanır?</h3>
+          <ul class="text-sm list-disc list-inside space-y-1">
+            <li>← / → : Hareket</li>
+            <li>Space : Ateş</li>
+            <li>P : Duraklat / Devam</li>
+            <li>Düşmanlar kenara değince aşağı iner.</li>
+          </ul>
+        </div>
+
+        <div class="bg-white/5 p-4 rounded-md">
+          <h3 class="font-semibold mb-2">İstatistik</h3>
+          <div class="text-sm hud">Düşman: <span id="enemyCount">0</span></div>
+          <div class="text-sm hud mt-1">Mermi (biz): <span id="bulletCount">0</span></div>
+          <div class="text-sm hud mt-1">Mermi (düşman): <span id="enemyBulletCount">0</span></div>
+        </div>
+
+        <!-- Mobil Kontroller -->
+        <div class="md:hidden bg-white/5 p-3 rounded-md flex flex-col items-center gap-3">
+          <div class="grid grid-cols-3 gap-2 w-full">
+            <button id="btnLeft" class="touch-btn bg-slate-700 text-white no-select">◀</button>
+            <button id="btnFire" class="touch-btn bg-emerald-500 text-black no-select">●</button>
+            <button id="btnRight" class="touch-btn bg-slate-700 text-white no-select">▶</button>
+          </div>
+          <button id="btnPause" class="w-full px-4 py-2 bg-yellow-400 text-black rounded-md">Duraklat</button>
+        </div>
+      </aside>
+    </main>
+
+    <footer class="mt-6 text-center text-xs text-slate-400">Canvas + Tailwind + JS • Mobil uyumlu • Tek dosya</footer>
+  </div>
+
+  <script>
+    /* Space Invaders — single file, responsive, mobile friendly */
+    (() => {
+      // DOM
+      const canvas = document.getElementById('game');
+      const wrap = document.getElementById('wrap');
+      const ctx = canvas.getContext('2d');
+
+      const scoreEl = document.getElementById('score');
+      const livesEl = document.getElementById('lives');
+      const levelEl = document.getElementById('level');
+      const enemyCountEl = document.getElementById('enemyCount');
+      const bulletCountEl = document.getElementById('bulletCount');
+      const enemyBulletCountEl = document.getElementById('enemyBulletCount');
+
+      const startBtn = document.getElementById('startBtn');
+      const pauseBtn = document.getElementById('pauseBtn');
+      const restartBtn = document.getElementById('restartBtn');
+
+      const overlay = document.getElementById('overlay');
+      const overlayTitle = document.getElementById('overlayTitle');
+      const overlayText = document.getElementById('overlayText');
+      const finalScore = document.getElementById('finalScore');
+      const overlayRestart = document.getElementById('overlayRestart');
+      const overlayClose = document.getElementById('overlayClose');
+
+      const btnLeft = document.getElementById('btnLeft');
+      const btnRight = document.getElementById('btnRight');
+      const btnFire = document.getElementById('btnFire');
+      const btnPause = document.getElementById('btnPause');
+
+      // Canvas boyutları (responsive)
+      let WIDTH = 720, HEIGHT = 540;
+      function resizeCanvas() {
+        const maxW = wrap.clientWidth;
+        const maxH = window.innerHeight * 0.74;
+        let w = Math.min(900, maxW);
+        let h = Math.floor(w * 0.75); // 4:3-ish
+        if (h > maxH) { h = Math.floor(maxH); w = Math.floor(h / 0.75); }
+        WIDTH = Math.max(320, w);
+        HEIGHT = Math.max(240, h);
+        canvas.width = WIDTH;
+        canvas.height = HEIGHT;
+      }
+      window.addEventListener('resize', () => { resizeCanvas(); draw(); });
+
+      // Oyun durumu
+      let player, bullets, enemyBullets, enemies, shields, score, lives, level;
+      let dir = 1; // enemy yönü (1 sağ / -1 sol)
+      let stepDown = false;
+      let enemySpeedBase = 30;
+      let enemyShootCooldown = 0;
+
+      let running = false, paused = false, gameOver = false;
+      let lastTime = 0;
+
+      // Ayarlar
+      const PLAYER_SPEED = 300;
+      const PLAYER_COOLDOWN = 0.35;
+      const BULLET_SPEED = 460;
+      const ENEMY_BULLET_SPEED = 220;
+      const ENEMY_COLS = 10;
+      const ENEMY_ROWS = 5;
+      const ENEMY_X_PADDING = 40;
+      const ENEMY_Y_PADDING = 30;
+      const ENEMY_CELL_W = 44;
+      const ENEMY_CELL_H = 34;
+      const ENEMY_DOWN_STEP = 18;
+      const ENEMY_SHOOT_INTERVAL = 0.7; // minimum aralık
+      const SHIELD_COUNT = 3;
+
+      const keys = { left: false, right: false, fire: false };
+
+      function initState() {
+        player = {
+          x: WIDTH / 2,
+          y: HEIGHT - 50,
+          w: 36, h: 22,
+          cooldown: 0
+        };
+        bullets = [];
+        enemyBullets = [];
+        enemies = [];
+        shields = createShields();
+        score = 0;
+        lives = 3;
+        level = 1;
+        dir = 1;
+        stepDown = false;
+        enemySpeedBase = 30;
+        enemyShootCooldown = 0;
+        buildEnemies();
+        updateHUD();
+      }
+
+      function nextLevel() {
+        level++;
+        dir = 1;
+        stepDown = false;
+        enemySpeedBase += 8;
+        buildEnemies();
+        shields = createShields(); // kalkanları yenile
+        updateHUD();
+      }
+
+      // Kalkanlar (basit dikdörtgen grupları)
+      function createShields() {
+        const shieldW = 70, shieldH = 30;
+        const gap = WIDTH / (SHIELD_COUNT + 1);
+        const arr = [];
+        for (let i = 1; i <= SHIELD_COUNT; i++) {
+          arr.push({ x: gap * i - shieldW / 2, y: HEIGHT - 120, w: shieldW, h: shieldH, hp: 12 });
+        }
+        return arr;
+      }
+
+      function buildEnemies() {
+        enemies = [];
+        const offsetX = (WIDTH - ((ENEMY_COLS - 1) * ENEMY_CELL_W) - ENEMY_X_PADDING * 2) / 2 + ENEMY_X_PADDING;
+        const offsetY = 60;
+        for (let r = 0; r < ENEMY_ROWS; r++) {
+          for (let c = 0; c < ENEMY_COLS; c++) {
+            enemies.push({
+              x: offsetX + c * ENEMY_CELL_W,
+              y: offsetY + r * ENEMY_CELL_H,
+              w: 28, h: 20,
+              row: r, col: c,
+              alive: true
+            });
+          }
+        }
+      }
+
+      function shoot() {
+        if (player.cooldown > 0) return;
+        bullets.push({ x: player.x, y: player.y - player.h / 2, r: 2.5, vy: -BULLET_SPEED });
+        player.cooldown = PLAYER_COOLDOWN;
+      }
+
+      function update(dt) {
+        if (gameOver || paused) return;
+
+        // Oyuncu hareket
+        if (keys.left) player.x -= PLAYER_SPEED * dt;
+        if (keys.right) player.x += PLAYER_SPEED * dt;
+        player.x = Math.max(20, Math.min(WIDTH - 20, player.x));
+        if (keys.fire) shoot();
+        if (player.cooldown > 0) player.cooldown -= dt;
+
+        // Düşman hareket (formasyon)
+        let minX = Infinity, maxX = -Infinity;
+        enemies.forEach(e => {
+          if (!e.alive) return;
+          minX = Math.min(minX, e.x - e.w / 2);
+          maxX = Math.max(maxX, e.x + e.w / 2);
+        });
+        const aliveCount = enemies.filter(e => e.alive).length;
+        const speed = enemySpeedBase + (ENEMY_ROWS * ENEMY_COLS - aliveCount) * 1.2 + (level - 1) * 6;
+        // yana kay
+        enemies.forEach(e => {
+          if (!e.alive) return;
+          e.x += dir * speed * dt;
+        });
+        // kenara değdi mi?
+        minX += dir * speed * dt; maxX += dir * speed * dt;
+        if (minX < 20 || maxX > WIDTH - 20) {
+          stepDown = true;
+          dir *= -1;
+        }
+        if (stepDown) {
+          enemies.forEach(e => { if (e.alive) e.y += ENEMY_DOWN_STEP; });
+          stepDown = false;
+        }
+
+        // Düşman ateşi
+        enemyShootCooldown -= dt;
+        if (enemyShootCooldown <= 0 && aliveCount > 0) {
+          // her kolondan en alttaki yaşayan düşmanı bulup rastgele 1-2 ateş et
+          const columns = {};
+          for (const e of enemies) {
+            if (!e.alive) continue;
+            columns[e.col] = columns[e.col] ? (e.y > columns[e.col].y ? e : columns[e.col]) : e;
+          }
+          const shooters = Object.values(columns);
+          const shots = Math.min(2, Math.max(1, Math.floor(shooters.length / 4)));
+          for (let i = 0; i < shots; i++) {
+            const s = shooters[Math.floor(Math.random() * shooters.length)];
+            if (s) {
+              enemyBullets.push({ x: s.x, y: s.y + s.h / 2, r: 3, vy: ENEMY_BULLET_SPEED * (0.9 + Math.random() * 0.3) });
+            }
+          }
+          enemyShootCooldown = ENEMY_SHOOT_INTERVAL * (0.6 + Math.random() * 0.9);
+        }
+
+        // Mermi hareketleri
+        bullets.forEach(b => { b.y += b.vy * dt; });
+        enemyBullets.forEach(b => { b.y += b.vy * dt; });
+
+        // Ekrandan çıkan mermileri at
+        bullets = bullets.filter(b => b.y + b.r > 0);
+        enemyBullets = enemyBullets.filter(b => b.y - b.r < HEIGHT);
+
+        // Çarpışmalar — bizim mermiler düşmanla
+        for (const b of bullets) {
+          for (const e of enemies) {
+            if (!e.alive) continue;
+            if (rectCircleCollide(e.x - e.w / 2, e.y - e.h / 2, e.w, e.h, b.x, b.y, b.r)) {
+              e.alive = false;
+              b.y = -9999; // işaretle (sonra filtrelenecek)
+              score += 10 + (ENEMY_ROWS - e.row) * 2;
+            }
+          }
+        }
+        bullets = bullets.filter(b => b.y > -900);
+
+        // Kalkan çarpışmaları (hem biz hem düşman mermileri)
+        for (const s of shields) {
+          if (s.hp <= 0) continue;
+          for (const b of bullets) {
+            if (rectCircleCollide(s.x, s.y, s.w, s.h, b.x, b.y, b.r)) {
+              b.y = -9999; s.hp--; score += 1;
+            }
+          }
+          for (const eb of enemyBullets) {
+            if (rectCircleCollide(s.x, s.y, s.w, s.h, eb.x, eb.y, eb.r)) {
+              eb.y = 9999; s.hp--;
+            }
+          }
+        }
+
+        // Düşman mermisi oyuncuya
+        for (const eb of enemyBullets) {
+          if (rectCircleCollide(player.x - 18, player.y - 11, 36, 22, eb.x, eb.y, eb.r)) {
+            eb.y = 9999;
+            hitPlayer();
+            break;
+          }
+        }
+
+        // Düşman aşağı çok indi mi? (kaybetme koşulu)
+        const lowestEnemyY = Math.max(0, ...enemies.filter(e => e.alive).map(e => e.y));
+        if (aliveCount > 0 && lowestEnemyY > HEIGHT - 120) {
+          hitPlayer(true); // ağır hasar
+        }
+
+        // Level tamamlandı mı?
+        if (aliveCount === 0) {
+          overlayTitle.textContent = 'Seviye Tamamlandı!';
+          overlayText.textContent = 'Skor: ' + score + ' • Sıradaki seviye daha hızlı!';
+          finalScore.textContent = score;
+          overlay.classList.remove('hidden');
+          running = false; paused = true;
+        }
+
+        updateHUD();
+      }
+
+      function hitPlayer(force = false) {
+        lives -= force ? 2 : 1;
+        if (lives <= 0) { endGame(); return; }
+        // kısa süreli "respawn" efekti
+        player.x = WIDTH / 2;
+        enemyBullets = [];
+      }
+
+      function endGame() {
+        gameOver = true; running = false; paused = false;
+        overlayTitle.textContent = 'Oyun Bitti';
+        overlayText.textContent = 'Skor: ' + score;
+        finalScore.textContent = score;
+        overlay.classList.remove('hidden');
+      }
+
+      // Basit çarpışma: dikdörtgen vs daire
+      function rectCircleCollide(rx, ry, rw, rh, cx, cy, cr) {
+        const tx = Math.max(rx, Math.min(cx, rx + rw));
+        const ty = Math.max(ry, Math.min(cy, ry + rh));
+        const dx = cx - tx, dy = cy - ty;
+        return dx * dx + dy * dy <= cr * cr;
+      }
+
+      // Çizim
+      function draw() {
+        ctx.clearRect(0, 0, WIDTH, HEIGHT);
+
+        // Arka plan
+        ctx.fillStyle = '#060b1a';
+        ctx.fillRect(0, 0, WIDTH, HEIGHT);
+
+        // Yıldızlar (hafif, statik)
+        for (let i = 0; i < 60; i++) {
+          const x = (i * 73 % WIDTH);
+          const y = (i * 131 % HEIGHT);
+          ctx.fillStyle = 'rgba(255,255,255,0.08)';
+          ctx.fillRect(x, y, 2, 2);
+        }
+
+        // Kalkanlar
+        for (const s of shields) {
+          if (s.hp <= 0) continue;
+          ctx.fillStyle = `rgba(100, 220, 180, ${0.25 + (s.hp / 12) * 0.35})`;
+          ctx.fillRect(s.x, s.y, s.w, s.h);
+          ctx.strokeStyle = 'rgba(90,200,170,0.55)';
+          ctx.lineWidth = 2;
+          ctx.strokeRect(s.x, s.y, s.w, s.h);
+        }
+
+        // Oyuncu gemisi (basit şekil)
+        ctx.save();
+        ctx.translate(player.x, player.y);
+        ctx.fillStyle = '#e5e7eb';
+        ctx.beginPath();
+        ctx.moveTo(0, -11);
+        ctx.lineTo(18, 11);
+        ctx.lineTo(-18, 11);
+        ctx.closePath();
+        ctx.fill();
+        ctx.fillStyle = '#60a5fa';
+        ctx.fillRect(-4, -3, 8, 6);
+        ctx.restore();
+
+        // Düşmanlar
+        for (const e of enemies) {
+          if (!e.alive) continue;
+          // küçük piksel-art benzeri invader şekli
+          ctx.save();
+          ctx.translate(e.x, e.y);
+          ctx.fillStyle = '#a3e635';
+          ctx.fillRect(-e.w / 2, -e.h / 2, e.w, e.h);
+          // gözler
+          ctx.fillStyle = '#0f172a';
+          ctx.fillRect(-8, -2, 6, 4);
+          ctx.fillRect(2, -2, 6, 4);
+          ctx.restore();
+        }
+
+        // Mermiler
+        ctx.fillStyle = '#fef08a';
+        for (const b of bullets) {
+          ctx.beginPath(); ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2); ctx.fill();
+        }
+        ctx.fillStyle = '#fb7185';
+        for (const b of enemyBullets) {
+          ctx.beginPath(); ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2); ctx.fill();
+        }
+
+        // HUD (kanvas üstü)
+        ctx.fillStyle = 'rgba(0,0,0,0.35)';
+        ctx.fillRect(8, 8, 190, 56);
+        ctx.fillStyle = '#fff';
+        ctx.font = `${14}px Inter, system-ui`;
+        ctx.fillText('Skor: ' + score, 16, 28);
+        ctx.fillText('Can: ' + lives + '  Seviye: ' + level, 16, 48);
+      }
+
+      // Döngü
+      function loop(ts) {
+        if (!lastTime) lastTime = ts;
+        const dt = Math.min(0.05, (ts - lastTime) / 1000);
+        lastTime = ts;
+        if (running && !paused && !gameOver) update(dt);
+        draw();
+        requestAnimationFrame(loop);
+      }
+
+      function updateHUD() {
+        scoreEl.textContent = score;
+        livesEl.textContent = lives;
+        levelEl.textContent = level;
+        enemyCountEl.textContent = enemies.filter(e => e.alive).length;
+        bulletCountEl.textContent = bullets.length;
+        enemyBulletCountEl.textContent = enemyBullets.length;
+      }
+
+      // Girişler
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') keys.left = true;
+        if (e.key === 'ArrowRight') keys.right = true;
+        if (e.code === 'Space') { keys.fire = true; shoot(); }
+        if (e.key === 'p' || e.key === 'P') { paused = !paused; pauseBtn.textContent = paused ? 'Devam' : 'Duraklat'; }
+      });
+      window.addEventListener('keyup', (e) => {
+        if (e.key === 'ArrowLeft') keys.left = false;
+        if (e.key === 'ArrowRight') keys.right = false;
+        if (e.code === 'Space') keys.fire = false;
+      });
+
+      // Mobil butonlar
+      function bindHold(btn, onDown, onUp) {
+        if (!btn) return;
+        btn.addEventListener('touchstart', e => { e.preventDefault(); onDown(); }, { passive: false });
+        btn.addEventListener('touchend', e => { e.preventDefault(); onUp(); }, { passive: false });
+        btn.addEventListener('mousedown', e => { e.preventDefault(); onDown(); }, { passive: false });
+        btn.addEventListener('mouseup', e => { e.preventDefault(); onUp(); }, { passive: false });
+        btn.addEventListener('mouseleave', e => { onUp(); });
+      }
+      bindHold(btnLeft, () => keys.left = true, () => keys.left = false);
+      bindHold(btnRight, () => keys.right = true, () => keys.right = false);
+      bindHold(btnFire, () => { keys.fire = true; shoot(); }, () => keys.fire = false);
+      bindHold(btnPause, () => { paused = !paused; pauseBtn.textContent = paused ? 'Devam' : 'Duraklat'; }, () => { });
+
+      // Butonlar
+      startBtn.addEventListener('click', () => { if (!running && !gameOver) { running = true; paused = false; lastTime = 0; } });
+      pauseBtn.addEventListener('click', () => { paused = !paused; pauseBtn.textContent = paused ? 'Devam' : 'Duraklat'; });
+      restartBtn.addEventListener('click', () => { overlay.classList.add('hidden'); resetGame(); running = true; lastTime = 0; });
+
+      overlayRestart.addEventListener('click', () => { overlay.classList.add('hidden'); resetGame(); running = true; lastTime = 0; });
+      overlayClose.addEventListener('click', () => overlay.classList.add('hidden'));
+
+      function resetGame() {
+        initState();
+        resizeCanvas();
+      }
+
+      // Başlat
+      function init() {
+        resizeCanvas();
+        initState();
+        requestAnimationFrame(loop);
+      }
+
+      init();
+    })();
+  </script>
+</body>
+
+</html>
