@@ -1,306 +1,113 @@
-<!doctype html>
-<html lang="tr">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Simon Says — Responsive</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simon Says 5x5</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    body { -webkit-tap-highlight-color: transparent; }
-    .pad {
-      transition: transform 120ms ease, filter 120ms ease, outline-width 120ms ease;
-      outline: 2px solid rgba(255,255,255,0.12);
-      outline-offset: -2px;
+    .flash {
+      filter: brightness(2);
+      transition: filter 0.3s;
     }
-    .pad.active {
-      transform: scale(1.04);
-      filter: brightness(1.35) saturate(1.1);
-      outline-color: rgba(255,255,255,0.55);
-      outline-width: 3px;
-    }
-    .disabled { pointer-events: none; }
   </style>
 </head>
-<body class="min-h-screen bg-gradient-to-b from-slate-900 via-zinc-900 to-black text-white flex items-center justify-center p-4">
+<body class="bg-gray-900 flex flex-col items-center justify-center min-h-screen text-white p-4">
 
-  <div class="w-full max-w-xl">
-    <header class="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between mb-4">
-      <div>
-        <h1 class="text-2xl sm:text-3xl font-bold">Simon Says</h1>
-        <p class="text-sm text-slate-300">Deseni izle, aynı sırayla dokun. Hafif ve belirgin ışık efekti.</p>
-      </div>
-      <div class="flex flex-wrap items-center gap-2">
-        <div class="bg-white/5 px-3 py-2 rounded text-sm">Skor: <span id="score">0</span></div>
-        <div class="bg-white/5 px-3 py-2 rounded text-sm">En İyi: <span id="best">0</span></div>
-        <div class="bg-white/5 px-3 py-2 rounded text-sm">Seviye: <span id="level">1</span></div>
-      </div>
-    </header>
+  <h1 class="text-3xl font-bold mb-4">🎮 Simon Says (5x5)</h1>
+  <p class="mb-2">Follow the sequence by clicking the flashing squares!</p>
+  <p class="mb-4">Level: <span id="level">0</span></p>
 
-    <!-- Oyun Alanı + Kontroller -->
-    <main class="grid sm:grid-cols-3 gap-6 items-start">
-      <!-- Pad Alanı -->
-      <section class="sm:col-span-2">
-        <div id="boardWrap" class="w-full max-w-[640px] mx-auto">
-          <!-- kare oranı korunur -->
-          <div id="board" class="grid grid-cols-2 gap-3 aspect-square rounded-xl overflow-hidden">
-            <button data-id="0" class="pad bg-emerald-500/90 active:bg-emerald-400 focus:outline-none"></button>
-            <button data-id="1" class="pad bg-rose-500/90 active:bg-rose-400 focus:outline-none"></button>
-            <button data-id="2" class="pad bg-amber-500/90 active:bg-amber-400 focus:outline-none"></button>
-            <button data-id="3" class="pad bg-sky-500/90 active:bg-sky-400 focus:outline-none"></button>
-          </div>
-        </div>
-
-        <!-- Overlay (Oyun Bitti / Seviye) -->
-        <div id="overlay" class="hidden fixed inset-0 bg-black/70 items-center justify-center p-4">
-          <div class="bg-white/5 p-6 rounded-lg text-center max-w-sm w-full">
-            <h2 id="overlayTitle" class="text-2xl font-bold mb-2">Oyun Bitti</h2>
-            <p id="overlayText" class="mb-4">Skor: <span id="finalScore">0</span> • En İyi: <span id="finalBest">0</span></p>
-            <div class="flex gap-3 justify-center">
-              <button id="overlayRestart" class="px-4 py-2 bg-emerald-500 text-black rounded">Yeniden</button>
-              <button id="overlayClose" class="px-4 py-2 bg-white/10 rounded">Kapat</button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Kontroller -->
-      <aside class="flex flex-col gap-4">
-        <div class="bg-white/5 p-4 rounded">
-          <h3 class="font-semibold mb-2">Kontroller</h3>
-          <div class="flex flex-col gap-2">
-            <button id="startBtn" class="px-4 py-2 bg-emerald-500 text-black rounded">Başlat</button>
-            <button id="strictBtn" class="px-4 py-2 bg-white/10 rounded">Sıkı Mod: <span id="strictState">Kapalı</span></button>
-            <button id="soundBtn" class="px-4 py-2 bg-white/10 rounded">Ses: <span id="soundState">Açık</span></button>
-            <button id="resetBtn" class="px-4 py-2 bg-rose-600 rounded">Sıfırla</button>
-          </div>
-        </div>
-        <div class="bg-white/5 p-4 rounded text-sm text-slate-200">
-          <h3 class="font-semibold mb-2">Nasıl Oynanır?</h3>
-          <ul class="list-disc list-inside space-y-1">
-            <li>Pad’ler sırayla yanar; aynı sırayla dokun.</li>
-            <li>Her turda dizi 1 artar ve biraz hızlanır.</li>
-            <li><b>Sıkı Mod</b>: Hata → oyun biter. Kapalıyken hata yaparsan dizi tekrar oynatılır.</li>
-          </ul>
-        </div>
-      </aside>
-    </main>
-
-    <footer class="mt-6 text-center text-xs text-slate-400">
-      Tailwind + Vanilla JS • Mobile-First • Tek dosya
-    </footer>
+  <div id="board" class="grid grid-cols-5 gap-2 w-full max-w-md aspect-square">
+    <!-- 25 kareyi dinamik olarak JS oluşturacak -->
   </div>
 
-<script>
-(() => {
-  // DOM
-  const pads = Array.from(document.querySelectorAll('.pad'));
-  const board = document.getElementById('board');
-  const overlay = document.getElementById('overlay');
-  const overlayTitle = document.getElementById('overlayTitle');
-  const overlayText = document.getElementById('overlayText');
-  const finalScore = document.getElementById('finalScore');
-  const finalBest = document.getElementById('finalBest');
-  const overlayRestart = document.getElementById('overlayRestart');
-  const overlayClose = document.getElementById('overlayClose');
+  <button id="startBtn" class="mt-6 bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg shadow">
+    Start Game
+  </button>
 
-  const scoreEl = document.getElementById('score');
-  const bestEl = document.getElementById('best');
-  const levelEl = document.getElementById('level');
-  const startBtn = document.getElementById('startBtn');
-  const strictBtn = document.getElementById('strictBtn');
-  const strictState = document.getElementById('strictState');
-  const soundBtn = document.getElementById('soundBtn');
-  const soundState = document.getElementById('soundState');
-  const resetBtn = document.getElementById('resetBtn');
+  <script>
+    const board = document.getElementById("board");
+    const levelDisplay = document.getElementById("level");
+    const startBtn = document.getElementById("startBtn");
 
-  // Oyun durumu
-  let sequence = [];
-  let userIndex = 0;
-  let running = false;
-  let accepting = false;
-  let strict = false;
-  let useSound = true;
-  let score = 0;
-  let best = Number(localStorage.getItem('simonBest') || 0);
-  bestEl.textContent = best;
-  let level = 1;
+    const colors = [
+      "bg-red-500", "bg-green-500", "bg-blue-500", "bg-yellow-500", "bg-purple-500",
+      "bg-pink-500", "bg-orange-500", "bg-teal-500", "bg-indigo-500", "bg-lime-500"
+    ];
 
-  // WebAudio (çok hafif sine tonları)
-  const audio = new (window.AudioContext || window.webkitAudioContext)();
-  const tones = [
-    329.63, // yeşil
-    261.63, // kırmızı
-    220.00, // sarı
-    392.00  // mavi
-  ];
-  function beep(i, dur = 0.18, gain=0.05){
-    if (!useSound) return;
-    const t0 = audio.currentTime;
-    const o = audio.createOscillator();
-    const g = audio.createGain();
-    o.type = 'sine'; o.frequency.value = tones[i];
-    g.gain.value = gain;
-    o.connect(g).connect(audio.destination);
-    o.start(t0);
-    g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
-    o.stop(t0 + dur + 0.02);
-  }
+    let sequence = [];
+    let playerSequence = [];
+    let level = 0;
+    let squares = [];
 
-  // Yardımcılar
-  const wait = ms => new Promise(r => setTimeout(r, ms));
-  function randInt(n){ return Math.floor(Math.random()*n); }
-
-  function updateHUD(){
-    scoreEl.textContent = score;
-    levelEl.textContent = level;
-    bestEl.textContent = best;
-  }
-
-  function setPadsDisabled(v){
-    if (v) board.classList.add('disabled'); else board.classList.remove('disabled');
-  }
-
-  function flash(i, t=200){
-    const el = pads[i];
-    el.classList.add('active');
-    beep(i, t/1000 * 0.9);
-    setTimeout(()=> el.classList.remove('active'), t);
-  }
-
-  async function playSequence(){
-    accepting = false;
-    setPadsDisabled(true);
-    // hız: ilerledikçe kısalır, minimum 300ms
-    const base = Math.max(300, 650 - (sequence.length*18));
-    await wait(500);
-    for (let i=0;i<sequence.length;i++){
-      const padIndex = sequence[i];
-      flash(padIndex, base * 0.55);
-      await wait(base);
+    // 25 kare oluştur
+    for (let i = 0; i < 25; i++) {
+      const square = document.createElement("div");
+      square.className = `aspect-square ${colors[i % colors.length]} rounded-md shadow cursor-pointer`;
+      square.dataset.index = i;
+      square.addEventListener("click", () => handlePlayerClick(i));
+      board.appendChild(square);
+      squares.push(square);
     }
-    accepting = true;
-    setPadsDisabled(false);
-    userIndex = 0;
-  }
 
-  function nextStep(){
-    sequence.push(randInt(4));
-    level = sequence.length;
-    playSequence();
-    updateHUD();
-  }
+    function startGame() {
+      sequence = [];
+      playerSequence = [];
+      level = 0;
+      nextLevel();
+    }
 
-  function resetGame(){
-    sequence = [];
-    userIndex = 0;
-    score = 0;
-    level = 1;
-    running = false;
-    accepting = false;
-    updateHUD();
-  }
+    function nextLevel() {
+      level++;
+      levelDisplay.textContent = level;
+      playerSequence = [];
+      const randomIndex = Math.floor(Math.random() * 25);
+      sequence.push(randomIndex);
+      playSequence();
+    }
 
-  function gameOver(){
-    running = false;
-    accepting = false;
-    if (score > best){ best = score; localStorage.setItem('simonBest', best); }
-    finalScore.textContent = score;
-    finalBest.textContent = best;
-    overlayTitle.textContent = 'Oyun Bitti';
-    overlayText.textContent = `Skor: ${score} • En İyi: ${best}`;
-    overlay.classList.remove('hidden');
-  }
-
-  // Kullanıcı girişi
-  pads.forEach((pad, i)=>{
-    const down = (e)=> {
-      if (!accepting) return;
-      // mobilde sessiz mod için audio context resume
-      if (audio.state === 'suspended') audio.resume();
-      flash(i, 160);
-      // kontrol
-      if (sequence[userIndex] === i){
-        userIndex++;
-        score++;
-        updateHUD();
-        if (userIndex === sequence.length){
-          // tur tamam
-          accepting = false;
-          setPadsDisabled(true);
-          setTimeout(nextStep, 700);
-        }
-      } else {
-        // hata
-        accepting = false;
-        // hızlı 3 pad flaşı (hata uyarısı) — lightweight
-        (async () => {
-          for (let k=0;k<3;k++){
-            pads.forEach(p=>p.classList.add('active'));
-            if (useSound) beep(i, 0.12, 0.08);
-            await wait(120);
-            pads.forEach(p=>p.classList.remove('active'));
-            await wait(90);
-          }
-        })();
-        if (strict){
-          setTimeout(gameOver, 450);
-        } else {
-          // aynı diziyi tekrar çal
-          userIndex = 0;
-          setTimeout(playSequence, 600);
-        }
+    async function playSequence() {
+      for (let i = 0; i < sequence.length; i++) {
+        const index = sequence[i];
+        await flashSquare(index);
+        await delay(400);
       }
-    };
-    pad.addEventListener('mousedown', down);
-    pad.addEventListener('touchstart', (e)=>{ e.preventDefault(); down(e); }, {passive:false});
-  });
+    }
 
-  // Butonlar
-  startBtn.addEventListener('click', ()=>{
-    if (running) return;
-    resetGame();
-    running = true;
-    nextStep();
-  });
+    function flashSquare(index) {
+      return new Promise((resolve) => {
+        const square = squares[index];
+        square.classList.add("flash");
+        setTimeout(() => {
+          square.classList.remove("flash");
+          resolve();
+        }, 500);
+      });
+    }
 
-  strictBtn.addEventListener('click', ()=>{
-    strict = !strict;
-    strictState.textContent = strict ? 'Açık' : 'Kapalı';
-    strictBtn.classList.toggle('bg-amber-500', strict);
-    strictBtn.classList.toggle('text-black', strict);
-  });
+    function handlePlayerClick(index) {
+      playerSequence.push(index);
+      flashSquare(index);
 
-  soundBtn.addEventListener('click', ()=>{
-    useSound = !useSound;
-    soundState.textContent = useSound ? 'Açık' : 'Kapalı';
-    soundBtn.classList.toggle('bg-emerald-500', useSound);
-    soundBtn.classList.toggle('text-black', useSound);
-  });
+      // Yanlış hamle
+      if (playerSequence[playerSequence.length - 1] !== sequence[playerSequence.length - 1]) {
+        alert("❌ Wrong move! Game Over.");
+        startGame();
+        return;
+      }
 
-  resetBtn.addEventListener('click', ()=>{
-    resetGame();
-  });
+      // Doğru hamle ve sıra bitti
+      if (playerSequence.length === sequence.length) {
+        setTimeout(nextLevel, 800);
+      }
+    }
 
-  overlayRestart.addEventListener('click', ()=>{
-    overlay.classList.add('hidden');
-    resetGame();
-    running = true;
-    nextStep();
-  });
-  overlayClose.addEventListener('click', ()=> overlay.classList.add('hidden'));
+    function delay(ms) {
+      return new Promise((resolve) => setTimeout(resolve, ms));
+    }
 
-  // Klavye (isteğe bağlı)
-  window.addEventListener('keydown', (e)=>{
-    // 1-4 tuşları pad’ler
-    if (!accepting) return;
-    const map = { '1':0, '2':1, '3':2, '4':3, 'ArrowUp':0, 'ArrowRight':1, 'ArrowLeft':2, 'ArrowDown':3 };
-    if (map.hasOwnProperty(e.key)) pads[map[e.key]].dispatchEvent(new Event('mousedown'));
-    if (e.code === 'Space' && !running){ startBtn.click(); }
-  });
-
-  // İlk yük
-  updateHUD();
-})();
-</script>
+    startBtn.addEventListener("click", startGame);
+  </script>
 </body>
 </html>
