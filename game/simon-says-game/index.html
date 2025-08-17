@@ -6,107 +6,103 @@
   <title>Simon Says 5x5</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    .flash {
-      opacity: 0.6;
+    .cell {
+      transition: background-color 0.3s, transform 0.2s;
+    }
+    .active {
+      filter: brightness(160%);
       transform: scale(1.1);
-      transition: opacity 0.15s ease, transform 0.15s ease;
     }
   </style>
 </head>
-<body class="bg-gray-900 flex flex-col items-center justify-center min-h-screen text-white p-4">
+<body class="bg-gray-900 flex flex-col items-center justify-center min-h-screen text-white">
 
-  <h1 class="text-3xl font-bold mb-4">🎮 Simon Says (5x5)</h1>
-  <p class="mb-2">Follow the sequence by clicking the flashing squares!</p>
-  <p class="mb-4">Level: <span id="level">0</span></p>
+  <h1 class="text-2xl font-bold mb-4">Simon Says (5x5)</h1>
+  <button id="startBtn" class="mb-4 px-4 py-2 bg-green-600 rounded hover:bg-green-700">Start Game</button>
 
-  <div id="board" class="grid grid-cols-5 gap-2 w-full max-w-md aspect-square">
-    <!-- 25 kareyi JS oluşturacak -->
-  </div>
+  <div id="grid" class="grid grid-cols-5 gap-2 w-[90vw] max-w-xl aspect-square"></div>
 
-  <button id="startBtn" class="mt-6 bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg shadow">
-    Start Game
-  </button>
+  <p id="status" class="mt-4 text-lg"></p>
 
   <script>
-    const board = document.getElementById("board");
-    const levelDisplay = document.getElementById("level");
+    const grid = document.getElementById("grid");
+    const statusText = document.getElementById("status");
     const startBtn = document.getElementById("startBtn");
 
+    // 25 farklı renk seçelim
     const colors = [
-      "bg-red-500", "bg-green-500", "bg-blue-500", "bg-yellow-500", "bg-purple-500",
-      "bg-pink-500", "bg-orange-500", "bg-teal-500", "bg-indigo-500", "bg-lime-500"
+      "bg-red-400","bg-blue-400","bg-green-400","bg-yellow-400","bg-purple-400",
+      "bg-pink-400","bg-indigo-400","bg-orange-400","bg-lime-400","bg-teal-400",
+      "bg-cyan-400","bg-fuchsia-400","bg-rose-400","bg-emerald-400","bg-violet-400",
+      "bg-amber-400","bg-sky-400","bg-stone-400","bg-gray-400","bg-zinc-400",
+      "bg-red-300","bg-blue-300","bg-green-300","bg-yellow-300","bg-purple-300"
     ];
 
     let sequence = [];
     let playerSequence = [];
-    let level = 0;
-    let squares = [];
+    let clickable = false;
 
-    // 25 kare oluştur
+    // kareleri oluştur
+    const cells = [];
     for (let i = 0; i < 25; i++) {
-      const square = document.createElement("div");
-      square.className = `aspect-square ${colors[i % colors.length]} rounded-md shadow cursor-pointer transition-transform duration-150`;
-      square.dataset.index = i;
-      square.addEventListener("click", () => handlePlayerClick(i));
-      board.appendChild(square);
-      squares.push(square);
+      const cell = document.createElement("div");
+      cell.className = `cell ${colors[i]} w-full h-full rounded-md`;
+      cell.dataset.index = i;
+      cell.addEventListener("click", () => handleClick(i));
+      grid.appendChild(cell);
+      cells.push(cell);
     }
 
-    function startGame() {
-      sequence = [];
-      playerSequence = [];
-      level = 0;
-      nextLevel();
+    function playSequence() {
+      clickable = false;
+      let i = 0;
+      const interval = setInterval(() => {
+        const idx = sequence[i];
+        flash(cells[idx]);
+        i++;
+        if (i >= sequence.length) {
+          clearInterval(interval);
+          clickable = true;
+          statusText.textContent = "Your turn!";
+        }
+      }, 700);
     }
 
-    function nextLevel() {
-      level++;
-      levelDisplay.textContent = level;
-      playerSequence = [];
-      const randomIndex = Math.floor(Math.random() * 25);
-      sequence.push(randomIndex);
-      playSequence();
+    function flash(cell) {
+      cell.classList.add("active");
+      setTimeout(() => cell.classList.remove("active"), 400);
     }
 
-    async function playSequence() {
-      for (let i = 0; i < sequence.length; i++) {
-        const index = sequence[i];
-        await flashSquare(index);
-        await delay(300);
-      }
-    }
-
-    function flashSquare(index) {
-      return new Promise((resolve) => {
-        const square = squares[index];
-        square.classList.add("flash");
-        setTimeout(() => {
-          square.classList.remove("flash");
-          resolve();
-        }, 300);
-      });
-    }
-
-    function handlePlayerClick(index) {
+    function handleClick(index) {
+      if (!clickable) return;
+      flash(cells[index]);
       playerSequence.push(index);
-      flashSquare(index);
 
-      if (playerSequence[playerSequence.length - 1] !== sequence[playerSequence.length - 1]) {
-        alert("❌ Wrong move! Game Over.");
-        startGame();
+      const currentStep = playerSequence.length - 1;
+      if (playerSequence[currentStep] !== sequence[currentStep]) {
+        statusText.textContent = "❌ Wrong! Game Over.";
+        clickable = false;
         return;
       }
 
       if (playerSequence.length === sequence.length) {
-        setTimeout(nextLevel, 600);
+        statusText.textContent = "✅ Correct! Next round...";
+        setTimeout(nextRound, 1000);
       }
     }
 
-    function delay(ms) {
-      return new Promise((resolve) => setTimeout(resolve, ms));
+    function nextRound() {
+      playerSequence = [];
+      sequence.push(Math.floor(Math.random() * 25));
+      playSequence();
     }
 
-    startBtn.addEventListener("click", startGame);
+    startBtn.addEventListener("click", () => {
+      sequence = [];
+      playerSequence = [];
+      statusText.textContent = "Watch carefully...";
+      nextRound();
+    });
   </script>
 </body>
 </html>
