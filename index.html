@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hacı Celal Aygar - Games</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+
+<body class="bg-gray-50">
+
+  <!-- Top Menu -->
+  <header class="bg-white shadow-md fixed top-0 left-0 w-full z-50">
+    <div class="max-w-7xl mx-auto flex justify-between items-center px-4 py-3">
+      <a href="#" class="text-2xl font-bold text-indigo-600 select-none">celalaygar</a>
+      <div class="flex items-center space-x-6">
+        <select id="languageSelect" class="border border-gray-300 rounded p-1 text-sm">
+          <option value="en" selected>English</option>
+          <option value="tr">Türkçe</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <!-- Games Grid -->
+  <main class="pt-24 px-4 max-w-7xl mx-auto">
+    <h2 class="text-3xl font-bold text-center mb-8 text-gray-800 select-none" id="gamesTitle">Games</h2>
+    <div id="gameCards" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <!-- Kartlar JS ile doldurulacak -->
+    </div>
+
+    <!-- Social Links -->
+    <div id="social-links-after-about"
+      class="flex justify-center flex-wrap gap-8 mt-10 max-w-3xl mx-auto bg-white shadow-md p-6 rounded-lg">
+      <a href="https://www.youtube.com/@celalaygar" target="_blank" aria-label="YouTube"
+        class="text-3xl transition-colors" style="color: #FF0000;">
+        <i class="fab fa-youtube"></i>
+      </a>
+      <a href="https://www.linkedin.com/in/celalaygar/" target="_blank" aria-label="LinkedIn"
+        class="text-3xl transition-colors" style="color: #0077B5;">
+        <i class="fab fa-linkedin"></i>
+      </a>
+      <a href="https://stackoverflow.com/users/12014524/hac%c4%b1-celal-aygar" target="_blank"
+        aria-label="Stack Overflow" class="text-3xl transition-colors" style="color: #F48024;">
+        <i class="fab fa-stack-overflow"></i>
+      </a>
+      <a href="https://medium.com/@celalaygar" target="_blank" aria-label="Medium" class="text-3xl transition-colors"
+        style="color: #000000;">
+        <i class="fab fa-medium"></i>
+      </a>
+      <a href="https://github.com/celalaygar" target="_blank" aria-label="Github" class="text-3xl transition-colors"
+        style="color: #000000;">
+        <i class="fab fa-github"></i>
+      </a>
+      <a href="https://celalaygar.github.io/" target="_blank" aria-label="Website" class="text-3xl transition-colors"
+        style="color: #555;">
+        <i class="fa-solid fa-globe"></i>
+      </a>
+    </div>
+
+    <!-- About Section -->
+    <section id="about" class="bg-white rounded-lg p-8 mt-10 max-w-3xl mx-auto shadow-md">
+      <h2 id="aboutTitle" class="text-3xl font-bold mb-6 text-gray-900 select-none">About Me</h2>
+      <p id="aboutText" class="text-gray-700 whitespace-pre-line text-lg select-text">
+        I'm a Full Stack Developer.
+
+        I'm Hacı Celal Aygar. I graduated from Karabük University, Department of Computer Engineering. I have been
+        working as a Full Stack developer and Java developer around 5 years.
+
+        My goal is to work in companies that produce projects using technologies in the fields of computer engineering
+        and to continue to improve myself. I also continue to share many of my sample works on my Github account.
+
+        Also I am constantly working to make life easier and trying to find solutions to the common problems of people.
+        I’m currently learning client side technologies by using especially Github and Stackoverflow.
+      </p>
+    </section>
+  </main>
+
+  <!-- JS -->
+  <script>
+    const games = [
+      { en: "Portfolio", tr: "Portföy", url: "https://celalaygar.github.io/", color: "from-indigo-500 to-purple-500" },
+      { en: "Snake Game", tr: "Yılan Oyunu", url: "https://celalaygar.github.io/main/game/snake-game/", color: "from-green-400 to-blue-600" },
+      { en: "Flappy Bird", tr: "Flappy Bird", url: "https://celalaygar.github.io/main/game/flappy-bird-game/", color: "from-yellow-400 to-red-500" },
+      { en: "Tetris", tr: "Tetris", url: "https://celalaygar.github.io/main/game/tetris-game/", color: "from-pink-500 to-orange-400" },
+      { en: "Pac Man", tr: "Pac Man", url: "https://celalaygar.github.io/main/game/pac-man/", color: "from-purple-700 to-pink-500" },
+      { en: "Break Out", tr: "Break Out", url: "https://celalaygar.github.io/main/game/breakout-game/", color: "from-blue-700 to-cyan-400" },
+      { en: "Find Word", tr: "Kelime Bul", url: "https://celalaygar.github.io/main/game/find-word-game/", color: "from-gray-600 to-gray-400" },
+      { en: "2048 Game", tr: "2048 Oyunu", url: "https://celalaygar.github.io/main/game/2048-game/", color: "from-purple-500 to-green-400" },
+      { en: "Simon Says", tr: "Simon Says", url: "https://celalaygar.github.io/main/game/simon-says-game/", color: "from-orange-400 to-pink-400" },
+      { en: "Endless Runner", tr: "Sonsuz Koşucu", url: "https://celalaygar.github.io/main/game/endless-runne-game/", color: "from-pink-600 to-yellow-400" },
+      { en: "Sentence Game", tr: "Cümle Oyunu", url: "https://celalaygar.github.io/main/game/sentence-game/", color: "from-green-500 to-purple-500" },
+      { en: "Tic Tac Toe", tr: "X-O Oyunu", url: "https://celalaygar.github.io/main/game/tic-tac-toe-game/", color: "from-green-400 to-red-500" },
+      { en: "Asteroids", tr: "Asteroids", url: "https://celalaygar.github.io/main/game/asteroids-game/", color: "from-pink-400 to-blue-500" },
+      { en: "Space Invaders", tr: "Uzay Saldırganları", url: "https://celalaygar.github.io/main/game/space-invaders-game/", color: "from-blue-600 to-purple-400" },
+      { en: "Helicopter", tr: "Helikopter Oyunu", url: "https://celalaygar.github.io/main/game/helicopter-game/", color: "from-green-600 to-pink-600" }
+    ];
+
+    const gameCards = document.getElementById("gameCards");
+    const languageSelect = document.getElementById("languageSelect");
+    const aboutTitle = document.getElementById("aboutTitle");
+    const aboutText = document.getElementById("aboutText");
+    const gamesTitle = document.getElementById("gamesTitle");
+
+    const translations = {
+      en: {
+        aboutTitle: "About Me",
+        aboutText: `I'm a Full Stack Developer.
+
+I'm Hacı Celal Aygar. I graduated from Karabük University, Department of Computer Engineering. I have been working as a Full Stack developer and Java developer around 5 years.
+
+My goal is to work in companies that produce projects using technologies in the fields of computer engineering and to continue to improve myself. I also continue to share many of my sample works on my Github account.
+
+Also I am constantly working to make life easier and trying to find solutions to the common problems of people. I’m currently learning client side technologies by using especially Github and Stackoverflow.`,
+        gamesTitle: "Games"
+      },
+      tr: {
+        aboutTitle: "Hakkımda",
+        aboutText: `Ben bir Full Stack Developer'ım.
+
+Ben Hacı Celal Aygar. Karabük Üniversitesi Bilgisayar Mühendisliği bölümünden mezun oldum. Yaklaşık 5 yıldır Full Stack developer ve Java developer olarak çalışmaktayım.
+
+Amacım, bilgisayar mühendisliği alanlarında teknolojiler kullanan şirketlerde çalışmak ve kendimi geliştirmeye devam etmektir. Ayrıca birçok örnek çalışmamı Github hesabımda paylaşmaya devam ediyorum.
+
+Bunun yanında hayatı kolaylaştırmak için sürekli çalışıyor ve insanların ortak problemlerine çözümler bulmaya çalışıyorum. Şu anda özellikle Github ve Stackoverflow kullanarak istemci tarafı teknolojilerini öğreniyorum.`,
+        gamesTitle: "Oyunlar"
+      }
+    };
+
+    function renderGames(lang) {
+      gameCards.innerHTML = "";
+      games.forEach(game => {
+        const card = document.createElement("a");
+        card.href = game.url;
+        card.target = "_blank";
+        card.className = `p-6 rounded-xl shadow-md text-white font-bold text-lg flex items-center justify-center text-center bg-gradient-to-br ${game.color} hover:scale-105 transition-transform`;
+        card.textContent = game[lang];
+        gameCards.appendChild(card);
+      });
+    }
+
+    function updateLanguage(lang) {
+      aboutTitle.textContent = translations[lang].aboutTitle;
+      aboutText.textContent = translations[lang].aboutText;
+      gamesTitle.textContent = translations[lang].gamesTitle;
+      renderGames(lang);
+    }
+
+    languageSelect.addEventListener("change", () => {
+      updateLanguage(languageSelect.value);
+    });
+
+    // init
+    updateLanguage("en");
+  </script>
+</body>
+
+</html>
