@@ -96,7 +96,7 @@
       { en: "Tic Tac Toe", tr: "X-O Oyunu", url: "https://celalaygar.github.io/main/game/tic-tac-toe-game/", color: "from-green-400 to-red-500" },
       { en: "Asteroids", tr: "Asteroids", url: "https://celalaygar.github.io/main/game/asteroids-game/", color: "from-pink-400 to-blue-500" },
       { en: "Space Invaders", tr: "Uzay Saldırganları", url: "https://celalaygar.github.io/main/game/space-invaders-game/", color: "from-blue-600 to-purple-400" },
-      { en: "Helicopter", tr: "Helikopter Oyunu", url: "https://celalaygar.github.io/main/game/helicopter-game/", color: "from-green-600 to-pink-600" }
+      { en: "Helicopter", tr: "Helikopter Oyunu", url: "https://celalaygar.github.io/main/game/helicopter-game/", color: "from-orange-300 to-blue-600" }
     ];
 
     const gameCards = document.getElementById("gameCards");
@@ -136,7 +136,7 @@ Bunun yanında hayatı kolaylaştırmak için sürekli çalışıyor ve insanlar
         const card = document.createElement("a");
         card.href = game.url;
         card.target = "_blank";
-        card.className = `p-6 rounded-xl shadow-md text-white font-bold text-lg flex items-center justify-center text-center bg-gradient-to-br ${game.color} hover:scale-105 transition-transform`;
+        card.className = `p-6 rounded-xl shadow-md text-white font-bold text-xl flex items-center justify-center text-center bg-gradient-to-br ${game.color} hover:scale-105 transition-transform`;
         card.textContent = game[lang];
         gameCards.appendChild(card);
       });
