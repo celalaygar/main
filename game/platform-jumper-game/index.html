@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="tr">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Platform Jumper — Responsive</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    canvas {
+      display: block;
+      border-radius: 14px;
+      box-shadow: 0 14px 40px rgba(2, 6, 23, .6);
+      background: radial-gradient(1200px 600px at 20% 10%, #0b1220 0%, #030712 45%, #000 100%);
+    }
+
+    .touch-btn {
+      height: 64px;
+      border-radius: 12px;
+    }
+
+    .hud {
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+  </style>
+</head>
+
+<body
+  class="min-h-screen bg-gradient-to-b from-slate-900 via-zinc-900 to-black text-white flex items-center justify-center p-4">
+
+  <div class="w-full max-w-4xl">
+    <header class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-4">
+      <div>
+        <h1 class="text-2xl md:text-3xl font-bold">Platform Jumper</h1>
+        <p class="text-sm text-slate-300 mt-1">← → hareket • P duraklat • Mobil butonlar aktif</p>
+      </div>
+      <div class="flex items-center gap-3">
+        <div class="bg-white/5 px-3 py-2 rounded-md text-sm hud">Skor: <span id="score">0</span></div>
+        <div class="bg-white/5 px-3 py-2 rounded-md text-sm hud">En İyi: <span id="best">0</span></div>
+        <button id="startBtn" class="px-3 py-2 bg-emerald-500 text-black rounded-md">Başlat</button>
+        <button id="pauseBtn" class="px-3 py-2 bg-yellow-400 text-black rounded-md">Duraklat</button>
+        <button id="restartBtn" class="px-3 py-2 bg-red-600 text-white rounded-md">Yeniden</button>
+      </div>
+    </header>
+
+    <main class="flex flex-col gap-4">
+      <div id="wrap" class="w-full max-w-[900px] mx-auto relative">
+        <canvas id="game" width="480" height="720"></canvas>
+
+        <!-- Overlay -->
+        <div id="overlay" class="absolute inset-0 bg-black/70 hidden items-center justify-center p-4 rounded">
+          <div class="bg-white/5 p-6 rounded-lg text-center max-w-md">
+            <h2 id="overlayTitle" class="text-2xl font-bold mb-2">Oyun Bitti</h2>
+            <p id="overlayText" class="mb-4">Skor: <span id="finalScore">0</span> • En İyi: <span
+                id="finalBest">0</span></p>
+            <div class="flex gap-3 justify-center">
+              <button id="overlayRestart" class="px-4 py-2 bg-emerald-500 text-black rounded-md">Yeniden Başlat</button>
+              <button id="overlayClose" class="px-4 py-2 bg-white/5 text-white rounded-md">Kapat</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mobil Kontroller -->
+      <div class="md:hidden grid grid-cols-2 gap-3 w-full max-w-[900px] mx-auto">
+        <button id="btnLeft" class="touch-btn bg-slate-700 text-white text-lg font-semibold">◀ Sol</button>
+        <button id="btnRight" class="touch-btn bg-slate-700 text-white text-lg font-semibold">Sağ ▶</button>
+      </div>
+    </main>
+
+    <footer class="mt-6 text-center text-xs text-slate-400">Canvas + Tailwind + JS • Mobil uyumlu • Tek dosya</footer>
+  </div>
+
+  <script>
+    /* Platform Jumper — single file, responsive (CSS scale), mobile friendly */
+    (() => {
+      // Sanal çözünürlük (fizik burada çalışır)
+      const VW = 480, VH = 720;
+
+      // DOM
+      const canvas = document.getElementById('game');
+      const wrap = document.getElementById('wrap');
+      const ctx = canvas.getContext('2d');
+
+      const scoreEl = document.getElementById('score');
+      const bestEl = document.getElementById('best');
+      const startBtn = document.getElementById('startBtn');
+      const pauseBtn = document.getElementById('pauseBtn');
+      const restartBtn = document.getElementById('restartBtn');
+
+      const overlay = document.getElementById('overlay');
+      const overlayTitle = document.getElementById('overlayTitle');
+      const overlayText = document.getElementById('overlayText');
+      const overlayRestart = document.getElementById('overlayRestart');
+      const overlayClose = document.getElementById('overlayClose');
+      const finalScoreEl = document.getElementById('finalScore');
+      const finalBestEl = document.getElementById('finalBest');
+
+      const btnLeft = document.getElementById('btnLeft');
+      const btnRight = document.getElementById('btnRight');
+
+      // Responsive: iç çözünürlük sabit; CSS boyutunu container'a uydur
+      function fitCanvas() {
+        const maxW = wrap.clientWidth;
+        const maxH = window.innerHeight * 0.75;
+        let w = Math.min(maxW, 900);
+        let h = Math.floor(w * (VH / VW));
+        if (h > maxH) { h = Math.floor(maxH); w = Math.floor(h * (VW / VH)); }
+        canvas.style.width = w + 'px';
+        canvas.style.height = h + 'px';
+      }
+      window.addEventListener('resize', fitCanvas);
+
+      // Oyun durumu
+      let player, platforms, scrollY, score, best, running, paused, gameOver, lastTime;
+      const input = { left: false, right: false };
+
+      // Fizik & oyun parametreleri
+      const GRAVITY = 1600;
+      const JUMP_VY = -900;
+      const MOVE_SPEED = 260;
+      const WORLD_SCROLL_THRESHOLD = VH * 0.4;
+      const PLATFORM_GAP_MIN = 80, PLATFORM_GAP_MAX = 130;
+      const PLATFORM_W_MIN = 70, PLATFORM_W_MAX = 120;
+
+      // Platform tipleri
+      const PT_NORMAL = 0;
+      const PT_MOVING = 1;   // yatay hareket
+      const PT_FRAGILE = 2;  // tek kullanımlık
+
+      // En iyi skor
+      let saved = Number(localStorage.getItem('pj_best') || 0);
+      best = saved; bestEl.textContent = best;
+
+      function resetState() {
+        player = {
+          x: VW / 2, y: VH - 60,
+          w: 36, h: 46,
+          vx: 0, vy: JUMP_VY, // ilk zıplama hissi
+        };
+        platforms = [];
+        scrollY = 0;
+        score = 0;
+        running = false; paused = false; gameOver = false; lastTime = 0;
+
+        // Başlangıç platformları
+        let y = VH - 20;
+        for (let i = 0; i < 14; i++) {
+          const w = rand(PLATFORM_W_MIN, PLATFORM_W_MAX);
+          const x = rand(10, VW - w - 10);
+          const type = i < 3 ? PT_NORMAL : pickType();
+          platforms.push(makePlatform(x, y, w, type));
+          y -= rand(PLATFORM_GAP_MIN, PLATFORM_GAP_MAX);
+        }
+        updateHUD();
+      }
+
+      function pickType() {
+        const r = Math.random();
+        if (r < 0.12) return PT_FRAGILE;
+        if (r < 0.30) return PT_MOVING;
+        return PT_NORMAL;
+      }
+
+      function makePlatform(x, y, w, type) {
+        return {
+          x, y, w, h: 14, type,
+          vx: type === PT_MOVING ? (Math.random() < 0.5 ? -60 : 60) : 0,
+          broken: false
+        };
+      }
+
+      function addPlatformsAbove(topY) {
+        // topY ekranın tepesinden daha yukarı (negatif) olabilir
+        let y = topY;
+        while (y > -400) {
+          const w = rand(PLATFORM_W_MIN, PLATFORM_W_MAX);
+          const x = rand(10, VW - w - 10);
+          const type = pickType();
+          platforms.push(makePlatform(x, y, w, type));
+          y -= rand(PLATFORM_GAP_MIN, PLATFORM_GAP_MAX);
+        }
+      }
+
+      function update(dt) {
+        if (!running || paused || gameOver) return;
+
+        // Yatay giriş
+        player.vx = 0;
+        if (input.left) player.vx -= MOVE_SPEED;
+        if (input.right) player.vx += MOVE_SPEED;
+
+        // Fizik
+        player.vy += GRAVITY * dt;
+        player.x += player.vx * dt;
+        player.y += player.vy * dt;
+
+        // Kenar sarmalaması (soldan çık sağdan gir)
+        if (player.x + player.w < 0) player.x = VW - 1;
+        if (player.x > VW) player.x = -player.w + 1;
+
+        // Platform hareketi
+        for (const p of platforms) {
+          if (p.type === PT_MOVING) {
+            p.x += p.vx * dt;
+            if (p.x < 6) { p.x = 6; p.vx *= -1; }
+            if (p.x + p.w > VW - 6) { p.x = VW - 6 - p.w; p.vx *= -1; }
+          }
+        }
+
+        // Çarpışma: sadece düşerken (vy > 0) ve ayak alt sınırı kesişirse
+        if (player.vy > 0) {
+          const pxCenter = player.x + player.w / 2;
+          for (const p of platforms) {
+            if (p.broken) continue;
+            const onX = pxCenter > p.x && pxCenter < p.x + p.w;
+            const feet = player.y + player.h;
+            if (onX && feet >= p.y && feet <= p.y + p.h + 10) {
+              // zıpla
+              player.vy = JUMP_VY * (p.type === PT_FRAGILE ? 0.9 : 1);
+              // kırılgan platform tek kullanımlık
+              if (p.type === PT_FRAGILE) p.broken = true;
+              break;
+            }
+          }
+        }
+
+        // Yukarı çıkışta dünya kaydırma
+        const cameraY = player.y - WORLD_SCROLL_THRESHOLD;
+        if (cameraY < 0) {
+          const dy = -cameraY;
+          player.y += dy;
+          scrollY += dy;
+          score = Math.max(score, Math.floor(scrollY));
+          // Varolan platformları aşağı it
+          for (const p of platforms) { p.y += dy; }
+          // En üstte yenilerini oluştur
+          const topMost = Math.min(...platforms.map(pl => pl.y));
+          addPlatformsAbove(topMost - rand(PLATFORM_GAP_MIN, PLATFORM_GAP_MAX));
+        }
+
+        // Ekran dışına inen platformları temizle
+        platforms = platforms.filter(p => p.y < VH + 60 && !p.broken);
+
+        // Düştü mü? (ekranın altına)
+        if (player.y > VH + 60) {
+          endGame();
+        }
+
+        updateHUD();
+      }
+
+      function draw() {
+        // Arka plan hafif yıldızlar
+        ctx.clearRect(0, 0, VW, VH);
+        ctx.fillStyle = '#071022';
+        ctx.fillRect(0, 0, VW, VH);
+        ctx.fillStyle = 'rgba(255,255,255,0.06)';
+        for (let i = 0; i < 64; i++) {
+          const x = (i * 67) % VW;
+          const y = (i * 131 + Math.floor(scrollY * 0.3)) % VH;
+          ctx.fillRect(x, y, 2, 2);
+        }
+
+        // Platformlar
+        for (const p of platforms) {
+          let fill = '#22c55e'; // normal
+          if (p.type === PT_MOVING) fill = '#38bdf8';
+          if (p.type === PT_FRAGILE) fill = '#fb7185';
+          if (p.broken) fill = '#57534e';
+          ctx.fillStyle = fill;
+          ctx.fillRect(p.x, p.y, p.w, p.h);
+          ctx.strokeStyle = 'rgba(0,0,0,0.35)';
+          ctx.lineWidth = 2;
+          ctx.strokeRect(p.x + 0.5, p.y + 0.5, p.w - 1, p.h - 1);
+        }
+
+        // Oyuncu (basit karakter)
+        ctx.save();
+        ctx.translate(player.x, player.y);
+        // gövde
+        ctx.fillStyle = '#e5e7eb';
+        ctx.fillRect(0, 0, player.w, player.h);
+        // baş
+        ctx.fillStyle = '#facc15';
+        ctx.fillRect(player.w * 0.25, -12, player.w * 0.5, 12);
+        // ayaklar
+        ctx.fillStyle = '#94a3b8';
+        ctx.fillRect(4, player.h, 10, 6);
+        ctx.fillRect(player.w - 14, player.h, 10, 6);
+        ctx.restore();
+
+        // HUD kutusu
+        ctx.fillStyle = 'rgba(0,0,0,0.35)';
+        ctx.fillRect(8, 8, 180, 56);
+        ctx.fillStyle = '#fff';
+        ctx.font = `${14}px Inter, system-ui`;
+        ctx.fillText('Skor: ' + score, 16, 28);
+        ctx.fillText('En İyi: ' + best, 16, 48);
+      }
+
+      function loop(ts) {
+        if (!lastTime) lastTime = ts;
+        const dt = Math.min(0.05, (ts - lastTime) / 1000);
+        lastTime = ts;
+        update(dt);
+        draw();
+        requestAnimationFrame(loop);
+      }
+
+      function endGame() {
+        gameOver = true; running = false;
+        if (score > best) { best = score; localStorage.setItem('pj_best', best); }
+        finalScoreEl.textContent = score;
+        finalBestEl.textContent = best;
+        overlayTitle.textContent = 'Oyun Bitti';
+        overlayText.textContent = `Skor: ${score} • En İyi: ${best}`;
+        overlay.classList.remove('hidden');
+      }
+
+      function updateHUD() {
+        scoreEl.textContent = score;
+        bestEl.textContent = best;
+      }
+
+      // Girişler
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') input.left = true;
+        if (e.key === 'ArrowRight') input.right = true;
+        if (e.key === 'p' || e.key === 'P') togglePause();
+      });
+      window.addEventListener('keyup', (e) => {
+        if (e.key === 'ArrowLeft') input.left = false;
+        if (e.key === 'ArrowRight') input.right = false;
+      });
+
+      // Mobil butonlar (basılı tut)
+      function bindHold(btn, onDown, onUp) {
+        if (!btn) return;
+        const d = e => { e.preventDefault(); onDown(); };
+        const u = e => { e.preventDefault(); onUp(); };
+        btn.addEventListener('touchstart', d, { passive: false });
+        btn.addEventListener('touchend', u, { passive: false });
+        btn.addEventListener('mousedown', d);
+        btn.addEventListener('mouseup', u);
+        btn.addEventListener('mouseleave', u);
+      }
+      bindHold(btnLeft, () => input.left = true, () => input.left = false);
+      bindHold(btnRight, () => input.right = true, () => input.right = false);
+
+      // Butonlar
+      startBtn.addEventListener('click', () => { if (!running) { running = true; } });
+      pauseBtn.addEventListener('click', togglePause);
+      restartBtn.addEventListener('click', () => { overlay.classList.add('hidden'); resetState(); running = true; });
+      overlayRestart.addEventListener('click', () => { overlay.classList.add('hidden'); resetState(); running = true; });
+      overlayClose.addEventListener('click', () => overlay.classList.add('hidden'));
+
+      function togglePause() {
+        if (gameOver) return;
+        paused = !paused;
+        pauseBtn.textContent = paused ? 'Devam' : 'Duraklat';
+      }
+
+      // Yardımcılar
+      function rand(a, b) { return Math.floor(Math.random() * (b - a + 1)) + a; }
+
+      // Başlat
+      function init() {
+        fitCanvas();
+        resetState();
+        requestAnimationFrame(loop);
+      }
+      init();
+    })();
+  </script>
+</body>
+
+</html>
