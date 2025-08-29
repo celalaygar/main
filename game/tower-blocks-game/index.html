@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Tower Blocks — Responsive</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    canvas {
+      display: block;
+      border-radius: 12px;
+      box-shadow: 0 12px 40px rgba(2, 6, 23, 0.6);
+      background: linear-gradient(180deg, #071427 0%, #041021 100%);
+    }
+
+    .touch-btn {
+      height: 64px;
+      border-radius: 12px;
+    }
+
+    .no-select {
+      user-select: none;
+      -webkit-user-select: none;
+    }
+  </style>
+</head>
+
+<body
+  class="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-black text-white flex items-center justify-center p-4">
+
+  <div class="w-full max-w-4xl">
+    <header class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 mb-4">
+      <div>
+        <h1 class="text-2xl md:text-3xl font-bold">Tower Blocks</h1>
+        <p class="text-sm text-slate-300 mt-1">Tap/click to drop the moving block. Stack as high as you can!</p>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <div class="bg-white/5 px-3 py-2 rounded-md text-sm">Score: <span id="score">0</span></div>
+        <div class="bg-white/5 px-3 py-2 rounded-md text-sm">Best: <span id="best">0</span></div>
+        <button id="startBtn" class="px-3 py-2 bg-emerald-500 text-black rounded-md">Start</button>
+        <button id="pauseBtn" class="px-3 py-2 bg-yellow-400 text-black rounded-md">Pause</button>
+        <button id="restartBtn" class="px-3 py-2 bg-red-600 text-white rounded-md">Restart</button>
+      </div>
+    </header>
+
+    <main class="grid md:grid-cols-3 gap-6 items-start">
+      <!-- Canvas area -->
+      <section class="md:col-span-2 flex justify-center">
+        <div id="wrap" class="w-full max-w-[720px] relative">
+          <canvas id="game"></canvas>
+
+          <!-- overlay -->
+          <div id="overlay" class="absolute inset-0 bg-black/70 hidden items-center justify-center p-4 rounded">
+            <div class="bg-white/5 p-6 rounded-lg text-center max-w-sm">
+              <h2 id="overlayTitle" class="text-2xl font-bold mb-2">Game Over</h2>
+              <p id="overlayText" class="mb-4">Your score: <span id="finalScore">0</span></p>
+              <div class="flex gap-3 justify-center">
+                <button id="overlayRestart" class="px-4 py-2 bg-emerald-500 text-black rounded-md">Restart</button>
+                <button id="overlayClose" class="px-4 py-2 bg-white/5 text-white rounded-md">Close</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Right panel -->
+      <aside class="flex flex-col gap-4">
+        <div class="bg-white/5 p-4 rounded-md">
+          <h3 class="font-semibold mb-2">How to play</h3>
+          <ul class="text-sm list-disc list-inside space-y-1">
+            <li>Tap / Click / Space: drop the moving block.</li>
+            <li>Align blocks — overhang is trimmed. Miss too much and you lose.</li>
+            <li>As you stack higher, blocks move faster.</li>
+          </ul>
+        </div>
+
+        <div class="bg-white/5 p-4 rounded-md">
+          <h3 class="font-semibold mb-2">Stats</h3>
+          <div class="text-sm">Level: <span id="level">1</span></div>
+          <div class="text-sm mt-2">Current width: <span id="widthDisplay">0</span>px</div>
+        </div>
+
+        <!-- mobile controls -->
+        <div class="md:hidden bg-white/5 p-3 rounded-md flex flex-col items-center gap-3">
+          <button id="dropBtn" class="w-full touch-btn bg-emerald-500 text-black text-lg font-semibold">DROP</button>
+          <button id="mPause" class="w-full px-4 py-2 bg-yellow-400 text-black rounded-md">Pause</button>
+        </div>
+      </aside>
+    </main>
+
+    <footer class="mt-6 text-center text-xs text-slate-400">Made with Canvas + Tailwind + Vanilla JS — Mobile ready
+    </footer>
+  </div>
+
+  <script>
+    /* Tower Blocks - single-file
+       - Virtual resolution and CSS scaling keep layout stable
+       - Moving block oscillates horizontally; drop trims overlap
+       - Score / best score / level / responsive
+    */
+
+    // DOM
+    const canvas = document.getElementById('game');
+    const wrap = document.getElementById('wrap');
+    const ctx = canvas.getContext('2d');
+
+    const scoreEl = document.getElementById('score');
+    const bestEl = document.getElementById('best');
+    const levelEl = document.getElementById('level');
+    const widthDisplay = document.getElementById('widthDisplay');
+    const startBtn = document.getElementById('startBtn');
+    const pauseBtn = document.getElementById('pauseBtn');
+    const restartBtn = document.getElementById('restartBtn');
+    const dropBtn = document.getElementById('dropBtn');
+    const mPause = document.getElementById('mPause');
+
+    const overlay = document.getElementById('overlay');
+    const overlayTitle = document.getElementById('overlayTitle');
+    const overlayText = document.getElementById('overlayText');
+    const finalScore = document.getElementById('finalScore');
+    const overlayRestart = document.getElementById('overlayRestart');
+    const overlayClose = document.getElementById('overlayClose');
+
+    const levelDisplay = document.getElementById('level');
+
+    // Virtual resolution
+    const VW = 480;
+    const VH = 720;
+    canvas.width = VW;
+    canvas.height = VH;
+
+    // Responsive CSS scaling
+    function fitCanvas() {
+      const maxW = wrap.clientWidth;
+      const maxH = window.innerHeight * 0.78;
+      let w = Math.min(720, maxW);
+      let h = Math.floor(w * (VH / VW));
+      if (h > maxH) { h = Math.floor(maxH); w = Math.floor(h * (VW / VH)); }
+      canvas.style.width = w + 'px';
+      canvas.style.height = h + 'px';
+    }
+    window.addEventListener('resize', fitCanvas);
+    fitCanvas();
+
+    // Game state
+    let stack = []; // array of blocks {x, y, w, h, color}
+    let current = null; // moving block {x, y, w, h, dir, speed, color}
+    let score = 0;
+    let best = Number(localStorage.getItem('tower_best') || 0);
+    let level = 1;
+    let running = false;
+    let paused = false;
+    let gameOver = false;
+    let lastTime = 0;
+
+    // Constants
+    const BASE_BLOCK_W = 260;
+    const BASE_BLOCK_H = 36;
+    const START_Y = VH - BASE_BLOCK_H - 30;
+    const MOVE_AMPLITUDE = VW - 40; // effective width for movement
+    const MIN_OVERLAP = 8; // if overlap smaller than this -> lose
+    const COLOR_PALETTE = ['#ff7b7b', '#ffb86b', '#f8e16c', '#9be564', '#5ee0a8', '#7ee7ff', '#8fb8ff', '#c69bff', '#ff9bd6', '#ffd1a3'];
+
+    // Initialize
+    function resetGame() {
+      stack = [];
+      score = 0;
+      level = 1;
+      running = false;
+      paused = false;
+      gameOver = false;
+      lastTime = 0;
+      // base block (ground)
+      const baseW = BASE_BLOCK_W;
+      const base = {
+        x: (VW - baseW) / 2,
+        y: START_Y,
+        w: baseW,
+        h: BASE_BLOCK_H,
+        color: '#6b7280' // gray base
+      };
+      stack.push(base);
+      spawnMovingBlock();
+      updateHUD();
+      overlay.classList.add('hidden');
+    }
+
+    // spawn new moving block on top of stack
+    function spawnMovingBlock() {
+      const top = stack[stack.length - 1];
+      const w = Math.max(40, Math.floor(top.w * 0.98)); // slightly shrink over time
+      const h = BASE_BLOCK_H;
+      const y = top.y - h - 4;
+      // start from left edge
+      const dir = Math.random() < 0.5 ? 1 : -1;
+      const speed = 120 + (level - 1) * 20 + Math.random() * 40; // px/s
+      const color = COLOR_PALETTE[stack.length % COLOR_PALETTE.length];
+      current = { x: dir === 1 ? -w : VW + w, y, w, h, dir, speed, color };
+      widthDisplay.textContent = Math.round(w);
+    }
+
+    // drop current block: calculate overlap with top of stack
+    function dropBlock() {
+      if (!current || gameOver || paused) return;
+      // find top block (previous)
+      const top = stack[stack.length - 1];
+      const curLeft = current.x;
+      const curRight = current.x + current.w;
+      const topLeft = top.x;
+      const topRight = top.x + top.w;
+      const overlapLeft = Math.max(curLeft, topLeft);
+      const overlapRight = Math.min(curRight, topRight);
+      const overlap = Math.max(0, overlapRight - overlapLeft);
+
+      if (overlap < MIN_OVERLAP) {
+        // Missed — game over
+        endGame();
+        return;
+      }
+
+      // Trim the block to the overlap area and place it on stack
+      const newW = overlap;
+      const newX = overlapLeft;
+      const placed = { x: newX, y: current.y, w: newW, h: current.h, color: current.color };
+      stack.push(placed);
+
+      // Score & level
+      score += 1;
+      if (score % 5 === 0) levelUp();
+
+      // Prepare next moving block
+      spawnMovingBlock();
+      updateHUD();
+    }
+
+    // level up: increase speed mildly and possibly shrink next block more
+    function levelUp() {
+      level += 1;
+      // small bounce effect, not necessary to change many variables
+      // current speed will reflect level next spawn
+    }
+
+    // end game
+    function endGame() {
+      gameOver = true;
+      running = false;
+      finalScore.textContent = score;
+      overlayTitle.textContent = 'Game Over';
+      overlayText.textContent = `Your score: ${score}`;
+      overlay.classList.remove('hidden');
+      if (score > best) { best = score; localStorage.setItem('tower_best', best); updateHUD(); }
+    }
+
+    // update hud
+    function updateHUD() {
+      scoreEl.textContent = score;
+      bestEl.textContent = best;
+      levelEl.textContent = level;
+      widthDisplay.textContent = Math.round(current ? current.w : 0);
+    }
+
+    // game loop
+    function update(dt) {
+      if (!running || paused || gameOver) return;
+      // move current horizontally
+      if (current) {
+        current.x += current.dir * current.speed * dt;
+        // if current goes far left/right beyond viewport, reverse direction smoothly
+        if (current.dir === 1 && current.x > VW + current.w) {
+          current.x = -current.w;
+        } else if (current.dir === -1 && current.x < -current.w) {
+          current.x = VW + current.w;
+        }
+      }
+    }
+
+    // render
+    function draw() {
+      // background
+      ctx.clearRect(0, 0, VW, VH);
+      // sky gradient
+      const g = ctx.createLinearGradient(0, 0, 0, VH);
+      g.addColorStop(0, '#0b1220'); g.addColorStop(1, '#041021');
+      ctx.fillStyle = g; ctx.fillRect(0, 0, VW, VH);
+
+      // draw stacked blocks
+      for (let i = 0; i < stack.length; i++) {
+        const b = stack[i];
+        drawBlock(b);
+      }
+
+      // draw current moving block
+      if (current) {
+        drawBlock(current, true);
+      }
+
+      // draw baseline / ground shadow
+      ctx.fillStyle = 'rgba(255,255,255,0.03)';
+      ctx.fillRect(0, START_Y + BASE_BLOCK_H + 6, VW, 18);
+
+      // HUD (small)
+      ctx.fillStyle = 'rgba(0,0,0,0.35)';
+      ctx.fillRect(8, 8, 190, 56);
+      ctx.fillStyle = '#fff';
+      ctx.font = '14px Inter, system-ui';
+      ctx.fillText('Score: ' + score, 16, 28);
+      ctx.fillText('Best: ' + best, 16, 48);
+    }
+
+    function drawBlock(b, isCurrent = false) {
+      // a little padding to show rounded edges
+      ctx.beginPath();
+      const r = 8;
+      roundRect(ctx, b.x + 1, b.y + 1, b.w - 2, b.h - 2, r);
+      ctx.fillStyle = b.color;
+      ctx.fill();
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = isCurrent ? 'rgba(255,255,255,0.12)' : 'rgba(0,0,0,0.25)';
+      ctx.stroke();
+      // highlight top
+      ctx.fillStyle = 'rgba(255,255,255,0.06)';
+      ctx.fillRect(b.x + 6, b.y + 6, Math.max(0, b.w - 12), 6);
+    }
+
+    function roundRect(ctx, x, y, w, h, r) {
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.arcTo(x + w, y, x + w, y + h, r);
+      ctx.arcTo(x + w, y + h, x, y + h, r);
+      ctx.arcTo(x, y + h, x, y, r);
+      ctx.arcTo(x, y, x + w, y, r);
+      ctx.closePath();
+    }
+
+    // input handlers
+    window.addEventListener('keydown', (e) => {
+      if (e.code === 'Space') { e.preventDefault(); if (!running && !gameOver) running = true; else dropBlock(); }
+      if (e.key === 'p' || e.key === 'P') { paused = !paused; pauseBtn.textContent = paused ? 'Resume' : 'Pause'; }
+    });
+    canvas.addEventListener('click', () => {
+      if (!running && !gameOver) { running = true; return; }
+      if (!gameOver && !paused) dropBlock();
+    });
+    canvas.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      if (!running && !gameOver) { running = true; return; }
+      if (!gameOver && !paused) dropBlock();
+    }, { passive: false });
+
+    dropBtn?.addEventListener('touchstart', (e) => { e.preventDefault(); if (!running && !gameOver) { running = true; return; } if (!gameOver && !paused) dropBlock(); }, { passive: false });
+    dropBtn?.addEventListener('click', () => { if (!running && !gameOver) { running = true; return; } if (!gameOver && !paused) dropBlock(); });
+
+    startBtn.addEventListener('click', () => { resetGame(); running = true; });
+    pauseBtn.addEventListener('click', () => { paused = !paused; pauseBtn.textContent = paused ? 'Resume' : 'Pause'; });
+    restartBtn.addEventListener('click', () => { resetGame(); running = true; });
+
+    overlayRestart.addEventListener('click', () => { overlay.classList.add('hidden'); resetGame(); running = true; });
+    overlayClose.addEventListener('click', () => overlay.classList.add('hidden'));
+
+    // main animation loop
+    function loop(ts) {
+      if (!lastTime) lastTime = ts;
+      const dt = Math.min(0.05, (ts - lastTime) / 1000);
+      lastTime = ts;
+      update(dt);
+      draw();
+      requestAnimationFrame(loop);
+    }
+
+    // start
+    resetGame();
+    requestAnimationFrame(loop);
+    fitCanvas();
+
+    /* Helpers & utilities */
+
+    // simple easing for colors (not necessary but keeps colors pleasant)
+    function lerp(a, b, t) { return a + (b - a) * t; }
+
+    // Expose debug (optional)
+    window._tower = {
+      reset: resetGame,
+      drop: dropBlock
+    };
+
+  </script>
+</body>
+
+</html>
