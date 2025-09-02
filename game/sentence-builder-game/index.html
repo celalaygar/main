@@ -51,6 +51,12 @@
           class="level-button px-6 py-2 rounded-full font-semibold bg-slate-200 text-slate-700 hover:bg-slate-300 transition-colors">C2</button>
       </div>
 
+      <div id="game-stats" class="text-sm text-center text-slate-500 mb-4 hidden">
+        <span id="score-display" class="mr-4">Correct: 0</span>
+        <span id="passed-display" class="mr-4">Passed: 0</span>
+        <span id="progress-display">Question: 1 / 10</span>
+      </div>
+
       <div id="game-container" class="hidden">
         <p id="level-display" class="text-lg text-center text-blue-500 font-bold mb-4"></p>
         <div id="sentence-container" class="drop-zone p-3 rounded-lg flex flex-wrap gap-2 mb-6"></div>
@@ -60,6 +66,8 @@
         <div class="flex justify-center gap-4">
           <button id="check-button"
             class="px-8 py-3 bg-green-500 text-white rounded-full font-bold shadow-md hover:bg-green-600 transition-colors">Check</button>
+          <button id="pass-button"
+            class="px-8 py-3 bg-yellow-500 text-white rounded-full font-bold shadow-md hover:bg-yellow-600 transition-colors">Pass</button>
           <button id="next-button"
             class="px-8 py-3 bg-blue-500 text-white rounded-full font-bold shadow-md hover:bg-blue-600 transition-colors hidden">Next</button>
         </div>
@@ -162,6 +170,9 @@
     let currentLevel = null;
     let currentSentenceIndex = 0;
     let userSentence = [];
+    let correctCount = 0;
+    let passedCount = 0;
+    const totalSentences = 10;
 
     const levelButtons = document.querySelectorAll('.level-button');
     const gameContainer = document.getElementById('game-container');
@@ -169,8 +180,13 @@
     const sentenceContainer = document.getElementById('sentence-container');
     const wordPool = document.getElementById('word-pool');
     const checkButton = document.getElementById('check-button');
+    const passButton = document.getElementById('pass-button');
     const nextButton = document.getElementById('next-button');
     const resultMessage = document.getElementById('result-message');
+    const gameStats = document.getElementById('game-stats');
+    const scoreDisplay = document.getElementById('score-display');
+    const passedDisplay = document.getElementById('passed-display');
+    const progressDisplay = document.getElementById('progress-display');
 
     // Seviye Seçimi
     levelButtons.forEach(button => {
@@ -179,7 +195,10 @@
         if (level !== currentLevel) {
           currentLevel = level;
           currentSentenceIndex = 0;
+          correctCount = 0;
+          passedCount = 0;
           gameContainer.classList.remove('hidden');
+          gameStats.classList.remove('hidden');
           loadSentence();
           // Aktif seviye butonunu vurgula
           levelButtons.forEach(btn => btn.classList.remove('bg-blue-500', 'text-white'));
@@ -194,8 +213,10 @@
 
       const sentences = gameData[currentLevel].sentences;
       if (currentSentenceIndex >= sentences.length) {
-        resultMessage.textContent = "Congratulations! You've completed this level.";
+        resultMessage.textContent = `Level Completed! Your score: ${correctCount} correct, ${passedCount} passed.`;
+        resultMessage.className = "text-center text-xl font-bold mt-4 text-purple-600";
         checkButton.classList.add('hidden');
+        passButton.classList.add('hidden');
         nextButton.classList.add('hidden');
         return;
       }
@@ -206,26 +227,55 @@
       wordPool.innerHTML = '';
       resultMessage.textContent = '';
       checkButton.classList.remove('hidden');
+      passButton.classList.remove('hidden');
       nextButton.classList.add('hidden');
+
+      updateStats();
       levelDisplay.textContent = `Level ${currentLevel}`;
 
+      // Karışık kelimeleri butona çevirip havuza ekle
       currentSentence.mixedWords.forEach(word => {
-        const wordButton = createWordButton(word);
+        const wordButton = createWordButton(word, 'pool');
         wordPool.appendChild(wordButton);
       });
     }
 
+    // İstatistikleri Güncelle
+    function updateStats() {
+      scoreDisplay.textContent = `Correct: ${correctCount}`;
+      passedDisplay.textContent = `Passed: ${passedCount}`;
+      progressDisplay.textContent = `Question: ${currentSentenceIndex + 1} / ${totalSentences}`;
+    }
+
     // Kelime Butonu Oluştur
-    function createWordButton(word) {
+    function createWordButton(word, location) {
       const button = document.createElement('button');
-      button.className = "word-button px-4 py-2 bg-blue-100 text-blue-800 rounded-lg font-medium cursor-pointer transition-transform duration-200 shadow";
+      button.className = "word-button px-4 py-2 rounded-lg font-medium cursor-pointer transition-transform duration-200 shadow";
+
+      if (location === 'pool') {
+        button.classList.add('bg-blue-100', 'text-blue-800');
+      } else {
+        button.classList.add('bg-blue-200', 'text-blue-900');
+      }
+
       button.textContent = word;
-      button.dataset.word = word;
 
       button.addEventListener('click', () => {
-        if (userSentence.length < gameData[currentLevel].sentences[currentSentenceIndex].mixedWords.length) {
-          userSentence.push(button.dataset.word);
+        if (button.parentNode === wordPool) {
+          // Havuzdan cümle alanına ekle
+          userSentence.push(word);
           sentenceContainer.appendChild(button);
+          button.classList.remove('bg-blue-100', 'text-blue-800');
+          button.classList.add('bg-blue-200', 'text-blue-900');
+        } else {
+          // Cümle alanından havuza geri taşı
+          const index = userSentence.indexOf(word);
+          if (index > -1) {
+            userSentence.splice(index, 1);
+          }
+          wordPool.appendChild(button);
+          button.classList.remove('bg-blue-200', 'text-blue-900');
+          button.classList.add('bg-blue-100', 'text-blue-800');
         }
       });
       return button;
@@ -236,39 +286,43 @@
       const correctSentenceText = gameData[currentLevel].sentences[currentSentenceIndex].text;
       const userSentenceText = userSentence.join(' ');
 
-      const cleanedUserText = userSentenceText.replace(/\s\./g, '.').replace(/\s\?/g, '?');
+      // Noktalama işaretlerini ve boşlukları düzenle
+      const cleanedUserText = userSentenceText.replace(/\s([.,?!])/g, '$1');
 
       if (cleanedUserText === correctSentenceText) {
         resultMessage.textContent = "Correct!";
         resultMessage.className = "text-center text-xl font-bold mt-4 text-green-600";
-        checkButton.classList.add('hidden');
-        nextButton.classList.remove('hidden');
+        correctCount++;
+        finalizeRound();
       } else {
         resultMessage.textContent = "Incorrect. Try again.";
         resultMessage.className = "text-center text-xl font-bold mt-4 text-red-600";
       }
+      updateStats();
     });
+
+    // Pass Butonu İşlevi
+    passButton.addEventListener('click', () => {
+      resultMessage.textContent = `The correct answer was: "${gameData[currentLevel].sentences[currentSentenceIndex].text}"`;
+      resultMessage.className = "text-center text-xl font-bold mt-4 text-orange-600";
+      passedCount++;
+      finalizeRound();
+      updateStats();
+    });
+
+    // Turu Bitir ve Sonraki Butonunu Göster
+    function finalizeRound() {
+      checkButton.classList.add('hidden');
+      passButton.classList.add('hidden');
+      nextButton.classList.remove('hidden');
+    }
 
     // Next Butonu İşlevi
     nextButton.addEventListener('click', () => {
       currentSentenceIndex++;
       loadSentence();
     });
-
-    // Drop Zone Fonksiyonları (Sürükle-Bırak)
-    sentenceContainer.addEventListener('dragover', e => {
-      e.preventDefault();
-      sentenceContainer.classList.add('active');
-    });
-
-    sentenceContainer.addEventListener('dragleave', () => {
-      sentenceContainer.classList.remove('active');
-    });
-
-    // Bu kısım butona tıklayarak ekleme işlemini basitleştirdi, sürükle-bırak için daha fazla kod gerekir.
-    // Tıklama işlevi sürükle-bıraktan daha basit olduğu için bu örnekte bu yöntem tercih edildi.
   </script>
-
 </body>
 
 </html>
