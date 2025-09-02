@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sentence Builder Game</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .word-button {
+      transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
+    }
+
+    .word-button:hover {
+      transform: scale(1.05);
+    }
+
+    .drop-zone {
+      min-height: 48px;
+      background-color: #f1f5f9;
+      border: 2px dashed #94a3b8;
+      transition: all 0.2s ease-in-out;
+    }
+
+    .drop-zone.active {
+      background-color: #e2e8f0;
+      border-color: #3b82f6;
+    }
+  </style>
+</head>
+
+<body class="bg-slate-100 font-sans antialiased text-slate-800">
+
+  <div class="flex flex-col items-center justify-center min-h-screen p-4">
+
+    <div class="bg-white p-8 rounded-xl shadow-2xl w-full max-w-2xl transition-all duration-300 transform">
+      <h1 class="text-3xl md:text-4xl font-bold text-center text-blue-600 mb-6">Sentence Builder</h1>
+
+      <div id="level-selection" class="flex flex-wrap justify-center gap-4 mb-8">
+        <button data-level="A1"
+          class="level-button px-6 py-2 rounded-full font-semibold bg-slate-200 text-slate-700 hover:bg-slate-300 transition-colors">A1</button>
+        <button data-level="A2"
+          class="level-button px-6 py-2 rounded-full font-semibold bg-slate-200 text-slate-700 hover:bg-slate-300 transition-colors">A2</button>
+        <button data-level="B1"
+          class="level-button px-6 py-2 rounded-full font-semibold bg-slate-200 text-slate-700 hover:bg-slate-300 transition-colors">B1</button>
+        <button data-level="B2"
+          class="level-button px-6 py-2 rounded-full font-semibold bg-slate-200 text-slate-700 hover:bg-slate-300 transition-colors">B2</button>
+        <button data-level="C1"
+          class="level-button px-6 py-2 rounded-full font-semibold bg-slate-200 text-slate-700 hover:bg-slate-300 transition-colors">C1</button>
+        <button data-level="C2"
+          class="level-button px-6 py-2 rounded-full font-semibold bg-slate-200 text-slate-700 hover:bg-slate-300 transition-colors">C2</button>
+      </div>
+
+      <div id="game-container" class="hidden">
+        <p id="level-display" class="text-lg text-center text-blue-500 font-bold mb-4"></p>
+        <div id="sentence-container" class="drop-zone p-3 rounded-lg flex flex-wrap gap-2 mb-6"></div>
+
+        <div id="word-pool" class="flex flex-wrap justify-center gap-2 mb-6"></div>
+
+        <div class="flex justify-center gap-4">
+          <button id="check-button"
+            class="px-8 py-3 bg-green-500 text-white rounded-full font-bold shadow-md hover:bg-green-600 transition-colors">Check</button>
+          <button id="next-button"
+            class="px-8 py-3 bg-blue-500 text-white rounded-full font-bold shadow-md hover:bg-blue-600 transition-colors hidden">Next</button>
+        </div>
+      </div>
+
+      <div id="result-message" class="text-center text-xl font-bold mt-4 min-h-[2rem]"></div>
+
+    </div>
+  </div>
+
+  <script>
+    // Cümle Verisi
+    const gameData = {
+      A1: {
+        sentences: [
+          { text: "I have a cat.", mixedWords: ["cat", "have", "I", "a", "."] },
+          { text: "She is happy.", mixedWords: ["is", "happy", "she", "."] },
+          { text: "They are my friends.", mixedWords: ["friends", "my", "are", "they", "."] },
+          { text: "He goes to school.", mixedWords: ["school", "he", "goes", "to", "."] },
+          { text: "The sky is blue.", mixedWords: ["is", "blue", "sky", "the", "."] },
+          { text: "We like to play football.", mixedWords: ["to", "we", "like", "play", "football", "."] },
+          { text: "It is sunny today.", mixedWords: ["today", "it", "is", "sunny", "."] },
+          { text: "Can you help me?", mixedWords: ["me", "help", "can", "you", "?"] },
+          { text: "I want to drink water.", mixedWords: ["drink", "water", "want", "to", "I", "."] },
+          { text: "This is a big house.", mixedWords: ["a", "house", "this", "is", "big", "."] },
+        ]
+      },
+      A2: {
+        sentences: [
+          { text: "I can speak a little English.", mixedWords: ["a", "I", "can", "little", "speak", "English", "."] },
+          { text: "She bought a new dress.", mixedWords: ["new", "dress", "a", "she", "bought", "."] },
+          { text: "We have to leave now.", mixedWords: ["now", "have", "to", "we", "leave", "."] },
+          { text: "They don't have enough money.", mixedWords: ["enough", "don't", "they", "money", "have", "."] },
+          { text: "He is taller than me.", mixedWords: ["me", "he", "is", "than", "taller", "."] },
+          { text: "The weather was very cold.", mixedWords: ["cold", "the", "very", "was", "weather", "."] },
+          { text: "I need to go to the bank.", mixedWords: ["the", "bank", "I", "to", "go", "need", "."] },
+          { text: "She drives a red car.", mixedWords: ["drives", "a", "car", "red", "she", "."] },
+          { text: "I usually get up at 7 AM.", mixedWords: ["up", "7", "usually", "get", "AM", "at", "I", "."] },
+          { text: "Do you know where he is?", mixedWords: ["you", "is", "he", "where", "do", "know", "?"] },
+        ]
+      },
+      B1: {
+        sentences: [
+          { text: "I have been learning English for three years.", mixedWords: ["have", "I", "years", "been", "English", "learning", "for", "three", "."] },
+          { text: "If it rains, we will stay at home.", mixedWords: ["it", "will", "at", "stay", "we", "rains", "home", "if", "."] },
+          { text: "She has just finished her homework.", mixedWords: ["just", "her", "finished", "homework", "has", "she", "."] },
+          { text: "Could you please help me with this?", mixedWords: ["please", "me", "with", "this", "you", "help", "could", "?"] },
+          { text: "We decided to go to the cinema.", mixedWords: ["to", "the", "we", "cinema", "decided", "go", "."] },
+          { text: "What do you think about this plan?", mixedWords: ["this", "about", "what", "plan", "do", "you", "think", "?"] },
+          { text: "I would like to have some tea.", mixedWords: ["some", "like", "tea", "would", "I", "to", "have", "."] },
+          { text: "He has never been to France.", mixedWords: ["never", "to", "France", "he", "has", "been", "."] },
+          { text: "They were playing football when I arrived.", mixedWords: ["playing", "I", "football", "when", "arrived", "were", "they", "."] },
+          { text: "You should not smoke here.", mixedWords: ["smoke", "here", "not", "should", "you", "."] },
+        ]
+      },
+      B2: {
+        sentences: [
+          { text: "I read a lot of books in a month.", mixedWords: ["I", "a lot of", "books", "in", "a", "month", "read", "."] },
+          { text: "She has been learning French for two years.", mixedWords: ["for", "has", "learning", "French", "been", "two", "years", "she", "."] },
+          { text: "We went to the park yesterday.", mixedWords: ["went", "we", "the", "park", "to", "yesterday", "."] },
+          { text: "He had already eaten dinner when I called.", mixedWords: ["when", "called", "he", "had", "I", "already", "eaten", "dinner", "."] },
+          { text: "They were considering buying a new car.", mixedWords: ["new", "a", "car", "they", "were", "considering", "buying", "."] },
+          { text: "Despite the bad weather, we had a great time.", mixedWords: ["great", "we", "a", "the", "had", "bad", "time", "despite", "weather", "."] },
+          { text: "This is the best movie I have ever seen.", mixedWords: ["is", "I", "ever", "the", "this", "seen", "have", "best", "movie", "."] },
+          { text: "We should have left earlier.", mixedWords: ["should", "we", "left", "have", "earlier", "."] },
+          { text: "She works as a nurse in a big hospital.", mixedWords: ["a", "as", "works", "nurse", "she", "hospital", "a", "in", "big", "."] },
+          { text: "It is essential that you follow the rules.", mixedWords: ["is", "the", "you", "essential", "that", "it", "follow", "rules", "."] },
+        ]
+      },
+      C1: {
+        sentences: [
+          { text: "His resignation was an unexpected turn of events.", mixedWords: ["an", "turn", "of", "events", "his", "resignation", "was", "unexpected", "."] },
+          { text: "The new policy is expected to have a profound impact.", mixedWords: ["have", "profound", "a", "impact", "is", "to", "new", "the", "policy", "expected", "."] },
+          { text: "I find it difficult to articulate my feelings.", mixedWords: ["it", "find", "my", "I", "to", "difficult", "feelings", "articulate", "."] },
+          { text: "The company has demonstrated an exceptional commitment to quality.", mixedWords: ["commitment", "has", "an", "to", "quality", "exceptional", "company", "the", "demonstrated", "."] },
+          { text: "This approach is fundamentally flawed.", mixedWords: ["is", "this", "flawed", "fundamentally", "approach", "."] },
+          { text: "She is a highly accomplished pianist.", mixedWords: ["is", "a", "pianist", "highly", "she", "accomplished", "."] },
+          { text: "We are on the verge of a major breakthrough.", mixedWords: ["a", "verge", "are", "on", "the", "major", "breakthrough", "we", "of", "."] },
+          { text: "The project was carried out with meticulous attention to detail.", mixedWords: ["was", "to", "out", "carried", "meticulous", "with", "the", "detail", "attention", "project", "."] },
+          { text: "He is ostensibly a journalist, but his motives are unclear.", mixedWords: ["are", "journalist", "motives", "is", "a", "but", "unclear", "ostensibly", "he", "his", "."] },
+          { text: "The report provides a comprehensive overview of the situation.", mixedWords: ["overview", "comprehensive", "a", "report", "provides", "of", "the", "situation", "the", "."] },
+        ]
+      },
+      C2: {
+        sentences: [
+          { text: "The professor's lecture was utterly devoid of any substantial content.", mixedWords: ["any", "was", "lecture", "professor's", "content", "the", "utterly", "devoid", "of", "substantial", "."] },
+          { text: "Her erudition was unparalleled, making her a formidable intellectual.", mixedWords: ["erudition", "was", "unparalleled", "her", "making", "a", "formidable", "her", "intellectual", "."] },
+          { text: "The intricate plot was fraught with subtle nuances.", mixedWords: ["subtle", "was", "the", "with", "fraught", "plot", "intricate", "nuances", "."] },
+          { text: "He delivered a perfunctory speech with a palpable lack of enthusiasm.", mixedWords: ["a", "speech", "with", "of", "lack", "perfunctory", "enthusiasm", "a", "he", "palpable", "delivered", "."] },
+          { text: "The company's rapid growth was not without its commensurate challenges.", mixedWords: ["challenges", "commensurate", "rapid", "its", "was", "not", "without", "company's", "the", "growth", "."] },
+          { text: "Their philosophical discourse was rife with convoluted arguments.", mixedWords: ["discourse", "rife", "philosophical", "convoluted", "with", "arguments", "was", "their", "."] },
+          { text: "I'm somewhat apprehensive about the repercussions of this decision.", mixedWords: ["this", "am", "the", "about", "of", "repercussions", "decision", "somewhat", "I'm", "apprehensive", "."] },
+          { text: "Her magnanimous gesture was a truly commendable act.", mixedWords: ["truly", "her", "a", "was", "magnanimous", "gesture", "act", "commendable", "."] },
+          { text: "The sheer audacity of the plan left us utterly speechless.", mixedWords: ["utterly", "the", "speechless", "left", "us", "sheer", "of", "audacity", "plan", "the", "."] },
+          { text: "His laconic replies made it difficult to ascertain his true feelings.", mixedWords: ["his", "laconic", "it", "to", "difficult", "replies", "made", "ascertain", "true", "his", "feelings", "."] },
+        ]
+      },
+    };
+
+    let currentLevel = null;
+    let currentSentenceIndex = 0;
+    let userSentence = [];
+
+    const levelButtons = document.querySelectorAll('.level-button');
+    const gameContainer = document.getElementById('game-container');
+    const levelDisplay = document.getElementById('level-display');
+    const sentenceContainer = document.getElementById('sentence-container');
+    const wordPool = document.getElementById('word-pool');
+    const checkButton = document.getElementById('check-button');
+    const nextButton = document.getElementById('next-button');
+    const resultMessage = document.getElementById('result-message');
+
+    // Seviye Seçimi
+    levelButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const level = button.dataset.level;
+        if (level !== currentLevel) {
+          currentLevel = level;
+          currentSentenceIndex = 0;
+          gameContainer.classList.remove('hidden');
+          loadSentence();
+          // Aktif seviye butonunu vurgula
+          levelButtons.forEach(btn => btn.classList.remove('bg-blue-500', 'text-white'));
+          button.classList.add('bg-blue-500', 'text-white');
+        }
+      });
+    });
+
+    // Cümleyi Yükle
+    function loadSentence() {
+      if (!currentLevel) return;
+
+      const sentences = gameData[currentLevel].sentences;
+      if (currentSentenceIndex >= sentences.length) {
+        resultMessage.textContent = "Congratulations! You've completed this level.";
+        checkButton.classList.add('hidden');
+        nextButton.classList.add('hidden');
+        return;
+      }
+
+      const currentSentence = sentences[currentSentenceIndex];
+      userSentence = [];
+      sentenceContainer.innerHTML = '';
+      wordPool.innerHTML = '';
+      resultMessage.textContent = '';
+      checkButton.classList.remove('hidden');
+      nextButton.classList.add('hidden');
+      levelDisplay.textContent = `Level ${currentLevel}`;
+
+      currentSentence.mixedWords.forEach(word => {
+        const wordButton = createWordButton(word);
+        wordPool.appendChild(wordButton);
+      });
+    }
+
+    // Kelime Butonu Oluştur
+    function createWordButton(word) {
+      const button = document.createElement('button');
+      button.className = "word-button px-4 py-2 bg-blue-100 text-blue-800 rounded-lg font-medium cursor-pointer transition-transform duration-200 shadow";
+      button.textContent = word;
+      button.dataset.word = word;
+
+      button.addEventListener('click', () => {
+        if (userSentence.length < gameData[currentLevel].sentences[currentSentenceIndex].mixedWords.length) {
+          userSentence.push(button.dataset.word);
+          sentenceContainer.appendChild(button);
+        }
+      });
+      return button;
+    }
+
+    // Check Butonu İşlevi
+    checkButton.addEventListener('click', () => {
+      const correctSentenceText = gameData[currentLevel].sentences[currentSentenceIndex].text;
+      const userSentenceText = userSentence.join(' ');
+
+      const cleanedUserText = userSentenceText.replace(/\s\./g, '.').replace(/\s\?/g, '?');
+
+      if (cleanedUserText === correctSentenceText) {
+        resultMessage.textContent = "Correct!";
+        resultMessage.className = "text-center text-xl font-bold mt-4 text-green-600";
+        checkButton.classList.add('hidden');
+        nextButton.classList.remove('hidden');
+      } else {
+        resultMessage.textContent = "Incorrect. Try again.";
+        resultMessage.className = "text-center text-xl font-bold mt-4 text-red-600";
+      }
+    });
+
+    // Next Butonu İşlevi
+    nextButton.addEventListener('click', () => {
+      currentSentenceIndex++;
+      loadSentence();
+    });
+
+    // Drop Zone Fonksiyonları (Sürükle-Bırak)
+    sentenceContainer.addEventListener('dragover', e => {
+      e.preventDefault();
+      sentenceContainer.classList.add('active');
+    });
+
+    sentenceContainer.addEventListener('dragleave', () => {
+      sentenceContainer.classList.remove('active');
+    });
+
+    // Bu kısım butona tıklayarak ekleme işlemini basitleştirdi, sürükle-bırak için daha fazla kod gerekir.
+    // Tıklama işlevi sürükle-bıraktan daha basit olduğu için bu örnekte bu yöntem tercih edildi.
+  </script>
+
+</body>
+
+</html>
