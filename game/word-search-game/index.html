@@ -1,0 +1,619 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Find Word — Word Search (A1→C2)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --gap: 6px;
+    }
+
+    body {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* grid cell */
+    .cell {
+      transition: background-color 160ms, transform 120ms;
+      user-select: none;
+      -webkit-user-select: none;
+      -ms-user-select: none;
+    }
+
+    .cell.selected {
+      background-color: rgba(99, 102, 241, 0.18);
+      transform: scale(1.03);
+    }
+
+    .cell.found {
+      background-color: rgba(34, 197, 94, 0.18);
+      color: #d1fae5;
+      font-weight: 700;
+    }
+
+    .cell.passed {
+      background-color: rgba(249, 115, 22, 0.12);
+      color: #ffedd5;
+    }
+
+    .word-found {
+      text-decoration: line-through;
+      opacity: 0.7;
+    }
+
+    .word-passed {
+      color: #fb923c;
+      text-decoration: line-through;
+      opacity: 0.6;
+    }
+
+    /* responsive grid sizing: use CSS variables for number of columns and size */
+    #grid {
+      display: grid;
+      gap: var(--gap);
+      touch-action: none;
+      /* needed for drag on mobile */
+      -webkit-user-select: none;
+    }
+
+    /* small devices: allow board to shrink */
+    @media (max-width: 640px) {
+      :root {
+        --gap: 4px;
+      }
+    }
+  </style>
+</head>
+
+<body class="min-h-screen bg-slate-900 text-slate-100 flex items-stretch">
+
+  <!-- Full-screen layout: left = board, right = controls -->
+  <div class="flex-1 flex flex-col p-4 gap-4">
+    <header class="flex items-center justify-between gap-4">
+      <div>
+        <h1 class="text-2xl font-bold">Find Word — Word Search</h1>
+        <p class="text-sm text-slate-300 mt-1">Choose a level, find the words. Tap and drag (or click) to select words.
+        </p>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <label class="text-sm text-slate-300 mr-2">Level:</label>
+        <select id="levelSelect" class="bg-white/5 text-slate-100 px-3 py-1 rounded">
+          <option value="A1">A1 (Easy)</option>
+          <option value="A2">A2</option>
+          <option value="B1">B1</option>
+          <option value="B2">B2</option>
+          <option value="C1">C1</option>
+          <option value="C2">C2 (Hard)</option>
+        </select>
+
+        <button id="newBtn" class="ml-3 px-3 py-1 bg-emerald-500 text-black rounded">New Puzzle</button>
+        <button id="restartBtn" class="px-3 py-1 bg-yellow-500 text-black rounded">Restart</button>
+      </div>
+    </header>
+
+    <!-- board area -->
+    <main class="flex-1 flex md:flex-row flex-col gap-4">
+      <section id="boardWrap"
+        class="flex-1 bg-gradient-to-b from-slate-800/40 to-slate-900/30 rounded-lg p-4 flex flex-col items-center justify-center">
+        <div id="boardHeader" class="w-full flex items-center justify-between mb-3">
+          <div class="text-sm text-slate-300">Tap & drag (or click start → click end)</div>
+          <div class="text-sm text-slate-300">Score: <span id="foundCount">0</span>/<span id="totalWords">0</span> •
+            Passed: <span id="passCount">0</span></div>
+        </div>
+
+        <!-- responsive square grid container -->
+        <div id="gridContainer" class="w-full max-w-[900px] flex items-center justify-center">
+          <div id="grid" class="bg-slate-800/60 p-2 rounded" role="application" aria-label="word search board"></div>
+        </div>
+
+        <div class="w-full mt-3 text-center text-xs text-slate-400">Tip: long press on mobile then drag to select
+          letters. Selection will snap to straight line.</div>
+      </section>
+
+      <!-- right controls: word list + actions -->
+      <aside class="md:w-96 w-full bg-slate-800/50 p-4 rounded-lg flex flex-col gap-4">
+        <div>
+          <h2 class="font-semibold text-lg">Words</h2>
+          <p class="text-xs text-slate-300 mt-1">Find these words (level selected):</p>
+        </div>
+
+        <div id="wordsList" class="overflow-auto grow p-2 bg-slate-900/40 rounded space-y-1"></div>
+
+        <div class="flex gap-2">
+          <button id="passBtn" class="flex-1 px-3 py-2 bg-orange-500 text-black rounded">Pass selected</button>
+          <button id="revealBtn" class="px-3 py-2 bg-red-600 text-white rounded">Reveal all</button>
+        </div>
+
+        <div class="bg-white/5 p-3 rounded text-sm">
+          <div>Found: <span id="foundDisplay">0</span></div>
+          <div>Passed: <span id="passedDisplay">0</span></div>
+          <div>Total: <span id="totalDisplay">0</span></div>
+        </div>
+
+        <div class="text-xs text-slate-400">
+          <strong>Controls:</strong> select a sequence of cells. If it matches a word (in any direction), it will be
+          marked found.
+        </div>
+      </aside>
+    </main>
+
+    <footer class="text-center text-xs text-slate-500 py-2">Made with Tailwind • Responsive • Mobile-friendly</footer>
+  </div>
+
+  <script>
+    /* Word Search / Find Word Game
+       - Single-file
+       - Levels: A1,A2,B1,B2,C1,C2
+       - Place words in grid with 8 directions
+       - Selection: pointerdown + move + pointerup or click cell then click another cell
+       - Tracks found and passed counts
+    */
+
+    // --- Word lists by CEFR level (sample words). You can edit/expand these arrays.
+    const WORD_BANK = {
+      A1: ["cat", "dog", "book", "eat", "milk", "sun", "pen", "bed", "run", "happy"],
+      A2: ["family", "school", "fruit", "window", "garden", "market", "friend", "teacher", "travel", "coffee"],
+      B1: ["library", "concert", "mountain", "decision", "holiday", "language", "museum", "graduate", "history", "partner"],
+      B2: ["technology", "challenge", "influence", "community", "creative", "resource", "capacity", "strategy", "investment", "approach"],
+      C1: ["sophisticated", "interpretation", "significant", "methodology", "comprehensive", "perspective", "integration", "phenomenon", "substantial", "articulate"],
+      C2: ["metamorphosis", "idiosyncratic", "epistemological", "heterogeneous", "juxtaposition", "anachronistic", "ubiquitousness", "circumlocution", "multifarious", "reconciliation"]
+    };
+
+    // grid sizes per level (you can tune)
+    const GRID_SIZE = { A1: 10, A2: 11, B1: 13, B2: 15, C1: 17, C2: 19 };
+
+    // DOM refs
+    const gridEl = document.getElementById('grid');
+    const wordsListEl = document.getElementById('wordsList');
+    const levelSelect = document.getElementById('levelSelect');
+    const newBtn = document.getElementById('newBtn');
+    const restartBtn = document.getElementById('restartBtn');
+    const passBtn = document.getElementById('passBtn');
+    const revealBtn = document.getElementById('revealBtn');
+
+    const foundCountEl = document.getElementById('foundCount');
+    const passCountEl = document.getElementById('passCount');
+    const totalWordsEl = document.getElementById('totalWords');
+    const foundDisplay = document.getElementById('foundDisplay');
+    const passedDisplay = document.getElementById('passedDisplay');
+    const totalDisplay = document.getElementById('totalDisplay');
+
+    let level = levelSelect.value;
+    let N = GRID_SIZE[level];
+    let words = []; // words in current puzzle
+    let grid = []; // 2d array letters
+    let placements = []; // placed words with coordinates and direction and status
+    let foundSet = new Set();
+    let passedSet = new Set();
+
+    let pointerDown = false;
+    let startCell = null;
+    let currentPath = [];
+    let allowDrag = true;
+
+    // directions vectors
+    const DIRS = [
+      { dx: 1, dy: 0 }, { dx: -1, dy: 0 }, { dx: 0, dy: 1 }, { dx: 0, dy: -1 },
+      { dx: 1, dy: 1 }, { dx: 1, dy: -1 }, { dx: -1, dy: 1 }, { dx: -1, dy: -1 }
+    ];
+
+    // initialize
+    function initGame(selectedLevel = null) {
+      level = selectedLevel || levelSelect.value;
+      N = GRID_SIZE[level];
+      words = (WORD_BANK[level] || []).slice();
+      // uppercase for display/letters
+      words = words.map(w => w.toUpperCase());
+      setupGrid(N);
+      placeAllWords(words);
+      fillGridRandom();
+      renderGrid();
+      renderWordList();
+      foundSet.clear(); passedSet.clear();
+      updateCounters();
+    }
+
+    // create empty grid NxN
+    function setupGrid(size) {
+      grid = Array.from({ length: size }, () => Array(size).fill(''));
+      placements = [];
+    }
+
+    // attempt to place all words
+    function placeAllWords(list) {
+      // shuffle order to place longer words first
+      const wlist = list.slice().sort((a, b) => b.length - a.length);
+      for (const word of wlist) {
+        const placed = placeWord(word);
+        if (!placed) {
+          // if cannot place (rare), push as not placed but include in list - we will still show as not found
+          placements.push({ word, coords: null, placed: false, found: false, passed: false });
+        }
+      }
+    }
+
+    // place single word randomly with retries
+    function placeWord(word) {
+      const maxAttempts = 500;
+      for (let attempt = 0; attempt < maxAttempts; attempt++) {
+        const dir = DIRS[Math.floor(Math.random() * DIRS.length)];
+        const len = word.length;
+        const maxX = N, maxY = N;
+        // choose start so word fits: x in [0..N-1], but ensure end inside
+        const sx = Math.floor(Math.random() * N);
+        const sy = Math.floor(Math.random() * N);
+        const ex = sx + dir.dx * (len - 1);
+        const ey = sy + dir.dy * (len - 1);
+        if (ex < 0 || ex >= N || ey < 0 || ey >= N) continue;
+        // check compatibility with existing letters
+        let ok = true;
+        const coords = [];
+        for (let i = 0; i < len; i++) {
+          const x = sx + dir.dx * i;
+          const y = sy + dir.dy * i;
+          const ch = grid[y][x];
+          if (ch !== '' && ch !== word[i]) { ok = false; break; }
+          coords.push({ x, y });
+        }
+        if (!ok) continue;
+        // place letters
+        for (let i = 0; i < len; i++) {
+          const { x, y } = coords[i];
+          grid[y][x] = word[i];
+        }
+        placements.push({ word, coords, placed: true, found: false, passed: false });
+        return true;
+      }
+      return false;
+    }
+
+    // fill remaining with random letters
+    function fillGridRandom() {
+      const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+      for (let y = 0; y < N; y++) {
+        for (let x = 0; x < N; x++) {
+          if (!grid[y][x] || grid[y][x] === '') grid[y][x] = letters.charAt(Math.floor(Math.random() * letters.length));
+        }
+      }
+    }
+
+    // render grid DOM
+    function renderGrid() {
+      gridEl.innerHTML = '';
+      gridEl.style.gridTemplateColumns = `repeat(${N}, minmax(28px, calc((100vmin - 240px) / ${N})))`;
+      // For mobile we limit size with min/max; cells will remain square due to content
+      for (let y = 0; y < N; y++) {
+        for (let x = 0; x < N; x++) {
+          const cell = document.createElement('div');
+          cell.className = 'cell flex items-center justify-center text-slate-100 text-sm md:text-base rounded select-none';
+          cell.style.width = '100%';
+          cell.style.aspectRatio = '1 / 1';
+          cell.dataset.x = x; cell.dataset.y = y;
+          cell.textContent = grid[y][x];
+          // aria
+          cell.setAttribute('role', 'button');
+          cell.setAttribute('aria-label', `cell ${y + 1}-${x + 1} letter ${grid[y][x]}`);
+
+          // event handlers (pointer)
+          cell.addEventListener('pointerdown', onPointerDown);
+          cell.addEventListener('pointerenter', onPointerEnter);
+          cell.addEventListener('pointerup', onPointerUp);
+          cell.addEventListener('click', onCellClick);
+
+          gridEl.appendChild(cell);
+        }
+      }
+      // disable default touch behavior
+      gridEl.addEventListener('touchmove', e => e.preventDefault(), { passive: false });
+    }
+
+    // render word list on the right
+    function renderWordList() {
+      wordsListEl.innerHTML = '';
+      for (const p of placements) {
+        const li = document.createElement('div');
+        li.className = 'flex items-center justify-between px-2 py-1 rounded';
+        li.dataset.word = p.word;
+        const left = document.createElement('div');
+        left.textContent = p.word;
+        left.className = 'font-medium text-sm';
+        const right = document.createElement('div');
+        right.textContent = p.placed ? '' : '—';
+        right.className = 'text-xs text-slate-400 ml-2';
+        li.appendChild(left); li.appendChild(right);
+        wordsListEl.appendChild(li);
+      }
+      totalWordsEl.textContent = placements.length;
+      totalDisplay.textContent = placements.length;
+    }
+
+    // pointer event handlers
+    function onPointerDown(e) {
+      pointerDown = true;
+      clearCurrentSelection();
+      const cell = e.currentTarget;
+      const x = Number(cell.dataset.x), y = Number(cell.dataset.y);
+      startCell = { x, y };
+      currentPath = [{ x, y }];
+      highlightPath(currentPath);
+      // capture pointer to receive pointerup outside element
+      cell.setPointerCapture(e.pointerId);
+    }
+
+    function onPointerEnter(e) {
+      if (!pointerDown || !allowDrag) return;
+      const cell = e.currentTarget;
+      const x = Number(cell.dataset.x), y = Number(cell.dataset.y);
+      if (!startCell) return;
+      const path = makeStraightPath(startCell, { x, y });
+      if (path) {
+        currentPath = path;
+        highlightPath(currentPath);
+      }
+    }
+
+    function onPointerUp(e) {
+      if (!pointerDown) return;
+      pointerDown = false;
+      const cell = e.currentTarget;
+      const x = Number(cell.dataset.x), y = Number(cell.dataset.y);
+      if (!startCell) { clearCurrentSelection(); return; }
+      const path = makeStraightPath(startCell, { x, y });
+      if (path) {
+        currentPath = path;
+        checkSelection(currentPath);
+      } else {
+        clearCurrentSelection();
+      }
+      startCell = null;
+    }
+
+    function onCellClick(e) {
+      // allow click-to-select start then end pattern
+      const cell = e.currentTarget;
+      const x = Number(cell.dataset.x), y = Number(cell.dataset.y);
+      if (!startCell) {
+        startCell = { x, y };
+        currentPath = [{ x, y }];
+        highlightPath(currentPath);
+        // set a short timeout to cancel start if no second click
+        setTimeout(() => { if (startCell) { startCell = null; clearCurrentSelection(); } }, 900);
+      } else {
+        const path = makeStraightPath(startCell, { x, y });
+        if (path) checkSelection(path);
+        startCell = null;
+      }
+    }
+
+    // utility: create list of coords that form straight line from a->b (including ends) OR null
+    function makeStraightPath(a, b) {
+      const dx = b.x - a.x, dy = b.y - a.y;
+      if (dx === 0 && dy === 0) return [{ x: a.x, y: a.y }];
+      // normalize to direction
+      const gcd = (m, n) => n === 0 ? Math.abs(m) : gcd(n, m % n);
+      const g = gcd(Math.abs(dx), Math.abs(dy));
+      const stepX = dx / g, stepY = dy / g;
+      // check if step is one of allowed directions
+      const allowed = DIRS.some(d => d.dx === stepX && d.dy === stepY);
+      if (!allowed) return null;
+      const path = [];
+      let cx = a.x, cy = a.y;
+      for (let i = 0; i <= g; i++) {
+        path.push({ x: cx, y: cy });
+        cx += stepX; cy += stepY;
+      }
+      return path;
+    }
+
+    // highlight path in DOM
+    function highlightPath(path) {
+      clearCurrentSelection();
+      for (const { x, y } of path) {
+        const cell = queryCell(x, y);
+        if (cell) cell.classList.add('selected');
+      }
+    }
+
+    // clear temporary selection highlights
+    function clearCurrentSelection() {
+      gridEl.querySelectorAll('.cell.selected').forEach(c => c.classList.remove('selected'));
+    }
+
+    // find DOM element for coordinates
+    function queryCell(x, y) {
+      return gridEl.querySelector(`.cell[data-x="${x}"][data-y="${y}"]`);
+    }
+
+    // check the selection path against placements
+    function checkSelection(path) {
+      // build word from path
+      const letters = path.map(p => grid[p.y][p.x]).join('');
+      const rev = letters.split('').reverse().join('');
+      // check any placement matches exactly these coords
+      for (const pl of placements) {
+        if (!pl.placed) continue;
+        // check if coords equal in order
+        if (coordsEqual(pl.coords, path) || coordsEqual(pl.coords.slice().reverse(), path)) {
+          // mark found if not already
+          if (!pl.found && !pl.passed) {
+            pl.found = true;
+            foundSet.add(pl.word);
+            markFoundOnGrid(pl.coords);
+            renderWordList(); updateCounters();
+            checkVictory();
+            return;
+          }
+        }
+      }
+      // no match: briefly flash wrong
+      flashWrong(path);
+    }
+
+    // compare arrays of coord objects
+    function coordsEqual(a, b) {
+      if (!a || !b || a.length !== b.length) return false;
+      for (let i = 0; i < a.length; i++) {
+        if (a[i].x !== b[i].x || a[i].y !== b[i].y) return false;
+      }
+      return true;
+    }
+
+    // visually mark found coords
+    function markFoundOnGrid(coords) {
+      for (const { x, y } of coords) {
+        const c = queryCell(x, y);
+        if (c) {
+          c.classList.add('found');
+          c.classList.remove('selected');
+        }
+      }
+    }
+
+    // flash wrong selection (brief red)
+    function flashWrong(path) {
+      for (const { x, y } of path) {
+        const c = queryCell(x, y);
+        if (c) c.classList.add('wrong');
+      }
+      setTimeout(() => {
+        for (const { x, y } of path) {
+          const c = queryCell(x, y);
+          if (c) c.classList.remove('wrong');
+        }
+        clearCurrentSelection();
+      }, 350);
+    }
+
+    // Pass selected: if user has selection or chooses a word from list, mark passed
+    passBtn.addEventListener('click', () => {
+      // if there is a current selection that corresponds to a placement, mark that placement passed
+      if (currentPath && currentPath.length > 0) {
+        // see if any placement matches coords (in any order)
+        for (const pl of placements) {
+          if (!pl.placed || pl.found || pl.passed) continue;
+          if (coordsEqual(pl.coords, currentPath) || coordsEqual(pl.coords.slice().reverse(), currentPath)) {
+            pl.passed = true;
+            passedSet.add(pl.word);
+            markPassedOnGrid(pl.coords);
+            clearCurrentSelection();
+            renderWordList(); updateCounters();
+            return;
+          }
+        }
+      }
+      // else, open a simple prompt to pick which remaining word to pass
+      const remaining = placements.filter(p => !p.found && !p.passed);
+      if (remaining.length === 0) return;
+      // choose first remaining (we keep UI simple)
+      const pl = remaining[0];
+      pl.passed = true;
+      passedSet.add(pl.word);
+      markPassedOnGrid(pl.coords);
+      renderWordList(); updateCounters();
+    });
+
+    // mark passed visually
+    function markPassedOnGrid(coords) {
+      if (!coords) return;
+      for (const { x, y } of coords) {
+        const c = queryCell(x, y);
+        if (c) {
+          c.classList.add('passed');
+          c.classList.remove('selected');
+        }
+      }
+    }
+
+    // reveal all: mark everything found (for learning)
+    revealBtn.addEventListener('click', () => {
+      for (const pl of placements) {
+        if (pl.coords && !pl.found) {
+          pl.found = true;
+          markFoundOnGrid(pl.coords);
+          foundSet.add(pl.word);
+        }
+      }
+      renderWordList(); updateCounters(); checkVictory();
+    });
+
+    // render word list with statuses
+    function renderWordList() {
+      wordsListEl.innerHTML = '';
+      for (const pl of placements) {
+        const el = document.createElement('div');
+        el.className = 'flex items-center justify-between px-2 py-1 rounded hover:bg-slate-800/40';
+        const label = document.createElement('div');
+        label.textContent = pl.word;
+        label.className = 'font-medium';
+        if (!pl.placed) label.classList.add('text-slate-400');
+        if (pl.found) label.classList.add('word-found');
+        if (pl.passed) label.classList.add('word-passed');
+
+        // click on word to reveal/select
+        el.addEventListener('click', () => {
+          // if placed and coords exist, briefly highlight
+          if (pl.coords) {
+            // mark selection (toggle)
+            clearCurrentSelection();
+            highlightPath(pl.coords);
+            // also auto mark as found on second click
+            if (!pl.found && !pl.passed) {
+              // allow player to confirm finding
+              setTimeout(() => { pl.found = true; foundSet.add(pl.word); markFoundOnGrid(pl.coords); renderWordList(); updateCounters(); checkVictory(); }, 500);
+            }
+          }
+        });
+
+        const right = document.createElement('div');
+        right.className = 'text-xs text-slate-400';
+        right.textContent = pl.placed ? `${pl.word.length}` : 'not placed';
+        el.appendChild(label); el.appendChild(right);
+        wordsListEl.appendChild(el);
+      }
+    }
+
+    // counters
+    function updateCounters() {
+      const found = placements.filter(p => p.found).length;
+      const passed = placements.filter(p => p.passed).length;
+      foundCountEl.textContent = found;
+      passCountEl.textContent = passed;
+      totalWordsEl.textContent = placements.length;
+      foundDisplay.textContent = found;
+      passedDisplay.textContent = passed;
+      totalDisplay.textContent = placements.length;
+    }
+
+    // check victory
+    function checkVictory() {
+      const remaining = placements.filter(p => !p.found && !p.passed);
+      if (remaining.length === 0) {
+        setTimeout(() => alert('🎉 All words found or passed! Well done.'), 250);
+      }
+    }
+
+    // cell query helper already defined
+
+    // utility: shuffle array
+    function shuffle(arr) { for (let i = arr.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1));[arr[i], arr[j]] = [arr[j], arr[i]]; } }
+
+    // UI buttons
+    levelSelect.addEventListener('change', () => {
+      initGame(levelSelect.value);
+    });
+    newBtn.addEventListener('click', () => initGame(levelSelect.value));
+    restartBtn.addEventListener('click', () => initGame(levelSelect.value));
+
+    // initialize on load
+    initGame(levelSelect.value);
+
+    // prevent context menu on long press
+    window.addEventListener('contextmenu', e => e.preventDefault());
+  </script>
+</body>
+
+</html>
