@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Scrambled Word Game</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .letter-btn {
+      transition: all 0.2s;
+    }
+
+    .letter-active {
+      background-color: #10b981 !important;
+      color: white !important;
+    }
+
+    /* tıklandı */
+  </style>
+</head>
+
+<body
+  class="bg-gradient-to-br from-slate-900 via-indigo-900 to-slate-800 min-h-screen flex items-center justify-center p-4">
+
+  <div class="w-full max-w-lg bg-slate-800/80 rounded-xl shadow-xl p-6 flex flex-col gap-6">
+
+    <!-- Header / Game Info -->
+    <header class="flex flex-col gap-2 text-center">
+      <h1 class="text-2xl font-bold text-white">Scrambled Word Game</h1>
+      <p class="text-slate-300 text-sm">Choose letters to form the correct word</p>
+    </header>
+
+    <!-- Level Selection -->
+    <div class="flex justify-center gap-2 flex-wrap">
+      <button class="level-btn px-3 py-1 rounded bg-indigo-500 text-white font-semibold" data-level="A1">A1</button>
+      <button class="level-btn px-3 py-1 rounded bg-indigo-500 text-white font-semibold" data-level="A2">A2</button>
+      <button class="level-btn px-3 py-1 rounded bg-indigo-500 text-white font-semibold" data-level="B1">B1</button>
+      <button class="level-btn px-3 py-1 rounded bg-indigo-500 text-white font-semibold" data-level="B2">B2</button>
+      <button class="level-btn px-3 py-1 rounded bg-indigo-500 text-white font-semibold" data-level="C1">C1</button>
+      <button class="level-btn px-3 py-1 rounded bg-indigo-500 text-white font-semibold" data-level="C2">C2</button>
+    </div>
+
+    <!-- Scrambled Word Buttons -->
+    <div id="lettersContainer" class="flex flex-wrap justify-center gap-2"></div>
+
+    <!-- Answer Input Display -->
+    <input type="text" id="answerInput"
+      class="w-full bg-slate-700 text-white text-center p-2 rounded text-lg font-semibold tracking-widest transition-colors duration-300"
+      disabled placeholder="Your answer appears here" />
+
+    <!-- Controls -->
+    <div class="flex justify-between gap-2">
+      <button id="passBtn"
+        class="flex-1 px-3 py-2 bg-orange-500 text-black font-semibold rounded hover:bg-orange-600">Pass</button>
+      <button id="checkBtn"
+        class="flex-1 px-3 py-2 bg-blue-500 text-black font-semibold rounded hover:bg-blue-600">Check</button>
+      <button id="nextBtn"
+        class="flex-1 px-3 py-2 bg-emerald-500 text-black font-semibold rounded hover:bg-emerald-600">Next Word</button>
+    </div>
+
+    <!-- Score Panel -->
+    <div class="flex justify-between text-white text-sm">
+      <div>Found: <span id="foundCount">0</span></div>
+      <div>Passed: <span id="passCount">0</span></div>
+      <div>Total: <span id="totalCount">0</span></div>
+    </div>
+
+  </div>
+
+  <script>
+    // --- Word lists per level ---
+    const WORD_BANK = {
+      A1: ["cat", "dog", "book", "sun", "pen", "milk", "bed", "run", "eat", "red"],
+      A2: ["apple", "family", "school", "house", "garden", "friend", "teacher", "market", "travel", "coffee"],
+      B1: ["library", "concert", "mountain", "decision", "holiday", "language", "museum", "graduate", "history", "partner"],
+      B2: ["technology", "challenge", "influence", "community", "creative", "resource", "capacity", "strategy", "investment", "approach"],
+      C1: ["sophisticated", "interpretation", "significant", "methodology", "comprehensive", "perspective", "integration", "phenomenon", "substantial", "articulate"],
+      C2: ["metamorphosis", "idiosyncratic", "epistemological", "heterogeneous", "juxtaposition", "anachronistic", "ubiquitousness", "circumlocution", "multifarious", "reconciliation"]
+    };
+
+    // DOM refs
+    const lettersContainer = document.getElementById('lettersContainer');
+    const answerInput = document.getElementById('answerInput');
+    const foundCountEl = document.getElementById('foundCount');
+    const passCountEl = document.getElementById('passCount');
+    const totalCountEl = document.getElementById('totalCount');
+    const passBtn = document.getElementById('passBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const checkBtn = document.getElementById('checkBtn');
+    const levelBtns = document.querySelectorAll('.level-btn');
+
+    let level = 'A1';
+    let words = [];
+    let currentIndex = 0;
+    let found = 0;
+    let passed = 0;
+    let currentWord = '';
+    let scrambledLetters = [];
+    let letterStates = []; // her harf aktif mi
+
+    // Shuffle helper
+    function shuffle(array) { return array.sort(() => Math.random() - 0.5); }
+
+    // Start new game
+    function startGame(selectedLevel) {
+      level = selectedLevel;
+      words = [...WORD_BANK[level]];
+      shuffle(words);
+      currentIndex = 0; found = 0; passed = 0;
+      totalCountEl.textContent = words.length;
+      foundCountEl.textContent = found;
+      passCountEl.textContent = passed;
+      loadWord();
+    }
+
+    // Load current word
+    function loadWord() {
+      if (currentIndex >= words.length) {
+        alert("🎉 All words done! Level: " + level);
+        answerInput.value = '';
+        lettersContainer.innerHTML = '';
+        answerInput.classList.remove("bg-green-500", "bg-red-500");
+        return;
+      }
+      currentWord = words[currentIndex].toUpperCase();
+      scrambledLetters = shuffle(currentWord.split(''));
+      letterStates = Array(scrambledLetters.length).fill(false);
+      answerInput.value = '';
+      answerInput.classList.remove("bg-green-500", "bg-red-500");
+      renderLetters();
+    }
+
+    // Render letter buttons
+    function renderLetters() {
+      lettersContainer.innerHTML = '';
+      scrambledLetters.forEach((ch, i) => {
+        const btn = document.createElement('button');
+        btn.textContent = ch;
+        btn.className = 'letter-btn px-4 py-2 bg-indigo-500 text-white font-bold rounded hover:bg-indigo-600';
+        btn.dataset.index = i;
+        btn.addEventListener('click', () => {
+          if (!letterStates[i]) {
+            answerInput.value += ch;
+            btn.classList.add('letter-active');
+            letterStates[i] = true;
+          } else {
+            // harfi geri sil
+            const valArr = answerInput.value.split('');
+            const firstIdx = valArr.indexOf(ch);
+            if (firstIdx !== -1) {
+              valArr.splice(firstIdx, 1);
+              answerInput.value = valArr.join('');
+            }
+            btn.classList.remove('letter-active');
+            letterStates[i] = false;
+          }
+        });
+        lettersContainer.appendChild(btn);
+      });
+    }
+
+    // Check answer
+    checkBtn.addEventListener('click', () => {
+      if (answerInput.value === currentWord) {
+        answerInput.classList.remove("bg-red-500");
+        answerInput.classList.add("bg-green-500");
+        found++; foundCountEl.textContent = found;
+      } else {
+        answerInput.classList.remove("bg-green-500");
+        answerInput.classList.add("bg-red-500");
+        passed++; passCountEl.textContent = passed;
+      }
+    });
+
+    // Pass current word
+    passBtn.addEventListener('click', () => {
+      passed++; passCountEl.textContent = passed;
+      currentIndex++;
+      loadWord();
+    });
+
+    // Next word (manually skip)
+    nextBtn.addEventListener('click', () => {
+      currentIndex++;
+      loadWord();
+    });
+
+    // Level buttons
+    levelBtns.forEach(btn => {
+      btn.addEventListener('click', () => startGame(btn.dataset.level));
+    });
+
+    // initialize default
+    startGame('A1');
+  </script>
+
+</body>
+
+</html>
