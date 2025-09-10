@@ -1,1 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Domain Track - Modern Domain Intelligence</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .phone-mockup {
+            width: 280px;
+            height: 560px;
+            border-radius: 36px;
+            border: 8px solid #1e293b;
+            overflow: hidden;
+            position: relative;
+            background: #000;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        .phone-screen {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .gradient-bg {
+            background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%);
+        }
+
+        .feature-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        .tech-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .tech-icon:hover {
+            transform: scale(1.1);
+        }
+
+        .code-block {
+            background-color: #0f172a;
+            border-radius: 0.5rem;
+            color: #e2e8f0;
+            font-family: 'Courier New', Courier, monospace;
+            overflow-x: auto;
+            padding: 1rem;
+        }
+
+        .code-comment {
+            color: #64748b;
+        }
+
+        .code-keyword {
+            color: #38bdf8;
+        }
+
+        .code-string {
+            color: #86efac;
+        }
+
+        .code-property {
+            color: #fda4af;
+        }
+
+        .slider-container {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slider-wrapper {
+            display: flex;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .slider-item {
+            min-width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .slider-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: background-color 0.3s ease;
+        }
+
+        .slider-btn:hover {
+            background: white;
+        }
+
+        .slider-btn.prev {
+            left: 10px;
+        }
+
+        .slider-btn.next {
+            right: 10px;
+        }
+
+        .indicators {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 20px;
+        }
+
+        .indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #d1d5db;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .indicator.active {
+            background: #0ea5e9;
+        }
+
+        .floating-element {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        @media (max-width: 640px) {
+            .phone-mockup {
+                width: 240px;
+                height: 480px;
+            }
+
+            .code-block {
+                font-size: 0.75rem;
+                padding: 0.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-3">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-globe text-cyan-600 text-2xl"></i>
+                    <span class="font-bold text-xl text-gray-800">Domain Track</span>
+                </div>
+                <div class="hidden md:flex space-x-6">
+                    <a href="#overview" class="text-gray-600 hover:text-cyan-600 transition">Overview</a>
+                    <a href="#features" class="text-gray-600 hover:text-cyan-600 transition">Features</a>
+                    <a href="#screenshots" class="text-gray-600 hover:text-cyan-600 transition">Screenshots</a>
+                    <a href="#technology" class="text-gray-600 hover:text-cyan-600 transition">Technology</a>
+                    <a href="#repositories" class="text-gray-600 hover:text-cyan-600 transition">Repositories</a>
+                </div>
+                <button id="mobile-menu-button" class="md:hidden text-gray-600 focus:outline-none">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t">
+            <div class="px-6 py-3 space-y-2">
+                <a href="#overview" class="block text-gray-600 hover:text-cyan-600 transition py-1">Overview</a>
+                <a href="#features" class="block text-gray-600 hover:text-cyan-600 transition py-1">Features</a>
+                <a href="#screenshots" class="block text-gray-600 hover:text-cyan-600 transition py-1">Screenshots</a>
+                <a href="#technology" class="block text-gray-600 hover:text-cyan-600 transition py-1">Technology</a>
+                <a href="#repositories" class="block text-gray-600 hover:text-cyan-600 transition py-1">Repositories</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="gradient-bg text-white py-20">
+        <div class="container mx-auto px-6 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">Domain Track</h1>
+            <p class="text-xl mb-8 max-w-2xl mx-auto">Modern domain intelligence at your fingertips</p>
+            <div class="flex justify-center space-x-4">
+                <a href="#repositories"
+                    class="bg-white text-cyan-700 font-semibold py-2 px-6 rounded-lg shadow-md hover:bg-gray-100 transition">
+                    Explore Repositories
+                </a>
+                <a href="#features"
+                    class="bg-transparent border-2 border-white text-white font-semibold py-2 px-6 rounded-lg hover:bg-white hover:text-cyan-700 transition">
+                    View Features
+                </a>
+            </div>
+            <div class="mt-12 floating-element">
+                <i class="fas fa-server text-6xl opacity-20"></i>
+            </div>
+        </div>
+    </section>
+
+    <!-- Overview Section -->
+    <section id="overview" class="py-16">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Project Overview</h2>
+                <div class="w-20 h-1 bg-cyan-600 mx-auto"></div>
+            </div>
+            <div class="flex flex-col md:flex-row-reverse items-center gap-8">
+                <div class="md:w-1/2">
+                    <p class="text-gray-600 mb-4">
+                        Domain Track is a sophisticated cross-platform mobile application built with Flutter, designed
+                        to provide comprehensive domain intelligence services.
+                    </p>
+                    <p class="text-gray-600 mb-4">
+                        The application allows users to query domain availability across multiple TLDs and fetch
+                        detailed WHOIS registration information including registrar details, creation and expiration
+                        dates, and contact emails.
+                    </p>
+                    <p class="text-gray-600">
+                        Powered by a robust Python Flask backend service, Domain Track delivers real-time domain data
+                        with a clean, modern interface that makes domain research simple and efficient.
+                    </p>
+                </div>
+                <div class="md:w-1/2 flex justify-center">
+                    <div class="phone-mockup">
+                        <img src="https://github.com/celalaygar/main/blob/main/project/domain-track/dt_1.png?raw=true"
+                            alt="Domain Track App Screenshot" class="phone-screen">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-16 bg-gray-100">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Key Features</h2>
+                <div class="w-20 h-1 bg-cyan-600 mx-auto"></div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="feature-card bg-white p-6 rounded-xl shadow-md">
+                    <div class="text-cyan-600 mb-4">
+                        <i class="fas fa-search text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Multi-TLD Search</h3>
+                    <p class="text-gray-600">Search domain names across multiple TLDs (extensions) simultaneously.</p>
+                </div>
+                <div class="feature-card bg-white p-6 rounded-xl shadow-md">
+                    <div class="text-cyan-600 mb-4">
+                        <i class="fas fa-check-circle text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Availability Check</h3>
+                    <p class="text-gray-600">Instantly check if a domain is available or registered with real-time
+                        results.</p>
+                </div>
+                <div class="feature-card bg-white p-6 rounded-xl shadow-md">
+                    <div class="text-cyan-600 mb-4">
+                        <i class="fas fa-info-circle text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">WHOIS Details</h3>
+                    <p class="text-gray-600">View detailed WHOIS information of registered domains including registrar
+                        and dates.</p>
+                </div>
+                <div class="feature-card bg-white p-6 rounded-xl shadow-md">
+                    <div class="text-cyan-600 mb-4">
+                        <i class="fas fa-filter text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Extension Filtering</h3>
+                    <p class="text-gray-600">Filter domain extensions (e.g., .com, .net, .org) to focus on specific
+                        TLDs.</p>
+                </div>
+                <div class="feature-card bg-white p-6 rounded-xl shadow-md">
+                    <div class="text-cyan-600 mb-4">
+                        <i class="fas fa-calendar-alt text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Registration Dates</h3>
+                    <p class="text-gray-600">See registrar, registration dates, and contact emails for comprehensive
+                        domain information.</p>
+                </div>
+                <div class="feature-card bg-white p-6 rounded-xl shadow-md">
+                    <div class="text-cyan-600 mb-4">
+                        <i class="fas fa-brain text-3xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Smart Formatting</h3>
+                    <p class="text-gray-600">Intelligent formatting of WHOIS response data for better readability and
+                        understanding.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Screenshots Section -->
+    <section id="screenshots" class="py-16">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">App Screenshots</h2>
+                <div class="w-20 h-1 bg-cyan-600 mx-auto"></div>
+            </div>
+            <div class="max-w-4xl mx-auto">
+                <div class="slider-container">
+                    <div class="slider-wrapper" id="slider">
+                        <div class="slider-item">
+                            <div class="phone-mockup">
+                                <img src="https://github.com/celalaygar/main/blob/main/project/domain-track/dt_1.png?raw=true"
+                                    alt="Domain Track App Screenshot 1" class="phone-screen">
+                            </div>
+                        </div>
+                        <div class="slider-item">
+                            <div class="phone-mockup">
+                                <img src="https://github.com/celalaygar/main/blob/main/project/domain-track/dt_2.png?raw=true"
+                                    alt="Domain Track App Screenshot 2" class="phone-screen">
+                            </div>
+                        </div>
+                        <div class="slider-item">
+                            <div class="phone-mockup">
+                                <img src="https://github.com/celalaygar/main/blob/main/project/domain-track/dt_3.png?raw=true"
+                                    alt="Domain Track App Screenshot 3" class="phone-screen">
+                            </div>
+                        </div>
+                        <div class="slider-item">
+                            <div class="phone-mockup">
+                                <img src="https://github.com/celalaygar/main/blob/main/project/domain-track/dt_4.png?raw=true"
+                                    alt="Domain Track App Screenshot 4" class="phone-screen">
+                            </div>
+                        </div>
+                        <div class="slider-item">
+                            <div class="phone-mockup">
+                                <img src="https://github.com/celalaygar/main/blob/main/project/domain-track/dt_5.png?raw=true"
+                                    alt="Domain Track App Screenshot 5" class="phone-screen">
+                            </div>
+                        </div>
+                    </div>
+                    <button class="slider-btn prev" id="prevBtn">
+                        <i class="fas fa-chevron-left text-gray-800"></i>
+                    </button>
+                    <button class="slider-btn next" id="nextBtn">
+                        <i class="fas fa-chevron-right text-gray-800"></i>
+                    </button>
+                </div>
+                <div class="indicators" id="indicators">
+                    <div class="indicator active" data-slide="0"></div>
+                    <div class="indicator" data-slide="1"></div>
+                    <div class="indicator" data-slide="2"></div>
+                    <div class="indicator" data-slide="3"></div>
+                    <div class="indicator" data-slide="4"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technology Stack Section -->
+    <section id="technology" class="py-16 bg-gray-100">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Technology Stack</h2>
+                <div class="w-20 h-1 bg-cyan-600 mx-auto"></div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div>
+                    <h3 class="text-2xl font-semibold text-gray-800 mb-6 text-center">Mobile App</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
+                        <div class="bg-white p-4 rounded-lg shadow-md text-center tech-icon">
+                            <i class="fab fa-flutter text-blue-500 text-3xl mb-2"></i>
+                            <p class="font-medium">Flutter</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-md text-center tech-icon">
+                            <i class="fab fa-dart text-blue-400 text-3xl mb-2"></i>
+                            <p class="font-medium">Dart</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-md text-center tech-icon">
+                            <i class="fas fa-plug text-green-500 text-3xl mb-2"></i>
+                            <p class="font-medium">HTTP Client</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-md text-center tech-icon">
+                            <i class="fas fa-palette text-pink-500 text-3xl mb-2"></i>
+                            <p class="font-medium">Material Design</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-md text-center tech-icon">
+                            <i class="fas fa-external-link-alt text-purple-500 text-3xl mb-2"></i>
+                            <p class="font-medium">URL Launcher</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-md text-center tech-icon">
+                            <i class="fas fa-clipboard text-red-500 text-3xl mb-2"></i>
+                            <p class="font-medium">Clipboard</p>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-semibold text-gray-800 mb-6 text-center">Backend Service</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
+                        <div class="bg-white p-4 rounded-lg shadow-md text-center tech-icon">
+                            <i class="fab fa-python text-blue-600 text-3xl mb-2"></i>
+                            <p class="font-medium">Python 3.11+</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-md text-center tech-icon">
+                            <i class="fas fa-flask text-green-600 text-3xl mb-2"></i>
+                            <p class="font-medium">Flask</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-md text-center tech-icon">
+                            <i class="fas fa-database text-purple-600 text-3xl mb-2"></i>
+                            <p class="font-medium">WHOIS</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-md text-center tech-icon">
+                            <i class="fab fa-docker text-blue-400 text-3xl mb-2"></i>
+                            <p class="font-medium">Docker</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-md text-center tech-icon">
+                            <i class="fas fa-network-wired text-orange-500 text-3xl mb-2"></i>
+                            <p class="font-medium">REST API</p>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-md text-center tech-icon">
+                            <i class="fas fa-server text-gray-600 text-3xl mb-2"></i>
+                            <p class="font-medium">Nginx</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Repositories Section -->
+    <section id="repositories" class="py-16">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Project Repositories</h2>
+                <div class="w-20 h-1 bg-cyan-600 mx-auto"></div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <i class="fab fa-github text-gray-800 text-3xl mr-3"></i>
+                            <h3 class="text-xl font-semibold">Mobile App</h3>
+                        </div>
+                        <p class="text-gray-600 mb-4">
+                            Flutter-based mobile application for domain intelligence and WHOIS lookup.
+                        </p>
+                        <div class="mb-4">
+                            <h4 class="font-medium text-gray-700 mb-2">Key Features:</h4>
+                            <ul class="list-disc pl-5 text-gray-600 space-y-1">
+                                <li>Cross-platform support</li>
+                                <li>Multi-TLD domain search</li>
+                                <li>WHOIS data visualization</li>
+                                <li>Material Design UI</li>
+                            </ul>
+                        </div>
+                        <a href="https://github.com/celalaygar/Domain-Track-Mobile-App" target="_blank"
+                            class="inline-flex items-center text-cyan-600 hover:text-cyan-800 transition">
+                            <span>View on GitHub</span>
+                            <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl shadow-md overflow-hidden">
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <i class="fab fa-github text-gray-800 text-3xl mr-3"></i>
+                            <h3 class="text-xl font-semibold">Backend Service</h3>
+                        </div>
+                        <p class="text-gray-600 mb-4">
+                            Flask-based REST API for domain availability checking and WHOIS data retrieval.
+                        </p>
+                        <div class="mb-4">
+                            <h4 class="font-medium text-gray-700 mb-2">Key Features:</h4>
+                            <ul class="list-disc pl-5 text-gray-600 space-y-1">
+                                <li>WHOIS lookup functionality</li>
+                                <li>Domain availability checking</li>
+                                <li>Docker containerization</li>
+                                <li>RESTful API endpoints</li>
+                            </ul>
+                        </div>
+                        <a href="https://github.com/celalaygar/Whois_py_service" target="_blank"
+                            class="inline-flex items-center text-cyan-600 hover:text-cyan-800 transition">
+                            <span>View on GitHub</span>
+                            <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="py-16 bg-gray-100">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">How It Works</h2>
+                <div class="w-20 h-1 bg-cyan-600 mx-auto"></div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="text-center">
+                    <div class="bg-cyan-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-cyan-700 text-2xl font-bold">1</span>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Enter Domain Name</h3>
+                    <p class="text-gray-600">Input your desired domain name and select TLDs to check.</p>
+                </div>
+                <div class="text-center">
+                    <div class="bg-cyan-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-cyan-700 text-2xl font-bold">2</span>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Backend Processing</h3>
+                    <p class="text-gray-600">The Flask backend queries WHOIS databases for domain information.</p>
+                </div>
+                <div class="text-center">
+                    <div class="bg-cyan-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-cyan-700 text-2xl font-bold">3</span>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">View Results</h3>
+                    <p class="text-gray-600">See availability status and detailed WHOIS information for each domain.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- API Example Section -->
+    <section class="py-16">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">API Integration</h2>
+                <div class="w-20 h-1 bg-cyan-600 mx-auto"></div>
+            </div>
+            <div class="bg-gray-800 text-gray-100 rounded-lg p-6 font-mono text-sm overflow-x-auto">
+                <p class="mb-4"><span class="text-cyan-400">// API Endpoints</span></p>
+                <p class="mb-2">POST http://<your_backend_ip>:<port>/whois_api/check_domains</p>
+                <p class="mb-4">GET http://<your_backend_ip>:<port>/whois_api/get_extensions</p>
+                <p class="mb-4"><span class="text-cyan-400">// Example Request</span></p>
+                <pre class="bg-gray-900 p-4 rounded overflow-x-auto mb-4">{
+  "siteName": "example",
+  "extensions": [".com", ".org", ".net"]
+}</pre>
+                <p class="mb-4"><span class="text-cyan-400">// Example Response</span></p>
+                <pre class="bg-gray-900 p-4 rounded overflow-x-auto">{
+  "Status": "Registered",
+  "Domain": "example.com",
+  "Registrar": "Example Registrar LLC",
+  "CreationDate": "1995-08-13 04:00:00",
+  "ExpirationDate": "2025-08-12 04:00:00",
+  "NameServers": ["NS1.EXAMPLE.COM", "NS2.EXAMPLE.COM"],
+  "Emails": ["admin@example.com"]
+}</pre>
+            </div>
+        </div>
+    </section>
+
+    <!-- Getting Started Section -->
+    <section class="py-16 bg-gray-100">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Getting Started</h2>
+                <div class="w-20 h-1 bg-cyan-600 mx-auto"></div>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="bg-white p-6 rounded-xl shadow-md">
+                    <h3 class="text-xl font-semibold mb-4 text-cyan-600">Mobile App Setup</h3>
+                    <ol class="list-decimal pl-5 space-y-4 text-gray-600">
+                        <li>
+                            <div class="font-medium mb-1">Clone the repository:</div>
+                            <div class="code-block text-xs sm:text-sm break-all">
+                                git clone https://github.com/celalaygar/Domain-Track-Mobile-App.git
+                            </div>
+                        </li>
+                        <li>
+                            <div class="font-medium mb-1">Navigate to the project directory:</div>
+                            <div class="code-block text-xs sm:text-sm break-all">
+                                cd Domain-Track-Mobile-App
+                            </div>
+                        </li>
+                        <li>
+                            <div class="font-medium mb-1">Install dependencies:</div>
+                            <div class="code-block text-xs sm:text-sm break-all">
+                                flutter pub get
+                            </div>
+                        </li>
+                        <li>
+                            <div class="font-medium mb-1">Run the app:</div>
+                            <div class="code-block text-xs sm:text-sm break-all">
+                                flutter run
+                            </div>
+                        </li>
+                        <li>
+                            <div class="font-medium">Configure the backend URL in service.dart</div>
+                        </li>
+                    </ol>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md">
+                    <h3 class="text-xl font-semibold mb-4 text-cyan-600">Backend Setup</h3>
+                    <ol class="list-decimal pl-5 space-y-4 text-gray-600">
+                        <li>
+                            <div class="font-medium mb-1">Clone the repository:</div>
+                            <div class="code-block text-xs sm:text-sm break-all">
+                                git clone https://github.com/celalaygar/Whois_py_service.git
+                            </div>
+                        </li>
+                        <li>
+                            <div class="font-medium mb-1">Create a virtual environment:</div>
+                            <div class="code-block text-xs sm:text-sm break-all">
+                                python -m venv venv
+                            </div>
+                        </li>
+                        <li>
+                            <div class="font-medium mb-1">Install dependencies:</div>
+                            <div class="code-block text-xs sm:text-sm break-all">
+                                pip install -r requirements.txt
+                            </div>
+                        </li>
+                        <li>
+                            <div class="font-medium mb-1">Run the Flask application:</div>
+                            <div class="code-block text-xs sm:text-sm break-all">
+                                python Main.py
+                            </div>
+                        </li>
+                        <li>
+                            <div class="font-medium mb-1">Or use Docker:</div>
+                            <div class="code-block text-xs sm:text-sm break-all">
+                                docker build -t flask-whois-app . && docker run -p 7112:7112 flask-whois-app
+                            </div>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Nginx Configuration Section -->
+    <section class="py-16">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Nginx Configuration</h2>
+                <div class="w-20 h-1 bg-cyan-600 mx-auto"></div>
+            </div>
+            <div class="max-w-3xl mx-auto">
+                <div class="bg-gray-800 text-gray-100 rounded-lg p-6 font-mono text-sm overflow-x-auto">
+                    <p class="mb-4"><span class="text-cyan-400">// Nginx Configuration Example</span></p>
+                    <pre class="bg-gray-900 p-4 rounded overflow-x-auto">server {
+    listen 3303;
+    server_name localhost;
+    
+    location /serach_domains/ {
+        proxy_pass http://127.0.0.1:7112/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_connect_timeout 150;
+        proxy_send_timeout 150;
+        proxy_read_timeout 150;
+        send_timeout 150;
+    }
+}</pre>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <div class="flex items-center space-x-2">
+                        <i class="fas fa-globe text-cyan-400 text-2xl"></i>
+                        <span class="font-bold text-xl">Domain Track</span>
+                    </div>
+                    <p class="mt-2 text-gray-400">Modern domain intelligence at your fingertips</p>
+                </div>
+                <div class="flex space-x-6">
+                    <a href="https://github.com/celalaygar" target="_blank"
+                        class="text-gray-400 hover:text-white transition">
+                        <i class="fab fa-github text-xl"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/in/celalaygar/" target="_blank"
+                        class="text-gray-400 hover:text-white transition">
+                        <i class="fab fa-linkedin text-xl"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>Developed by <span class="text-white">Celal Aygar</span> | Java & Full Stack Developer | AI
+                    Enthusiast</p>
+                <p class="mt-2">© 2023 Domain Track. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    // Close mobile menu if open
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+        });
+
+        // Add scroll effect to navigation
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 50) {
+                nav.classList.add('shadow-lg');
+            } else {
+                nav.classList.remove('shadow-lg');
+            }
+        });
+
+        // Slider functionality
+        const slider = document.getElementById('slider');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const indicators = document.querySelectorAll('.indicator');
+        let currentSlide = 0;
+        const totalSlides = 5;
+
+        function updateSlider() {
+            slider.style.transform = `translateX(-${currentSlide * 100}%)`;
+
+            // Update indicators
+            indicators.forEach((indicator, index) => {
+                if (index === currentSlide) {
+                    indicator.classList.add('active');
+                } else {
+                    indicator.classList.remove('active');
+                }
+            });
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            updateSlider();
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+            updateSlider();
+        }
+
+        // Event listeners for slider buttons
+        nextBtn.addEventListener('click', nextSlide);
+        prevBtn.addEventListener('click', prevSlide);
+
+        // Event listeners for indicators
+        indicators.forEach((indicator, index) => {
+            indicator.addEventListener('click', () => {
+                currentSlide = index;
+                updateSlider();
+            });
+        });
+
+        // Auto-play slider
+        setInterval(nextSlide, 5000);
+
+        // Touch/swipe support for mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        slider.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        slider.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            if (touchEndX < touchStartX - 50) {
+                nextSlide();
+            }
+            if (touchEndX > touchStartX + 50) {
+                prevSlide();
+            }
+        }
+    </script>
+</body>
+
+</html>
