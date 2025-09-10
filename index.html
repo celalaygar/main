@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="tr">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -64,59 +63,47 @@
       -webkit-text-fill-color: transparent;
       background-clip: text;
     }
-
     .card-hover {
       transition: all 0.3s ease;
     }
-
     .card-hover:hover {
       transform: translateY(-8px);
       box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
     }
-
     .tech-pattern {
       background-color: rgba(249, 250, 251, 0.8);
       background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
     }
-
     .dark .tech-pattern {
       background-color: rgba(17, 24, 39, 0.8);
       background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
     }
-
     .loader {
       border-top-color: #3b82f6;
       animation: spinner 1.5s linear infinite;
     }
-
     @keyframes spinner {
       0% {
         transform: rotate(0deg);
       }
-
       100% {
         transform: rotate(360deg);
       }
     }
-
     .social-icon {
       transition: all 0.3s ease;
     }
-
     .social-icon:hover {
       transform: translateY(-5px);
     }
-
     .code-bg {
       background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
     }
-
     .dark .code-bg {
       background: linear-gradient(135deg, #0f172a 0%, #020617 100%);
     }
   </style>
 </head>
-
 <body class="bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
   <!-- Loading Screen -->
   <div id="loadingScreen"
@@ -126,7 +113,6 @@
       <p class="text-gray-700 dark:text-gray-300 font-medium">Yükleniyor...</p>
     </div>
   </div>
-
   <!-- Top Menu -->
   <header class="bg-white dark:bg-gray-800 shadow-lg fixed top-0 left-0 w-full z-50 transition-colors duration-300">
     <div class="max-w-7xl mx-auto flex justify-between items-center px-4 py-3">
@@ -151,7 +137,6 @@
         </select>
       </div>
     </div>
-
     <!-- Search Bar (Hidden by default) -->
     <div id="searchBar" class="hidden max-w-7xl mx-auto px-4 pb-3">
       <div class="relative">
@@ -163,7 +148,6 @@
       </div>
     </div>
   </header>
-
   <!-- Hero Section -->
   <section class="pt-24 pb-12 px-4 max-w-7xl mx-auto">
     <div class="text-center mb-12 animate-fade-in">
@@ -174,7 +158,6 @@
         Full Stack Developer olarak geliştirdiğim projeler ve oyunlar
       </p>
     </div>
-
     <!-- Category Filter -->
     <div class="flex flex-wrap justify-center gap-3 mb-8 animate-slide-up">
       <button
@@ -192,22 +175,91 @@
         data-category="portfolio">
         <i class="fas fa-briefcase mr-2"></i><span id="portfolioCategory">Portföy</span>
       </button>
+      <button
+        class="category-filter px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+        data-category="project">
+        <i class="fas fa-project-diagram mr-2"></i><span id="projectCategory">Projeler</span>
+      </button>
     </div>
   </section>
-
   <!-- Games Grid -->
   <main class="px-4 max-w-7xl mx-auto pb-16">
     <div id="gameCards" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
       <!-- Kartlar JS ile doldurulacak -->
     </div>
-
     <!-- No Results Message -->
     <div id="noResults" class="hidden text-center py-12">
       <i class="fas fa-search text-4xl text-gray-400 dark:text-gray-500 mb-4"></i>
       <p class="text-xl text-gray-600 dark:text-gray-400">Aramanızla eşleşen sonuç bulunamadı.</p>
     </div>
   </main>
-
+  <!-- Featured Projects Section -->
+  <section class="py-16 px-4 bg-gray-100 dark:bg-gray-800">
+    <div class="max-w-7xl mx-auto">
+      <h2 class="text-3xl font-bold mb-12 text-center text-gray-800 dark:text-white">
+        <span id="featuredProjectsTitle" class="gradient-text">Öne Çıkan Projelerim</span>
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Profile Track Project -->
+        <div class="bg-white dark:bg-gray-700 rounded-xl shadow-lg overflow-hidden card-hover">
+          <div class="p-6">
+            <div class="flex items-center mb-4">
+              <div class="w-12 h-12 rounded-lg bg-gradient-to-r from-purple-500 to-indigo-600 flex items-center justify-center mr-4">
+                <i class="fas fa-search text-white text-xl"></i>
+              </div>
+              <div>
+                <h3 class="text-xl font-bold text-gray-800 dark:text-white">Profile Track</h3>
+                <p class="text-gray-600 dark:text-gray-300 text-sm">Dijital İz Keşif Aracı</p>
+              </div>
+            </div>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">
+              E-posta adresinizin veya kullanıcı adınızın kayıtlı olabileceği web sitelerini ve platformları keşfedin. 
+              Dijital ayak izinizin nerede göründüğünü görün.
+            </p>
+            <div class="flex flex-wrap gap-2 mb-4">
+              <span class="px-2 py-1 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-xs">Flutter</span>
+              <span class="px-2 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-xs">Spring Boot</span>
+              <span class="px-2 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-xs">Sherlock</span>
+            </div>
+            <a href="https://celalaygar.github.io/main/project/profile-track/" target="_blank"
+              class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-medium rounded-lg hover:opacity-90 transition-opacity">
+              <span id="viewProfileTrack">Projeyi İncele</span>
+              <i class="fas fa-arrow-right ml-2"></i>
+            </a>
+          </div>
+        </div>
+        
+        <!-- Domain Track Project -->
+        <div class="bg-white dark:bg-gray-700 rounded-xl shadow-lg overflow-hidden card-hover">
+          <div class="p-6">
+            <div class="flex items-center mb-4">
+              <div class="w-12 h-12 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 flex items-center justify-center mr-4">
+                <i class="fas fa-globe text-white text-xl"></i>
+              </div>
+              <div>
+                <h3 class="text-xl font-bold text-gray-800 dark:text-white">Domain Track</h3>
+                <p class="text-gray-600 dark:text-gray-300 text-sm">Alan Adı İstihbarat Aracı</p>
+              </div>
+            </div>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">
+              Alan adlarının kullanılabilirliğini kontrol edin ve WHOIS kayıt bilgilerini görüntüleyin. 
+              Domain intelligence için modern bir çözüm.
+            </p>
+            <div class="flex flex-wrap gap-2 mb-4">
+              <span class="px-2 py-1 bg-cyan-100 dark:bg-cyan-900 text-cyan-800 dark:text-cyan-200 rounded-full text-xs">Flutter</span>
+              <span class="px-2 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-xs">Python</span>
+              <span class="px-2 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-xs">Flask</span>
+            </div>
+            <a href="https://celalaygar.github.io/main/project/domain-track/" target="_blank"
+              class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-medium rounded-lg hover:opacity-90 transition-opacity">
+              <span id="viewDomainTrack">Projeyi İncele</span>
+              <i class="fas fa-arrow-right ml-2"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
   <!-- About Section -->
   <section id="about" class="tech-pattern py-16 px-4">
     <div
@@ -239,7 +291,6 @@
               öğreniyorum.
             </p>
           </div>
-
           <!-- Skills -->
           <div class="mb-6">
             <h3 id="skillsTitle" class="text-lg font-semibold mb-2 text-gray-900 dark:text-white">Yetenekler</h3>
@@ -259,7 +310,6 @@
                 class="px-3 py-1 bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-200 rounded-full text-sm">SQL</span>
             </div>
           </div>
-
           <!-- CTA Button -->
           <a href="https://celalaygar.github.io/" target="_blank"
             class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-medium rounded-lg hover:opacity-90 transition-opacity">
@@ -270,7 +320,6 @@
       </div>
     </div>
   </section>
-
   <!-- Social Links -->
   <section class="py-16 px-4 bg-gray-100 dark:bg-gray-800">
     <div class="max-w-4xl mx-auto text-center">
@@ -321,7 +370,6 @@
       </div>
     </div>
   </section>
-
   <!-- Footer -->
   <footer class="code-bg py-8 px-4 text-white">
     <div class="max-w-7xl mx-auto">
@@ -342,12 +390,13 @@
       </div>
     </div>
   </footer>
-
   <!-- JS -->
   <script>
     // Game data with categories
     const games = [
       { en: "Portfolio", tr: "Portföy", url: "https://celalaygar.github.io/", color: "from-indigo-500 to-purple-500", category: "portfolio" },
+      { en: "Profile Track", tr: "Profile Track", url: "https://celalaygar.github.io/main/project/profile-track/", color: "from-purple-500 to-indigo-600", category: "project" },
+      { en: "Domain Track", tr: "Domain Track", url: "https://celalaygar.github.io/main/project/domain-track/", color: "from-cyan-500 to-blue-600", category: "project" },
       { en: "Snake Game", tr: "Yılan Oyunu", url: "https://celalaygar.github.io/main/game/snake-game/", color: "from-green-400 to-blue-600", category: "game" },
       { en: "Flappy Bird", tr: "Flappy Bird", url: "https://celalaygar.github.io/main/game/flappy-bird-game/", color: "from-yellow-400 to-red-500", category: "game" },
       { en: "Tetris", tr: "Tetris", url: "https://celalaygar.github.io/main/game/tetris-game/", color: "from-pink-500 to-orange-400", category: "game" },
@@ -367,7 +416,6 @@
       { en: "Tower Blocks Game", tr: "Tower Blocks Oyunu", url: "https://celalaygar.github.io/main/game/tower-blocks-game/", color: "from-pink-300 to-blue-600", category: "game" },
       { en: "Word Search Game", tr: "Kelime Araştırma Oyunu", url: "https://celalaygar.github.io/main/game/word-search-game/", color: "from-orange-300 to-yellow-600", category: "game" }
     ];
-
     // DOM Elements
     const gameCards = document.getElementById("gameCards");
     const languageSelect = document.getElementById("languageSelect");
@@ -382,6 +430,10 @@
     const allCategory = document.getElementById("allCategory");
     const gameCategory = document.getElementById("gameCategory");
     const portfolioCategory = document.getElementById("portfolioCategory");
+    const projectCategory = document.getElementById("projectCategory");
+    const featuredProjectsTitle = document.getElementById("featuredProjectsTitle");
+    const viewProfileTrack = document.getElementById("viewProfileTrack");
+    const viewDomainTrack = document.getElementById("viewDomainTrack");
     const themeToggle = document.getElementById("themeToggle");
     const searchToggle = document.getElementById("searchToggle");
     const searchBar = document.getElementById("searchBar");
@@ -389,7 +441,6 @@
     const searchClose = document.getElementById("searchClose");
     const noResults = document.getElementById("noResults");
     const loadingScreen = document.getElementById("loadingScreen");
-
     // Translations
     const translations = {
       en: {
@@ -397,7 +448,7 @@
         aboutText: `I'm a Full Stack Developer.
 I'm Hacı Celal Aygar. I graduated from Karabük University, Department of Computer Engineering. I have been working as a Full Stack developer and Java developer around 5 years.
 My goal is to work in companies that produce projects using technologies in the fields of computer engineering and to continue to improve myself. I also continue to share many of my sample works on my Github account.
-Also I am constantly working to make life easier and trying to find solutions to the common problems of people. I’m currently learning client side technologies by using especially Github and Stackoverflow.`,
+Also I am constantly working to make life easier and trying to find solutions to the common problems of people. I'm currently learning client side technologies by using especially Github and Stackoverflow.`,
         heroTitle: "My Software Projects & Games",
         heroSubtitle: "Projects and games developed as a Full Stack Developer",
         skillsTitle: "Skills",
@@ -407,6 +458,10 @@ Also I am constantly working to make life easier and trying to find solutions to
         allCategory: "All",
         gameCategory: "Games",
         portfolioCategory: "Portfolio",
+        projectCategory: "Projects",
+        featuredProjectsTitle: "My Featured Projects",
+        viewProfileTrack: "View Project",
+        viewDomainTrack: "View Project",
         searchPlaceholder: "Search games..."
       },
       tr: {
@@ -424,25 +479,25 @@ Bunun yanında hayatı kolaylaştırmak için sürekli çalışıyor ve insanlar
         allCategory: "Tümü",
         gameCategory: "Oyunlar",
         portfolioCategory: "Portföy",
+        projectCategory: "Projeler",
+        featuredProjectsTitle: "Öne Çıkan Projelerim",
+        viewProfileTrack: "Projeyi İncele",
+        viewDomainTrack: "Projeyi İncele",
         searchPlaceholder: "Oyun ara..."
       }
     };
-
     // Current language and filter
     let currentLang = "tr";
     let currentFilter = "all";
-
     // Theme toggle
     themeToggle.addEventListener("click", () => {
       document.documentElement.classList.toggle("dark");
       localStorage.setItem("theme", document.documentElement.classList.contains("dark") ? "dark" : "light");
     });
-
     // Check for saved theme preference
     if (localStorage.getItem("theme") === "dark" || (!localStorage.getItem("theme") && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
       document.documentElement.classList.add("dark");
     }
-
     // Search toggle
     searchToggle.addEventListener("click", () => {
       searchBar.classList.toggle("hidden");
@@ -450,16 +505,13 @@ Bunun yanında hayatı kolaylaştırmak için sürekli çalışıyor ve insanlar
         searchInput.focus();
       }
     });
-
     searchClose.addEventListener("click", () => {
       searchBar.classList.add("hidden");
       searchInput.value = "";
       filterGames();
     });
-
     // Search functionality
     searchInput.addEventListener("input", filterGames);
-
     // Category filter
     document.querySelectorAll(".category-filter").forEach(button => {
       button.addEventListener("click", () => {
@@ -468,16 +520,13 @@ Bunun yanında hayatı kolaylaştırmak için sürekli çalışıyor ve insanlar
           btn.classList.remove("active", "bg-blue-500", "text-white");
           btn.classList.add("bg-gray-200", "dark:bg-gray-700", "text-gray-700", "dark:text-gray-300");
         });
-
         button.classList.add("active", "bg-blue-500", "text-white");
         button.classList.remove("bg-gray-200", "dark:bg-gray-700", "text-gray-700", "dark:text-gray-300");
-
         // Update current filter
         currentFilter = button.dataset.category;
         filterGames();
       });
     });
-
     // Filter games based on category and search
     function filterGames() {
       const searchTerm = searchInput.value.toLowerCase();
@@ -486,9 +535,7 @@ Bunun yanında hayatı kolaylaştırmak için sürekli çalışıyor ve insanlar
         const matchesSearch = game[currentLang].toLowerCase().includes(searchTerm);
         return matchesCategory && matchesSearch;
       });
-
       renderGames(filteredGames);
-
       // Show/hide no results message
       if (filteredGames.length === 0) {
         noResults.classList.remove("hidden");
@@ -496,21 +543,28 @@ Bunun yanında hayatı kolaylaştırmak için sürekli çalışıyor ve insanlar
         noResults.classList.add("hidden");
       }
     }
-
     // Render games
     function renderGames(gamesToRender = games) {
       gameCards.innerHTML = "";
-
       gamesToRender.forEach((game, index) => {
         const card = document.createElement("a");
         card.href = game.url;
         card.target = "_blank";
         card.className = `card-hover p-6 rounded-xl shadow-lg text-white font-bold text-xl flex items-center justify-center text-center bg-gradient-to-br ${game.color} min-h-[150px] animate-fade-in`;
         card.style.animationDelay = `${index * 0.05}s`;
+        
+        // Set icon based on category
+        let icon = "fa-gamepad";
+        if (game.category === "portfolio") {
+          icon = "fa-briefcase";
+        } else if (game.category === "project") {
+          icon = "fa-project-diagram";
+        }
+        
         card.innerHTML = `
           <div>
             <div class="mb-2">
-              <i class="fas ${game.category === 'portfolio' ? 'fa-briefcase' : 'fa-gamepad'} text-2xl"></i>
+              <i class="fas ${icon} text-2xl"></i>
             </div>
             <span>${game[currentLang]}</span>
           </div>
@@ -518,7 +572,6 @@ Bunun yanında hayatı kolaylaştırmak için sürekli çalışıyor ve insanlar
         gameCards.appendChild(card);
       });
     }
-
     // Update language
     function updateLanguage(lang) {
       currentLang = lang;
@@ -533,16 +586,17 @@ Bunun yanında hayatı kolaylaştırmak için sürekli çalışıyor ve insanlar
       allCategory.textContent = translations[lang].allCategory;
       gameCategory.textContent = translations[lang].gameCategory;
       portfolioCategory.textContent = translations[lang].portfolioCategory;
+      projectCategory.textContent = translations[lang].projectCategory;
+      featuredProjectsTitle.textContent = translations[lang].featuredProjectsTitle;
+      viewProfileTrack.textContent = translations[lang].viewProfileTrack;
+      viewDomainTrack.textContent = translations[lang].viewDomainTrack;
       searchInput.placeholder = translations[lang].searchPlaceholder;
-
       filterGames();
     }
-
     // Language change event
     languageSelect.addEventListener("change", () => {
       updateLanguage(languageSelect.value);
     });
-
     // Hide loading screen after page loads
     window.addEventListener("load", () => {
       setTimeout(() => {
@@ -552,10 +606,8 @@ Bunun yanında hayatı kolaylaştırmak için sürekli çalışıyor ve insanlar
         }, 500);
       }, 500);
     });
-
     // Initialize
     updateLanguage("tr");
   </script>
 </body>
-
 </html>
