@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -17,7 +16,7 @@
 
         .laptop-screen {
             width: 100%;
-            height: auto;
+            height: 100%;
             object-fit: cover;
         }
 
@@ -152,49 +151,11 @@
             }
         }
 
-        .lang-selector {
-            position: relative;
-        }
-
-        .lang-dropdown {
-            position: absolute;
-            top: 100%;
-            right: 0;
-            background-color: white;
-            border-radius: 0.5rem;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-            z-index: 50;
-            min-width: 120px;
-            display: none;
-        }
-
-        .lang-dropdown.active {
-            display: block;
-        }
-
-        .lang-dropdown a {
-            display: block;
-            padding: 0.5rem 1rem;
-            color: #374151;
-            text-decoration: none;
-            transition: background-color 0.2s;
-        }
-
-        .lang-dropdown a:hover {
-            background-color: #f3f4f6;
-        }
-
-        .lang-dropdown a.active {
-            background-color: #eff6ff;
-            color: #3b82f6;
-            font-weight: 500;
-        }
-
-        .hidden {
-            display: none !important;
-        }
-
         @media (max-width: 640px) {
+            .laptop-mockup {
+                max-width: 301px;
+            }
+
             .code-block {
                 font-size: 0.75rem;
                 padding: 0.5rem;
@@ -210,81 +171,43 @@
             <div class="flex justify-between items-center">
                 <div class="flex items-center space-x-2">
                     <i class="fas fa-tasks text-blue-600 text-2xl"></i>
-                    <span class="font-bold text-xl text-gray-800" data-i18n="nav.title">JOB TRACKING SYSTEM V2</span>
+                    <span class="font-bold text-xl text-gray-800">JOB TRACKING SYSTEM V2</span>
                 </div>
-                <div class="sm:hidden md:flex space-x-6 items-center">
-                    <a href="#overview" class="text-gray-600 hover:text-blue-600 transition"
-                        data-i18n="nav.overview">Overview</a>
-                    <a href="#features" class="text-gray-600 hover:text-blue-600 transition"
-                        data-i18n="nav.features">Features</a>
-                    <a href="#screenshots" class="text-gray-600 hover:text-blue-600 transition"
-                        data-i18n="nav.screenshots">Screenshots</a>
-                    <a href="#technology" class="text-gray-600 hover:text-blue-600 transition"
-                        data-i18n="nav.technology">Technology</a>
-                    <a href="#repositories" class="text-gray-600 hover:text-blue-600 transition"
-                        data-i18n="nav.repositories">Repositories</a>
-                    <div class="lang-selector ml-4">
-                        <button id="lang-toggle" class="flex items-center text-gray-600 hover:text-blue-600 transition">
-                            <i class="fas fa-globe mr-1"></i>
-                            <span id="current-lang">EN</span>
-                            <i class="fas fa-chevron-down ml-1 text-xs"></i>
-                        </button>
-                        <div id="lang-dropdown" class="lang-dropdown">
-                            <a href="#" class="active" data-lang="en">English</a>
-                            <a href="#" data-lang="tr">Türkçe</a>
-                        </div>
-                    </div>
+                <div class="hidden md:flex space-x-6">
+                    <a href="#overview" class="text-gray-600 hover:text-blue-600 transition">Overview</a>
+                    <a href="#features" class="text-gray-600 hover:text-blue-600 transition">Features</a>
+                    <a href="#screenshots" class="text-gray-600 hover:text-blue-600 transition">Screenshots</a>
+                    <a href="#technology" class="text-gray-600 hover:text-blue-600 transition">Technology</a>
+                    <a href="#repositories" class="text-gray-600 hover:text-blue-600 transition">Repositories</a>
                 </div>
-                <div class="flex items-center space-x-4">
-                    <div class="lang-selector md:hidden">
-                        <button id="lang-toggle-mobile"
-                            class="flex items-center text-gray-600 hover:text-blue-600 transition">
-                            <i class="fas fa-globe mr-1"></i>
-                            <span id="current-lang-mobile">EN</span>
-                            <i class="fas fa-chevron-down ml-1 text-xs"></i>
-                        </button>
-                        <div id="lang-dropdown-mobile" class="lang-dropdown">
-                            <a href="#" class="active" data-lang="en">English</a>
-                            <a href="#" data-lang="tr">Türkçe</a>
-                        </div>
-                    </div>
-                    <button id="mobile-menu-button" class="md:hidden text-gray-600 focus:outline-none">
-                        <i class="fas fa-bars text-xl"></i>
-                    </button>
-                </div>
+                <button id="mobile-menu-button" class="md:hidden text-gray-600 focus:outline-none">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
             </div>
         </div>
         <!-- Mobile Menu -->
         <div id="mobile-menu" class="hidden md:hidden bg-white border-t">
             <div class="px-6 py-3 space-y-2">
-                <a href="#overview" class="block text-gray-600 hover:text-blue-600 transition py-1"
-                    data-i18n="nav.overview">Overview</a>
-                <a href="#features" class="block text-gray-600 hover:text-blue-600 transition py-1"
-                    data-i18n="nav.features">Features</a>
-                <a href="#screenshots" class="block text-gray-600 hover:text-blue-600 transition py-1"
-                    data-i18n="nav.screenshots">Screenshots</a>
-                <a href="#technology" class="block text-gray-600 hover:text-blue-600 transition py-1"
-                    data-i18n="nav.technology">Technology</a>
-                <a href="#repositories" class="block text-gray-600 hover:text-blue-600 transition py-1"
-                    data-i18n="nav.repositories">Repositories</a>
+                <a href="#overview" class="block text-gray-600 hover:text-blue-600 transition py-1">Overview</a>
+                <a href="#features" class="block text-gray-600 hover:text-blue-600 transition py-1">Features</a>
+                <a href="#screenshots" class="block text-gray-600 hover:text-blue-600 transition py-1">Screenshots</a>
+                <a href="#technology" class="block text-gray-600 hover:text-blue-600 transition py-1">Technology</a>
+                <a href="#repositories" class="block text-gray-600 hover:text-blue-600 transition py-1">Repositories</a>
             </div>
         </div>
     </nav>
     <!-- Hero Section -->
     <section class="gradient-bg text-white py-20">
         <div class="container mx-auto px-6 text-center">
-            <h1 class="text-4xl md:text-5xl font-bold mb-4" data-i18n="hero.title">JOB TRACKING SYSTEM V2</h1>
-            <p class="text-xl mb-8 max-w-2xl mx-auto" data-i18n="hero.subtitle">The Next Generation of Project
-                Management</p>
+            <h1 class="text-4xl md:text-5xl font-bold mb-4">JOB TRACKING SYSTEM V2</h1>
+            <p class="text-xl mb-8 max-w-2xl mx-auto">The Next Generation of Project Management</p>
             <div class="flex justify-center space-x-4">
                 <a href="#repositories"
-                    class="bg-white text-blue-700 font-semibold py-2 px-6 rounded-lg shadow-md hover:bg-gray-100 transition"
-                    data-i18n="hero.explore">
+                    class="bg-white text-blue-700 font-semibold py-2 px-6 rounded-lg shadow-md hover:bg-gray-100 transition">
                     Explore Repositories
                 </a>
                 <a href="#features"
-                    class="bg-transparent border-2 border-white text-white font-semibold py-2 px-6 rounded-lg hover:bg-white hover:text-blue-700 transition"
-                    data-i18n="hero.view">
+                    class="bg-transparent border-2 border-white text-white font-semibold py-2 px-6 rounded-lg hover:bg-white hover:text-blue-700 transition">
                     View Features
                 </a>
             </div>
@@ -297,22 +220,22 @@
     <section id="overview" class="py-16">
         <div class="container mx-auto px-6">
             <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-gray-800 mb-4" data-i18n="overview.title">Project Overview</h2>
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Project Overview</h2>
                 <div class="w-20 h-1 bg-blue-600 mx-auto"></div>
             </div>
             <div class="flex flex-col md:flex-row-reverse items-center gap-8">
                 <div class="md:w-1/2">
-                    <p class="text-gray-600 mb-4" data-i18n="overview.paragraph1">
+                    <p class="text-gray-600 mb-4">
                         In today's fast-paced world, managing projects and tracking every detail can be a complex and
                         overwhelming task. Imagine a solution that simplifies these processes, makes them more
                         organized, and effortlessly boosts your team's productivity.
                     </p>
-                    <p class="text-gray-600 mb-4" data-i18n="overview.paragraph2">
+                    <p class="text-gray-600 mb-4">
                         Welcome to JOB TRACKING SYSTEM V2, a comprehensive, next-generation platform designed to
                         revolutionize how you manage your work. This system promises to move you beyond traditional
                         methods and help you reach new levels of efficiency.
                     </p>
-                    <p class="text-gray-600" data-i18n="overview.paragraph3">
+                    <p class="text-gray-600">
                         With its comprehensive feature set and modern technology stack, JOB TRACKING SYSTEM V2 is not
                         just a tool; it's a strategic partner for your team's success. It's designed to make project
                         management more intuitive, collaborative, and efficient, allowing your team to focus on what
@@ -322,14 +245,14 @@
                 <div class="md:w-1/2 flex justify-center">
                     <div class="laptop-mockup">
                         <div
-                            class="relative mx-auto border-gray-800 dark:border-gray-800 bg-gray-800 border-[8px] rounded-t-xl h-[172px] max-w-[301px] md:h-[294px] md:max-w-[512px]">
+                            class="relative mx-auto border-gray-800 dark:border-gray-800 bg-gray-800 border-[8px] rounded-t-xl h-[172px] md:h-[294px]">
                             <div class="rounded-lg overflow-hidden h-[156px] md:h-[278px] bg-white dark:bg-gray-800">
-                                <img src="https://github.com/celalaygar/main/blob/main/project/job-tracking-system-v2/job-ts-8.png?raw=true"
+                                <img src="https://github.com/celalaygar/main/blob/main/project/job-tracking-system-v2/job-ts-9.png?raw=true"
                                     alt="JOB TRACKING SYSTEM V2 Screenshot" class="laptop-screen">
                             </div>
                         </div>
                         <div
-                            class="relative mx-auto bg-gray-900 dark:bg-gray-700 rounded-b-xl rounded-t-sm h-[17px] max-w-[351px] md:h-[21px] md:max-w-[597px]">
+                            class="relative mx-auto bg-gray-900 dark:bg-gray-700 rounded-b-xl rounded-t-sm h-[17px] md:h-[21px]">
                             <div
                                 class="absolute left-1/2 top-0 -translate-x-1/2 rounded-b-xl w-[56px] h-[5px] md:w-[96px] md:h-[8px] bg-gray-800">
                             </div>
@@ -343,8 +266,7 @@
     <section id="features" class="py-16 bg-gray-100">
         <div class="container mx-auto px-6">
             <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-gray-800 mb-4" data-i18n="features.title">Core Modules and Features
-                </h2>
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Core Modules and Features</h2>
                 <div class="w-20 h-1 bg-blue-600 mx-auto"></div>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -352,164 +274,140 @@
                     <div class="text-blue-600 mb-4">
                         <i class="fas fa-users text-3xl"></i>
                     </div>
-                    <h3 class="text-xl font-semibold mb-2" data-i18n="features.user.title">User Management &
-                        Authentication</h3>
-                    <div class="text-gray-600 space-y-2">
-                        <p data-i18n="features.user.desc1">Complete user management suite with registration, login,
-                            secure profile updates, and invitation system.</p>
-                        <p data-i18n="features.user.desc2">Users can easily create accounts with email verification and
-                            password reset functionality.</p>
-                        <p data-i18n="features.user.desc3">Profile updates require email verification through one-time
-                            codes for enhanced security.</p>
-                        <p data-i18n="features.user.desc4">Administrators can invite new users via email with automatic
-                            project assignment.</p>
-                        <p data-i18n="features.user.desc5">Role-based access control ensures users only see and interact
-                            with appropriate data.</p>
-                    </div>
+                    <h3 class="text-xl font-semibold mb-2">User Management & Authentication</h3>
+                    <p class="text-gray-600 mb-3">Comprehensive user management suite with robust security features.</p>
+                    <ul class="list-disc pl-5 text-gray-600 space-y-1">
+                        <li>Secure registration and login processes with encrypted credentials</li>
+                        <li>Profile updates with email verification through one-time codes</li>
+                        <li>Team invitation system via email with direct project assignment</li>
+                        <li>Role-based access control for different user permissions</li>
+                        <li>JWT-based stateless authentication for enhanced security</li>
+                        <li>Session management with automatic timeout and refresh tokens</li>
+                    </ul>
                 </div>
                 <div class="feature-card bg-white p-6 rounded-xl shadow-md">
                     <div class="text-blue-600 mb-4">
                         <i class="fas fa-project-diagram text-3xl"></i>
                     </div>
-                    <h3 class="text-xl font-semibold mb-2" data-i18n="features.project.title">Project Module</h3>
-                    <div class="text-gray-600 space-y-2">
-                        <p data-i18n="features.project.desc1">Create, list, update, and delete projects with
-                            comprehensive project management capabilities.</p>
-                        <p data-i18n="features.project.desc2">Add and remove individual members from projects with
-                            customizable permission levels.</p>
-                        <p data-i18n="features.project.desc3">Create specific teams within projects to organize members
-                            and streamline collaboration.</p>
-                        <p data-i18n="features.project.desc4">Define project-specific task statuses to perfectly match
-                            your unique workflow requirements.</p>
-                        <p data-i18n="features.project.desc5">Track project progress with visual indicators and
-                            milestone tracking features.</p>
-                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Project Module</h3>
+                    <p class="text-gray-600 mb-3">Central hub for all project-related activities and team collaboration.
+                    </p>
+                    <ul class="list-disc pl-5 text-gray-600 space-y-1">
+                        <li>Full CRUD operations for project lifecycle management</li>
+                        <li>Team and member management with role assignments</li>
+                        <li>Custom task status definitions to match unique workflows</li>
+                        <li>Project dashboard with real-time progress tracking</li>
+                        <li>Project templates for quick setup of common project types</li>
+                        <li>Activity logs for tracking project changes and history</li>
+                    </ul>
                 </div>
                 <div class="feature-card bg-white p-6 rounded-xl shadow-md">
                     <div class="text-blue-600 mb-4">
                         <i class="fas fa-tasks text-3xl"></i>
                     </div>
-                    <h3 class="text-xl font-semibold mb-2" data-i18n="features.task.title">Task Module</h3>
-                    <div class="text-gray-600 space-y-2">
-                        <p data-i18n="features.task.desc1">Granular control over work items with full CRUD operations
-                            for comprehensive task management.</p>
-                        <p data-i18n="features.task.desc2">Easily assign tasks to specific users within a project with
-                            due dates and priorities.</p>
-                        <p data-i18n="features.task.desc3">Automated backlog management moves unassigned tasks to the
-                            project backlog automatically.</p>
-                        <p data-i18n="features.task.desc4">Add, update, and delete comments on tasks to facilitate
-                            communication and collaboration.</p>
-                        <p data-i18n="features.task.desc5">Create and manage subtasks to break down complex tasks into
-                            manageable components.</p>
-                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Task Module</h3>
+                    <p class="text-gray-600 mb-3">Granular control over work items with comprehensive task management.
+                    </p>
+                    <ul class="list-disc pl-5 text-gray-600 space-y-1">
+                        <li>Complete CRUD operations for task management</li>
+                        <li>User assignment with notification system</li>
+                        <li>Comments and subtasks for detailed task breakdown</li>
+                        <li>Automated backlog management for unassigned tasks</li>
+                        <li>Priority levels and due date tracking</li>
+                        <li>File attachments and document linking</li>
+                    </ul>
                 </div>
                 <div class="feature-card bg-white p-6 rounded-xl shadow-md">
                     <div class="text-blue-600 mb-4">
                         <i class="fas fa-list text-3xl"></i>
                     </div>
-                    <h3 class="text-xl font-semibold mb-2" data-i18n="features.backlog.title">Backlog Module</h3>
-                    <div class="text-gray-600 space-y-2">
-                        <p data-i18n="features.backlog.desc1">Dedicated space for tasks that aren't yet scheduled,
-                            providing a repository for future work.</p>
-                        <p data-i18n="features.backlog.desc2">Automatic task handling moves tasks created without a
-                            sprint assignment directly to the backlog.</p>
-                        <p data-i18n="features.backlog.desc3">Tasks removed from sprints are automatically returned to
-                            the project backlog for reassignment.</p>
-                        <p data-i18n="features.backlog.desc4">Easily add, remove, and delete tasks from the backlog with
-                            intuitive drag-and-drop functionality.</p>
-                        <p data-i18n="features.backlog.desc5">Prioritize backlog items to ensure the most important
-                            tasks are scheduled for upcoming sprints.</p>
-                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Backlog Module</h3>
+                    <p class="text-gray-600 mb-3">Dedicated space for tasks that aren't yet scheduled for development.
+                    </p>
+                    <ul class="list-disc pl-5 text-gray-600 space-y-1">
+                        <li>Automatic task handling for newly created unassigned tasks</li>
+                        <li>Project-based backlog organization</li>
+                        <li>Drag-and-drop interface for backlog management</li>
+                        <li>Priority sorting and filtering options</li>
+                        <li>Quick task creation directly in the backlog</li>
+                        <li>Backlog analytics and capacity planning</li>
+                    </ul>
                 </div>
                 <div class="feature-card bg-white p-6 rounded-xl shadow-md">
                     <div class="text-blue-600 mb-4">
                         <i class="fas fa-running text-3xl"></i>
                     </div>
-                    <h3 class="text-xl font-semibold mb-2" data-i18n="features.sprint.title">Sprint Module</h3>
-                    <div class="text-gray-600 space-y-2">
-                        <p data-i18n="features.sprint.desc1">Ideal for teams using Agile methodologies with
-                            comprehensive sprint management capabilities.</p>
-                        <p data-i18n="features.sprint.desc2">Create, list, and delete sprints on a per-project basis
-                            with customizable durations.</p>
-                        <p data-i18n="features.sprint.desc3">Easily add and remove tasks from sprints with visual
-                            feedback and progress tracking.</p>
-                        <p data-i18n="features.sprint.desc4">Assign team members to specific sprints to clarify
-                            responsibilities and resource allocation.</p>
-                        <p data-i18n="features.sprint.desc5">Track sprint progress with burndown charts and completion
-                            metrics for data-driven insights.</p>
-                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Sprint Module</h3>
+                    <p class="text-gray-600 mb-3">Ideal for teams using Agile methodologies with sprint management.</p>
+                    <ul class="list-disc pl-5 text-gray-600 space-y-1">
+                        <li>Create, list, and delete sprints on a per-project basis</li>
+                        <li>Sprint goal setting and progress tracking</li>
+                        <li>Task and user management within sprints</li>
+                        <li>Sprint capacity planning with team member availability</li>
+                        <li>Burndown charts and velocity metrics</li>
+                        <li>Sprint retrospective and review tools</li>
+                    </ul>
                 </div>
                 <div class="feature-card bg-white p-6 rounded-xl shadow-md">
                     <div class="text-blue-600 mb-4">
                         <i class="fas fa-columns text-3xl"></i>
                     </div>
-                    <h3 class="text-xl font-semibold mb-2" data-i18n="features.kanban.title">Kanban Module</h3>
-                    <div class="text-gray-600 space-y-2">
-                        <p data-i18n="features.kanban.desc1">Visual and interactive way to manage your workflow with
-                            dynamic, customizable Kanban boards.</p>
-                        <p data-i18n="features.kanban.desc2">View all tasks across all sprints or focus on a single
-                            sprint with flexible filtering options.</p>
-                        <p data-i18n="features.kanban.desc3">Change a task's status by dragging and dropping it between
-                            columns for intuitive workflow management.</p>
-                        <p data-i18n="features.kanban.desc4">Customize board columns to match your team's specific
-                            workflow stages and processes.</p>
-                        <p data-i18n="features.kanban.desc5">Set work-in-progress limits to prevent bottlenecks and
-                            maintain a steady flow of tasks.</p>
-                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Kanban Module</h3>
+                    <p class="text-gray-600 mb-3">Visual and interactive way to manage your workflow with drag-and-drop.
+                    </p>
+                    <ul class="list-disc pl-5 text-gray-600 space-y-1">
+                        <li>Dynamic board view for all tasks across all sprints</li>
+                        <li>Drag-and-drop status updates with real-time sync</li>
+                        <li>Customizable columns to match your workflow</li>
+                        <li>Work-in-progress limits for each column</li>
+                        <li>Swimlanes for different task categories or assignees</li>
+                        <li>Card filtering and quick search functionality</li>
+                    </ul>
                 </div>
                 <div class="feature-card bg-white p-6 rounded-xl shadow-md">
                     <div class="text-blue-600 mb-4">
                         <i class="fas fa-calendar-week text-3xl"></i>
                     </div>
-                    <h3 class="text-xl font-semibold mb-2" data-i18n="features.weekly.title">Weekly Module</h3>
-                    <div class="text-gray-600 space-y-2">
-                        <p data-i18n="features.weekly.desc1">Specialized module to track time and progress on a weekly
-                            basis with comprehensive reporting.</p>
-                        <p data-i18n="features.weekly.desc2">Users can enter their hourly work details for each task and
-                            project on a weekly basis.</p>
-                        <p data-i18n="features.weekly.desc3">Create, update, and delete weekly entries with intuitive
-                            time tracking interfaces.</p>
-                        <p data-i18n="features.weekly.desc4">Detailed weekly board screen provides a visual breakdown of
-                            hourly work by task and project.</p>
-                        <p data-i18n="features.weekly.desc5">List view shows a summary of all weekly entries with
-                            filtering and sorting capabilities.</p>
-                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Weekly Module</h3>
+                    <p class="text-gray-600 mb-3">Specialized module to track time and progress on a weekly basis.</p>
+                    <ul class="list-disc pl-5 text-gray-600 space-y-1">
+                        <li>Weekly overview for hourly work entry and tracking</li>
+                        <li>Create, update, and delete weekly time entries</li>
+                        <li>Detailed weekly board with hourly breakdown</li>
+                        <li>List view showing summary of all weekly entries</li>
+                        <li>Time approval workflow for managers</li>
+                        <li>Integration with task tracking for time allocation</li>
+                    </ul>
                 </div>
                 <div class="feature-card bg-white p-6 rounded-xl shadow-md">
                     <div class="text-blue-600 mb-4">
                         <i class="fas fa-file-upload text-3xl"></i>
                     </div>
-                    <h3 class="text-xl font-semibold mb-2" data-i18n="features.file.title">File Management</h3>
-                    <div class="text-gray-600 space-y-2">
-                        <p data-i18n="features.file.desc1">Handle file uploads with MinIO object storage, compatible
-                            with Amazon S3 for scalability.</p>
-                        <p data-i18n="features.file.desc2">Attach files to tasks, projects, and comments with
-                            drag-and-drop functionality.</p>
-                        <p data-i18n="features.file.desc3">Preview common file types directly in the interface without
-                            downloading.</p>
-                        <p data-i18n="features.file.desc4">Set file permissions to control who can view, edit, and
-                            download attachments.</p>
-                        <p data-i18n="features.file.desc5">Track file versions and maintain a history of changes for
-                            important documents.</p>
-                    </div>
+                    <h3 class="text-xl font-semibold mb-2">File Management</h3>
+                    <p class="text-gray-600 mb-3">Comprehensive file handling with MinIO object storage integration.</p>
+                    <ul class="list-disc pl-5 text-gray-600 space-y-1">
+                        <li>File upload with drag-and-drop interface</li>
+                        <li>MinIO object storage compatible with Amazon S3</li>
+                        <li>File versioning and history tracking</li>
+                        <li>File sharing and access control</li>
+                        <li>Preview capabilities for common file types</li>
+                        <li>File organization with folder structure</li>
+                    </ul>
                 </div>
                 <div class="feature-card bg-white p-6 rounded-xl shadow-md">
                     <div class="text-blue-600 mb-4">
                         <i class="fas fa-shield-alt text-3xl"></i>
                     </div>
-                    <h3 class="text-xl font-semibold mb-2" data-i18n="features.security.title">Security</h3>
-                    <div class="text-gray-600 space-y-2">
-                        <p data-i18n="features.security.desc1">Robust security with JWT authentication for secure,
-                            stateless user sessions.</p>
-                        <p data-i18n="features.security.desc2">Spring Security framework protects against common
-                            vulnerabilities like CSRF, XSS, and SQL injection.</p>
-                        <p data-i18n="features.security.desc3">API-based logging captures every request with
-                            request/response bodies and headers for thorough auditing.</p>
-                        <p data-i18n="features.security.desc4">Role-based access control ensures users can only access
-                            authorized data and functions.</p>
-                        <p data-i18n="features.security.desc5">Email verification for sensitive actions like password
-                            changes and account updates.</p>
-                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Security</h3>
+                    <p class="text-gray-600 mb-3">Robust security framework to protect your data and ensure privacy.</p>
+                    <ul class="list-disc pl-5 text-gray-600 space-y-1">
+                        <li>JWT authentication for secure, stateless sessions</li>
+                        <li>Spring Security framework for authorization</li>
+                        <li>API-based logging with request/response tracking</li>
+                        <li>Role-based access control throughout the system</li>
+                        <li>Data encryption for sensitive information</li>
+                        <li>Audit trails for all critical operations</li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -518,7 +416,7 @@
     <section id="screenshots" class="py-16">
         <div class="container mx-auto px-6">
             <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-gray-800 mb-4" data-i18n="screenshots.title">App Screenshots</h2>
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">App Screenshots</h2>
                 <div class="w-20 h-1 bg-blue-600 mx-auto"></div>
             </div>
             <div class="max-w-4xl mx-auto">
@@ -527,7 +425,7 @@
                         <div class="slider-item">
                             <div class="laptop-mockup">
                                 <div
-                                    class="relative mx-auto border-gray-800 dark:border-gray-800 bg-gray-800 border-[8px] rounded-t-xl h-[172px] max-w-[301px] md:h-[294px] md:max-w-[512px]">
+                                    class="relative mx-auto border-gray-800 dark:border-gray-800 bg-gray-800 border-[8px] rounded-t-xl h-[172px] md:h-[294px]">
                                     <div
                                         class="rounded-lg overflow-hidden h-[156px] md:h-[278px] bg-white dark:bg-gray-800">
                                         <img src="https://github.com/celalaygar/main/blob/main/project/job-tracking-system-v2/job-ts-1.png?raw=true"
@@ -535,7 +433,7 @@
                                     </div>
                                 </div>
                                 <div
-                                    class="relative mx-auto bg-gray-900 dark:bg-gray-700 rounded-b-xl rounded-t-sm h-[17px] max-w-[351px] md:h-[21px] md:max-w-[597px]">
+                                    class="relative mx-auto bg-gray-900 dark:bg-gray-700 rounded-b-xl rounded-t-sm h-[17px] md:h-[21px]">
                                     <div
                                         class="absolute left-1/2 top-0 -translate-x-1/2 rounded-b-xl w-[56px] h-[5px] md:w-[96px] md:h-[8px] bg-gray-800">
                                     </div>
@@ -545,7 +443,7 @@
                         <div class="slider-item">
                             <div class="laptop-mockup">
                                 <div
-                                    class="relative mx-auto border-gray-800 dark:border-gray-800 bg-gray-800 border-[8px] rounded-t-xl h-[172px] max-w-[301px] md:h-[294px] md:max-w-[512px]">
+                                    class="relative mx-auto border-gray-800 dark:border-gray-800 bg-gray-800 border-[8px] rounded-t-xl h-[172px] md:h-[294px]">
                                     <div
                                         class="rounded-lg overflow-hidden h-[156px] md:h-[278px] bg-white dark:bg-gray-800">
                                         <img src="https://github.com/celalaygar/main/blob/main/project/job-tracking-system-v2/job-ts-2.png?raw=true"
@@ -553,7 +451,7 @@
                                     </div>
                                 </div>
                                 <div
-                                    class="relative mx-auto bg-gray-900 dark:bg-gray-700 rounded-b-xl rounded-t-sm h-[17px] max-w-[351px] md:h-[21px] md:max-w-[597px]">
+                                    class="relative mx-auto bg-gray-900 dark:bg-gray-700 rounded-b-xl rounded-t-sm h-[17px] md:h-[21px]">
                                     <div
                                         class="absolute left-1/2 top-0 -translate-x-1/2 rounded-b-xl w-[56px] h-[5px] md:w-[96px] md:h-[8px] bg-gray-800">
                                     </div>
@@ -563,7 +461,7 @@
                         <div class="slider-item">
                             <div class="laptop-mockup">
                                 <div
-                                    class="relative mx-auto border-gray-800 dark:border-gray-800 bg-gray-800 border-[8px] rounded-t-xl h-[172px] max-w-[301px] md:h-[294px] md:max-w-[512px]">
+                                    class="relative mx-auto border-gray-800 dark:border-gray-800 bg-gray-800 border-[8px] rounded-t-xl h-[172px] md:h-[294px]">
                                     <div
                                         class="rounded-lg overflow-hidden h-[156px] md:h-[278px] bg-white dark:bg-gray-800">
                                         <img src="https://github.com/celalaygar/main/blob/main/project/job-tracking-system-v2/job-ts-3.png?raw=true"
@@ -571,7 +469,7 @@
                                     </div>
                                 </div>
                                 <div
-                                    class="relative mx-auto bg-gray-900 dark:bg-gray-700 rounded-b-xl rounded-t-sm h-[17px] max-w-[351px] md:h-[21px] md:max-w-[597px]">
+                                    class="relative mx-auto bg-gray-900 dark:bg-gray-700 rounded-b-xl rounded-t-sm h-[17px] md:h-[21px]">
                                     <div
                                         class="absolute left-1/2 top-0 -translate-x-1/2 rounded-b-xl w-[56px] h-[5px] md:w-[96px] md:h-[8px] bg-gray-800">
                                     </div>
@@ -581,7 +479,7 @@
                         <div class="slider-item">
                             <div class="laptop-mockup">
                                 <div
-                                    class="relative mx-auto border-gray-800 dark:border-gray-800 bg-gray-800 border-[8px] rounded-t-xl h-[172px] max-w-[301px] md:h-[294px] md:max-w-[512px]">
+                                    class="relative mx-auto border-gray-800 dark:border-gray-800 bg-gray-800 border-[8px] rounded-t-xl h-[172px] md:h-[294px]">
                                     <div
                                         class="rounded-lg overflow-hidden h-[156px] md:h-[278px] bg-white dark:bg-gray-800">
                                         <img src="https://github.com/celalaygar/main/blob/main/project/job-tracking-system-v2/job-ts-4.png?raw=true"
@@ -589,7 +487,7 @@
                                     </div>
                                 </div>
                                 <div
-                                    class="relative mx-auto bg-gray-900 dark:bg-gray-700 rounded-b-xl rounded-t-sm h-[17px] max-w-[351px] md:h-[21px] md:max-w-[597px]">
+                                    class="relative mx-auto bg-gray-900 dark:bg-gray-700 rounded-b-xl rounded-t-sm h-[17px] md:h-[21px]">
                                     <div
                                         class="absolute left-1/2 top-0 -translate-x-1/2 rounded-b-xl w-[56px] h-[5px] md:w-[96px] md:h-[8px] bg-gray-800">
                                     </div>
@@ -599,7 +497,7 @@
                         <div class="slider-item">
                             <div class="laptop-mockup">
                                 <div
-                                    class="relative mx-auto border-gray-800 dark:border-gray-800 bg-gray-800 border-[8px] rounded-t-xl h-[172px] max-w-[301px] md:h-[294px] md:max-w-[512px]">
+                                    class="relative mx-auto border-gray-800 dark:border-gray-800 bg-gray-800 border-[8px] rounded-t-xl h-[172px] md:h-[294px]">
                                     <div
                                         class="rounded-lg overflow-hidden h-[156px] md:h-[278px] bg-white dark:bg-gray-800">
                                         <img src="https://github.com/celalaygar/main/blob/main/project/job-tracking-system-v2/job-ts-5.png?raw=true"
@@ -607,7 +505,7 @@
                                     </div>
                                 </div>
                                 <div
-                                    class="relative mx-auto bg-gray-900 dark:bg-gray-700 rounded-b-xl rounded-t-sm h-[17px] max-w-[351px] md:h-[21px] md:max-w-[597px]">
+                                    class="relative mx-auto bg-gray-900 dark:bg-gray-700 rounded-b-xl rounded-t-sm h-[17px] md:h-[21px]">
                                     <div
                                         class="absolute left-1/2 top-0 -translate-x-1/2 rounded-b-xl w-[56px] h-[5px] md:w-[96px] md:h-[8px] bg-gray-800">
                                     </div>
@@ -617,7 +515,7 @@
                         <div class="slider-item">
                             <div class="laptop-mockup">
                                 <div
-                                    class="relative mx-auto border-gray-800 dark:border-gray-800 bg-gray-800 border-[8px] rounded-t-xl h-[172px] max-w-[301px] md:h-[294px] md:max-w-[512px]">
+                                    class="relative mx-auto border-gray-800 dark:border-gray-800 bg-gray-800 border-[8px] rounded-t-xl h-[172px] md:h-[294px]">
                                     <div
                                         class="rounded-lg overflow-hidden h-[156px] md:h-[278px] bg-white dark:bg-gray-800">
                                         <img src="https://github.com/celalaygar/main/blob/main/project/job-tracking-system-v2/job-ts-6.png?raw=true"
@@ -625,7 +523,7 @@
                                     </div>
                                 </div>
                                 <div
-                                    class="relative mx-auto bg-gray-900 dark:bg-gray-700 rounded-b-xl rounded-t-sm h-[17px] max-w-[351px] md:h-[21px] md:max-w-[597px]">
+                                    class="relative mx-auto bg-gray-900 dark:bg-gray-700 rounded-b-xl rounded-t-sm h-[17px] md:h-[21px]">
                                     <div
                                         class="absolute left-1/2 top-0 -translate-x-1/2 rounded-b-xl w-[56px] h-[5px] md:w-[96px] md:h-[8px] bg-gray-800">
                                     </div>
@@ -635,7 +533,7 @@
                         <div class="slider-item">
                             <div class="laptop-mockup">
                                 <div
-                                    class="relative mx-auto border-gray-800 dark:border-gray-800 bg-gray-800 border-[8px] rounded-t-xl h-[172px] max-w-[301px] md:h-[294px] md:max-w-[512px]">
+                                    class="relative mx-auto border-gray-800 dark:border-gray-800 bg-gray-800 border-[8px] rounded-t-xl h-[172px] md:h-[294px]">
                                     <div
                                         class="rounded-lg overflow-hidden h-[156px] md:h-[278px] bg-white dark:bg-gray-800">
                                         <img src="https://github.com/celalaygar/main/blob/main/project/job-tracking-system-v2/job-ts-7.png?raw=true"
@@ -643,7 +541,7 @@
                                     </div>
                                 </div>
                                 <div
-                                    class="relative mx-auto bg-gray-900 dark:bg-gray-700 rounded-b-xl rounded-t-sm h-[17px] max-w-[351px] md:h-[21px] md:max-w-[597px]">
+                                    class="relative mx-auto bg-gray-900 dark:bg-gray-700 rounded-b-xl rounded-t-sm h-[17px] md:h-[21px]">
                                     <div
                                         class="absolute left-1/2 top-0 -translate-x-1/2 rounded-b-xl w-[56px] h-[5px] md:w-[96px] md:h-[8px] bg-gray-800">
                                     </div>
@@ -653,7 +551,7 @@
                         <div class="slider-item">
                             <div class="laptop-mockup">
                                 <div
-                                    class="relative mx-auto border-gray-800 dark:border-gray-800 bg-gray-800 border-[8px] rounded-t-xl h-[172px] max-w-[301px] md:h-[294px] md:max-w-[512px]">
+                                    class="relative mx-auto border-gray-800 dark:border-gray-800 bg-gray-800 border-[8px] rounded-t-xl h-[172px] md:h-[294px]">
                                     <div
                                         class="rounded-lg overflow-hidden h-[156px] md:h-[278px] bg-white dark:bg-gray-800">
                                         <img src="https://github.com/celalaygar/main/blob/main/project/job-tracking-system-v2/job-ts-8.png?raw=true"
@@ -661,7 +559,7 @@
                                     </div>
                                 </div>
                                 <div
-                                    class="relative mx-auto bg-gray-900 dark:bg-gray-700 rounded-b-xl rounded-t-sm h-[17px] max-w-[351px] md:h-[21px] md:max-w-[597px]">
+                                    class="relative mx-auto bg-gray-900 dark:bg-gray-700 rounded-b-xl rounded-t-sm h-[17px] md:h-[21px]">
                                     <div
                                         class="absolute left-1/2 top-0 -translate-x-1/2 rounded-b-xl w-[56px] h-[5px] md:w-[96px] md:h-[8px] bg-gray-800">
                                     </div>
@@ -671,7 +569,7 @@
                         <div class="slider-item">
                             <div class="laptop-mockup">
                                 <div
-                                    class="relative mx-auto border-gray-800 dark:border-gray-800 bg-gray-800 border-[8px] rounded-t-xl h-[172px] max-w-[301px] md:h-[294px] md:max-w-[512px]">
+                                    class="relative mx-auto border-gray-800 dark:border-gray-800 bg-gray-800 border-[8px] rounded-t-xl h-[172px] md:h-[294px]">
                                     <div
                                         class="rounded-lg overflow-hidden h-[156px] md:h-[278px] bg-white dark:bg-gray-800">
                                         <img src="https://github.com/celalaygar/main/blob/main/project/job-tracking-system-v2/job-ts-9.png?raw=true"
@@ -679,7 +577,7 @@
                                     </div>
                                 </div>
                                 <div
-                                    class="relative mx-auto bg-gray-900 dark:bg-gray-700 rounded-b-xl rounded-t-sm h-[17px] max-w-[351px] md:h-[21px] md:max-w-[597px]">
+                                    class="relative mx-auto bg-gray-900 dark:bg-gray-700 rounded-b-xl rounded-t-sm h-[17px] md:h-[21px]">
                                     <div
                                         class="absolute left-1/2 top-0 -translate-x-1/2 rounded-b-xl w-[56px] h-[5px] md:w-[96px] md:h-[8px] bg-gray-800">
                                     </div>
@@ -689,7 +587,7 @@
                         <div class="slider-item">
                             <div class="laptop-mockup">
                                 <div
-                                    class="relative mx-auto border-gray-800 dark:border-gray-800 bg-gray-800 border-[8px] rounded-t-xl h-[172px] max-w-[301px] md:h-[294px] md:max-w-[512px]">
+                                    class="relative mx-auto border-gray-800 dark:border-gray-800 bg-gray-800 border-[8px] rounded-t-xl h-[172px] md:h-[294px]">
                                     <div
                                         class="rounded-lg overflow-hidden h-[156px] md:h-[278px] bg-white dark:bg-gray-800">
                                         <img src="https://github.com/celalaygar/main/blob/main/project/job-tracking-system-v2/job-ts-10.png?raw=true"
@@ -697,7 +595,7 @@
                                     </div>
                                 </div>
                                 <div
-                                    class="relative mx-auto bg-gray-900 dark:bg-gray-700 rounded-b-xl rounded-t-sm h-[17px] max-w-[351px] md:h-[21px] md:max-w-[597px]">
+                                    class="relative mx-auto bg-gray-900 dark:bg-gray-700 rounded-b-xl rounded-t-sm h-[17px] md:h-[21px]">
                                     <div
                                         class="absolute left-1/2 top-0 -translate-x-1/2 rounded-b-xl w-[56px] h-[5px] md:w-[96px] md:h-[8px] bg-gray-800">
                                     </div>
@@ -707,7 +605,7 @@
                         <div class="slider-item">
                             <div class="laptop-mockup">
                                 <div
-                                    class="relative mx-auto border-gray-800 dark:border-gray-800 bg-gray-800 border-[8px] rounded-t-xl h-[172px] max-w-[301px] md:h-[294px] md:max-w-[512px]">
+                                    class="relative mx-auto border-gray-800 dark:border-gray-800 bg-gray-800 border-[8px] rounded-t-xl h-[172px] md:h-[294px]">
                                     <div
                                         class="rounded-lg overflow-hidden h-[156px] md:h-[278px] bg-white dark:bg-gray-800">
                                         <img src="https://github.com/celalaygar/main/blob/main/project/job-tracking-system-v2/job-ts-11.png?raw=true"
@@ -715,7 +613,7 @@
                                     </div>
                                 </div>
                                 <div
-                                    class="relative mx-auto bg-gray-900 dark:bg-gray-700 rounded-b-xl rounded-t-sm h-[17px] max-w-[351px] md:h-[21px] md:max-w-[597px]">
+                                    class="relative mx-auto bg-gray-900 dark:bg-gray-700 rounded-b-xl rounded-t-sm h-[17px] md:h-[21px]">
                                     <div
                                         class="absolute left-1/2 top-0 -translate-x-1/2 rounded-b-xl w-[56px] h-[5px] md:w-[96px] md:h-[8px] bg-gray-800">
                                     </div>
@@ -725,7 +623,7 @@
                         <div class="slider-item">
                             <div class="laptop-mockup">
                                 <div
-                                    class="relative mx-auto border-gray-800 dark:border-gray-800 bg-gray-800 border-[8px] rounded-t-xl h-[172px] max-w-[301px] md:h-[294px] md:max-w-[512px]">
+                                    class="relative mx-auto border-gray-800 dark:border-gray-800 bg-gray-800 border-[8px] rounded-t-xl h-[172px] md:h-[294px]">
                                     <div
                                         class="rounded-lg overflow-hidden h-[156px] md:h-[278px] bg-white dark:bg-gray-800">
                                         <img src="https://github.com/celalaygar/main/blob/main/project/job-tracking-system-v2/job-ts-12.png?raw=true"
@@ -733,7 +631,7 @@
                                     </div>
                                 </div>
                                 <div
-                                    class="relative mx-auto bg-gray-900 dark:bg-gray-700 rounded-b-xl rounded-t-sm h-[17px] max-w-[351px] md:h-[21px] md:max-w-[597px]">
+                                    class="relative mx-auto bg-gray-900 dark:bg-gray-700 rounded-b-xl rounded-t-sm h-[17px] md:h-[21px]">
                                     <div
                                         class="absolute left-1/2 top-0 -translate-x-1/2 rounded-b-xl w-[56px] h-[5px] md:w-[96px] md:h-[8px] bg-gray-800">
                                     </div>
@@ -743,7 +641,7 @@
                         <div class="slider-item">
                             <div class="laptop-mockup">
                                 <div
-                                    class="relative mx-auto border-gray-800 dark:border-gray-800 bg-gray-800 border-[8px] rounded-t-xl h-[172px] max-w-[301px] md:h-[294px] md:max-w-[512px]">
+                                    class="relative mx-auto border-gray-800 dark:border-gray-800 bg-gray-800 border-[8px] rounded-t-xl h-[172px] md:h-[294px]">
                                     <div
                                         class="rounded-lg overflow-hidden h-[156px] md:h-[278px] bg-white dark:bg-gray-800">
                                         <img src="https://github.com/celalaygar/main/blob/main/project/job-tracking-system-v2/job-ts-13.png?raw=true"
@@ -751,7 +649,7 @@
                                     </div>
                                 </div>
                                 <div
-                                    class="relative mx-auto bg-gray-900 dark:bg-gray-700 rounded-b-xl rounded-t-sm h-[17px] max-w-[351px] md:h-[21px] md:max-w-[597px]">
+                                    class="relative mx-auto bg-gray-900 dark:bg-gray-700 rounded-b-xl rounded-t-sm h-[17px] md:h-[21px]">
                                     <div
                                         class="absolute left-1/2 top-0 -translate-x-1/2 rounded-b-xl w-[56px] h-[5px] md:w-[96px] md:h-[8px] bg-gray-800">
                                     </div>
@@ -761,7 +659,7 @@
                         <div class="slider-item">
                             <div class="laptop-mockup">
                                 <div
-                                    class="relative mx-auto border-gray-800 dark:border-gray-800 bg-gray-800 border-[8px] rounded-t-xl h-[172px] max-w-[301px] md:h-[294px] md:max-w-[512px]">
+                                    class="relative mx-auto border-gray-800 dark:border-gray-800 bg-gray-800 border-[8px] rounded-t-xl h-[172px] md:h-[294px]">
                                     <div
                                         class="rounded-lg overflow-hidden h-[156px] md:h-[278px] bg-white dark:bg-gray-800">
                                         <img src="https://github.com/celalaygar/main/blob/main/project/job-tracking-system-v2/job-ts-14.png?raw=true"
@@ -769,7 +667,7 @@
                                     </div>
                                 </div>
                                 <div
-                                    class="relative mx-auto bg-gray-900 dark:bg-gray-700 rounded-b-xl rounded-t-sm h-[17px] max-w-[351px] md:h-[21px] md:max-w-[597px]">
+                                    class="relative mx-auto bg-gray-900 dark:bg-gray-700 rounded-b-xl rounded-t-sm h-[17px] md:h-[21px]">
                                     <div
                                         class="absolute left-1/2 top-0 -translate-x-1/2 rounded-b-xl w-[56px] h-[5px] md:w-[96px] md:h-[8px] bg-gray-800">
                                     </div>
@@ -779,7 +677,7 @@
                         <div class="slider-item">
                             <div class="laptop-mockup">
                                 <div
-                                    class="relative mx-auto border-gray-800 dark:border-gray-800 bg-gray-800 border-[8px] rounded-t-xl h-[172px] max-w-[301px] md:h-[294px] md:max-w-[512px]">
+                                    class="relative mx-auto border-gray-800 dark:border-gray-800 bg-gray-800 border-[8px] rounded-t-xl h-[172px] md:h-[294px]">
                                     <div
                                         class="rounded-lg overflow-hidden h-[156px] md:h-[278px] bg-white dark:bg-gray-800">
                                         <img src="https://github.com/celalaygar/main/blob/main/project/job-tracking-system-v2/job-ts-15.png?raw=true"
@@ -787,7 +685,7 @@
                                     </div>
                                 </div>
                                 <div
-                                    class="relative mx-auto bg-gray-900 dark:bg-gray-700 rounded-b-xl rounded-t-sm h-[17px] max-w-[351px] md:h-[21px] md:max-w-[597px]">
+                                    class="relative mx-auto bg-gray-900 dark:bg-gray-700 rounded-b-xl rounded-t-sm h-[17px] md:h-[21px]">
                                     <div
                                         class="absolute left-1/2 top-0 -translate-x-1/2 rounded-b-xl w-[56px] h-[5px] md:w-[96px] md:h-[8px] bg-gray-800">
                                     </div>
@@ -797,7 +695,7 @@
                         <div class="slider-item">
                             <div class="laptop-mockup">
                                 <div
-                                    class="relative mx-auto border-gray-800 dark:border-gray-800 bg-gray-800 border-[8px] rounded-t-xl h-[172px] max-w-[301px] md:h-[294px] md:max-w-[512px]">
+                                    class="relative mx-auto border-gray-800 dark:border-gray-800 bg-gray-800 border-[8px] rounded-t-xl h-[172px] md:h-[294px]">
                                     <div
                                         class="rounded-lg overflow-hidden h-[156px] md:h-[278px] bg-white dark:bg-gray-800">
                                         <img src="https://github.com/celalaygar/main/blob/main/project/job-tracking-system-v2/job-ts-16.png?raw=true"
@@ -805,7 +703,7 @@
                                     </div>
                                 </div>
                                 <div
-                                    class="relative mx-auto bg-gray-900 dark:bg-gray-700 rounded-b-xl rounded-t-sm h-[17px] max-w-[351px] md:h-[21px] md:max-w-[597px]">
+                                    class="relative mx-auto bg-gray-900 dark:bg-gray-700 rounded-b-xl rounded-t-sm h-[17px] md:h-[21px]">
                                     <div
                                         class="absolute left-1/2 top-0 -translate-x-1/2 rounded-b-xl w-[56px] h-[5px] md:w-[96px] md:h-[8px] bg-gray-800">
                                     </div>
@@ -815,7 +713,7 @@
                         <div class="slider-item">
                             <div class="laptop-mockup">
                                 <div
-                                    class="relative mx-auto border-gray-800 dark:border-gray-800 bg-gray-800 border-[8px] rounded-t-xl h-[172px] max-w-[301px] md:h-[294px] md:max-w-[512px]">
+                                    class="relative mx-auto border-gray-800 dark:border-gray-800 bg-gray-800 border-[8px] rounded-t-xl h-[172px] md:h-[294px]">
                                     <div
                                         class="rounded-lg overflow-hidden h-[156px] md:h-[278px] bg-white dark:bg-gray-800">
                                         <img src="https://github.com/celalaygar/main/blob/main/project/job-tracking-system-v2/job-ts-17.png?raw=true"
@@ -823,7 +721,7 @@
                                     </div>
                                 </div>
                                 <div
-                                    class="relative mx-auto bg-gray-900 dark:bg-gray-700 rounded-b-xl rounded-t-sm h-[17px] max-w-[351px] md:h-[21px] md:max-w-[597px]">
+                                    class="relative mx-auto bg-gray-900 dark:bg-gray-700 rounded-b-xl rounded-t-sm h-[17px] md:h-[21px]">
                                     <div
                                         class="absolute left-1/2 top-0 -translate-x-1/2 rounded-b-xl w-[56px] h-[5px] md:w-[96px] md:h-[8px] bg-gray-800">
                                     </div>
@@ -833,7 +731,7 @@
                         <div class="slider-item">
                             <div class="laptop-mockup">
                                 <div
-                                    class="relative mx-auto border-gray-800 dark:border-gray-800 bg-gray-800 border-[8px] rounded-t-xl h-[172px] max-w-[301px] md:h-[294px] md:max-w-[512px]">
+                                    class="relative mx-auto border-gray-800 dark:border-gray-800 bg-gray-800 border-[8px] rounded-t-xl h-[172px] md:h-[294px]">
                                     <div
                                         class="rounded-lg overflow-hidden h-[156px] md:h-[278px] bg-white dark:bg-gray-800">
                                         <img src="https://github.com/celalaygar/main/blob/main/project/job-tracking-system-v2/job-ts-18.png?raw=true"
@@ -841,7 +739,7 @@
                                     </div>
                                 </div>
                                 <div
-                                    class="relative mx-auto bg-gray-900 dark:bg-gray-700 rounded-b-xl rounded-t-sm h-[17px] max-w-[351px] md:h-[21px] md:max-w-[597px]">
+                                    class="relative mx-auto bg-gray-900 dark:bg-gray-700 rounded-b-xl rounded-t-sm h-[17px] md:h-[21px]">
                                     <div
                                         class="absolute left-1/2 top-0 -translate-x-1/2 rounded-b-xl w-[56px] h-[5px] md:w-[96px] md:h-[8px] bg-gray-800">
                                     </div>
@@ -851,7 +749,7 @@
                         <div class="slider-item">
                             <div class="laptop-mockup">
                                 <div
-                                    class="relative mx-auto border-gray-800 dark:border-gray-800 bg-gray-800 border-[8px] rounded-t-xl h-[172px] max-w-[301px] md:h-[294px] md:max-w-[512px]">
+                                    class="relative mx-auto border-gray-800 dark:border-gray-800 bg-gray-800 border-[8px] rounded-t-xl h-[172px] md:h-[294px]">
                                     <div
                                         class="rounded-lg overflow-hidden h-[156px] md:h-[278px] bg-white dark:bg-gray-800">
                                         <img src="https://github.com/celalaygar/main/blob/main/project/job-tracking-system-v2/job-ts-19.png?raw=true"
@@ -859,7 +757,7 @@
                                     </div>
                                 </div>
                                 <div
-                                    class="relative mx-auto bg-gray-900 dark:bg-gray-700 rounded-b-xl rounded-t-sm h-[17px] max-w-[351px] md:h-[21px] md:max-w-[597px]">
+                                    class="relative mx-auto bg-gray-900 dark:bg-gray-700 rounded-b-xl rounded-t-sm h-[17px] md:h-[21px]">
                                     <div
                                         class="absolute left-1/2 top-0 -translate-x-1/2 rounded-b-xl w-[56px] h-[5px] md:w-[96px] md:h-[8px] bg-gray-800">
                                     </div>
@@ -869,7 +767,7 @@
                         <div class="slider-item">
                             <div class="laptop-mockup">
                                 <div
-                                    class="relative mx-auto border-gray-800 dark:border-gray-800 bg-gray-800 border-[8px] rounded-t-xl h-[172px] max-w-[301px] md:h-[294px] md:max-w-[512px]">
+                                    class="relative mx-auto border-gray-800 dark:border-gray-800 bg-gray-800 border-[8px] rounded-t-xl h-[172px] md:h-[294px]">
                                     <div
                                         class="rounded-lg overflow-hidden h-[156px] md:h-[278px] bg-white dark:bg-gray-800">
                                         <img src="https://github.com/celalaygar/main/blob/main/project/job-tracking-system-v2/job-ts-20.png?raw=true"
@@ -877,7 +775,7 @@
                                     </div>
                                 </div>
                                 <div
-                                    class="relative mx-auto bg-gray-900 dark:bg-gray-700 rounded-b-xl rounded-t-sm h-[17px] max-w-[351px] md:h-[21px] md:max-w-[597px]">
+                                    class="relative mx-auto bg-gray-900 dark:bg-gray-700 rounded-b-xl rounded-t-sm h-[17px] md:h-[21px]">
                                     <div
                                         class="absolute left-1/2 top-0 -translate-x-1/2 rounded-b-xl w-[56px] h-[5px] md:w-[96px] md:h-[8px] bg-gray-800">
                                     </div>
@@ -887,7 +785,7 @@
                         <div class="slider-item">
                             <div class="laptop-mockup">
                                 <div
-                                    class="relative mx-auto border-gray-800 dark:border-gray-800 bg-gray-800 border-[8px] rounded-t-xl h-[172px] max-w-[301px] md:h-[294px] md:max-w-[512px]">
+                                    class="relative mx-auto border-gray-800 dark:border-gray-800 bg-gray-800 border-[8px] rounded-t-xl h-[172px] md:h-[294px]">
                                     <div
                                         class="rounded-lg overflow-hidden h-[156px] md:h-[278px] bg-white dark:bg-gray-800">
                                         <img src="https://github.com/celalaygar/main/blob/main/project/job-tracking-system-v2/job-ts-21.png?raw=true"
@@ -895,7 +793,7 @@
                                     </div>
                                 </div>
                                 <div
-                                    class="relative mx-auto bg-gray-900 dark:bg-gray-700 rounded-b-xl rounded-t-sm h-[17px] max-w-[351px] md:h-[21px] md:max-w-[597px]">
+                                    class="relative mx-auto bg-gray-900 dark:bg-gray-700 rounded-b-xl rounded-t-sm h-[17px] md:h-[21px]">
                                     <div
                                         class="absolute left-1/2 top-0 -translate-x-1/2 rounded-b-xl w-[56px] h-[5px] md:w-[96px] md:h-[8px] bg-gray-800">
                                     </div>
@@ -905,7 +803,7 @@
                         <div class="slider-item">
                             <div class="laptop-mockup">
                                 <div
-                                    class="relative mx-auto border-gray-800 dark:border-gray-800 bg-gray-800 border-[8px] rounded-t-xl h-[172px] max-w-[301px] md:h-[294px] md:max-w-[512px]">
+                                    class="relative mx-auto border-gray-800 dark:border-gray-800 bg-gray-800 border-[8px] rounded-t-xl h-[172px] md:h-[294px]">
                                     <div
                                         class="rounded-lg overflow-hidden h-[156px] md:h-[278px] bg-white dark:bg-gray-800">
                                         <img src="https://github.com/celalaygar/main/blob/main/project/job-tracking-system-v2/job-ts-22.png?raw=true"
@@ -913,7 +811,7 @@
                                     </div>
                                 </div>
                                 <div
-                                    class="relative mx-auto bg-gray-900 dark:bg-gray-700 rounded-b-xl rounded-t-sm h-[17px] max-w-[351px] md:h-[21px] md:max-w-[597px]">
+                                    class="relative mx-auto bg-gray-900 dark:bg-gray-700 rounded-b-xl rounded-t-sm h-[17px] md:h-[21px]">
                                     <div
                                         class="absolute left-1/2 top-0 -translate-x-1/2 rounded-b-xl w-[56px] h-[5px] md:w-[96px] md:h-[8px] bg-gray-800">
                                     </div>
@@ -923,7 +821,7 @@
                         <div class="slider-item">
                             <div class="laptop-mockup">
                                 <div
-                                    class="relative mx-auto border-gray-800 dark:border-gray-800 bg-gray-800 border-[8px] rounded-t-xl h-[172px] max-w-[301px] md:h-[294px] md:max-w-[512px]">
+                                    class="relative mx-auto border-gray-800 dark:border-gray-800 bg-gray-800 border-[8px] rounded-t-xl h-[172px] md:h-[294px]">
                                     <div
                                         class="rounded-lg overflow-hidden h-[156px] md:h-[278px] bg-white dark:bg-gray-800">
                                         <img src="https://github.com/celalaygar/main/blob/main/project/job-tracking-system-v2/job-ts-23.png?raw=true"
@@ -931,7 +829,7 @@
                                     </div>
                                 </div>
                                 <div
-                                    class="relative mx-auto bg-gray-900 dark:bg-gray-700 rounded-b-xl rounded-t-sm h-[17px] max-w-[351px] md:h-[21px] md:max-w-[597px]">
+                                    class="relative mx-auto bg-gray-900 dark:bg-gray-700 rounded-b-xl rounded-t-sm h-[17px] md:h-[21px]">
                                     <div
                                         class="absolute left-1/2 top-0 -translate-x-1/2 rounded-b-xl w-[56px] h-[5px] md:w-[96px] md:h-[8px] bg-gray-800">
                                     </div>
@@ -978,13 +876,12 @@
     <section id="technology" class="py-16 bg-gray-100">
         <div class="container mx-auto px-6">
             <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-gray-800 mb-4" data-i18n="technology.title">Technology Stack</h2>
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Technology Stack</h2>
                 <div class="w-20 h-1 bg-blue-600 mx-auto"></div>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
                 <div>
-                    <h3 class="text-2xl font-semibold text-gray-800 mb-6 text-center" data-i18n="technology.frontend">
-                        Frontend Technologies</h3>
+                    <h3 class="text-2xl font-semibold text-gray-800 mb-6 text-center">Frontend Technologies</h3>
                     <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
                         <div class="bg-white p-4 rounded-lg shadow-md text-center tech-icon">
                             <i class="fab fa-react text-blue-500 text-3xl mb-2"></i>
@@ -1013,8 +910,7 @@
                     </div>
                 </div>
                 <div>
-                    <h3 class="text-2xl font-semibold text-gray-800 mb-6 text-center" data-i18n="technology.backend">
-                        Backend Technologies</h3>
+                    <h3 class="text-2xl font-semibold text-gray-800 mb-6 text-center">Backend Technologies</h3>
                     <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
                         <div class="bg-white p-4 rounded-lg shadow-md text-center tech-icon">
                             <i class="fab fa-java text-red-600 text-3xl mb-2"></i>
@@ -1061,8 +957,7 @@
     <section id="repositories" class="py-16">
         <div class="container mx-auto px-6">
             <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-gray-800 mb-4" data-i18n="repositories.title">Project Repositories
-                </h2>
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Project Repositories</h2>
                 <div class="w-20 h-1 bg-blue-600 mx-auto"></div>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -1070,26 +965,25 @@
                     <div class="p-6">
                         <div class="flex items-center mb-4">
                             <i class="fab fa-github text-gray-800 text-3xl mr-3"></i>
-                            <h3 class="text-xl font-semibold" data-i18n="repositories.frontend">Frontend</h3>
+                            <h3 class="text-xl font-semibold">Frontend</h3>
                         </div>
-                        <p class="text-gray-600 mb-4" data-i18n="repositories.frontend-desc">
+                        <p class="text-gray-600 mb-4">
                             Next.js-based frontend application for the JOB TRACKING SYSTEM V2 with TypeScript and modern
                             UI components.
                         </p>
                         <div class="mb-4">
-                            <h4 class="font-medium text-gray-700 mb-2" data-i18n="repositories.frontend-tech">Key
-                                Technologies:</h4>
+                            <h4 class="font-medium text-gray-700 mb-2">Key Technologies:</h4>
                             <ul class="list-disc pl-5 text-gray-600 space-y-1">
-                                <li data-i18n="repositories.frontend-tech1">Next.js with SSR and SSG</li>
-                                <li data-i18n="repositories.frontend-tech2">TypeScript for type safety</li>
-                                <li data-i18n="repositories.frontend-tech3">Tailwind CSS for styling</li>
-                                <li data-i18n="repositories.frontend-tech4">Redux Toolkit for state management</li>
-                                <li data-i18n="repositories.frontend-tech5">Radix UI for accessible components</li>
+                                <li>Next.js with SSR and SSG</li>
+                                <li>TypeScript for type safety</li>
+                                <li>Tailwind CSS for styling</li>
+                                <li>Redux Toolkit for state management</li>
+                                <li>Radix UI for accessible components</li>
                             </ul>
                         </div>
                         <a href="https://github.com/celalaygar/JOB-TS-V2-FE" target="_blank"
                             class="inline-flex items-center text-blue-600 hover:text-blue-800 transition">
-                            <span data-i18n="repositories.view">View on GitHub</span>
+                            <span>View on GitHub</span>
                             <i class="fas fa-arrow-right ml-2"></i>
                         </a>
                     </div>
@@ -1098,26 +992,25 @@
                     <div class="p-6">
                         <div class="flex items-center mb-4">
                             <i class="fab fa-github text-gray-800 text-3xl mr-3"></i>
-                            <h3 class="text-xl font-semibold" data-i18n="repositories.backend">Backend</h3>
+                            <h3 class="text-xl font-semibold">Backend</h3>
                         </div>
-                        <p class="text-gray-600 mb-4" data-i18n="repositories.backend-desc">
+                        <p class="text-gray-600 mb-4">
                             Spring Boot-based backend service for the JOB TRACKING SYSTEM V2 with reactive programming
                             and robust security.
                         </p>
                         <div class="mb-4">
-                            <h4 class="font-medium text-gray-700 mb-2" data-i18n="repositories.backend-tech">Key
-                                Technologies:</h4>
+                            <h4 class="font-medium text-gray-700 mb-2">Key Technologies:</h4>
                             <ul class="list-disc pl-5 text-gray-600 space-y-1">
-                                <li data-i18n="repositories.backend-tech1">Java 21 with Spring Boot</li>
-                                <li data-i18n="repositories.backend-tech2">Spring Security for authentication</li>
-                                <li data-i18n="repositories.backend-tech3">Webflux for reactive programming</li>
-                                <li data-i18n="repositories.backend-tech4">MongoDB for data storage</li>
-                                <li data-i18n="repositories.backend-tech5">JWT for secure authentication</li>
+                                <li>Java 21 with Spring Boot</li>
+                                <li>Spring Security for authentication</li>
+                                <li>Webflux for reactive programming</li>
+                                <li>MongoDB for data storage</li>
+                                <li>JWT for secure authentication</li>
                             </ul>
                         </div>
                         <a href="https://github.com/celalaygar/JOB-TS-V2-BE" target="_blank"
                             class="inline-flex items-center text-blue-600 hover:text-blue-800 transition">
-                            <span data-i18n="repositories.view">View on GitHub</span>
+                            <span>View on GitHub</span>
                             <i class="fas fa-arrow-right ml-2"></i>
                         </a>
                     </div>
@@ -1129,7 +1022,7 @@
     <section class="py-16 bg-gray-100">
         <div class="container mx-auto px-6">
             <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-gray-800 mb-4" data-i18n="how.title">How It Works</h2>
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">How It Works</h2>
                 <div class="w-20 h-1 bg-blue-600 mx-auto"></div>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -1137,25 +1030,25 @@
                     <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                         <span class="text-blue-700 text-2xl font-bold">1</span>
                     </div>
-                    <h3 class="text-xl font-semibold mb-2" data-i18n="how.step1-title">User Authentication</h3>
-                    <p class="text-gray-600" data-i18n="how.step1">Secure login and registration with JWT-based
-                        authentication and email verification.</p>
+                    <h3 class="text-xl font-semibold mb-2">User Authentication</h3>
+                    <p class="text-gray-600">Secure login and registration with JWT-based authentication and email
+                        verification.</p>
                 </div>
                 <div class="text-center">
                     <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                         <span class="text-blue-700 text-2xl font-bold">2</span>
                     </div>
-                    <h3 class="text-xl font-semibold mb-2" data-i18n="how.step2-title">Project & Task Management</h3>
-                    <p class="text-gray-600" data-i18n="how.step2">Create projects, define custom statuses, and manage
-                        tasks with assignments and subtasks.</p>
+                    <h3 class="text-xl font-semibold mb-2">Project & Task Management</h3>
+                    <p class="text-gray-600">Create projects, define custom statuses, and manage tasks with assignments
+                        and subtasks.</p>
                 </div>
                 <div class="text-center">
                     <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
                         <span class="text-blue-700 text-2xl font-bold">3</span>
                     </div>
-                    <h3 class="text-xl font-semibold mb-2" data-i18n="how.step3-title">Track & Collaborate</h3>
-                    <p class="text-gray-600" data-i18n="how.step3">Use Kanban boards, sprints, and weekly tracking to
-                        monitor progress and collaborate effectively.</p>
+                    <h3 class="text-xl font-semibold mb-2">Track & Collaborate</h3>
+                    <p class="text-gray-600">Use Kanban boards, sprints, and weekly tracking to monitor progress and
+                        collaborate effectively.</p>
                 </div>
             </div>
         </div>
@@ -1164,57 +1057,56 @@
     <section class="py-16">
         <div class="container mx-auto px-6">
             <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-gray-800 mb-4" data-i18n="api.title">System Architecture</h2>
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">System Architecture</h2>
                 <div class="w-20 h-1 bg-blue-600 mx-auto"></div>
             </div>
             <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-md p-6">
                 <div class="flex flex-col md:flex-row items-center justify-between gap-8">
                     <div class="md:w-1/2">
-                        <h3 class="text-xl font-semibold mb-4 text-blue-600" data-i18n="api.frontend">Frontend</h3>
+                        <h3 class="text-xl font-semibold mb-4 text-blue-600">Frontend</h3>
                         <ul class="space-y-2 text-gray-600">
                             <li class="flex items-center">
                                 <i class="fas fa-check-circle text-green-500 mr-2"></i>
-                                <span data-i18n="api.frontend1">Next.js with TypeScript</span>
+                                Next.js with TypeScript
                             </li>
                             <li class="flex items-center">
                                 <i class="fas fa-check-circle text-green-500 mr-2"></i>
-                                <span data-i18n="api.frontend2">Tailwind CSS for styling</span>
+                                Tailwind CSS for styling
                             </li>
                             <li class="flex items-center">
                                 <i class="fas fa-check-circle text-green-500 mr-2"></i>
-                                <span data-i18n="api.frontend3">Redux Toolkit for state management</span>
+                                Redux Toolkit for state management
                             </li>
                             <li class="flex items-center">
                                 <i class="fas fa-check-circle text-green-500 mr-2"></i>
-                                <span data-i18n="api.frontend4">Radix UI for accessible components</span>
+                                Radix UI for accessible components
                             </li>
                         </ul>
                     </div>
                     <div class="md:w-1/2">
-                        <h3 class="text-xl font-semibold mb-4 text-blue-600" data-i18n="api.backend">Backend</h3>
+                        <h3 class="text-xl font-semibold mb-4 text-blue-600">Backend</h3>
                         <ul class="space-y-2 text-gray-600">
                             <li class="flex items-center">
                                 <i class="fas fa-check-circle text-green-500 mr-2"></i>
-                                <span data-i18n="api.backend1">Java 21 with Spring Boot</span>
+                                Java 21 with Spring Boot
                             </li>
                             <li class="flex items-center">
                                 <i class="fas fa-check-circle text-green-500 mr-2"></i>
-                                <span data-i18n="api.backend2">Spring Security for authentication</span>
+                                Spring Security for authentication
                             </li>
                             <li class="flex items-center">
                                 <i class="fas fa-check-circle text-green-500 mr-2"></i>
-                                <span data-i18n="api.backend3">Webflux for reactive programming</span>
+                                Webflux for reactive programming
                             </li>
                             <li class="flex items-center">
                                 <i class="fas fa-check-circle text-green-500 mr-2"></i>
-                                <span data-i18n="api.backend4">MongoDB for data storage</span>
+                                MongoDB for data storage
                             </li>
                         </ul>
                     </div>
                 </div>
                 <div class="mt-8 pt-6 border-t border-gray-200">
-                    <h3 class="text-xl font-semibold mb-4 text-blue-600" data-i18n="api.infrastructure">Infrastructure
-                    </h3>
+                    <h3 class="text-xl font-semibold mb-4 text-blue-600">Infrastructure</h3>
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                         <div class="bg-gray-50 p-4 rounded-lg text-center">
                             <i class="fas fa-box text-blue-500 text-2xl mb-2"></i>
@@ -1241,43 +1133,39 @@
     <section class="py-16 bg-gray-100">
         <div class="container mx-auto px-6">
             <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-gray-800 mb-4" data-i18n="getting.title">Getting Started</h2>
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Getting Started</h2>
                 <div class="w-20 h-1 bg-blue-600 mx-auto"></div>
             </div>
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <div class="bg-white p-6 rounded-xl shadow-md">
-                    <h3 class="text-xl font-semibold mb-4 text-blue-600" data-i18n="getting.frontend">Frontend Setup
-                    </h3>
+                    <h3 class="text-xl font-semibold mb-4 text-blue-600">Frontend Setup</h3>
                     <ol class="list-decimal pl-5 space-y-4 text-gray-600">
                         <li>
-                            <div class="font-medium mb-1" data-i18n="getting.frontend-step1">Clone the repository:</div>
+                            <div class="font-medium mb-1">Clone the repository:</div>
                             <div class="code-block text-xs sm:text-sm break-all">
                                 git clone https://github.com/celalaygar/JOB-TS-V2-FE.git
                             </div>
                         </li>
                         <li>
-                            <div class="font-medium mb-1" data-i18n="getting.frontend-step2">Navigate to the project
-                                directory:</div>
+                            <div class="font-medium mb-1">Navigate to the project directory:</div>
                             <div class="code-block text-xs sm:text-sm break-all">
                                 cd JOB-TS-V2-FE
                             </div>
                         </li>
                         <li>
-                            <div class="font-medium mb-1" data-i18n="getting.frontend-step3">Install dependencies:</div>
+                            <div class="font-medium mb-1">Install dependencies:</div>
                             <div class="code-block text-xs sm:text-sm break-all">
                                 npm install
                             </div>
                         </li>
                         <li>
-                            <div class="font-medium mb-1" data-i18n="getting.frontend-step4">Configure environment
-                                variables:</div>
+                            <div class="font-medium mb-1">Configure environment variables:</div>
                             <div class="code-block text-xs sm:text-sm break-all">
                                 cp .env.example .env.local
                             </div>
                         </li>
                         <li>
-                            <div class="font-medium mb-1" data-i18n="getting.frontend-step5">Run the development server:
-                            </div>
+                            <div class="font-medium mb-1">Run the development server:</div>
                             <div class="code-block text-xs sm:text-sm break-all">
                                 npm run dev
                             </div>
@@ -1285,37 +1173,34 @@
                     </ol>
                 </div>
                 <div class="bg-white p-6 rounded-xl shadow-md">
-                    <h3 class="text-xl font-semibold mb-4 text-blue-600" data-i18n="getting.backend">Backend Setup</h3>
+                    <h3 class="text-xl font-semibold mb-4 text-blue-600">Backend Setup</h3>
                     <ol class="list-decimal pl-5 space-y-4 text-gray-600">
                         <li>
-                            <div class="font-medium mb-1" data-i18n="getting.backend-step1">Clone the repository:</div>
+                            <div class="font-medium mb-1">Clone the repository:</div>
                             <div class="code-block text-xs sm:text-sm break-all">
                                 git clone https://github.com/celalaygar/JOB-TS-V2-BE.git
                             </div>
                         </li>
                         <li>
-                            <div class="font-medium mb-1" data-i18n="getting.backend-step2">Navigate to the project
-                                directory:</div>
+                            <div class="font-medium mb-1">Navigate to the project directory:</div>
                             <div class="code-block text-xs sm:text-sm break-all">
                                 cd JOB-TS-V2-BE
                             </div>
                         </li>
                         <li>
-                            <div class="font-medium mb-1" data-i18n="getting.backend-step3">Build the project with
-                                Gradle:</div>
+                            <div class="font-medium mb-1">Build the project with Gradle:</div>
                             <div class="code-block text-xs sm:text-sm break-all">
                                 ./gradlew build
                             </div>
                         </li>
                         <li>
-                            <div class="font-medium mb-1" data-i18n="getting.backend-step4">Configure environment
-                                variables:</div>
+                            <div class="font-medium mb-1">Configure environment variables:</div>
                             <div class="code-block text-xs sm:text-sm break-all">
                                 cp .env.example .env
                             </div>
                         </li>
                         <li>
-                            <div class="font-medium mb-1" data-i18n="getting.backend-step5">Run the application:</div>
+                            <div class="font-medium mb-1">Run the application:</div>
                             <div class="code-block text-xs sm:text-sm break-all">
                                 java -jar build/libs/job-ts-v2-be-0.0.1.jar
                             </div>
@@ -1332,10 +1217,9 @@
                 <div class="mb-6 md:mb-0">
                     <div class="flex items-center space-x-2">
                         <i class="fas fa-tasks text-blue-400 text-2xl"></i>
-                        <span class="font-bold text-xl" data-i18n="footer.title">JOB TRACKING SYSTEM V2</span>
+                        <span class="font-bold text-xl">JOB TRACKING SYSTEM V2</span>
                     </div>
-                    <p class="mt-2 text-gray-400" data-i18n="footer.subtitle">The Next Generation of Project Management
-                    </p>
+                    <p class="mt-2 text-gray-400">The Next Generation of Project Management</p>
                 </div>
                 <div class="flex space-x-6">
                     <a href="https://github.com/celalaygar" target="_blank"
@@ -1349,447 +1233,12 @@
                 </div>
             </div>
             <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
-                <p data-i18n="footer.developer">Developed by <span class="text-white">Celal Aygar</span> | Java & Full
-                    Stack Developer | AI
+                <p>Developed by <span class="text-white">Celal Aygar</span> | Java & Full Stack Developer | AI
                     Enthusiast</p>
-                <p class="mt-2" data-i18n="footer.copyright">© 2023 JOB TRACKING SYSTEM V2. All rights reserved.</p>
+                <p class="mt-2">© 2023 JOB TRACKING SYSTEM V2. All rights reserved.</p>
             </div>
         </div>
     </footer>
-
-    <!-- Translation Data -->
-    <script>
-        const translations = {
-            en: {
-                nav: {
-                    title: "JOB TRACKING SYSTEM V2",
-                    overview: "Overview",
-                    features: "Features",
-                    screenshots: "Screenshots",
-                    technology: "Technology",
-                    repositories: "Repositories"
-                },
-                hero: {
-                    title: "JOB TRACKING SYSTEM V2",
-                    subtitle: "The Next Generation of Project Management",
-                    explore: "Explore Repositories",
-                    view: "View Features"
-                },
-                overview: {
-                    title: "Project Overview",
-                    paragraph1: "In today's fast-paced world, managing projects and tracking every detail can be a complex and overwhelming task. Imagine a solution that simplifies these processes, makes them more organized, and effortlessly boosts your team's productivity.",
-                    paragraph2: "Welcome to JOB TRACKING SYSTEM V2, a comprehensive, next-generation platform designed to revolutionize how you manage your work. This system promises to move you beyond traditional methods and help you reach new levels of efficiency.",
-                    paragraph3: "With its comprehensive feature set and modern technology stack, JOB TRACKING SYSTEM V2 is not just a tool; it's a strategic partner for your team's success. It's designed to make project management more intuitive, collaborative, and efficient, allowing your team to focus on what matters most: building and delivering great work."
-                },
-                features: {
-                    title: "Core Modules and Features",
-                    user: {
-                        title: "User Management & Authentication",
-                        desc1: "Complete user management suite with registration, login, secure profile updates, and invitation system.",
-                        desc2: "Users can easily create accounts with email verification and password reset functionality.",
-                        desc3: "Profile updates require email verification through one-time codes for enhanced security.",
-                        desc4: "Administrators can invite new users via email with automatic project assignment.",
-                        desc5: "Role-based access control ensures users only see and interact with appropriate data."
-                    },
-                    project: {
-                        title: "Project Module",
-                        desc1: "Create, list, update, and delete projects with comprehensive project management capabilities.",
-                        desc2: "Add and remove individual members from projects with customizable permission levels.",
-                        desc3: "Create specific teams within projects to organize members and streamline collaboration.",
-                        desc4: "Define project-specific task statuses to perfectly match your unique workflow requirements.",
-                        desc5: "Track project progress with visual indicators and milestone tracking features."
-                    },
-                    task: {
-                        title: "Task Module",
-                        desc1: "Granular control over work items with full CRUD operations for comprehensive task management.",
-                        desc2: "Easily assign tasks to specific users within a project with due dates and priorities.",
-                        desc3: "Automated backlog management moves unassigned tasks to the project backlog automatically.",
-                        desc4: "Add, update, and delete comments on tasks to facilitate communication and collaboration.",
-                        desc5: "Create and manage subtasks to break down complex tasks into manageable components."
-                    },
-                    backlog: {
-                        title: "Backlog Module",
-                        desc1: "Dedicated space for tasks that aren't yet scheduled, providing a repository for future work.",
-                        desc2: "Automatic task handling moves tasks created without a sprint assignment directly to the backlog.",
-                        desc3: "Tasks removed from sprints are automatically returned to the project backlog for reassignment.",
-                        desc4: "Easily add, remove, and delete tasks from the backlog with intuitive drag-and-drop functionality.",
-                        desc5: "Prioritize backlog items to ensure the most important tasks are scheduled for upcoming sprints."
-                    },
-                    sprint: {
-                        title: "Sprint Module",
-                        desc1: "Ideal for teams using Agile methodologies with comprehensive sprint management capabilities.",
-                        desc2: "Create, list, and delete sprints on a per-project basis with customizable durations.",
-                        desc3: "Easily add and remove tasks from sprints with visual feedback and progress tracking.",
-                        desc4: "Assign team members to specific sprints to clarify responsibilities and resource allocation.",
-                        desc5: "Track sprint progress with burndown charts and completion metrics for data-driven insights."
-                    },
-                    kanban: {
-                        title: "Kanban Module",
-                        desc1: "Visual and interactive way to manage your workflow with dynamic, customizable Kanban boards.",
-                        desc2: "View all tasks across all sprints or focus on a single sprint with flexible filtering options.",
-                        desc3: "Change a task's status by dragging and dropping it between columns for intuitive workflow management.",
-                        desc4: "Customize board columns to match your team's specific workflow stages and processes.",
-                        desc5: "Set work-in-progress limits to prevent bottlenecks and maintain a steady flow of tasks."
-                    },
-                    weekly: {
-                        title: "Weekly Module",
-                        desc1: "Specialized module to track time and progress on a weekly basis with comprehensive reporting.",
-                        desc2: "Users can enter their hourly work details for each task and project on a weekly basis.",
-                        desc3: "Create, update, and delete weekly entries with intuitive time tracking interfaces.",
-                        desc4: "Detailed weekly board screen provides a visual breakdown of hourly work by task and project.",
-                        desc5: "List view shows a summary of all weekly entries with filtering and sorting capabilities."
-                    },
-                    file: {
-                        title: "File Management",
-                        desc1: "Handle file uploads with MinIO object storage, compatible with Amazon S3 for scalability.",
-                        desc2: "Attach files to tasks, projects, and comments with drag-and-drop functionality.",
-                        desc3: "Preview common file types directly in the interface without downloading.",
-                        desc4: "Set file permissions to control who can view, edit, and download attachments.",
-                        desc5: "Track file versions and maintain a history of changes for important documents."
-                    },
-                    security: {
-                        title: "Security",
-                        desc1: "Robust security with JWT authentication for secure, stateless user sessions.",
-                        desc2: "Spring Security framework protects against common vulnerabilities like CSRF, XSS, and SQL injection.",
-                        desc3: "API-based logging captures every request with request/response bodies and headers for thorough auditing.",
-                        desc4: "Role-based access control ensures users can only access authorized data and functions.",
-                        desc5: "Email verification for sensitive actions like password changes and account updates."
-                    }
-                },
-                screenshots: {
-                    title: "App Screenshots"
-                },
-                technology: {
-                    title: "Technology Stack",
-                    frontend: "Frontend Technologies",
-                    backend: "Backend Technologies"
-                },
-                repositories: {
-                    title: "Project Repositories",
-                    frontend: "Frontend",
-                    frontendDesc: "Next.js-based frontend application for the JOB TRACKING SYSTEM V2 with TypeScript and modern UI components.",
-                    frontendTech: "Key Technologies:",
-                    frontendTech1: "Next.js with SSR and SSG",
-                    frontendTech2: "TypeScript for type safety",
-                    frontendTech3: "Tailwind CSS for styling",
-                    frontendTech4: "Redux Toolkit for state management",
-                    frontendTech5: "Radix UI for accessible components",
-                    backend: "Backend",
-                    backendDesc: "Spring Boot-based backend service for the JOB TRACKING SYSTEM V2 with reactive programming and robust security.",
-                    backendTech: "Key Technologies:",
-                    backendTech1: "Java 21 with Spring Boot",
-                    backendTech2: "Spring Security for authentication",
-                    backendTech3: "Webflux for reactive programming",
-                    backendTech4: "MongoDB for data storage",
-                    backendTech5: "JWT for secure authentication",
-                    view: "View on GitHub"
-                },
-                how: {
-                    title: "How It Works",
-                    step1Title: "User Authentication",
-                    step1: "Secure login and registration with JWT-based authentication and email verification.",
-                    step2Title: "Project & Task Management",
-                    step2: "Create projects, define custom statuses, and manage tasks with assignments and subtasks.",
-                    step3Title: "Track & Collaborate",
-                    step3: "Use Kanban boards, sprints, and weekly tracking to monitor progress and collaborate effectively."
-                },
-                api: {
-                    title: "System Architecture",
-                    frontend: "Frontend",
-                    frontend1: "Next.js with TypeScript",
-                    frontend2: "Tailwind CSS for styling",
-                    frontend3: "Redux Toolkit for state management",
-                    frontend4: "Radix UI for accessible components",
-                    backend: "Backend",
-                    backend1: "Java 21 with Spring Boot",
-                    backend2: "Spring Security for authentication",
-                    backend3: "Webflux for reactive programming",
-                    backend4: "MongoDB for data storage",
-                    infrastructure: "Infrastructure"
-                },
-                getting: {
-                    title: "Getting Started",
-                    frontend: "Frontend Setup",
-                    frontendStep1: "Clone the repository:",
-                    frontendStep2: "Navigate to the project directory:",
-                    frontendStep3: "Install dependencies:",
-                    frontendStep4: "Configure environment variables:",
-                    frontendStep5: "Run the development server:",
-                    backend: "Backend Setup",
-                    backendStep1: "Clone the repository:",
-                    backendStep2: "Navigate to the project directory:",
-                    backendStep3: "Build the project with Gradle:",
-                    backendStep4: "Configure environment variables:",
-                    backendStep5: "Run the application:"
-                },
-                footer: {
-                    title: "JOB TRACKING SYSTEM V2",
-                    subtitle: "The Next Generation of Project Management",
-                    developer: "Developed by <span class=\"text-white\">Celal Aygar</span> | Java & Full Stack Developer | AI Enthusiast",
-                    copyright: "© 2023 JOB TRACKING SYSTEM V2. All rights reserved."
-                }
-            },
-            tr: {
-                nav: {
-                    title: "İŞ TAKİP SİSTEMİ V2",
-                    overview: "Genel Bakış",
-                    features: "Özellikler",
-                    screenshots: "Ekran Görüntüleri",
-                    technology: "Teknoloji",
-                    repositories: "Depolar"
-                },
-                hero: {
-                    title: "İŞ TAKİP SİSTEMİ V2",
-                    subtitle: "Proje Yönetiminin Yeni Nesli",
-                    explore: "Depoları Keşfet",
-                    view: "Özellikleri Görüntüle"
-                },
-                overview: {
-                    title: "Proje Genel Bakış",
-                    paragraph1: "Bugünün hızlı tempolu dünyasında, projeleri yönetmek ve her ayrıntıyı takip etmek karmaşık ve bunaltıcı bir görev olabilir. Bu süreçleri basitleştiren, daha organize hale getiren ve ekibinizin verimliliğini çaba harcamadan artıran bir çözüm hayal edin.",
-                    paragraph2: "İŞ TAKİP SİSTEMİ V2'ye hoş geldiniz, işinizi yönetme şeklinizi devrim niteliğinde değiştirmek için tasarlanmış kapsamlı, yeni nesil bir platform. Bu sistem, geleneksel yöntemlerin ötesine geçmenizi ve yeni verimlilik seviyelerine ulaşmanızı vaat ediyor.",
-                    paragraph3: "Kapsamlı özellik seti ve modern teknoloji yığını ile İŞ TAKİP SİSTEMİ V2 sadece bir araç değil; ekibinizin başarısı için stratejik bir ortaktır. Proje yönetimini daha sezgisel, işbirliğine dayalı ve verimli hale getirmek için tasarlanmıştır, böylece ekibiniz en önemli şeye odaklanabilir: harika işler inşa etmek ve teslim etmek."
-                },
-                features: {
-                    title: "Temel Modüller ve Özellikler",
-                    user: {
-                        title: "Kullanıcı Yönetimi ve Kimlik Doğrulama",
-                        desc1: "Kayıt, giriş, güvenli profil güncellemeleri ve davet sistemi ile tam kullanıcı yönetimi paketi.",
-                        desc2: "Kullanıcılar e-posta doğrulama ve parola sıfırlama işlevi ile kolayca hesap oluşturabilir.",
-                        desc3: "Profil güncellemeleri, artırılmış güvenlik için tek kullanımlık kodlarla e-posta doğrulaması gerektirir.",
-                        desc4: "Yöneticiler, otomatik proje ataması ile yeni kullanıcıları e-posta yoluyla davet edebilir.",
-                        desc5: "Rol tabanlı erişim kontrolü, kullanıcıların yalnızca uygun verileri görmesini ve etkileşime geçmesini sağlar."
-                    },
-                    project: {
-                        title: "Proje Modülü",
-                        desc1: "Kapsamlı proje yönetimi yetenekleriyle projeleri oluşturma, listeleme, güncelleme ve silme.",
-                        desc2: "Özelleştirilebilir izin seviyeleriyle projelere bireysel üyeleri ekleme ve kaldırma.",
-                        desc3: "Üyeleri düzenlemek ve işbirliğini kolaylaştırmak için projeler içinde belirli takımlar oluşturma.",
-                        desc4: "Benzersiz iş akışı gereksinimlerinize mükemmel şekilde uyması için projeye özel görev durumlarını tanımlama.",
-                        desc5: "Görsel göstergeler ve kilometre taşı takip özellikleriyle proje ilerlemesini takip etme."
-                    },
-                    task: {
-                        title: "Görev Modülü",
-                        desc1: "Kapsamlı görev yönetimi için tam CRUD işlemleriyle iş öğeleri üzerinde ayrıntılı kontrol.",
-                        desc2: "Son tarihler ve önceliklerle projedeki belirli kullanıcılara kolayca görev atama.",
-                        desc3: "Otomatik geri günlük yönetimi, atanmamış görevleri proje geri günlüğüne otomatik olarak taşır.",
-                        desc4: "İletişimi ve işbirliğini kolaylaştırmak için görevlere yorum ekleme, güncelleme ve silme.",
-                        desc5: "Karmaşık görevleri yönetilebilir bileşenlere ayırmak için alt görevler oluşturma ve yönetme."
-                    },
-                    backlog: {
-                        title: "Geri Günlük Modülü",
-                        desc1: "Henüz planlanmamış görevler için özel alan, gelecekteki işler için bir depo sağlar.",
-                        desc2: "Otomatik görev yönetimi, sprint ataması olmadan oluşturulan görevleri doğrudan geri günlüğe taşır.",
-                        desc3: "Sprintlerden kaldırılan görevler, yeniden atanmak üzere otomatik olarak proje geri günlüğüne döner.",
-                        desc4: "Sezgisel sürükle ve bırak işlevselliğiyle geri günlüğünden kolayca görev ekleme, kaldırma ve silme.",
-                        desc5: "En önemli görevlerin yaklaşan sprintler için planlandığından emin olmak için geri günlüğü öğelerini önceliklendirme."
-                    },
-                    sprint: {
-                        title: "Sprint Modülü",
-                        desc1: "Kapsamlı sprint yönetimi yetenekleriyle Agile metodolojilerini kullanan ekipler için ideal.",
-                        desc2: "Özelleştirilebilir sürelerle proje temelinde sprintler oluşturma, listeleme ve silme.",
-                        desc3: "Görsel geri bildirim ve ilerleme takibiyle sprintlere kolayca görev ekleme ve kaldırma.",
-                        desc4: "Sorumlulukları ve kaynak tahsisini netleştirmek için takım üyelerini belirli sprintlere atama.",
-                        desc5: "Veri odaklı içgörüler için burndown grafikleri ve tamamlama metrikleriyle sprint ilerlemesini takip etme."
-                    },
-                    kanban: {
-                        title: "Kanban Modülü",
-                        desc1: "Dinamik, özelleştirilebilir Kanban panolarıyla iş akışınızı yönetmek için görsel ve etkileşimli bir yol.",
-                        desc2: "Esnek filtreleme seçenekleriyle tüm sprintler genelindeki tüm görevleri görüntüleyin veya tek bir sprint'e odaklanın.",
-                        desc3: "Sezgisel iş akışı yönetimi için görevleri sütunlar arasında sürükleyip bırakarak durumunu değiştirme.",
-                        desc4: "Ekibinizin belirli iş akışı aşamalarına ve süreçlerine uyması için panosu sütunlarını özelleştirme.",
-                        desc5: "Darboğazları önlemek ve görevlerin düzenli akışını sürdürmek için işte-ilerleme limitleri ayarlama."
-                    },
-                    weekly: {
-                        title: "Haftalık Modül",
-                        desc1: "Kapsamlı raporlama ile haftalık bazda zaman ve ilerlemeyi takip etmek için uzmanlaşmış modül.",
-                        desc2: "Kullanıcılar, her görev ve proje için haftalık saatlik çalışma detaylarını girebilir.",
-                        desc3: "Sezgisel zaman takip arayüzleriyle haftalık girişleri oluşturma, güncelleme ve silme.",
-                        desc4: "Ayrıntılı haftalık pano ekranı, görev ve projeye göre saatlik çalışmanın görsel bir dökümünü sağlar.",
-                        desc5: "Liste görünümü, filtreleme ve sıralama yetenekleriyle tüm haftalık girişlerin bir özetini gösterir."
-                    },
-                    file: {
-                        title: "Dosya Yönetimi",
-                        desc1: "Ölçeklenebilirlik için Amazon S3 ile uyumlu MinIO nesne depolama ile dosya yüklemelerini yönetme.",
-                        desc2: "Sürükle ve bırak işlevselliğiyle görevlere, projelere ve yorumlara dosya ekleme.",
-                        desc3: "İndirmeden arayüzde doğrudan ortak dosya türlerini önizleme.",
-                        desc4: "Ekleri kimlerin görüntüleyebileceğini, düzenleyebileceğini ve indirebileceğini kontrol etmek için dosya izinlerini ayarlama.",
-                        desc5: "Önemli belgeler için dosya sürümlerini takip etme ve değişikliklerin geçmişini koruma."
-                    },
-                    security: {
-                        title: "Güvenlik",
-                        desc1: "Güvenli, durum bilgisiz kullanıcı oturumları için JWT kimlik doğrulamasıyla sağlam güvenlik.",
-                        desc2: "Spring Security çerçevesi, CSRF, XSS ve SQL enjeksiyonu gibi yaygın güvenlik açıklarına karşı koruma sağlar.",
-                        desc3: "API tabanlı günlükleme, kapsamlı denetim için istek/yanıt gövdeleri ve başlıklarıyla her isteği yakalar.",
-                        desc4: "Rol tabanlı erişim kontrolü, kullanıcıların yalnızca yetkili verilere ve işlevlere erişebilmesini sağlar.",
-                        desc5: "Parola değişiklikleri ve hesap güncellemeleri gibi hassas eylemler için e-posta doğrulaması."
-                    }
-                },
-                screenshots: {
-                    title: "Uygulama Ekran Görüntüleri"
-                },
-                technology: {
-                    title: "Teknoloji Yığını",
-                    frontend: "Ön Yüz Teknolojileri",
-                    backend: "Arka Yüz Teknolojileri"
-                },
-                repositories: {
-                    title: "Proje Depoları",
-                    frontend: "Ön Yüz",
-                    frontendDesc: "İŞ TAKİP SİSTEMİ V2 için TypeScript ve modern UI bileşenleriyle Next.js tabanlı ön yüz uygulaması.",
-                    frontendTech: "Ana Teknolojiler:",
-                    frontendTech1: "SSR ve SSG ile Next.js",
-                    frontendTech2: "Tip güvenliği için TypeScript",
-                    frontendTech3: "Stil için Tailwind CSS",
-                    frontendTech4: "Durum yönetimi için Redux Toolkit",
-                    frontendTech5: "Erişilebilir bileşenler için Radix UI",
-                    backend: "Arka Yüz",
-                    backendDesc: "Reaktif programlama ve sağlam güvenlik ile İŞ TAKİP SİSTEMİ V2 için Spring Boot tabanlı arka yüz hizmeti.",
-                    backendTech: "Ana Teknolojiler:",
-                    backendTech1: "Spring Boot ile Java 21",
-                    backendTech2: "Kimlik doğrulama için Spring Security",
-                    backendTech3: "Reaktif programlama için Webflux",
-                    backendTech4: "Veri depolama için MongoDB",
-                    backendTech5: "Güvenli kimlik doğrulama için JWT",
-                    view: "GitHub'da Görüntüle"
-                },
-                how: {
-                    title: "Nasıl Çalışır",
-                    step1Title: "Kullanıcı Kimlik Doğrulama",
-                    step1: "JWT tabanlı kimlik doğrulama ve e-posta doğrulama ile güvenli giriş ve kayıt.",
-                    step2Title: "Proje ve Görev Yönetimi",
-                    step2: "Projeler oluşturun, özel durumlar tanımlayın ve atamalar ve alt görevlerle görevleri yönetin.",
-                    step3Title: "Takip Edin ve İşbirliği Yapın",
-                    step3: "İlerlemeyi izlemek ve etkili bir şekilde işbirliği yapmak için Kanban panolarını, sprintleri ve haftalık takibi kullanın."
-                },
-                api: {
-                    title: "Sistem Mimarisi",
-                    frontend: "Ön Yüz",
-                    frontend1: "TypeScript ile Next.js",
-                    frontend2: "Stil için Tailwind CSS",
-                    frontend3: "Durum yönetimi için Redux Toolkit",
-                    frontend4: "Erişilebilir bileşenler için Radix UI",
-                    backend: "Arka Yüz",
-                    backend1: "Spring Boot ile Java 21",
-                    backend2: "Kimlik doğrulama için Spring Security",
-                    backend3: "Reaktif programlama için Webflux",
-                    backend4: "Veri depolama için MongoDB",
-                    infrastructure: "Altyapı"
-                },
-                getting: {
-                    title: "Başlarken",
-                    frontend: "Ön Yüz Kurulumu",
-                    frontendStep1: "Depoyu klonlayın:",
-                    frontendStep2: "Proje dizinine gidin:",
-                    frontendStep3: "Bağımlılıkları yükleyin:",
-                    frontendStep4: "Ortam değişkenlerini yapılandırın:",
-                    frontendStep5: "Geliştirme sunucusunu çalıştırın:",
-                    backend: "Arka Yüz Kurulumu",
-                    backendStep1: "Depoyu klonlayın:",
-                    backendStep2: "Proje dizinine gidin:",
-                    backendStep3: "Gradle ile projeyi oluşturun:",
-                    backendStep4: "Ortam değişkenlerini yapılandırın:",
-                    backendStep5: "Uygulamayı çalıştırın:"
-                },
-                footer: {
-                    title: "İŞ TAKİP SİSTEMİ V2",
-                    subtitle: "Proje Yönetiminin Yeni Nesli",
-                    developer: "<span class=\"text-white\">Celal Aygar</span> tarafından geliştirildi | Java & Full Stack Geliştirici | AI Meraklısı",
-                    copyright: "© 2023 İŞ TAKİP SİSTEMİ V2. Tüm hakları saklıdır."
-                }
-            }
-        };
-
-        // Language switcher functionality
-        document.addEventListener('DOMContentLoaded', function () {
-            const langToggle = document.getElementById('lang-toggle');
-            const langToggleMobile = document.getElementById('lang-toggle-mobile');
-            const langDropdown = document.getElementById('lang-dropdown');
-            const langDropdownMobile = document.getElementById('lang-dropdown-mobile');
-            const currentLang = document.getElementById('current-lang');
-            const currentLangMobile = document.getElementById('current-lang-mobile');
-
-            // Set default language
-            let currentLanguage = 'en';
-
-            // Toggle dropdown
-            langToggle.addEventListener('click', function (e) {
-                e.stopPropagation();
-                langDropdown.classList.toggle('active');
-            });
-
-            langToggleMobile.addEventListener('click', function (e) {
-                e.stopPropagation();
-                langDropdownMobile.classList.toggle('active');
-            });
-
-            // Close dropdown when clicking outside
-            document.addEventListener('click', function () {
-                langDropdown.classList.remove('active');
-                langDropdownMobile.classList.remove('active');
-            });
-
-            // Handle language selection
-            document.querySelectorAll('#lang-dropdown a, #lang-dropdown-mobile a').forEach(link => {
-                link.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    const selectedLang = this.getAttribute('data-lang');
-
-                    // Update active language in dropdowns
-                    document.querySelectorAll('#lang-dropdown a, #lang-dropdown-mobile a').forEach(a => {
-                        a.classList.remove('active');
-                    });
-
-                    document.querySelectorAll(`#lang-dropdown a[data-lang="${selectedLang}"], #lang-dropdown-mobile a[data-lang="${selectedLang}"]`).forEach(a => {
-                        a.classList.add('active');
-                    });
-
-                    // Update current language text
-                    currentLang.textContent = selectedLang.toUpperCase();
-                    currentLangMobile.textContent = selectedLang.toUpperCase();
-
-                    // Update page content
-                    updatePageContent(selectedLang);
-
-                    // Close dropdowns
-                    langDropdown.classList.remove('active');
-                    langDropdownMobile.classList.remove('active');
-
-                    // Update current language variable
-                    currentLanguage = selectedLang;
-                });
-            });
-
-            // Function to update page content based on selected language
-            function updatePageContent(lang) {
-                const translationData = translations[lang];
-
-                // Update all elements with data-i18n attribute
-                document.querySelectorAll('[data-i18n]').forEach(element => {
-                    const keys = element.getAttribute('data-i18n').split('.');
-                    let value = translationData;
-
-                    for (const key of keys) {
-                        if (value[key] !== undefined) {
-                            value = value[key];
-                        } else {
-                            value = null;
-                            break;
-                        }
-                    }
-
-                    if (value !== null) {
-                        if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
-                            element.placeholder = value;
-                        } else {
-                            element.innerHTML = value;
-                        }
-                    }
-                });
-            }
-        });
-    </script>
-
     <script>
         // Mobile menu toggle
         const mobileMenuButton = document.getElementById('mobile-menu-button');
