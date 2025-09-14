@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,34 +12,27 @@
             max-width: 512px;
             margin: 0 auto;
         }
-
         .laptop-screen {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
-
         .gradient-bg {
             background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
         }
-
         .feature-card {
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-
         .feature-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
-
         .tech-icon {
             transition: transform 0.3s ease;
         }
-
         .tech-icon:hover {
             transform: scale(1.1);
         }
-
         .code-block {
             background-color: #0f172a;
             border-radius: 0.5rem;
@@ -49,40 +41,32 @@
             overflow-x: auto;
             padding: 1rem;
         }
-
         .code-comment {
             color: #64748b;
         }
-
         .code-keyword {
             color: #38bdf8;
         }
-
         .code-string {
             color: #86efac;
         }
-
         .code-property {
             color: #fda4af;
         }
-
         .slider-container {
             position: relative;
             overflow: hidden;
         }
-
         .slider-wrapper {
             display: flex;
             transition: transform 0.3s ease-in-out;
         }
-
         .slider-item {
             min-width: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
         }
-
         .slider-btn {
             position: absolute;
             top: 50%;
@@ -99,19 +83,15 @@
             z-index: 10;
             transition: background-color 0.3s ease;
         }
-
         .slider-btn:hover {
             background: white;
         }
-
         .slider-btn.prev {
             left: 10px;
         }
-
         .slider-btn.next {
             right: 10px;
         }
-
         .indicators {
             display: flex;
             justify-content: center;
@@ -119,7 +99,6 @@
             margin-top: 20px;
             flex-wrap: wrap;
         }
-
         .indicator {
             width: 12px;
             height: 12px;
@@ -128,42 +107,90 @@
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
-
         .indicator.active {
             background: #3b82f6;
         }
-
         .floating-element {
             animation: float 6s ease-in-out infinite;
         }
-
         @keyframes float {
             0% {
                 transform: translateY(0px);
             }
-
             50% {
                 transform: translateY(-20px);
             }
-
             100% {
                 transform: translateY(0px);
             }
         }
-
         @media (max-width: 640px) {
             .laptop-mockup {
                 max-width: 301px;
             }
-
             .code-block {
                 font-size: 0.75rem;
                 padding: 0.5rem;
             }
         }
+        .auth-flow {
+            position: relative;
+            overflow: hidden;
+        }
+        .auth-flow::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(59, 130, 246, 0.1) 0%, rgba(99, 102, 241, 0.1) 100%);
+            z-index: -1;
+        }
+        .auth-step {
+            position: relative;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            margin-bottom: 1.5rem;
+        }
+        .auth-step::after {
+            content: '';
+            position: absolute;
+            bottom: -1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 1.5rem;
+            background: #d1d5db;
+        }
+        .auth-step:last-child::after {
+            display: none;
+        }
+        .auth-step-number {
+            position: absolute;
+            top: -0.75rem;
+            left: -0.75rem;
+            width: 2rem;
+            height: 2rem;
+            background: #3b82f6;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        .session-card {
+            transition: all 0.3s ease;
+        }
+        .session-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
     </style>
 </head>
-
 <body class="bg-gray-50">
     <!-- Navigation -->
     <nav class="bg-white shadow-md sticky top-0 z-50">
@@ -176,6 +203,7 @@
                 <div class="hidden md:flex space-x-6">
                     <a href="#overview" class="text-gray-600 hover:text-blue-600 transition">Overview</a>
                     <a href="#features" class="text-gray-600 hover:text-blue-600 transition">Features</a>
+                    <a href="#auth-flow" class="text-gray-600 hover:text-blue-600 transition">Authentication Flow</a>
                     <a href="#screenshots" class="text-gray-600 hover:text-blue-600 transition">Screenshots</a>
                     <a href="#technology" class="text-gray-600 hover:text-blue-600 transition">Technology</a>
                     <a href="#repositories" class="text-gray-600 hover:text-blue-600 transition">Repositories</a>
@@ -190,6 +218,7 @@
             <div class="px-6 py-3 space-y-2">
                 <a href="#overview" class="block text-gray-600 hover:text-blue-600 transition py-1">Overview</a>
                 <a href="#features" class="block text-gray-600 hover:text-blue-600 transition py-1">Features</a>
+                <a href="#auth-flow" class="block text-gray-600 hover:text-blue-600 transition py-1">Authentication Flow</a>
                 <a href="#screenshots" class="block text-gray-600 hover:text-blue-600 transition py-1">Screenshots</a>
                 <a href="#technology" class="block text-gray-600 hover:text-blue-600 transition py-1">Technology</a>
                 <a href="#repositories" class="block text-gray-600 hover:text-blue-600 transition py-1">Repositories</a>
@@ -200,15 +229,15 @@
     <section class="gradient-bg text-white py-20">
         <div class="container mx-auto px-6 text-center">
             <h1 class="text-4xl md:text-5xl font-bold mb-4">JOB TRACKING SYSTEM V2</h1>
-            <p class="text-xl mb-8 max-w-2xl mx-auto">The Next Generation of Project Management</p>
+            <p class="text-xl mb-8 max-w-2xl mx-auto">The Next Generation of Project Management with NextAuth Integration</p>
             <div class="flex justify-center space-x-4">
                 <a href="#repositories"
                     class="bg-white text-blue-700 font-semibold py-2 px-6 rounded-lg shadow-md hover:bg-gray-100 transition">
                     Explore Repositories
                 </a>
-                <a href="#features"
+                <a href="#auth-flow"
                     class="bg-transparent border-2 border-white text-white font-semibold py-2 px-6 rounded-lg hover:bg-white hover:text-blue-700 transition">
-                    View Features
+                    View Authentication Flow
                 </a>
             </div>
             <div class="mt-12 floating-element">
@@ -246,7 +275,8 @@
                     <div class="laptop-mockup">
                         <div
                             class="relative mx-auto border-gray-800 dark:border-gray-800 bg-gray-800 border-[8px] rounded-t-xl h-[172px] md:h-[294px]">
-                            <div class="rounded-lg overflow-hidden h-[156px] md:h-[278px] bg-white dark:bg-gray-800">
+                            <div
+                                class="rounded-lg overflow-hidden h-[156px] md:h-[278px] bg-white dark:bg-gray-800">
                                 <img src="https://raw.githubusercontent.com/celalaygar/main/refs/heads/main/project/job-tracking-system-v2/job-ts-9.png"
                                     alt="JOB TRACKING SYSTEM V2 Screenshot" class="laptop-screen">
                             </div>
@@ -262,8 +292,173 @@
             </div>
         </div>
     </section>
+
+    <!-- Authentication Flow Section -->
+    <section id="auth-flow" class="py-16 bg-gray-100">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">NextAuth Integration & Authentication Flow</h2>
+                <div class="w-20 h-1 bg-blue-600 mx-auto"></div>
+            </div>
+            
+            <div class="max-w-4xl mx-auto">
+                <div class="bg-white rounded-xl shadow-md p-6 mb-8">
+                    <h3 class="text-xl font-semibold mb-4 text-blue-600">Authentication Architecture Overview</h3>
+                    <p class="text-gray-600 mb-4">
+                        Our application leverages NextAuth.js for authentication management, integrated with a Spring Boot backend that handles user credentials and issues JWT tokens. This hybrid approach combines the convenience of NextAuth with the security of a robust backend authentication system.
+                    </p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div class="bg-blue-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-blue-700 mb-2">Frontend (Next.js with NextAuth)</h4>
+                            <ul class="list-disc pl-5 text-gray-600 space-y-1">
+                                <li>NextAuth.js for session management</li>
+                                <li>JWT token handling and validation</li>
+                                <li>Secure session storage</li>
+                                <li>Protected routes and API calls</li>
+                            </ul>
+                        </div>
+                        <div class="bg-green-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-green-700 mb-2">Backend (Spring Boot)</h4>
+                            <ul class="list-disc pl-5 text-gray-600 space-y-1">
+                                <li>User credential verification</li>
+                                <li>JWT token generation and validation</li>
+                                <li>User data retrieval and formatting</li>
+                                <li>Secure API endpoints</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="auth-flow bg-white rounded-xl shadow-md p-6 mb-8">
+                    <h3 class="text-xl font-semibold mb-6 text-center text-blue-600">Authentication Process Flow</h3>
+                    
+                    <div class="relative">
+                        <div class="auth-step">
+                            <div class="auth-step-number">1</div>
+                            <h4 class="font-semibold text-lg mb-2">User Login</h4>
+                            <p class="text-gray-600">User enters credentials in the Next.js login form. The form data is sent to the NextAuth credentials provider.</p>
+                            <div class="mt-3 p-3 bg-gray-100 rounded text-sm">
+                                <code className="text-gray-800">
+                                    // NextAuth credentials provider<br>
+                                    async authorize(credentials) {<br>
+                                    &nbsp;&nbsp;// Send credentials to Spring Boot backend<br>
+                                    &nbsp;&nbsp;const response = await axios.post('/api/auth/login', credentials);<br>
+                                    &nbsp;&nbsp;return response.data.user;<br>
+                                    }
+                                </code>
+                            </div>
+                        </div>
+                        
+                        <div class="auth-step">
+                            <div class="auth-step-number">2</div>
+                            <h4 class="font-semibold text-lg mb-2">Backend Verification</h4>
+                            <p class="text-gray-600">Spring Boot backend receives the credentials, verifies them against the database, and generates a JWT token if valid.</p>
+                            <div class="mt-3 p-3 bg-gray-100 rounded text-sm">
+                                <code className="text-gray-800">
+                                    // Spring Boot authentication endpoint<br>
+                                    @PostMapping("/api/auth/login")<br>
+                                    public ResponseEntity&lt;?&gt; authenticateUser(@RequestBody LoginRequest loginRequest) {<br>
+                                    &nbsp;&nbsp;// Verify credentials<br>
+                                    &nbsp;&nbsp;// Generate JWT token<br>
+                                    &nbsp;&nbsp;return ResponseEntity.ok(new JwtResponse(token, userDetails));<br>
+                                    }
+                                </code>
+                            </div>
+                        </div>
+                        
+                        <div class="auth-step">
+                            <div class="auth-step-number">3</div>
+                            <h4 class="font-semibold text-lg mb-2">Session Creation</h4>
+                            <p class="text-gray-600">NextAuth receives the user data and JWT token from the backend, creates a session, and stores the JWT token securely.</p>
+                            <div class="mt-3 p-3 bg-gray-100 rounded text-sm">
+                                <code className="text-gray-800">
+                                    // NextAuth session callback<br>
+                                    async session({ session, token }) {<br>
+                                    &nbsp;&nbsp;session.accessToken = token.accessToken;<br>
+                                    &nbsp;&nbsp;session.user = token.user;<br>
+                                    &nbsp;&nbsp;return session;<br>
+                                    }
+                                </code>
+                            </div>
+                        </div>
+                        
+                        <div class="auth-step">
+                            <div class="auth-step-number">4</div>
+                            <h4 class="font-semibold text-lg mb-2">Accessing User Data</h4>
+                            <p class="text-gray-600">Once authenticated, user data is accessible throughout the Next.js application via the NextAuth session and useSession hook.</p>
+                            <div class="mt-3 p-3 bg-gray-100 rounded text-sm">
+                                <code className="text-gray-800">
+                                    // Accessing user data in components<br>
+                                    const { data: session } = useSession();<br>
+                                    <br>
+                                    if (session) {<br>
+                                    &nbsp;&nbsp;console.log('User:', session.user);<br>
+                                    &nbsp;&nbsp;console.log('Access Token:', session.accessToken);<br>
+                                    }
+                                </code>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="session-card bg-white rounded-xl shadow-md p-6">
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-shield-alt text-blue-600 text-2xl mr-3"></i>
+                            <h3 class="text-xl font-semibold">Security Features</h3>
+                        </div>
+                        <ul class="space-y-2 text-gray-600">
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>JWT-based stateless authentication</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>Secure session storage with HTTP-only cookies</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>CSRF protection enabled</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>Automatic token refresh</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="session-card bg-white rounded-xl shadow-md p-6">
+                        <div class="flex items-center mb-4">
+                            <i class="fas fa-code text-blue-600 text-2xl mr-3"></i>
+                            <h3 class="text-xl font-semibold">Implementation Details</h3>
+                        </div>
+                        <ul class="space-y-2 text-gray-600">
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>Custom NextAuth credentials provider</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>JWT token passed to Spring Boot API calls</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>Axios interceptors for automatic token attachment</span>
+                            </li>
+                            <li class="flex items-start">
+                                <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                <span>Protected routes with middleware</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Features Section -->
-    <section id="features" class="py-16 bg-gray-100">
+    <section id="features" class="py-16">
         <div class="container mx-auto px-6">
             <div class="text-center mb-12">
                 <h2 class="text-3xl font-bold text-gray-800 mb-4">Core Modules and Features</h2>
@@ -275,13 +470,13 @@
                         <i class="fas fa-users text-3xl"></i>
                     </div>
                     <h3 class="text-xl font-semibold mb-2">User Management & Authentication</h3>
-                    <p class="text-gray-600 mb-3">Comprehensive user management suite with robust security features.</p>
+                    <p class="text-gray-600 mb-3">Comprehensive user management suite with NextAuth integration and robust security features.</p>
                     <ul class="list-disc pl-5 text-gray-600 space-y-1">
-                        <li>Secure registration and login processes with encrypted credentials</li>
+                        <li>NextAuth.js for seamless authentication</li>
+                        <li>JWT-based stateless authentication with Spring Boot</li>
                         <li>Profile updates with email verification through one-time codes</li>
                         <li>Team invitation system via email with direct project assignment</li>
                         <li>Role-based access control for different user permissions</li>
-                        <li>JWT-based stateless authentication for enhanced security</li>
                         <li>Session management with automatic timeout and refresh tokens</li>
                     </ul>
                 </div>
@@ -399,11 +594,11 @@
                         <i class="fas fa-shield-alt text-3xl"></i>
                     </div>
                     <h3 class="text-xl font-semibold mb-2">Security</h3>
-                    <p class="text-gray-600 mb-3">Robust security framework to protect your data and ensure privacy.</p>
+                    <p class="text-gray-600 mb-3">Robust security framework with NextAuth and Spring Security integration.</p>
                     <ul class="list-disc pl-5 text-gray-600 space-y-1">
                         <li>JWT authentication for secure, stateless sessions</li>
                         <li>Spring Security framework for authorization</li>
-                        <li>API-based logging with request/response tracking</li>
+                        <li>NextAuth.js for session management</li>
                         <li>Role-based access control throughout the system</li>
                         <li>Data encryption for sensitive information</li>
                         <li>Audit trails for all critical operations</li>
@@ -907,6 +1102,10 @@
                             <i class="fas fa-network-wired text-green-500 text-3xl mb-2"></i>
                             <p class="font-medium">Axios</p>
                         </div>
+                        <div class="bg-white p-4 rounded-lg shadow-md text-center tech-icon">
+                            <i class="fas fa-shield-alt text-blue-600 text-3xl mb-2"></i>
+                            <p class="font-medium">NextAuth.js</p>
+                        </div>
                     </div>
                 </div>
                 <div>
@@ -968,8 +1167,7 @@
                             <h3 class="text-xl font-semibold">Frontend</h3>
                         </div>
                         <p class="text-gray-600 mb-4">
-                            Next.js-based frontend application for the JOB TRACKING SYSTEM V2 with TypeScript and modern
-                            UI components.
+                            Next.js-based frontend application for the JOB TRACKING SYSTEM V2 with TypeScript, NextAuth integration, and modern UI components.
                         </p>
                         <div class="mb-4">
                             <h4 class="font-medium text-gray-700 mb-2">Key Technologies:</h4>
@@ -979,6 +1177,7 @@
                                 <li>Tailwind CSS for styling</li>
                                 <li>Redux Toolkit for state management</li>
                                 <li>Radix UI for accessible components</li>
+                                <li>NextAuth.js for authentication</li>
                             </ul>
                         </div>
                         <a href="https://github.com/celalaygar/JOB-TS-V2-FE" target="_blank"
@@ -995,8 +1194,7 @@
                             <h3 class="text-xl font-semibold">Backend</h3>
                         </div>
                         <p class="text-gray-600 mb-4">
-                            Spring Boot-based backend service for the JOB TRACKING SYSTEM V2 with reactive programming
-                            and robust security.
+                            Spring Boot-based backend service for the JOB TRACKING SYSTEM V2 with reactive programming, JWT authentication, and robust security.
                         </p>
                         <div class="mb-4">
                             <h4 class="font-medium text-gray-700 mb-2">Key Technologies:</h4>
@@ -1006,6 +1204,7 @@
                                 <li>Webflux for reactive programming</li>
                                 <li>MongoDB for data storage</li>
                                 <li>JWT for secure authentication</li>
+                                <li>Integration with NextAuth.js</li>
                             </ul>
                         </div>
                         <a href="https://github.com/celalaygar/JOB-TS-V2-BE" target="_blank"
@@ -1031,8 +1230,7 @@
                         <span class="text-blue-700 text-2xl font-bold">1</span>
                     </div>
                     <h3 class="text-xl font-semibold mb-2">User Authentication</h3>
-                    <p class="text-gray-600">Secure login and registration with JWT-based authentication and email
-                        verification.</p>
+                    <p class="text-gray-600">Secure login and registration with NextAuth.js and Spring Boot JWT-based authentication.</p>
                 </div>
                 <div class="text-center">
                     <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -1081,6 +1279,10 @@
                                 <i class="fas fa-check-circle text-green-500 mr-2"></i>
                                 Radix UI for accessible components
                             </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                                NextAuth.js for authentication
+                            </li>
                         </ul>
                     </div>
                     <div class="md:w-1/2">
@@ -1101,6 +1303,10 @@
                             <li class="flex items-center">
                                 <i class="fas fa-check-circle text-green-500 mr-2"></i>
                                 MongoDB for data storage
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                                JWT token generation and validation
                             </li>
                         </ul>
                     </div>
@@ -1235,7 +1441,7 @@
             <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
                 <p>Developed by <span class="text-white">Celal Aygar</span> | Java & Full Stack Developer | AI
                     Enthusiast</p>
-                <p class="mt-2">© 2023 JOB TRACKING SYSTEM V2. All rights reserved.</p>
+                <p class="mt-2">© 2025 JOB TRACKING SYSTEM V2. All rights reserved.</p>
             </div>
         </div>
     </footer>
@@ -1328,5 +1534,4 @@
         }
     </script>
 </body>
-
 </html>
