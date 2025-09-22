@@ -180,6 +180,11 @@
         data-category="project">
         <i class="fas fa-project-diagram mr-2"></i><span id="projectCategory">Projeler</span>
       </button>
+      <button
+        class="category-filter px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+        data-category="general">
+        <i class="fas fa-folder mr-2"></i><span id="generalCategory">Genel</span>
+      </button>
     </div>
   </section>
   <!-- Games Grid -->
@@ -199,7 +204,7 @@
       <h2 class="text-3xl font-bold mb-12 text-center text-gray-800 dark:text-white">
         <span id="featuredProjectsTitle" class="gradient-text">Öne Çıkan Projelerim</span>
       </h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         <!-- Profile Track Project -->
         <div class="bg-white dark:bg-gray-700 rounded-xl shadow-lg overflow-hidden card-hover">
           <div class="p-6">
@@ -253,6 +258,36 @@
             <a href="https://celalaygar.github.io/main/project/domain-track/" target="_blank"
               class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-medium rounded-lg hover:opacity-90 transition-opacity">
               <span id="viewDomainTrack">Projeyi İncele</span>
+              <i class="fas fa-arrow-right ml-2"></i>
+            </a>
+          </div>
+        </div>
+        
+        <!-- Job Tracking System V2 Project -->
+        <div class="bg-white dark:bg-gray-700 rounded-xl shadow-lg overflow-hidden card-hover">
+          <div class="p-6">
+            <div class="flex items-center mb-4">
+              <div class="w-12 h-12 rounded-lg bg-gradient-to-r from-green-500 to-teal-600 flex items-center justify-center mr-4">
+                <i class="fas fa-briefcase text-white text-xl"></i>
+              </div>
+              <div>
+                <h3 class="text-xl font-bold text-gray-800 dark:text-white">Job Tracking System V2</h3>
+                <p class="text-gray-600 dark:text-gray-300 text-sm">İş Takip Sistemi</p>
+              </div>
+            </div>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">
+              İş başvuru süreçlerini yönetmek ve fırsatları takip etmek için tasarlanmış gelişmiş platform. 
+              Kapsamlı bir iş arama, başvuru ve mülakat takip çözümü sunar.
+            </p>
+            <div class="flex flex-wrap gap-2 mb-4">
+              <span class="px-2 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-xs">Java 21</span>
+              <span class="px-2 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-xs">Spring Boot</span>
+              <span class="px-2 py-1 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-xs">Next.js</span>
+              <span class="px-2 py-1 bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 rounded-full text-xs">MongoDB</span>
+            </div>
+            <a href="https://celalaygar.github.io/main/project/job-tracking-system-v2/" target="_blank"
+              class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-green-500 to-teal-600 text-white font-medium rounded-lg hover:opacity-90 transition-opacity">
+              <span id="viewJobTracking">Projeyi İncele</span>
               <i class="fas fa-arrow-right ml-2"></i>
             </a>
           </div>
@@ -397,6 +432,8 @@
       { en: "Portfolio", tr: "Portföy", url: "https://celalaygar.github.io/", color: "from-indigo-500 to-purple-500", category: "portfolio" },
       { en: "Profile Track", tr: "Profile Track", url: "https://celalaygar.github.io/main/project/profile-track/", color: "from-purple-500 to-indigo-600", category: "project" },
       { en: "Domain Track", tr: "Domain Track", url: "https://celalaygar.github.io/main/project/domain-track/", color: "from-cyan-500 to-blue-600", category: "project" },
+      { en: "Job Tracking System V2", tr: "İş Takip Sistemi V2", url: "https://celalaygar.github.io/main/project/job-tracking-system-v2/", color: "from-green-500 to-teal-600", category: "project" },
+      { en: "Interview Questions", tr: "Mülakat Soruları", url: "https://celalaygar.github.io/main/interview_q/", color: "from-yellow-500 to-orange-600", category: "general" },
       { en: "Snake Game", tr: "Yılan Oyunu", url: "https://celalaygar.github.io/main/game/snake-game/", color: "from-green-400 to-blue-600", category: "game" },
       { en: "Flappy Bird", tr: "Flappy Bird", url: "https://celalaygar.github.io/main/game/flappy-bird-game/", color: "from-yellow-400 to-red-500", category: "game" },
       { en: "Tetris", tr: "Tetris", url: "https://celalaygar.github.io/main/game/tetris-game/", color: "from-pink-500 to-orange-400", category: "game" },
@@ -431,9 +468,11 @@
     const gameCategory = document.getElementById("gameCategory");
     const portfolioCategory = document.getElementById("portfolioCategory");
     const projectCategory = document.getElementById("projectCategory");
+    const generalCategory = document.getElementById("generalCategory");
     const featuredProjectsTitle = document.getElementById("featuredProjectsTitle");
     const viewProfileTrack = document.getElementById("viewProfileTrack");
     const viewDomainTrack = document.getElementById("viewDomainTrack");
+    const viewJobTracking = document.getElementById("viewJobTracking");
     const themeToggle = document.getElementById("themeToggle");
     const searchToggle = document.getElementById("searchToggle");
     const searchBar = document.getElementById("searchBar");
@@ -459,9 +498,11 @@ Also I am constantly working to make life easier and trying to find solutions to
         gameCategory: "Games",
         portfolioCategory: "Portfolio",
         projectCategory: "Projects",
+        generalCategory: "General",
         featuredProjectsTitle: "My Featured Projects",
         viewProfileTrack: "View Project",
         viewDomainTrack: "View Project",
+        viewJobTracking: "View Project",
         searchPlaceholder: "Search games..."
       },
       tr: {
@@ -480,9 +521,11 @@ Bunun yanında hayatı kolaylaştırmak için sürekli çalışıyor ve insanlar
         gameCategory: "Oyunlar",
         portfolioCategory: "Portföy",
         projectCategory: "Projeler",
+        generalCategory: "Genel",
         featuredProjectsTitle: "Öne Çıkan Projelerim",
         viewProfileTrack: "Projeyi İncele",
         viewDomainTrack: "Projeyi İncele",
+        viewJobTracking: "Projeyi İncele",
         searchPlaceholder: "Oyun ara..."
       }
     };
@@ -559,6 +602,8 @@ Bunun yanında hayatı kolaylaştırmak için sürekli çalışıyor ve insanlar
           icon = "fa-briefcase";
         } else if (game.category === "project") {
           icon = "fa-project-diagram";
+        } else if (game.category === "general") {
+          icon = "fa-folder";
         }
         
         card.innerHTML = `
@@ -587,9 +632,11 @@ Bunun yanında hayatı kolaylaştırmak için sürekli çalışıyor ve insanlar
       gameCategory.textContent = translations[lang].gameCategory;
       portfolioCategory.textContent = translations[lang].portfolioCategory;
       projectCategory.textContent = translations[lang].projectCategory;
+      generalCategory.textContent = translations[lang].generalCategory;
       featuredProjectsTitle.textContent = translations[lang].featuredProjectsTitle;
       viewProfileTrack.textContent = translations[lang].viewProfileTrack;
       viewDomainTrack.textContent = translations[lang].viewDomainTrack;
+      viewJobTracking.textContent = translations[lang].viewJobTracking;
       searchInput.placeholder = translations[lang].searchPlaceholder;
       filterGames();
     }
