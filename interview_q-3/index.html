@@ -1,0 +1,1945 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Senior Seviye Spring & Mikroservis Mülakat Soruları</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .code-block {
+            border-radius: 0.5rem;
+            padding: 1rem;
+            overflow-x: auto;
+            font-family: monospace;
+            font-size: 0.875rem;
+        }
+        .code-block.bash {
+            background-color: #1e293b;
+            color: #e2e8f0;
+        }
+        .code-block.json {
+            background-color: #1e3a5f;
+            color: #e2e8f0;
+        }
+        .code-block.yaml {
+            background-color: #1e3a1e;
+            color: #e2e8f0;
+        }
+        .code-block.java {
+            background-color: #3a1e3a;
+            color: #e2e8f0;
+        }
+        .code-block.dockerfile {
+            background-color: #3a1e1e;
+            color: #e2e8f0;
+        }
+        .category-card {
+            transition: transform 0.3s ease;
+        }
+        .category-card:hover {
+            transform: translateY(-5px);
+        }
+        .question-card {
+            transition: all 0.3s ease;
+        }
+        .question-card:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <header class="text-center mb-12">
+            <h1 class="text-4xl font-bold text-gray-800 mb-2">Senior Seviye Spring & Mikroservis Mülakat Soruları</h1>
+            <p class="text-gray-600">150 adet ileri seviye soru ve cevapla hazırlanmış kapsamlı arşiv</p>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+            <div class="category-card bg-white rounded-lg shadow-md p-6">
+                <div class="flex items-center mb-4">
+                    <div class="bg-blue-100 p-3 rounded-full mr-4">
+                        <i class="fas fa-network-wired text-blue-600 text-xl"></i>
+                    </div>
+                    <h2 class="text-xl font-bold text-gray-800">Mikroservis Mimarisi</h2>
+                </div>
+                <p class="text-gray-600 mb-4">25 adet ileri seviye mikroservis sorusu ve cevabı</p>
+                <button onclick="scrollToCategory('mikroservis')" class="text-blue-600 font-medium hover:text-blue-800">Soruları Görüntüle <i class="fas fa-arrow-right ml-1"></i></button>
+            </div>
+
+            <div class="category-card bg-white rounded-lg shadow-md p-6">
+                <div class="flex items-center mb-4">
+                    <div class="bg-blue-100 p-3 rounded-full mr-4">
+                        <i class="fas fa-tasks text-blue-600 text-xl"></i>
+                    </div>
+                    <h2 class="text-xl font-bold text-gray-800">Spring Batch</h2>
+                </div>
+                <p class="text-gray-600 mb-4">25 adet ileri seviye Spring Batch sorusu ve cevabı</p>
+                <button onclick="scrollToCategory('batch')" class="text-blue-600 font-medium hover:text-blue-800">Soruları Görüntüle <i class="fas fa-arrow-right ml-1"></i></button>
+            </div>
+
+            <div class="category-card bg-white rounded-lg shadow-md p-6">
+                <div class="flex items-center mb-4">
+                    <div class="bg-blue-100 p-3 rounded-full mr-4">
+                        <i class="fas fa-memory text-blue-600 text-xl"></i>
+                    </div>
+                    <h2 class="text-xl font-bold text-gray-800">Spring Caching</h2>
+                </div>
+                <p class="text-gray-600 mb-4">25 adet ileri seviye Spring Caching sorusu ve cevabı</p>
+                <button onclick="scrollToCategory('caching')" class="text-blue-600 font-medium hover:text-blue-800">Soruları Görüntüle <i class="fas fa-arrow-right ml-1"></i></button>
+            </div>
+
+            <div class="category-card bg-white rounded-lg shadow-md p-6">
+                <div class="flex items-center mb-4">
+                    <div class="bg-blue-100 p-3 rounded-full mr-4">
+                        <i class="fas fa-code-branch text-blue-600 text-xl"></i>
+                    </div>
+                    <h2 class="text-xl font-bold text-gray-800">Spring AOP & Events</h2>
+                </div>
+                <p class="text-gray-600 mb-4">25 adet ileri seviye Spring AOP & Events sorusu ve cevabı</p>
+                <button onclick="scrollToCategory('aop')" class="text-blue-600 font-medium hover:text-blue-800">Soruları Görüntüle <i class="fas fa-arrow-right ml-1"></i></button>
+            </div>
+
+            <div class="category-card bg-white rounded-lg shadow-md p-6">
+                <div class="flex items-center mb-4">
+                    <div class="bg-blue-100 p-3 rounded-full mr-4">
+                        <i class="fas fa-exchange-alt text-blue-600 text-xl"></i>
+                    </div>
+                    <h2 class="text-xl font-bold text-gray-800">Spring Integration</h2>
+                </div>
+                <p class="text-gray-600 mb-4">25 adet ileri seviye Spring Integration sorusu ve cevabı</p>
+                <button onclick="scrollToCategory('integration')" class="text-blue-600 font-medium hover:text-blue-800">Soruları Görüntüle <i class="fas fa-arrow-right ml-1"></i></button>
+            </div>
+
+            <div class="category-card bg-white rounded-lg shadow-md p-6">
+                <div class="flex items-center mb-4">
+                    <div class="bg-blue-100 p-3 rounded-full mr-4">
+                        <i class="fas fa-cogs text-blue-600 text-xl"></i>
+                    </div>
+                    <h2 class="text-xl font-bold text-gray-800">Spring DevOps</h2>
+                </div>
+                <p class="text-gray-600 mb-4">25 adet ileri seviye Spring DevOps sorusu ve cevabı</p>
+                <button onclick="scrollToCategory('devops')" class="text-blue-600 font-medium hover:text-blue-800">Soruları Görüntüle <i class="fas fa-arrow-right ml-1"></i></button>
+            </div>
+        </div>
+
+        <!-- Mikroservis Mimarisi Soruları -->
+        <section id="mikroservis" class="mb-16">
+            <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+                <div class="flex items-center mb-6">
+                    <div class="bg-blue-100 p-3 rounded-full mr-4">
+                        <i class="fas fa-network-wired text-blue-600 text-xl"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-800">Mikroservis Mimarisi</h2>
+                </div>
+                <p class="text-gray-600 mb-6">Senior seviye mikroservis mimarisi mülakat soruları ve cevapları.</p>
+
+                <div class="space-y-6">
+                    <!-- Soru 1 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">1. Mikroservislerde API Gateway neden kullanılır?</h3>
+                        <div class="text-gray-700">
+                            <p>Mikroservisler birçok küçük servise bölündüğü için client doğrudan her servise çağrı yaparsa karmaşa çıkar. <strong>API Gateway</strong> tek giriş noktası sağlar, güvenlik, rate-limiting, logging, load balancing gibi işlemleri üstlenir.</p>
+                            <p class="mt-2 font-medium">Örnek: Spring Cloud Gateway kullanımı</p>
+                            <pre class="code-block yaml mt-2">spring:
+  cloud:
+    gateway:
+      routes:
+        - id: user-service
+          uri: http://localhost:8081
+          predicates:
+            - Path=/users/**</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 2 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">2. Mikroservislerde Service Discovery (Eureka/Consul) nasıl çalışır?</h3>
+                        <div class="text-gray-700">
+                            <p>Servisler kendilerini discovery server'a register eder. Client'lar doğrudan IP bilmeden servislere ulaşır.</p>
+                            <p class="mt-2 font-medium">Kod örneği (Eureka Client):</p>
+                            <pre class="code-block java mt-2">@EnableEurekaClient
+@SpringBootApplication
+public class OrderServiceApp {
+  public static void main(String[] args) {
+    SpringApplication.run(OrderServiceApp.class, args);
+  }
+}</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 3 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">3. Mikroservislerde Circuit Breaker mantığını anlatınız.</h3>
+                        <div class="text-gray-700">
+                            <p>Bir servis çökerse, sürekli retry edip sistemi yormak yerine fallback çalıştırır. Netflix Hystrix / Resilience4j ile yapılır.</p>
+                            <p class="mt-2 font-medium">Kod örneği (Resilience4j):</p>
+                            <pre class="code-block java mt-2">@CircuitBreaker(name = "inventoryService", fallbackMethod = "fallback")
+public String callInventory() {
+    return restTemplate.getForObject("http://inventory-service/stock", String.class);
+}
+
+public String fallback(Throwable t) {
+    return "Envanter servisi şu anda kullanılamıyor";
+}</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 4 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">4. Event Driven Architecture mikroservislerde nasıl uygulanır?</h3>
+                        <div class="text-gray-700">
+                            <p>Servisler birbirini REST ile değil event/message broker (Kafka, RabbitMQ) üzerinden dinler. Loose coupling sağlar.</p>
+                            <p class="mt-2 font-medium">Kafka Listener örneği:</p>
+                            <pre class="code-block java mt-2">@KafkaListener(topics = "order-events", groupId = "payment-service")
+public void consume(String message) {
+    System.out.println("Gelen event: " + message);
+}</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 5 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">5. Mikroservislerde Saga Pattern nedir?</h3>
+                        <div class="text-gray-700">
+                            <p>Dağıtık transaction yönetimi için kullanılır. Örn: Sipariş oluştur → ödeme al → stok düş → hata varsa roll-back için compensating action çalışır.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 6 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">6. Mikroservislerde Distributed Tracing neden önemlidir?</h3>
+                        <div class="text-gray-700">
+                            <p>Mikroservislerde bir isteğin birden fazla servisi tetiklemesi sonucu sorunların kaynağı zor bulunur. Distributed tracing (Zipkin, Jaeger) ile tüm çağrılar takip edilir.</p>
+                            <p class="mt-2 font-medium">Örnek Konfigürasyon:</p>
+                            <pre class="code-block yaml mt-2">spring.zipkin.base-url=http://localhost:9411
+spring.sleuth.sampler.probability=1</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 7 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">7. Mikroservislerde Load Balancing nasıl uygulanır?</h3>
+                        <div class="text-gray-700">
+                            <p>Trafik birden fazla servis instance'ı arasında dengelenir. Spring Cloud LoadBalancer veya Ribbon ile uygulanabilir.</p>
+                            <p class="mt-2 font-medium">WebClient ile Load Balancing:</p>
+                            <pre class="code-block java mt-2">@Autowired
+private WebClient.Builder webClientBuilder;
+
+public String getUser() {
+    return webClientBuilder.build()
+            .get()
+            .uri("http://user-service/users")
+            .retrieve()
+            .bodyToMono(String.class)
+            .block();
+}</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 8 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">8. Idempotent mikroservis tasarımı neden önemlidir?</h3>
+                        <div class="text-gray-700">
+                            <p>Tekrarlanan istekler sistem üzerinde hataya neden olmamalıdır. Örn: Sipariş servisi, aynı requestId ile tekrarlandığında sadece bir kez işlenir.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 9 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">9. Mikroservislerde CQRS pattern ne zaman tercih edilir?</h3>
+                        <div class="text-gray-700">
+                            <p>Read ve write operasyonlarının farklı veri modelleri ve performans gereksinimleri olduğunda tercih edilir.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 10 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">10. Mikroservislerde Event Sourcing ne işe yarar?</h3>
+                        <div class="text-gray-700">
+                            <p>State değişiklikleri event olarak saklanır. History ve audit işlemleri kolaylaşır.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 11 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">11. Mikroservislerde Config Server nasıl çalışır?</h3>
+                        <div class="text-gray-700">
+                            <p>Tüm config dosyaları merkezi bir server'da tutulur.</p>
+                            <p class="mt-2 font-medium">Örnek application.yml:</p>
+                            <pre class="code-block yaml mt-2">spring:
+  cloud:
+    config:
+      uri: http://localhost:8888</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 12 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">12. Mikroservislerde distributed transaction nasıl yönetilir?</h3>
+                        <div class="text-gray-700">
+                            <p>2PC (Two-Phase Commit), Saga pattern, veya Event Sourcing kullanılarak yönetilir.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 13 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">13. Mikroservislerde versioning nasıl yapılır?</h3>
+                        <div class="text-gray-700">
+                            <p>URI versioning (/v1/users), header versioning (Accept-version: v1), veya parameter versioning (/users?version=v1) yöntemleri kullanılır.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 14 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">14. Mikroservislerde authentication ve authorization nasıl yönetilir?</h3>
+                        <div class="text-gray-700">
+                            <p>OAuth2, JWT, veya API Gateway üzerinde merkezi kimlik doğrulama kullanılır.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 15 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">15. Mikroservislerde container orchestration araçları nelerdir?</h3>
+                        <div class="text-gray-700">
+                            <p>Kubernetes, Docker Swarm, Apache Mesos gibi araçlarla container'lar yönetilir.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 16 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">16. Mikroservislerde monitoring nasıl yapılır?</h3>
+                        <div class="text-gray-700">
+                            <p>Prometheus, Grafana, ELK stack (Elasticsearch, Logstash, Kibana) ile monitoring yapılır.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 17 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">17. Mikroservislerde log aggregation nasıl yapılır?</h3>
+                        <div class="text-gray-700">
+                            <p>ELK stack, Splunk, veya Fluentd ile loglar merkezi olarak toplanır.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 18 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">18. Mikroservislerde communication pattern'leri nelerdir?</h3>
+                        <div class="text-gray-700">
+                            <p>Synchronous (REST, gRPC), Asynchronous (Message Queues), Event-driven communication pattern'leri kullanılır.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 19 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">19. Mikroservislerde database per service pattern neden önemlidir?</h3>
+                        <div class="text-gray-700">
+                            <p>Her servisin kendi veritabanına sahip olması, servislerin birbirinden bağımsız çalışmasını sağlar.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 20 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">20. Mikroservislerde service mesh nedir?</h3>
+                        <div class="text-gray-700">
+                            <p>Service mesh (Istio, Linkerd), servisler arası iletişimi yöneten, güvenlik, monitoring ve load balancing sağlayan bir altyapı katmanıdır.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 21 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">21. Mikroservislerde blue-green deployment nasıl yapılır?</h3>
+                        <div class="text-gray-700">
+                            <p>İki aynı ortam (blue ve green) hazırlanır. Trafik blue ortamından green ortamına anında yönlendirilir.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 22 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">22. Mikroservislerde canary release nedir?</h3>
+                        <div class="text-gray-700">
+                            <p>Yeni versiyonun küçük bir kullanıcı grubuna önce yayınlanıp, test edildikten sonra tüm kullanıcılara yayınlanmasıdır.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 23 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">23. Mikroservislerde chaos engineering nedir?</h3>
+                        <div class="text-gray-700">
+                            <p>Sistemin dayanıklılığını test etmek için bilinçli olarak hataların (ağ kesintisi, sunucu çökmesi vb.) enjekte edilmesidir.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 24 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">24. Mikroservislerde domain-driven design (DDD) nasıl uygulanır?</h3>
+                        <div class="text-gray-700">
+                            <p>İş mantığı domain modellerine bölünür, bounded context'ler oluşturulur ve her servis kendi domain sorumluluğunu taşır.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 25 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">25. Mikroservislerde anti-pattern'ler nelerdir?</h3>
+                        <div class="text-gray-700">
+                            <ul class="list-disc pl-5">
+                                <li>Tüm servisteki shared database kullanmak</li>
+                                <li>Synchronous communication'a aşırı bağımlı olmak</li>
+                                <li>Service discovery kullanmamak</li>
+                                <li>Proper monitoring yapmamak</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Spring Batch Soruları -->
+        <section id="batch" class="mb-16">
+            <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+                <div class="flex items-center mb-6">
+                    <div class="bg-blue-100 p-3 rounded-full mr-4">
+                        <i class="fas fa-tasks text-blue-600 text-xl"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-800">Spring Batch</h2>
+                </div>
+                <p class="text-gray-600 mb-6">Senior seviye Spring Batch mülakat soruları ve cevapları.</p>
+
+                <div class="space-y-6">
+                    <!-- Soru 1 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">1. Spring Batch'te Chunk-Oriented Processing nedir?</h3>
+                        <div class="text-gray-700">
+                            <p>Veri küçük chunk'lara bölünerek okunur, işlenir, yazılır. Bellek dostu ve büyük veriler için uygundur.</p>
+                            <p class="mt-2 font-medium">Örnek:</p>
+                            <pre class="code-block java mt-2">@Bean
+public Step step() {
+    return stepBuilderFactory.get("step1")
+        .<String, String>chunk(100) // her seferinde 100 kayıt
+        .reader(reader())
+        .processor(processor())
+        .writer(writer())
+        .build();
+}</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 2 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">2. Spring Batch'te JobRepository ne işe yarar?</h3>
+                        <div class="text-gray-700">
+                            <p>Batch job'ların metadata'sını (başlama, bitiş, status, exitCode) saklar. Restart mekanizması buradan yönetilir.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 3 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">3. Spring Batch'te Job Parameter neden önemlidir?</h3>
+                        <div class="text-gray-700">
+                            <p>Aynı job farklı parametrelerle yeniden çalıştırılabilir. Parametre verilmezse "job instance already exists" hatası alınır.</p>
+                            <p class="mt-2 font-medium">Örnek:</p>
+                            <pre class="code-block java mt-2">JobParameters params = new JobParametersBuilder()
+        .addString("date", LocalDate.now().toString())
+        .toJobParameters();
+jobLauncher.run(job, params);</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 4 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">4. Spring Batch'te Restartable Jobs nasıl yapılır?</h3>
+                        <div class="text-gray-700">
+                            <p>Step başarısız olursa aynı parametreyle tekrar başlatılabilir. JobRepository geçmiş durumları track eder.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 5 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">5. Spring Batch'te Partitioning & Parallel Steps nedir?</h3>
+                        <div class="text-gray-700">
+                            <p>Büyük datayı bölerek çoklu thread ile işler. Ölçeklenebilirlik sağlar.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 6 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">6. Spring Batch'te Skip Logic nasıl çalışır?</h3>
+                        <div class="text-gray-700">
+                            <p>Hatalı item atlanabilir ve job çalışmaya devam eder.</p>
+                            <p class="mt-2 font-medium">Örnek:</p>
+                            <pre class="code-block java mt-2">.step("step")
+.<String, String>chunk(10)
+.faultTolerant()
+.skip(Exception.class)
+.skipLimit(5)
+.reader(reader())
+.processor(processor())
+.writer(writer())
+.build();</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 7 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">7. Spring Batch'te Retry Logic nasıl uygulanır?</h3>
+                        <div class="text-gray-700">
+                            <p>Geçici hatalarda item tekrar denenebilir.</p>
+                            <p class="mt-2 font-medium">Örnek:</p>
+                            <pre class="code-block java mt-2">.faultTolerant()
+.retry(Exception.class)
+.retryLimit(3)</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 8 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">8. Spring Batch'te Job Listener nasıl eklenir?</h3>
+                        <div class="text-gray-700">
+                            <p>Job başlangıcı ve bitişi için listener eklenir.</p>
+                            <p class="mt-2 font-medium">Örnek:</p>
+                            <pre class="code-block java mt-2">public class JobCompletionNotificationListener extends JobExecutionListenerSupport {
+    @Override
+    public void afterJob(JobExecution jobExecution) {
+        if(jobExecution.getStatus() == BatchStatus.COMPLETED) {
+            System.out.println("Job tamamlandı");
+        }
+    }
+}</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 9 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">9. Spring Batch'te Parallel Step nasıl uygulanır?</h3>
+                        <div class="text-gray-700">
+                            <p>Step'ler parallel olarak çalıştırılır.</p>
+                            <p class="mt-2 font-medium">Örnek:</p>
+                            <pre class="code-block java mt-2">@Bean
+public Job parallelJob() {
+    return jobBuilderFactory.get("parallelJob")
+            .start(step1())
+            .split(new SimpleAsyncTaskExecutor()).add(step2(), step3())
+            .end()
+            .build();
+}</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 10 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">10. Spring Batch'te JobIncrementer neden gereklidir?</h3>
+                        <div class="text-gray-700">
+                            <p>Aynı job parametreleri ile tekrar çalıştırılabilmesi için unique parametre gerekir.</p>
+                            <p class="mt-2 font-medium">Örnek:</p>
+                            <pre class="code-block java mt-2">.incrementer(new RunIdIncrementer())</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 11 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">11. Spring Batch'te Partitioning nasıl yapılır?</h3>
+                        <div class="text-gray-700">
+                            <p>Büyük veri setlerini paralel işlemek için Partitioning kullanılır.</p>
+                            <p class="mt-2 font-medium">Örnek:</p>
+                            <pre class="code-block java mt-2">@Bean
+public Step partitionedStep(StepBuilderFactory stepBuilderFactory, Step slaveStep, TaskExecutor taskExecutor) {
+    return stepBuilderFactory.get("partitionedStep")
+            .partitioner("slaveStep", new ColumnRangePartitioner())
+            .step(slaveStep)
+            .taskExecutor(taskExecutor)
+            .build();
+}</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 12 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">12. Spring Batch'te Remote Chunking nedir?</h3>
+                        <div class="text-gray-700">
+                            <p>Chunk'lar farklı worker node'lara dağıtılır. Büyük veri paralel işlenir.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 13 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">13. Spring Batch'te Job restart nasıl yapılır?</h3>
+                        <div class="text-gray-700">
+                            <p>Spring Batch job'ları durduğu yerden devam edebilir. Bunun için JobRepository durum bilgisini tutar.</p>
+                            <p class="mt-2 font-medium">Komut:</p>
+                            <pre class="code-block bash mt-2">java -jar batch-job.jar --spring.batch.job.names=job1</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 14 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">14. Spring Batch'te Skip Policy nedir?</h3>
+                        <div class="text-gray-700">
+                            <p>Hangi exception'ların atlanacağını belirler.</p>
+                            <p class="mt-2 font-medium">Örnek:</p>
+                            <pre class="code-block java mt-2">@Bean
+public SkipPolicy skipPolicy() {
+    return (t, count) -> t instanceof FlatFileParseException;
+}</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 15 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">15. Spring Batch'te Flow Execution nedir?</h3>
+                        <div class="text-gray-700">
+                            <p>Bir batch job'un farklı step akışlarını kontrol eder.</p>
+                            <p class="mt-2 font-medium">Örnek:</p>
+                            <pre class="code-block java mt-2">@Bean
+public Job flowJob(JobBuilderFactory jobs, Step step1, Step step2) {
+    return jobs.get("flowJob")
+            .start(step1)
+            .next(step2)
+            .end()
+            .build();
+}</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 16 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">16. Spring Batch'te JobLauncher nedir?</h3>
+                        <div class="text-gray-700">
+                            <p>Job'ları başlatmak için kullanılan arayüz.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 17 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">17. Spring Batch'te ItemProcessor ne işe yarar?</h3>
+                        <div class="text-gray-700">
+                            <p>Okunan veriyi işleyip yazıma hazır hale getirir.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 18 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">18. Spring Batch'te ItemReader ve ItemWriter arasındaki fark nedir?</h3>
+                        <div class="text-gray-700">
+                            <p>ItemReader veriyi okur, ItemWriter veriyi hedefe yazar.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 19 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">19. Spring Batch'te ValidatingItemProcessor nedir?</h3>
+                        <div class="text-gray-700">
+                            <p>Veriyi doğrulamak için kullanılan processor.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 20 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">20. Spring Batch'te CompositeItemProcessor nasıl kullanılır?</h3>
+                        <div class="text-gray-700">
+                            <p>Birden fazla processor'ı birleştirmek için kullanılır.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 21 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">21. Spring Batch'te JobExecution decider nedir?</h3>
+                        <div class="text-gray-700">
+                            <p>Job akışını koşullara göre yönlendirmek için kullanılır.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 22 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">22. Spring Batch'te FlatFileItemReader nasıl yapılandırılır?</h3>
+                        <div class="text-gray-700">
+                            <p>Dosyadan veri okumak için kullanılır.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 23 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">23. Spring Batch'te JdbcCursorItemReader ne işe yarar?</h3>
+                        <div class="text-gray-700">
+                            <p>Veritabanından cursor ile veri okumak için kullanılır.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 24 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">24. Spring Batch'te MultiResourceItemReader nedir?</h3>
+                        <div class="text-gray-700">
+                            <p>Birden fazla kaynaktan (dosya) veri okumak için kullanılır.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 25 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">25. Spring Batch'te best practices nelerdir?</h3>
+                        <div class="text-gray-700">
+                            <ul class="list-disc pl-5">
+                                <li>Job ve Step'leri modüler tutmak</li>
+                                <li>Retry ve Skip mekanizmalarını kullanmak</li>
+                                <li>Partitioning ile paralel işlem yapmak</li>
+                                <li>Job parametrelerini doğru yönetmek</li>
+                                <li>Listener'lar ile job yaşam döngüsünü yönetmek</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Spring Caching Soruları -->
+        <section id="caching" class="mb-16">
+            <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+                <div class="flex items-center mb-6">
+                    <div class="bg-blue-100 p-3 rounded-full mr-4">
+                        <i class="fas fa-memory text-blue-600 text-xl"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-800">Spring Caching</h2>
+                </div>
+                <p class="text-gray-600 mb-6">Senior seviye Spring Caching mülakat soruları ve cevapları.</p>
+
+                <div class="space-y-6">
+                    <!-- Soru 1 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">1. Spring Cache'de @Cacheable ve @CacheEvict farkı nedir?</h3>
+                        <div class="text-gray-700">
+                            <ul class="list-disc pl-5">
+                                <li><code>@Cacheable</code> → Sonuç cache'e kaydedilir.</li>
+                                <li><code>@CacheEvict</code> → Cache temizlenir.</li>
+                            </ul>
+                            <p class="mt-2 font-medium">Örnek:</p>
+                            <pre class="code-block java mt-2">@Cacheable("users")
+public User getUser(Long id) { ... }
+
+@CacheEvict(value = "users", allEntries = true)
+public void clearCache() { }</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 2 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">2. Spring Cache'de @CachePut ne işe yarar?</h3>
+                        <div class="text-gray-700">
+                            <p><code>@CachePut</code> metot çalıştıktan sonra sonucu cache'e günceller.</p>
+                            <p class="mt-2 font-medium">Örnek:</p>
+                            <pre class="code-block java mt-2">@CachePut(value="users", key="#user.id")
+public User updateUser(User user) {
+    return repository.save(user);
+}</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 3 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">3. Spring Cache'de Redis nasıl kullanılır?</h3>
+                        <div class="text-gray-700">
+                            <p>Redis cache provider olarak eklenir.</p>
+                            <p class="mt-2 font-medium">application.yml:</p>
+                            <pre class="code-block yaml mt-2">spring:
+  cache:
+    type: redis
+  redis:
+    host: localhost
+    port: 6379</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 4 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">4. Spring Cache'de TTL (Time to Live) nasıl ayarlanır?</h3>
+                        <div class="text-gray-700">
+                            <p>Redis veya caffeine cache'de entry süreli saklanır.</p>
+                            <p class="mt-2 font-medium">Örnek (Caffeine):</p>
+                            <pre class="code-block java mt-2">@Bean
+public CaffeineCacheManager cacheManager() {
+    CaffeineCacheManager cacheManager = new CaffeineCacheManager("users");
+    cacheManager.setCaffeine(Caffeine.newBuilder().expireAfterWrite(10, TimeUnit.MINUTES));
+    return cacheManager;
+}</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 5 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">5. Spring Cache'de @Caching nasıl kullanılır?</h3>
+                        <div class="text-gray-700">
+                            <p>Birden fazla cache anotasyonu gruplamak için kullanılır.</p>
+                            <p class="mt-2 font-medium">Örnek:</p>
+                            <pre class="code-block java mt-2">@Caching(
+  put = { @CachePut(value="users", key="#user.id") },
+  evict = { @CacheEvict(value="allUsers", allEntries=true) }
+)
+public User updateUser(User user) { ... }</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 6 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">6. Spring Cache'de condition parametresi nasıl çalışır?</h3>
+                        <div class="text-gray-700">
+                            <p>Koşul sağlandığında caching yapılır.</p>
+                            <p class="mt-2 font-medium">Örnek:</p>
+                            <pre class="code-block java mt-2">@Cacheable(value = "users", key = "#id", condition = "#id > 10")
+public User getUser(Long id) { ... }</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 7 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">7. Spring Cache'de Cache Stampede problemi nedir?</h3>
+                        <div class="text-gray-700">
+                            <p>Aynı anda cache miss olduğunda çok sayıda isteğin DB'ye yönlenmesi. Çözüm: <code>@Cacheable(sync = true)</code> veya locking mekanizması.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 8 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">8. Spring Cache'de Key Generator nasıl özelleştirilir?</h3>
+                        <div class="text-gray-700">
+                            <p>Default key generation yerine custom key generator yazılabilir.</p>
+                            <p class="mt-2 font-medium">Örnek:</p>
+                            <pre class="code-block java mt-2">@Bean
+public KeyGenerator customKeyGenerator() {
+    return (target, method, params) -> method.getName() + "_" + Arrays.toString(params);
+}</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 9 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">9. Spring Cache'de Multi-level Cache nedir?</h3>
+                        <div class="text-gray-700">
+                            <p>Local memory + Distributed cache kombinasyonu. Sık erişilen data local cache'de, nadiren erişilen distributed cache'de tutulur.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 10 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">10. Spring Cache'de Redis vs Caffeine farkları nedir?</h3>
+                        <div class="text-gray-700">
+                            <ul class="list-disc pl-5">
+                                <li><strong>Redis:</strong> Dağıtık cache, büyük ölçekli projeler için.</li>
+                                <li><strong>Caffeine:</strong> Bellek içi cache, düşük latency ve küçük ölçek için.</li>
+                            </ul>
+                            <p class="mt-2 font-medium">Caffeine Örneği:</p>
+                            <pre class="code-block java mt-2">@EnableCaching
+@Configuration
+public class CacheConfig {
+
+    @Bean
+    public CacheManager cacheManager() {
+        return new CaffeineCacheManager("users");
+    }
+}</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 11 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">11. Spring Cache'de @CacheEvict stratejileri nelerdir?</h3>
+                        <div class="text-gray-700">
+                            <ul class="list-disc pl-5">
+                                <li><code>allEntries = true</code> → tüm cache silinir.</li>
+                                <li><code>beforeInvocation = true</code> → metot çalışmadan önce cache temizlenir.</li>
+                            </ul>
+                            <p class="mt-2 font-medium">Örnek:</p>
+                            <pre class="code-block java mt-2">@CacheEvict(value = "users", allEntries = true)
+public void clearUsersCache() { }</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 12 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">12. Spring Cache'de Conditional Eviction nasıl yapılır?</h3>
+                        <div class="text-gray-700">
+                            <p>Koşul sağlandığında cache temizlenir.</p>
+                            <p class="mt-2 font-medium">Örnek:</p>
+                            <pre class="code-block java mt-2">@CacheEvict(value = "users", key = "#id", condition = "#id > 10")
+public void removeUser(Long id) { }</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 13 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">13. Spring Cache'de Cache Statistics nasıl alınır?</h3>
+                        <div class="text-gray-700">
+                            <p>Caffeine veya EhCache ile hit/miss metric izlenebilir.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 14 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">14. Spring Cache'de Distributed Cache neden önemlidir?</h3>
+                        <div class="text-gray-700">
+                            <p>Çoklu instance çalışan mikroservislerde, local cache senkron kalmaz. Redis gibi merkezi cache ile consistency sağlanır.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 15 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">15. Spring Cache'de Cache Manager nedir?</h3>
+                        <div class="text-gray-700">
+                            <p>Cache'leri yöneten merkezi bileşendir. Farklı cache sağlayıcıları (Redis, Caffeine, EhCache) için farklı implementasyonları vardır.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 16 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">16. Spring Cache'de @Cacheable anotasyonunun sync parametresi ne işe yarar?</h3>
+                        <div class="text-gray-700">
+                            <p>Cache miss durumunda sadece bir thread'in veritabanına gitmesini sağlar. Diğer thread'ler bu işlem bitene kadar bekler.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 17 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">17. Spring Cache'de unless parametresi ne işe yarar?</h3>
+                        <div class="text-gray-700">
+                            <p>Method sonucuna göre caching yapılıp yapılmayacağını belirler. Koşul sağlanırsa caching yapılmaz.</p>
+                            <p class="mt-2 font-medium">Örnek:</p>
+                            <pre class="code-block java mt-2">@Cacheable(value = "users", unless = "#result.age < 18")
+public User getUser(Long id) { ... }</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 18 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">18. Spring Cache'de CacheResolver nedir?</h3>
+                        <div class="text-gray-700">
+                            <p>Runtime'da hangi cache'in kullanılacağını belirleyen bileşendir.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 19 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">19. Spring Cache'de CacheConfig nasıl yapılandırılır?</h3>
+                        <div class="text-gray-700">
+                            <p>Cache ayarlarını merkezi olarak yapılandırmak için kullanılır.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 20 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">20. Spring Cache'de @EnableCaching anotasyonu ne işe yarar?</h3>
+                        <div class="text-gray-700">
+                            <p>Spring caching mekanizmasını aktive eder.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 21 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">21. Spring Cache'de Cache Eviction için @Scheduled kullanımı?</h3>
+                        <div class="text-gray-700">
+                            <p>Zamanlanmış görevlerle cache temizlenebilir.</p>
+                            <p class="mt-2 font-medium">Örnek:</p>
+                            <pre class="code-block java mt-2">@Scheduled(fixedRate = 60000)
+@CacheEvict(value = "users", allEntries = true)
+public void clearCachePeriodically() { }</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 22 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">22. Spring Cache'de Hazelcast nasıl entegre edilir?</h3>
+                        <div class="text-gray-700">
+                            <p>Hazelcast bağımlılığı eklenir ve cache manager yapılandırılır.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 23 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">23. Spring Cache'de EhCache nasıl kullanılır?</h3>
+                        <div class="text-gray-700">
+                            <p>EhCache bağımlılığı eklenir ve yapılandırma dosyası oluşturulur.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 24 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">24. Spring Cache'de Cache Invalidation nasıl yönetilir?</h3>
+                        <div class="text-gray-700">
+                            <p>Veri güncellendiğinde veya silindiğinde cache'in temizlenmesi gerekir. @CacheEvict anotasyonu ile bu sağlanır.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 25 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">25. Spring Cache'de best practices nelerdir?</h3>
+                        <div class="text-gray-700">
+                            <ul class="list-disc pl-5">
+                                <li>Doğru cache sağlayıcısını seçmek (Redis, Caffeine, vb.)</li>
+                                <li>Cache key'lerini özelleştirmek</li>
+                                <li>Cache boyutunu ve TTL'yi doğru ayarlamak</li>
+                                <li>Cache invalidation stratejileri oluşturmak</li>
+                                <li>Cache performansını monitor etmek</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Spring AOP & Events Soruları -->
+        <section id="aop" class="mb-16">
+            <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+                <div class="flex items-center mb-6">
+                    <div class="bg-blue-100 p-3 rounded-full mr-4">
+                        <i class="fas fa-code-branch text-blue-600 text-xl"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-800">Spring AOP & Events</h2>
+                </div>
+                <p class="text-gray-600 mb-6">Senior seviye Spring AOP & Events mülakat soruları ve cevapları.</p>
+
+                <div class="space-y-6">
+                    <!-- Soru 1 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">1. Spring AOP ile method execution logging nasıl yapılır?</h3>
+                        <div class="text-gray-700">
+                            <p>Aspect tanımlanır, @Around ile method öncesi/sonrası log tutulur.</p>
+                            <p class="mt-2 font-medium">Örnek:</p>
+                            <pre class="code-block java mt-2">@Aspect
+@Component
+public class LoggingAspect {
+    @Around("execution(* com.app.service.*.*(..))")
+    public Object log(ProceedingJoinPoint pjp) throws Throwable {
+        System.out.println("Before: " + pjp.getSignature());
+        Object result = pjp.proceed();
+        System.out.println("After: " + pjp.getSignature());
+        return result;
+    }
+}</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 2 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">2. Spring Event mekanizması nasıl çalışır?</h3>
+                        <div class="text-gray-700">
+                            <p>Event yayınlayan (ApplicationEventPublisher) ve dinleyen (@EventListener) bileşenler vardır.</p>
+                            <p class="mt-2 font-medium">Örnek:</p>
+                            <pre class="code-block java mt=2">// Event
+public class UserCreatedEvent extends ApplicationEvent {
+    public UserCreatedEvent(User user) { super(user); }
+}
+
+// Publisher
+publisher.publishEvent(new UserCreatedEvent(user));
+
+// Listener
+@EventListener
+public void handleUserCreated(UserCreatedEvent event) {
+    System.out.println("Yeni kullanıcı: " + event.getSource());
+}</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 3 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">3. Spring AOP'de Pointcut nedir?</h3>
+                        <div class="text-gray-700">
+                            <p>Hangi methodların intercept edileceğini tanımlar.</p>
+                            <p class="mt-2 font-medium">Örnek:</p>
+                            <pre class="code-block java mt-2">@Pointcut("execution(* com.app.service.*.*(..))")
+public void serviceMethods(){}</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 4 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">4. Spring AOP ile Transaction Management nasıl uygulanır?</h3>
+                        <div class="text-gray-700">
+                            <p>AOP proxy mekanizması ile @Transactional anotasyonu çalışır.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 5 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">5. Spring Events ile Domain Event nasıl tasarlanır?</h3>
+                        <div class="text-gray-700">
+                            <p>Domain olayları event olarak yayınlanır ve diğer servisler bu olaylara tepki verir.</p>
+                            <p class="mt-2 font-medium">Örnek:</p>
+                            <pre class="code-block java mt-2">public class OrderCreatedEvent extends ApplicationEvent {
+    private final String orderId;
+    public OrderCreatedEvent(Object source, String orderId) {
+        super(source);
+        this.orderId = orderId;
+    }
+}
+
+// Publisher
+applicationEventPublisher.publishEvent(new OrderCreatedEvent(this, "1234"));</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 6 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">6. Spring AOP'de Advice türleri nelerdir?</h3>
+                        <div class="text-gray-700">
+                            <ul class="list-disc pl-5">
+                                <li><strong>Before</strong>: Method öncesi</li>
+                                <li><strong>AfterReturning</strong>: Method başarıyla bitince</li>
+                                <li><strong>AfterThrowing</strong>: Exception olunca</li>
+                                <li><strong>Around</strong>: Method öncesi & sonrası</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Soru 7 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">7. Spring Events ile asenkron event işleme nasıl yapılır?</h3>
+                        <div class="text-gray-700">
+                            <p>@Async ile event listener asenkron hale getirilir.</p>
+                            <p class="mt-2 font-medium">Örnek:</p>
+                            <pre class="code-block java mt-2">@Async
+@EventListener
+public void handleEvent(OrderCreatedEvent event) {
+    System.out.println("Async event: " + event.getOrderId());
+}</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 8 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">8. Spring AOP ile Security kontrolü nasıl yapılır?</h3>
+                        <div class="text-gray-700">
+                            <p>Method çağrısından önce kullanıcı rolü kontrol edilebilir.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 9 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">9. Spring Events ile transactional event listener nasıl çalışır?</h3>
+                        <div class="text-gray-700">
+                            <p>Event sadece transaction commit edildikten sonra publish edilir.</p>
+                            <p class="mt-2 font-medium">Örnek:</p>
+                            <pre class="code-block java mt-2">@TransactionalEventListener
+public void handleAfterCommit(OrderCreatedEvent event) {
+    System.out.println("Commit sonrası event işlendi.");
+}</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 10 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">10. Spring AOP'de JoinPoint nedir?</h3>
+                        <div class="text-gray-700">
+                            <p>Intercept edilebilecek method çağrı noktasıdır.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 11 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">11. Spring AOP ile Performance Monitoring nasıl yapılır?</h3>
+                        <div class="text-gray-700">
+                            <p>Method çalıştırma süresi ölçülür ve loglanır.</p>
+                            <p class="mt-2 font-medium">Örnek:</p>
+                            <pre class="code-block java mt-2">@Around("execution(* com.example.service.*.*(..))")
+public Object monitor(ProceedingJoinPoint pjp) throws Throwable {
+    long start = System.currentTimeMillis();
+    Object retVal = pjp.proceed();
+    long time = System.currentTimeMillis() - start;
+    System.out.println(pjp.getSignature() + " çalıştı: " + time + "ms");
+    return retVal;
+}</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 12 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">12. Spring AOP ile Exception Handling nasıl yapılır?</h3>
+                        <div class="text-gray-700">
+                            <p>AfterThrowing advice ile exception loglanabilir veya yönetilebilir.</p>
+                            <p class="mt-2 font-medium">Örnek:</p>
+                            <pre class="code-block java mt-2">@AfterThrowing(pointcut = "execution(* com.app.service.*.*(..))", throwing = "ex")
+public void logException(Exception ex) {
+    System.out.println("Hata yakalandı: " + ex.getMessage());
+}</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 13 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">13. Spring Events ile custom event publisher nasıl yazılır?</h3>
+                        <div class="text-gray-700">
+                            <p>Özel bir event publisher sınıfı oluşturulur.</p>
+                            <p class="mt-2 font-medium">Örnek:</p>
+                            <pre class="code-block java mt-2">@Component
+public class CustomEventPublisher {
+    @Autowired
+    private ApplicationEventPublisher publisher;
+    public void publish(String message) {
+        publisher.publishEvent(new CustomEvent(this, message));
+    }
+}</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 14 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">14. Spring AOP'de Pointcut Expression nasıl yazılır?</h3>
+                        <div class="text-gray-700">
+                            <p>Farklı desenlerle method seçimi yapılabilir.</p>
+                            <p class="mt-2 font-medium">Örnek:</p>
+                            <pre class="code-block java mt-2">@Pointcut("execution(* com.app.service.*.*(..))")
+public void serviceLayer() { }
+
+@Pointcut("within(com.app.controller..*)")
+public void controllerLayer() { }</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 15 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">15. Spring Events ile conditional event handling nasıl yapılır?</h3>
+                        <div class="text-gray-700">
+                            <p>@EventListener anotasyonuna condition eklenerek event filtreleme yapılabilir.</p>
+                            <p class="mt-2 font-medium">Örnek:</p>
+                            <pre class="code-block java mt-2">@EventListener(condition = "#event.status == 'COMPLETED'")
+public void handleCompleted(OrderEvent event) {
+    // Sadece tamamlanmış siparişler için çalışır
+}</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 16 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">16. Spring AOP ile method parametrelerini nasıl değiştirebiliriz?</h3>
+                        <div class="text-gray-700">
+                            <p>Around advice ile method parametreleri değiştirilebilir.</p>
+                            <p class="mt-2 font-medium">Örnek:</p>
+                            <pre class="code-block java mt-2">@Around("execution(* com.app.service.*.*(..)) && args(param)")
+public Object changeParameter(ProceedingJoinPoint pjp, Object param) throws Throwable {
+    // Parametreyi değiştir
+    Object newParam = transform(param);
+    // Yeni parametre ile methodu çağır
+    return pjp.proceed(new Object[]{newParam});
+}</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 17 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">17. Spring Events ile event chaining nasıl yapılır?</h3>
+                        <div class="text-gray-700">
+                            <p>Bir event işlendikten sonra başka bir event tetiklenebilir.</p>
+                            <p class="mt-2 font-medium">Örnek:</p>
+                            <pre class="code-block java mt-2">@EventListener
+public void handleOrderCreated(OrderCreatedEvent event) {
+    // Sipariş oluşturulduktan sonra ödeme event'i tetikle
+    publisher.publishEvent(new PaymentRequestedEvent(this, event.getOrderId()));
+}</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 18 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">18. Spring AOP'de AspectJ nedir?</h3>
+                        <div class="text-gray-700">
+                            <p>AspectJ, AOP için daha güçlü bir implementasyondur. Compile time veya load time weaving yapabilir.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 19 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">19. Spring Events ile event ordering nasıl sağlanır?</h3>
+                        <div class="text-gray-700">
+                            <p>@Order anotasyonu ile listener'ların çalışma sırası belirlenebilir.</p>
+                            <p class="mt-2 font-medium">Örnek:</p>
+                            <pre class="code-block java mt-2">@EventListener
+@Order(1)
+public void handleFirst(OrderEvent event) {
+    // Önce çalışacak
+}
+
+@EventListener
+@Order(2)
+public void handleSecond(OrderEvent event) {
+    // Sonra çalışacak
+}</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 20 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">20. Spring AOP ile custom annotation nasıl oluşturulur?</h3>
+                        <div class="text-gray-700">
+                            <p>Özel bir anotasyon oluşturulur ve bu anotasyon için pointcut tanımlanır.</p>
+                            <p class="mt-2 font-medium">Örnek:</p>
+                            <pre class="code-block java mt-2">@Target(ElementType.METHOD)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface LogExecutionTime { }
+
+@Aspect
+@Component
+public class LogExecutionTimeAspect {
+    @Around("@annotation(LogExecutionTime)")
+    public Object logExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable {
+        // ...
+    }
+}</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 21 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">21. Spring Events ile generic event handling nasıl yapılır?</h3>
+                        <div class="text-gray-700">
+                            <p>Generic event'ler için @EventListener kullanılabilir.</p>
+                            <p class="mt-2 font-medium">Örnek:</p>
+                            <pre class="code-block java mt-2">@EventListener
+public void handleGenericEvent(ApplicationEvent event) {
+    // Tüm event'leri yakalar
+}</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 22 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">22. Spring AOP'de proxy mekanizması nasıl çalışır?</h3>
+                        <div class="text-gray-700">
+                            <p>Spring AOP, dynamic proxy veya CGLIB kullanarak aspect'leri hedef method'lara bağlar.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 23 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">23. Spring Events ile event filtering nasıl yapılır?</h3>
+                        <div class="text-gray-700">
+                            <p>@EventListener anotasyonuna condition eklenerek event filtreleme yapılabilir.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 24 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">24. Spring AOP'de weaving nedir?</h3>
+                        <div class="text-gray-700">
+                            <p>Aspect'leri target object'lere bağlama işlemidir. Compile time, load time veya runtime weaving yapılabilir.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 25 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">25. Spring AOP ve Events best practices nelerdir?</h3>
+                        <div class="text-gray-700">
+                            <ul class="list-disc pl-5">
+                                <li>AOP için spesifik pointcut'lar kullanmak</li>
+                                <li>Event'leri basit ve immutable tutmak</li>
+                                <li>Asenkron event işlemlerinde hata yönetimi yapmak</li>
+                                <li>Event'leri çok fazla zincirlememek</li>
+                                <li>Event listener'ları test edilebilir kılmak</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Spring Integration Soruları -->
+        <section id="integration" class="mb-16">
+            <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+                <div class="flex items-center mb-6">
+                    <div class="bg-blue-100 p-3 rounded-full mr-4">
+                        <i class="fas fa-exchange-alt text-blue-600 text-xl"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-800">Spring Integration</h2>
+                </div>
+                <p class="text-gray-600 mb-6">Senior seviye Spring Integration mülakat soruları ve cevapları.</p>
+
+                <div class="space-y-6">
+                    <!-- Soru 1 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">1. Spring Integration'da Message Channel nedir?</h3>
+                        <div class="text-gray-700">
+                            <p>Mesajların publisher ile subscriber arasında aktığı kanaldır. QueueChannel, DirectChannel gibi tipleri vardır.</p>
+                            <p class="mt-2 font-medium">Örnek:</p>
+                            <pre class="code-block java mt-2">@Bean
+public MessageChannel inputChannel() {
+    return new DirectChannel();
+}</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 2 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">2. Spring Integration'da Transformer nedir?</h3>
+                        <div class="text-gray-700">
+                            <p>Mesaj payload'unu dönüştürmek için kullanılır.</p>
+                            <p class="mt-2 font-medium">Örnek:</p>
+                            <pre class="code-block java mt-2">@Transformer(inputChannel="input", outputChannel="output")
+public String transform(String message) {
+    return message.toUpperCase();
+}</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 3 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">3. Spring Integration DSL ile mesaj akışı nasıl tanımlanır?</h3>
+                        <div class="text-gray-700">
+                            <p>DSL ile mesaj akışları daha okunabilir şekilde tanımlanır.</p>
+                            <p class="mt-2 font-medium">Örnek:</p>
+                            <pre class="code-block java mt-2">@Bean
+public IntegrationFlow flow() {
+    return IntegrationFlows.from("inputChannel")
+            .filter((String s) -> s.startsWith("A"))
+            .transform(String::toUpperCase)
+            .channel("outputChannel")
+            .get();
+}</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 4 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">4. Spring Integration'da Router nedir?</h3>
+                        <div class="text-gray-700">
+                            <p>Mesajın içeriğine göre farklı kanallara yönlendirilmesini sağlar.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 5 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">5. Spring Integration'da Gateway nedir?</h3>
+                        <div class="text-gray-700">
+                            <p>Java interface üzerinden messaging dünyasına geçiş sağlar.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 6 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">6. Spring Integration'da Aggregator nedir?</h3>
+                        <div class="text-gray-700">
+                            <p>Çoklu mesajları birleştirip tek mesaj haline getirir.</p>
+                            <p class="mt-2 font-medium">Örnek:</p>
+                            <pre class="code-block java mt-2">@Bean
+public IntegrationFlow aggregatorFlow() {
+    return IntegrationFlows.from("inputChannel")
+            .aggregate()
+            .channel("outputChannel")
+            .get();
+}</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 7 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">7. Spring Integration'da Splitter nedir?</h3>
+                        <div class="text-gray-700">
+                            <p>Bir mesajı birden fazla parçaya böler.</p>
+                            <p class="mt-2 font-medium">Örnek:</p>
+                            <pre class="code-block java mt-2">@Bean
+public IntegrationFlow splitterFlow() {
+    return IntegrationFlows.from("inputChannel")
+            .split(String.class, payload -> payload.split(","))
+            .channel("outputChannel")
+            .get();
+}</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 8 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">8. Spring Integration'da Filter nasıl uygulanır?</h3>
+                        <div class="text-gray-700">
+                            <p>Mesajları belirli kriterlere göre filtreler.</p>
+                            <p class="mt-2 font-medium">Örnek:</p>
+                            <pre class="code-block java mt-2">@Bean
+public IntegrationFlow filterFlow() {
+    return IntegrationFlows.from("inputChannel")
+            .filter((String p) -> p.contains("OK"))
+            .channel("outputChannel")
+            .get();
+}</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 9 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">9. Spring Integration'da Service Activator nedir?</h3>
+                        <div class="text-gray-700">
+                            <p>Mesajı alıp bir service methodunu çağırır.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 10 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">10. Spring Integration'da WireTap nedir?</h3>
+                        <div class="text-gray-700">
+                            <p>Mesajları izlemek için kullanılır, mesajın kopyasını farklı bir kanala gönderir.</p>
+                            <p class="mt-2 font-medium">Örnek:</p>
+                            <pre class="code-block java mt-2">@Bean
+public IntegrationFlow wiretapFlow() {
+    return IntegrationFlows.from("inputChannel")
+            .wireTap("auditChannel")
+            .channel("outputChannel")
+            .get();
+}</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 11 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">11. Spring Integration'da Bridge nedir?</h3>
+                        <div class="text-gray-700">
+                            <p>İki farklı channel arasında köprü kurar.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 12 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">12. Spring Integration'da Message Endpoints nelerdir?</h3>
+                        <div class="text-gray-700">
+                            <ul class="list-disc pl-5">
+                                <li>Transformer</li>
+                                <li>Filter</li>
+                                <li>Router</li>
+                                <li>Splitter</li>
+                                <li>Aggregator</li>
+                                <li>Service Activator</li>
+                                <li>Channel Adapter</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Soru 13 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">13. Spring Integration'da Channel Adapter nedir?</h3>
+                        <div class="text-gray-700">
+                            <p>External sistemlerle (dosya, veritabanı, JMS vb.) iletişim kurmak için kullanılır.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 14 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">14. Spring Integration'da Message nasıl oluşturulur?</h3>
+                        <div class="text-gray-700">
+                            <p>MessageBuilder ile mesaj oluşturulur.</p>
+                            <p class="mt-2 font-medium">Örnek:</p>
+                            <pre class="code-block java mt-2">Message<String> message = MessageBuilder.withPayload("Hello")
+    .setHeader("header1", "value1")
+    .build();</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 15 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">15. Spring Integration'da Polling Consumer nasıl çalışır?</h3>
+                        <div class="text-gray-700">
+                            <p>Belirli aralıklarla kaynakları kontrol eder.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 16 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">16. Spring Integration'da Transactional Messaging nasıl yapılır?</h3>
+                        <div class="text-gray-700">
+                            <p>Mesajlar transaction kapsamında gönderilir veya rollback edilir.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 17 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">17. Spring Integration'da Error Handling nasıl yapılır?</h3>
+                        <div class="text-gray-700">
+                            <p>Hata durumunda mesajları özel bir kanala yönlendirmek için error channel kullanılır.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 18 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">18. Spring Integration'da Claim Check pattern nasıl uygulanır?</h3>
+                        <div class="text-gray-700">
+                            <p>Büyük veriler geçici olarak depolanır, sadece referansı mesaj olarak gönderilir.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 19 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">19. Spring Integration'da Content Enricher nedir?</h3>
+                        <div class="text-gray-700">
+                            <p>Mesaja ek bilgiler eklemek için kullanılır.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 20 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">20. Spring Integration'da Scatter-Gather pattern nasıl uygulanır?</h3>
+                        <div class="text-gray-700">
+                            <p>Mesaj birden fazla recipient'e gönderilir ve yanıtlar toplanır.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 21 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">21. Spring Integration'da Messaging Gateway nasıl kullanılır?</h3>
+                        <div class="text-gray-700">
+                            <p>Java interface üzerinden messaging sistemine erişim sağlar.</p>
+                            <p class="mt-2 font-medium">Örnek:</p>
+                            <pre class="code-block java mt-2">@MessagingGateway
+public interface OrderGateway {
+    void processOrder(Order order);
+}</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 22 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">22. Spring Integration'da Message Store nedir?</h3>
+                        <div class="text-gray-700">
+                            <p>Mesajları kalıcı olarak saklamak için kullanılır.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 23 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">23. Spring Integration'da Control Bus nedir?</h3>
+                        <div class="text-gray-700">
+                            <p>Runtime'da sistem bileşenlerini yönetmek için kullanılır.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 24 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">24. Spring Integration'da Message History nasıl tutulur?</h3>
+                        <div class="text-gray-700">
+                            <p>Mesajın geçtiği kanalların kaydını tutar.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 25 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">25. Spring Integration best practices nelerdir?</h3>
+                        <div class="text-gray-700">
+                            <ul class="list-disc pl-5">
+                                <li>DSL kullanarak akışları daha okunabilir hale getirmek</li>
+                                <li>Error handling mekanizmaları kurmak</li>
+                                <li>Transaction yönetimi yapmak</li>
+                                <li>Message'ları immutable tutmak</li>
+                                <li>Test edilebilir akışlar tasarlamak</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Spring DevOps Soruları -->
+        <section id="devops" class="mb-16">
+            <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+                <div class="flex items-center mb-6">
+                    <div class="bg-blue-100 p-3 rounded-full mr-4">
+                        <i class="fas fa-cogs text-blue-600 text-xl"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-800">Spring DevOps</h2>
+                </div>
+                <p class="text-gray-600 mb-6">Senior seviye Spring DevOps mülakat soruları ve cevapları.</p>
+
+                <div class="space-y-6">
+                    <!-- Soru 1 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">1. Spring Boot uygulamasında Actuator nedir?</h3>
+                        <div class="text-gray-700">
+                            <p>Health check, metrics, env bilgisi gibi production izleme endpoint'lerini sağlar.</p>
+                            <p class="mt-2 font-medium">Örnek:</p>
+                            <pre class="code-block bash mt-2">curl http://localhost:8080/actuator/health</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 2 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">2. Spring Boot uygulamasında Prometheus & Grafana entegrasyonu nasıl yapılır?</h3>
+                        <div class="text-gray-700">
+                            <p>Actuator metrics Prometheus formatında expose edilir.</p>
+                            <p class="mt-2 font-medium">application.yml:</p>
+                            <pre class="code-block yaml mt-2">management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 3 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">3. Kubernetes ortamında Spring Boot config nasıl yönetilir?</h3>
+                        <div class="text-gray-700">
+                            <p>ConfigMap ve Secret kullanılır.</p>
+                            <p class="mt-2 font-medium">Örnek:</p>
+                            <pre class="code-block yaml mt-2">env:
+  - name: SPRING_DATASOURCE_URL
+    valueFrom:
+      configMapKeyRef:
+        name: app-config
+        key: db-url</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 4 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">4. Spring Boot uygulamasında Blue-Green Deployment nasıl yapılır?</h3>
+                        <div class="text-gray-700">
+                            <p>Yeni versiyon (green) yanına deploy edilir. Trafik yönlendirilince eski versiyon (blue) silinir.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 5 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">5. Production ortamında Spring Boot için en önemli best practices nelerdir?</h3>
+                        <div class="text-gray-700">
+                            <ul class="list-disc pl-5">
+                                <li>Externalized config (Config Server/K8s Secret)</li>
+                                <li>Health checks & readiness probes</li>
+                                <li>Centralized logging (ELK, Loki)</li>
+                                <li>Distributed tracing (Zipkin, Jaeger)</li>
+                                <li>CI/CD pipeline (Jenkins, GitHub Actions)</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Soru 6 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">6. Spring Boot uygulamasında Docker Healthcheck nedir ve nasıl uygulanır?</h3>
+                        <div class="text-gray-700">
+                            <p>Container'ın sağlık durumunu kontrol eder.</p>
+                            <p class="mt-2 font-medium">Örnek:</p>
+                            <pre class="code-block dockerfile mt-2">HEALTHCHECK --interval=30s --timeout=5s   CMD curl -f http://localhost:8080/actuator/health || exit 1</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 7 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">7. Kubernetes ConfigMap ve Secret farkı nedir?</h3>
+                        <div class="text-gray-700">
+                            <ul class="list-disc pl-5">
+                                <li><strong>ConfigMap</strong>: Konfigürasyon verileri.</li>
+                                <li><strong>Secret</strong>: Şifreli/veri tabanı şifreleri gibi hassas veriler.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Soru 8 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">8. Kubernetes Rolling Update nasıl yapılır?</h3>
+                        <div class="text-gray-700">
+                            <p>Uygulama sıfır downtime ile güncellenir.</p>
+                            <p class="mt-2 font-medium">Komut:</p>
+                            <pre class="code-block bash mt-2">kubectl set image deployment/my-app my-app=image:v2
+kubectl rollout status deployment/my-app</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 9 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">9. Log aggregation için ELK stack nasıl çalışır?</h3>
+                        <div class="text-gray-700">
+                            <ul class="list-disc pl-5">
+                                <li><strong>Elasticsearch</strong>: Logları depolar.</li>
+                                <li><strong>Logstash</strong>: Veri toplar.</li>
+                                <li><strong>Kibana</strong>: Görselleştirir.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Soru 10 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">10. Spring Boot uygulamasında Custom Endpoint nasıl oluşturulur?</h3>
+                        <div class="text-gray-700">
+                            <p>Özel endpoint'ler oluşturulabilir.</p>
+                            <p class="mt-2 font-medium">Örnek:</p>
+                            <pre class="code-block java mt-2">@Component
+@Endpoint(id="custom")
+public class CustomEndpoint {
+    @ReadOperation
+    public String custom() { return "custom endpoint"; }
+}</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 11 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">11. Spring Boot uygulamasında Health Indicator nasıl eklenir?</h3>
+                        <div class="text-gray-700">
+                            <p>Özel health indicator'lar oluşturulabilir.</p>
+                            <p class="mt-2 font-medium">Örnek:</p>
+                            <pre class="code-block java mt-2">@Component
+public class DatabaseHealthIndicator implements HealthIndicator {
+    @Override
+    public Health health() {
+        return Health.up().withDetail("db", "up").build();
+    }
+}</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 12 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">12. Spring Boot uygulamasında Profil bazlı config nasıl yapılır?</h3>
+                        <div class="text-gray-700">
+                            <p>Farklı ortamlar için farklı konfigürasyon dosyaları kullanılır.</p>
+                            <p class="mt-2 font-medium">Örnek:</p>
+                            <pre class="code-block yaml mt-2">spring:
+  profiles: dev
+  datasource:
+    url: jdbc:h2:mem:testdb</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 13 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">13. Spring Boot uygulamasında CI/CD pipeline nasıl oluşturulur?</h3>
+                        <div class="text-gray-700">
+                            <p>Jenkins, GitHub Actions, GitLab CI gibi araçlarla otomatik build, test ve deploy süreçleri oluşturulur.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 14 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">14. Spring Boot uygulamasında Distributed Tracing nasıl yapılır?</h3>
+                        <div class="text-gray-700">
+                            <p>Sleuth ve Zipkin kullanılarak request'lerin takibi yapılır.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 15 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">15. Spring Boot uygulamasında Circuit Breaker nasıl izlenir?</h3>
+                        <div class="text-gray-700">
+                            <p>Hystrix Dashboard veya Resilience4j metrics ile circuit breaker durumu izlenir.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 16 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">16. Spring Boot uygulamasında Memory Leak nasıl tespit edilir?</h3>
+                        <div class="text-gray-700">
+                            <p>VisualVM, JProfiler gibi araçlarla veya heap dump analiz edilerek tespit edilir.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 17 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">17. Spring Boot uygulamasında JVM tuning nasıl yapılır?</h3>
+                        <div class="text-gray-700">
+                            <p>JVM parametreleri ile heap boyutu, garbage collector ayarları yapılır.</p>
+                            <p class="mt-2 font-medium">Örnek:</p>
+                            <pre class="code-block bash mt-2">java -Xms512m -Xmx1024m -XX:+UseG1GC -jar app.jar</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 18 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">18. Spring Boot uygulamasında Thread Dump nasıl alınır?</h3>
+                        <div class="text-gray-700">
+                            <p>jstack, VisualVM veya Actuator endpoint'i ile thread dump alınabilir.</p>
+                            <p class="mt-2 font-medium">Actuator ile:</p>
+                            <pre class="code-block bash mt-2">curl http://localhost:8080/actuator/threaddump</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 19 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">19. Spring Boot uygulamasında Heap Dump nasıl alınır?</h3>
+                        <div class="text-gray-700">
+                            <p>jmap, VisualVM veya Actuator endpoint'i ile heap dump alınabilir.</p>
+                            <p class="mt-2 font-medium">Actuator ile:</p>
+                            <pre class="code-block bash mt-2">curl http://localhost:8080/actuator/heapdump</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 20 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">20. Spring Boot uygulamasında Liveness ve Readiness Probe nasıl yapılandırılır?</h3>
+                        <div class="text-gray-700">
+                            <p>Kubernetes'te uygulamanın durumunu kontrol etmek için kullanılır.</p>
+                            <p class="mt-2 font-medium">Örnek:</p>
+                            <pre class="code-block yaml mt-2">livenessProbe:
+  httpGet:
+    path: /actuator/health/liveness
+    port: 8080
+readinessProbe:
+  httpGet:
+    path: /actuator/health/readiness
+    port: 8080</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 21 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">21. Spring Boot uygulamasında Graceful Shutdown nasıl yapılır?</h3>
+                        <div class="text-gray-700">
+                            <p>Uygulama kapatılırken mevcut request'lerin tamamlanması sağlanır.</p>
+                            <p class="mt-2 font-medium">Örnek:</p>
+                            <pre class="code-block yaml mt-2">server:
+  shutdown: graceful</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 22 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">22. Spring Boot uygulamasında Externalized Configuration nasıl yapılır?</h3>
+                        <div class="text-gray-700">
+                            <p>Config Server, environment variables, Kubernetes ConfigMap/Secret gibi yöntemlerle konfigürasyon dışarıdan sağlanır.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 23 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">23. Spring Boot uygulamasında Logback yapılandırması nasıl yapılır?</h3>
+                        <div class="text-gray-700">
+                            <p>logback-spring.xml dosyası ile loglama yapılandırılır.</p>
+                        </div>
+                    </div>
+
+                    <!-- Soru 24 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">24. Spring Boot uygulamasında Micrometer nasıl kullanılır?</h3>
+                        <div class="text-gray-700">
+                            <p>Özel metrikler oluşturmak için kullanılır.</p>
+                            <p class="mt-2 font-medium">Örnek:</p>
+                            <pre class="code-block java mt-2">@Autowired
+private MeterRegistry meterRegistry;
+
+public void handleRequest() {
+    Timer.Sample sample = Timer.start(meterRegistry);
+    try {
+        // İşlem
+    } finally {
+        sample.stop(meterRegistry.timer("request.timer"));
+    }
+}</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 25 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">25. Spring Boot DevOps best practices nelerdir?</h3>
+                        <div class="text-gray-700">
+                            <ul class="list-disc pl-5">
+                                <li>Infrastructure as Code (IaC) kullanmak</li>
+                                <li>Containerization (Docker) yapmak</li>
+                                <li>CI/CD pipeline kurmak</li>
+                                <li>Monitoring ve alerting mekanizmaları kurmak</li>
+                                <li>Security scanning yapmak</li>
+                                <li>Backup ve disaster recovery planları oluşturmak</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="text-center py-8 text-gray-600">
+            <p>© 2023 Senior Seviye Spring & Mikroservis Mülakat Soruları</p>
+        </footer>
+    </div>
+
+    <script>
+        function scrollToCategory(categoryId) {
+            const element = document.getElementById(categoryId);
+            element.scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
