@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Java ve Spring Mülakat Soruları - İleri Seviye</title>
+    <title>Senior Developer Mülakat Soruları</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -53,8 +53,8 @@
         <header class="mb-8">
             <div class="flex flex-col sm:flex-row justify-between items-center mb-6">
                 <div class="mb-4 sm:mb-0">
-                    <h1 class="text-3xl font-bold text-indigo-700">Java ve Spring Mülakat Soruları - İleri Seviye</h1>
-                    <p class="text-gray-600 mt-2">Docker, Kubernetes, Kafka, Redis, ElasticSearch ve diğer teknolojiler için hazırlanmış sorular ve cevaplar</p>
+                    <h1 class="text-3xl font-bold text-indigo-700">Senior Developer Mülakat Soruları</h1>
+                    <p class="text-gray-600 mt-2">Docker, Kubernetes, Kafka, ElasticSearch ve diğer teknolojiler için hazırlanmış sorular ve cevaplar</p>
                 </div>
                 <button id="darkModeToggle"
                     class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-full transition-colors duration-300">
@@ -90,8 +90,8 @@
                                 id="docker-q1-icon"></i>
                         </h3>
                         <div id="docker-q1" class="answer-content text-gray-600 mt-2">
-                            <p><strong>İmaj</strong>: Uygulamanın çalışması için gerekli dosya ve bağımlılıkların şablonu.</p>
-                            <p><strong>Container</strong>: İmajın runtime hali, izole ortamda çalışan uygulama.</p>
+                            <p><strong>İmaj:</strong> Uygulamanın çalışması için gerekli dosya ve bağımlılıkların şablonu (readonly).</p>
+                            <p><strong>Container:</strong> İmajın runtime hali, izole bir ortamda çalışan instance.</p>
                         </div>
                     </div>
 
@@ -109,6 +109,18 @@
                                 <li>Minimal base image kullanmak (Alpine)</li>
                                 <li>Cache kullanımını optimize etmek</li>
                             </ul>
+                            <div class="bg-gray-100 p-3 rounded mt-2">
+                                <pre><code># Multi-stage build örneği
+FROM maven:3.9.0 AS build
+WORKDIR /app
+COPY pom.xml .
+COPY src ./src
+RUN mvn clean package
+
+FROM openjdk:17-jdk-slim
+COPY --from=build /app/target/app.jar /app/app.jar
+CMD ["java","-jar","/app/app.jar"]</code></pre>
+                            </div>
                         </div>
                     </div>
 
@@ -132,8 +144,8 @@
                                 id="docker-q4-icon"></i>
                         </h3>
                         <div id="docker-q4" class="answer-content text-gray-600 mt-2">
-                            <p><strong>Deployment</strong>: Stateless servisler için, pod'lar eşit ve değiştirilebilir</p>
-                            <p><strong>StatefulSet</strong>: Stateful servisler için, persistent storage ve ordered deployment sağlar</p>
+                            <p><strong>Deployment:</strong> Stateless servisler için, pod'lar eşit ve değiştirilebilir.</p>
+                            <p><strong>StatefulSet:</strong> Stateful servisler için, persistent storage ve ordered deployment sağlar.</p>
                         </div>
                     </div>
 
@@ -146,10 +158,10 @@
                         </h3>
                         <div id="docker-q5" class="answer-content text-gray-600 mt-2">
                             <ul class="list-disc pl-5">
-                                <li><strong>ClusterIP</strong>: Sadece cluster içi erişim</li>
-                                <li><strong>NodePort</strong>: Dışarıdan belirli port üzerinden erişim</li>
-                                <li><strong>LoadBalancer</strong>: Cloud provider üzerinden load balancing</li>
-                                <li><strong>ExternalName</strong>: DNS tabanlı alias</li>
+                                <li><strong>ClusterIP:</strong> Sadece cluster içi erişim</li>
+                                <li><strong>NodePort:</strong> Dışarıdan belirli port üzerinden erişim</li>
+                                <li><strong>LoadBalancer:</strong> Cloud provider üzerinden load balancing</li>
+                                <li><strong>ExternalName:</strong> DNS tabanlı alias</li>
                             </ul>
                         </div>
                     </div>
@@ -162,9 +174,9 @@
                                 id="docker-q6-icon"></i>
                         </h3>
                         <div id="docker-q6" class="answer-content text-gray-600 mt-2">
-                            <p><strong>ConfigMap</strong> → plaintext konfig verisi</p>
-                            <p><strong>Secret</strong> → şifreli/ hassas veri</p>
-                            <p>Hem pod container'larına mount edilebilir veya env variable olarak kullanılabilir</p>
+                            <p><strong>ConfigMap:</strong> Plaintext konfig verisi</p>
+                            <p><strong>Secret:</strong> Şifreli/ hassas veri</p>
+                            <p>Hem pod container'larına mount edilebilir hem de env variable olarak kullanılabilir.</p>
                         </div>
                     </div>
 
@@ -176,8 +188,8 @@
                                 id="docker-q7-icon"></i>
                         </h3>
                         <div id="docker-q7" class="answer-content text-gray-600 mt-2">
-                            <p><strong>Liveness</strong>: Pod canlı mı?</p>
-                            <p><strong>Readiness</strong>: Pod trafiği alabilir durumda mı?</p>
+                            <p><strong>Liveness:</strong> Pod canlı mı?</p>
+                            <p><strong>Readiness:</strong> Pod trafiği alabilir durumda mı?</p>
                         </div>
                     </div>
 
@@ -189,8 +201,8 @@
                                 id="docker-q8-icon"></i>
                         </h3>
                         <div id="docker-q8" class="answer-content text-gray-600 mt-2">
-                            <p><strong>Volume</strong> → Docker tarafından yönetilir, container bağımsız</p>
-                            <p><strong>Bind mount</strong> → Host filesystem'e direkt bağlı</p>
+                            <p><strong>Volume:</strong> Docker tarafından yönetilir, container bağımsız</p>
+                            <p><strong>Bind mount:</strong> Host filesystem'e direkt bağlı</p>
                         </div>
                     </div>
 
@@ -203,9 +215,9 @@
                         </h3>
                         <div id="docker-q9" class="answer-content text-gray-600 mt-2">
                             <ul class="list-disc pl-5">
-                                <li><strong>bridge</strong> → default, container'lar host üzerinde izole</li>
-                                <li><strong>host</strong> → host network kullanır</li>
-                                <li><strong>overlay</strong> → swarm veya multi-host network</li>
+                                <li><strong>bridge:</strong> Default, container'lar host üzerinde izole</li>
+                                <li><strong>host:</strong> Host network kullanır</li>
+                                <li><strong>overlay:</strong> Swarm veya multi-host network</li>
                             </ul>
                         </div>
                     </div>
@@ -218,7 +230,10 @@
                                 id="docker-q10-icon"></i>
                         </h3>
                         <div id="docker-q10" class="answer-content text-gray-600 mt-2">
-                            <p>CPU/memory veya custom metrics bazlı pod sayısını otomatik arttırır veya azaltır</p>
+                            <p>CPU/memory veya custom metrics bazlı pod sayısını otomatik artırır veya azaltır.</p>
+                            <div class="bg-gray-100 p-3 rounded mt-2">
+                                <pre><code>kubectl autoscale deployment myapp --cpu-percent=50 --min=2 --max=10</code></pre>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -226,7 +241,7 @@
 
             <!-- Kafka -->
             <div class="category bg-white rounded-lg shadow-md overflow-hidden">
-                <div class="category-header bg-yellow-600 text-white p-4 cursor-pointer flex justify-between items-center"
+                <div class="category-header bg-orange-600 text-white p-4 cursor-pointer flex justify-between items-center"
                     onclick="toggleCategory('kafka')">
                     <h2 class="text-xl font-semibold">Kafka</h2>
                     <i class="fas fa-chevron-down transition-transform duration-300" id="kafka-icon"></i>
@@ -240,9 +255,9 @@
                                 id="kafka-q1-icon"></i>
                         </h3>
                         <div id="kafka-q1" class="answer-content text-gray-600 mt-2">
-                            <p><strong>Topic</strong> → mesajların kategorisi</p>
-                            <p><strong>Partition</strong> → paralel işleme birimi</p>
-                            <p><strong>Offset</strong> → partition'daki mesaj sırası</p>
+                            <p><strong>Topic:</strong> Mesajların kategorisi</p>
+                            <p><strong>Partition:</strong> Paralel işleme birimi</p>
+                            <p><strong>Offset:</strong> Partition'daki mesaj sırası</p>
                         </div>
                     </div>
 
@@ -255,9 +270,9 @@
                         </h3>
                         <div id="kafka-q2" class="answer-content text-gray-600 mt-2">
                             <ul class="list-disc pl-5">
-                                <li><strong>acks=0</strong> → fire-and-forget</li>
-                                <li><strong>acks=1</strong> → leader commit</li>
-                                <li><strong>acks=all</strong> → leader + replica commit (güvenli)</li>
+                                <li><strong>acks=0:</strong> Fire-and-forget</li>
+                                <li><strong>acks=1:</strong> Leader commit</li>
+                                <li><strong>acks=all:</strong> Leader + replica commit (güvenli)</li>
                             </ul>
                         </div>
                     </div>
@@ -270,8 +285,8 @@
                                 id="kafka-q3-icon"></i>
                         </h3>
                         <div id="kafka-q3" class="answer-content text-gray-600 mt-2">
-                            <p>Partition'lar consumer'lara dağıtılır</p>
-                            <p>Consumer sayısı > partition → fazla consumer idle olur</p>
+                            <p>Partition'lar consumer'lara dağıtılır.</p>
+                            <p>Consumer sayısı > partition → fazla consumer idle olur.</p>
                         </div>
                     </div>
 
@@ -283,8 +298,10 @@
                                 id="kafka-q4-icon"></i>
                         </h3>
                         <div id="kafka-q4" class="answer-content text-gray-600 mt-2">
-                            <p>Idempotent producer + transactional producer</p>
-                            <p>Consumer read_committed kullanmalı</p>
+                            <ul class="list-disc pl-5">
+                                <li>Idempotent producer + transactional producer</li>
+                                <li>Consumer read_committed kullanmalı</li>
+                            </ul>
                         </div>
                     </div>
 
@@ -296,9 +313,11 @@
                                 id="kafka-q5-icon"></i>
                         </h3>
                         <div id="kafka-q5" class="answer-content text-gray-600 mt-2">
-                            <p>Consumer lag monitoring</p>
-                            <p>Reactive Kafka / Reactor kullanarak reactive backpressure</p>
-                            <p>Batch tüketim ve commit ile kontrol</p>
+                            <ul class="list-disc pl-5">
+                                <li>Consumer lag monitoring</li>
+                                <li>Reactive Kafka / Reactor kullanarak reactive backpressure</li>
+                                <li>Batch tüketim ve commit ile kontrol</li>
+                            </ul>
                         </div>
                     </div>
 
@@ -310,8 +329,8 @@
                                 id="kafka-q6-icon"></i>
                         </h3>
                         <div id="kafka-q6" class="answer-content text-gray-600 mt-2">
-                            <p>retention.ms veya retention.bytes ile</p>
-                            <p>Log segment ve cleanup policy (delete, compact) belirlenir</p>
+                            <p>retention.ms veya retention.bytes ile.</p>
+                            <p>Log segment ve cleanup policy (delete, compact) belirlenir.</p>
                         </div>
                     </div>
 
@@ -323,8 +342,8 @@
                                 id="kafka-q7-icon"></i>
                         </h3>
                         <div id="kafka-q7" class="answer-content text-gray-600 mt-2">
-                            <p><strong>Kafka</strong> → event streaming, high throughput, log based</p>
-                            <p><strong>RabbitMQ</strong> → queue-based, message acknowledgement, transactional</p>
+                            <p><strong>Kafka:</strong> Event streaming, high throughput, log based</p>
+                            <p><strong>RabbitMQ:</strong> Queue-based, message acknowledgement, transactional</p>
                         </div>
                     </div>
 
@@ -336,7 +355,7 @@
                                 id="kafka-q8-icon"></i>
                         </h3>
                         <div id="kafka-q8" class="answer-content text-gray-600 mt-2">
-                            <p>Kafka tools veya Prometheus metrics ile</p>
+                            <p>Kafka tools veya Prometheus metrics ile.</p>
                             <p>Lag = latest offset - committed offset</p>
                         </div>
                     </div>
@@ -349,8 +368,8 @@
                                 id="kafka-q9-icon"></i>
                         </h3>
                         <div id="kafka-q9" class="answer-content text-gray-600 mt-2">
-                            <p><strong>Kafka</strong> → event source</p>
-                            <p><strong>Redis</strong> → cache / subscriber notify</p>
+                            <p><strong>Kafka:</strong> Event source</p>
+                            <p><strong>Redis:</strong> Cache / subscriber notify</p>
                             <p>Event-driven, low latency integration</p>
                         </div>
                     </div>
@@ -363,8 +382,8 @@
                                 id="kafka-q10-icon"></i>
                         </h3>
                         <div id="kafka-q10" class="answer-content text-gray-600 mt-2">
-                            <p>Cluster'lar arası topic replication</p>
-                            <p>Disaster recovery ve multi-datacenter replication</p>
+                            <p>Cluster'lar arası topic replication.</p>
+                            <p>Disaster recovery ve multi-datacenter replication.</p>
                         </div>
                     </div>
                 </div>
@@ -372,7 +391,7 @@
 
             <!-- Redis -->
             <div class="category bg-white rounded-lg shadow-md overflow-hidden">
-                <div class="category-header bg-red-600 text-white p-4 cursor-pointer flex justify-between items-center"
+                <div class="category-header bg-red-500 text-white p-4 cursor-pointer flex justify-between items-center"
                     onclick="toggleCategory('redis')">
                     <h2 class="text-xl font-semibold">Redis</h2>
                     <i class="fas fa-chevron-down transition-transform duration-300" id="redis-icon"></i>
@@ -415,8 +434,8 @@
                                 id="redis-q3-icon"></i>
                         </h3>
                         <div id="redis-q3" class="answer-content text-gray-600 mt-2">
-                            <p><strong>Sentinel</strong> → HA, failover</p>
-                            <p><strong>Cluster</strong> → sharding + HA</p>
+                            <p><strong>Sentinel:</strong> HA, failover</p>
+                            <p><strong>Cluster:</strong> Sharding + HA, scale-out</p>
                         </div>
                     </div>
 
@@ -428,9 +447,11 @@
                                 id="redis-q4-icon"></i>
                         </h3>
                         <div id="redis-q4" class="answer-content text-gray-600 mt-2">
-                            <p><strong>RDB</strong> → snapshot, scheduled saves</p>
-                            <p><strong>AOF</strong> → append-only log, every write recorded</p>
-                            <p><strong>Hybrid</strong> → RDB + AOF</p>
+                            <ul class="list-disc pl-5">
+                                <li><strong>RDB:</strong> Snapshot, scheduled saves</li>
+                                <li><strong>AOF:</strong> Append-only log, every write recorded</li>
+                                <li><strong>Hybrid:</strong> RDB + AOF</li>
+                            </ul>
                         </div>
                     </div>
 
@@ -455,8 +476,10 @@
                                 id="redis-q6-icon"></i>
                         </h3>
                         <div id="redis-q6" class="answer-content text-gray-600 mt-2">
-                            <p>Write-through / read-through / cache-aside</p>
-                            <p>TTL / Eviction policy ile stale data azaltılır</p>
+                            <ul class="list-disc pl-5">
+                                <li>Write-through / Read-through / Cache-aside</li>
+                                <li>TTL / Eviction policy ile stale data azaltılır</li>
+                            </ul>
                         </div>
                     </div>
 
@@ -468,9 +491,11 @@
                                 id="redis-q7-icon"></i>
                         </h3>
                         <div id="redis-q7" class="answer-content text-gray-600 mt-2">
-                            <p>Kafka benzeri event log</p>
-                            <p>Consumer group desteği</p>
-                            <p>Lightweight event-driven microservices için ideal</p>
+                            <ul class="list-disc pl-5">
+                                <li>Kafka benzeri event log</li>
+                                <li>Consumer group desteği</li>
+                                <li>Lightweight event-driven microservices için ideal</li>
+                            </ul>
                         </div>
                     </div>
 
@@ -482,8 +507,8 @@
                                 id="redis-q8-icon"></i>
                         </h3>
                         <div id="redis-q8" class="answer-content text-gray-600 mt-2">
-                            <p><strong>Redis</strong> → hafif, memory tabanlı, persistence sınırlı</p>
-                            <p><strong>Kafka</strong> → yüksek throughput, disk tabanlı, offset management</p>
+                            <p><strong>Redis:</strong> Hafif, memory tabanlı, persistence sınırlı</p>
+                            <p><strong>Kafka:</strong> Yüksek throughput, disk tabanlı, offset management</p>
                         </div>
                     </div>
 
@@ -531,50 +556,53 @@
                                 id="es-q1-icon"></i>
                         </h3>
                         <div id="es-q1" class="answer-content text-gray-600 mt-2">
-                            <p>Full-text search engine, analytics engine</p>
-                            <p>JSON document indexleme</p>
-                            <p>Log analizi, search API, autocomplete</p>
+                            <p>Full-text search ve analytics engine.</p>
+                            <p>JSON dökümanları indeksler.</p>
+                            <p>Log analizi, search API ve autocomplete işlemleri için hızlıdır.</p>
                         </div>
                     </div>
 
                     <div class="question-item mb-6 border-b border-gray-200 pb-4">
                         <h3 class="text-gray-600  font-semibold text-lg mb-2 cursor-pointer flex justify-between items-center"
                             onclick="toggleAnswer('es-q2')">
-                            Index, type, document nedir
+                            ElasticSearch ile Spring Boot entegrasyonu nasıl yapılır?
                             <i class="fas fa-chevron-down text-sm transition-transform duration-300"
                                 id="es-q2-icon"></i>
                         </h3>
                         <div id="es-q2" class="answer-content text-gray-600 mt-2">
-                            <p><strong>Index</strong> → table karşılığı</p>
-                            <p><strong>Type</strong> → category (deprecated ES7+)</p>
-                            <p><strong>Document</strong> → JSON veri birimi</p>
+                            <p>Spring Data Elasticsearch kullanılır.</p>
+                            <p>Repository interface'leri ElasticsearchRepository&lt;T, ID&gt; extend eder.</p>
+                            <p>Flux/Mono ile reactive REST query yapılabilir.</p>
                         </div>
                     </div>
 
                     <div class="question-item mb-6 border-b border-gray-200 pb-4">
                         <h3 class="text-gray-600  font-semibold text-lg mb-2 cursor-pointer flex justify-between items-center"
                             onclick="toggleAnswer('es-q3')">
-                            ElasticSearch CRUD Spring Boot
+                            ElasticSearch'te index, type, document nedir?
                             <i class="fas fa-chevron-down text-sm transition-transform duration-300"
                                 id="es-q3-icon"></i>
                         </h3>
                         <div id="es-q3" class="answer-content text-gray-600 mt-2">
-                            <p>Spring Data Elasticsearch kullanılır</p>
-                            <p>Repository interface → ElasticsearchRepository&lt;T,ID&gt;</p>
-                            <p>Flux/Mono ile reactive REST query yapılabilir</p>
+                            <p><strong>Index:</strong> DB'deki table karşılığı</p>
+                            <p><strong>Type:</strong> Table içindeki alt kategori (ES 7+ ile deprecated)</p>
+                            <p><strong>Document:</strong> JSON objesi, index'te saklanan veri birimi</p>
                         </div>
                     </div>
 
                     <div class="question-item mb-6 border-b border-gray-200 pb-4">
                         <h3 class="text-gray-600  font-semibold text-lg mb-2 cursor-pointer flex justify-between items-center"
                             onclick="toggleAnswer('es-q4')">
-                            ElasticSearch bulk API neden kullanılır
+                            ElasticSearch'te bulk insert performansı nasıl optimize edilir?
                             <i class="fas fa-chevron-down text-sm transition-transform duration-300"
                                 id="es-q4-icon"></i>
                         </h3>
                         <div id="es-q4" class="answer-content text-gray-600 mt-2">
-                            <p>Çoklu insert/update → network ve performance optimize</p>
-                            <p>Chunk'larla gönderilir</p>
+                            <ul class="list-disc pl-5">
+                                <li>Bulk API kullanılır (multi-document insert/update)</li>
+                                <li>Chunk'lar halinde gönderilir → memory ve network optimize edilir</li>
+                                <li>Refresh interval ve replica sayısı geçici olarak düşürülebilir</li>
+                            </ul>
                         </div>
                     </div>
 
@@ -586,8 +614,8 @@
                                 id="es-q5-icon"></i>
                         </h3>
                         <div id="es-q5" class="answer-content text-gray-600 mt-2">
-                            <p><strong>Shard</strong> → index partition</p>
-                            <p><strong>Replica</strong> → failover ve read scalability</p>
+                            <p><strong>Shard:</strong> Index partition</p>
+                            <p><strong>Replica:</strong> Failover ve read scalability</p>
                             <p>Optimize index + search performansı</p>
                         </div>
                     </div>
@@ -602,6 +630,18 @@
                         <div id="es-q6" class="answer-content text-gray-600 mt-2">
                             <p>Match query, bool query, range query</p>
                             <p>Full-text, term, phrase search</p>
+                            <div class="bg-gray-100 p-3 rounded mt-2">
+                                <pre><code>{
+  "query": {
+    "bool": {
+      "must": [
+        { "match": { "title": "search" } },
+        { "range": { "price": { "gte": 100 } } }
+      ]
+    }
+  }
+}</code></pre>
+                            </div>
                         </div>
                     </div>
 
@@ -613,9 +653,11 @@
                                 id="es-q7-icon"></i>
                         </h3>
                         <div id="es-q7" class="answer-content text-gray-600 mt-2">
-                            <p>Multi-node cluster</p>
-                            <p>Master-eligible node + data node + ingest node</p>
-                            <p>Cluster state monitoring</p>
+                            <ul class="list-disc pl-5">
+                                <li>Multi-node cluster</li>
+                                <li>Master-eligible node + data node + ingest node</li>
+                                <li>Cluster state monitoring</li>
+                            </ul>
                         </div>
                     </div>
 
@@ -627,8 +669,8 @@
                                 id="es-q8-icon"></i>
                         </h3>
                         <div id="es-q8" class="answer-content text-gray-600 mt-2">
-                            <p>Repository (S3, FS, HDFS) ile snapshot</p>
-                            <p>Disaster recovery ve backup</p>
+                            <p>Repository (S3, FS, HDFS) ile snapshot.</p>
+                            <p>Disaster recovery ve backup.</p>
                         </div>
                     </div>
 
@@ -654,179 +696,11 @@
                                 id="es-q10-icon"></i>
                         </h3>
                         <div id="es-q10" class="answer-content text-gray-600 mt-2">
-                            <p><strong>Kafka</strong> → event streaming / messaging</p>
-                            <p><strong>Redis</strong> → cache / pub-sub / lightweight async</p>
-                            <p><strong>ElasticSearch</strong> → search / analytics</p>
-                            <p><strong>Spring Cloud</strong> → service discovery, config management</p>
+                            <p><strong>Kafka:</strong> Event streaming / messaging</p>
+                            <p><strong>Redis:</strong> Cache / pub-sub / lightweight async</p>
+                            <p><strong>ElasticSearch:</strong> Search / analytics</p>
+                            <p><strong>Spring Cloud:</strong> Service discovery, config management</p>
                             <p>Circuit breaker, backpressure, reactive WebFlux → fault tolerance ve scalability</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- WebFlux -->
-            <div class="category bg-white rounded-lg shadow-md overflow-hidden">
-                <div class="category-header bg-indigo-700 text-white p-4 cursor-pointer flex justify-between items-center"
-                    onclick="toggleCategory('webflux')">
-                    <h2 class="text-xl font-semibold">WebFlux</h2>
-                    <i class="fas fa-chevron-down transition-transform duration-300" id="webflux-icon"></i>
-                </div>
-                <div id="webflux" class="category-content p-4">
-                    <div class="question-item mb-6 border-b border-gray-200 pb-4">
-                        <h3 class="text-gray-600  font-semibold text-lg mb-2 cursor-pointer flex justify-between items-center"
-                            onclick="toggleAnswer('webflux-q1')">
-                            WebFlux hangi senaryolarda tercih edilmemeli?
-                            <i class="fas fa-chevron-down text-sm transition-transform duration-300"
-                                id="webflux-q1-icon"></i>
-                        </h3>
-                        <div id="webflux-q1" class="answer-content text-gray-600 mt-2">
-                            <p>WebFlux, non-blocking IO tabanlıdır. Eğer uygulaman büyük ölçüde CPU-bound işlemler (ör. büyük hesaplamalar, ML algoritmaları) içeriyorsa, WebFlux avantaj sağlamaz. Ayrıca JDBC gibi blokayan kütüphanelerle (ör. klasik Hibernate + MySQL driver) kullanıldığında performans kazancı olmaz, aksine thread starvation yaşanabilir.</p>
-                        </div>
-                    </div>
-
-                    <div class="question-item mb-6 border-b border-gray-200 pb-4">
-                        <h3 class="text-gray-600  font-semibold text-lg mb-2 cursor-pointer flex justify-between items-center"
-                            onclick="toggleAnswer('webflux-q2')">
-                            Spring WebFlux'te Mono ve Flux farkı nedir?
-                            <i class="fas fa-chevron-down text-sm transition-transform duration-300"
-                                id="webflux-q2-icon"></i>
-                        </h3>
-                        <div id="webflux-q2" class="answer-content text-gray-600 mt-2">
-                            <p><strong>Mono&lt;T&gt;</strong>: 0 veya 1 eleman yayınlar (ör. kullanıcı detayını getir).</p>
-                            <p><strong>Flux&lt;T&gt;</strong>: 0-N eleman yayınlar (ör. tüm kullanıcıları getir).</p>
-                            <p>Her ikisi de Publisher'dır, reactive stream standartlarını (Reactive Streams API) uygular.</p>
-                        </div>
-                    </div>
-
-                    <div class="question-item mb-6 border-b border-gray-200 pb-4">
-                        <h3 class="text-gray-600  font-semibold text-lg mb-2 cursor-pointer flex justify-between items-center"
-                            onclick="toggleAnswer('webflux-q3')">
-                            Reactive WebFlux'te flatMap ve map farkı nedir?
-                            <i class="fas fa-chevron-down text-sm transition-transform duration-300"
-                                id="webflux-q3-icon"></i>
-                        </h3>
-                        <div id="webflux-q3" class="answer-content text-gray-600 mt-2">
-                            <p><strong>map</strong>: Gelen veriyi dönüştürür, Publisher içinde kalır.</p>
-                            <p><strong>flatMap</strong>: Asenkron işlemleri zincirlemek için kullanılır, Publisher'ı yayar.</p>
-                            <p>Mono.just("user").map(u -> u.toUpperCase()) // USER</p>
-                            <p>.flatMap(u -> userRepository.findByName(u)) // async DB call</p>
-                        </div>
-                    </div>
-
-                    <div class="question-item mb-6 border-b border-gray-200 pb-4">
-                        <h3 class="text-gray-600  font-semibold text-lg mb-2 cursor-pointer flex justify-between items-center"
-                            onclick="toggleAnswer('webflux-q4')">
-                            Reactive WebFlux'te backpressure nasıl çözülür?
-                            <i class="fas fa-chevron-down text-sm transition-transform duration-300"
-                                id="webflux-q4-icon"></i>
-                        </h3>
-                        <div id="webflux-q4" class="answer-content text-gray-600 mt-2">
-                            <p><strong>Backpressure</strong>, consumer'ın producer'dan gelen hızla baş edememesi durumudur.</p>
-                            <p><strong>Çözümler</strong>:</p>
-                            <p>Flux.onBackpressureBuffer() → buffer ekler</p>
-                            <p>Flux.onBackpressureDrop() → fazla mesajları atar</p>
-                            <p>Flux.limitRate(n) → kontrollü veri çeker</p>
-                        </div>
-                    </div>
-
-                    <div class="question-item mb-6 border-b border-gray-200 pb-4">
-                        <h3 class="text-gray-600  font-semibold text-lg mb-2 cursor-pointer flex justify-between items-center"
-                            onclick="toggleAnswer('webflux-q5')">
-                            WebFlux ve Servlet tabanlı Spring MVC birlikte kullanılabilir mi?
-                            <i class="fas fa-chevron-down text-sm transition-transform duration-300"
-                                id="webflux-q5-icon"></i>
-                        </h3>
-                        <div id="webflux-q5" class="answer-content text-gray-600 mt-2">
-                            <p>Evet, Spring Boot 2.x ile hybrid model desteklenir. Ancak aynı controller sınıfı hem WebFlux hem MVC kullanamaz.</p>
-                            <p><strong>Yaygın kullanım</strong>:</p>
-                            <p>Public API → WebFlux (yüksek concurrency)</p>
-                            <p>Admin panel / dashboard → Spring MVC</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Mikroservis Mimarisi -->
-            <div class="category bg-white rounded-lg shadow-md overflow-hidden">
-                <div class="category-header bg-yellow-700 text-white p-4 cursor-pointer flex justify-between items-center"
-                    onclick="toggleCategory('microservices-architecture')">
-                    <h2 class="text-xl font-semibold">Mikroservis Mimarisi</h2>
-                    <i class="fas fa-chevron-down transition-transform duration-300" id="microservices-architecture-icon"></i>
-                </div>
-                <div id="microservices-architecture" class="category-content p-4">
-                    <div class="question-item mb-6 border-b border-gray-200 pb-4">
-                        <h3 class="text-gray-600  font-semibold text-lg mb-2 cursor-pointer flex justify-between items-center"
-                            onclick="toggleAnswer('msa-q1')">
-                            Mikroservis mimarisinde saga pattern nedir?
-                            <i class="fas fa-chevron-down text-sm transition-transform duration-300"
-                                id="msa-q1-icon"></i>
-                        </h3>
-                        <div id="msa-q1" class="answer-content text-gray-600 mt-2">
-                            <p><strong>Saga</strong>, dağıtık transaction yönetiminde kullanılır.</p>
-                            <p><strong>Choreography Saga</strong>: Servisler birbirini eventlerle tetikler (Kafka/RabbitMQ).</p>
-                            <p><strong>Orchestration Saga</strong>: Merkezi bir orchestrator transaction akışını yönetir.</p>
-                            <p><strong>Avantajı</strong>: 2PC (two-phase commit) yerine event-driven compensating transactions ile tutarlılık sağlanır.</p>
-                        </div>
-                    </div>
-
-                    <div class="question-item mb-6 border-b border-gray-200 pb-4">
-                        <h3 class="text-gray-600  font-semibold text-lg mb-2 cursor-pointer flex justify-between items-center"
-                            onclick="toggleAnswer('msa-q2')">
-                            Event-driven microservices avantajları nelerdir?
-                            <i class="fas fa-chevron-down text-sm transition-transform duration-300"
-                                id="msa-q2-icon"></i>
-                        </h3>
-                        <div id="msa-q2" class="answer-content text-gray-600 mt-2">
-                            <ul class="list-disc pl-5">
-                                <li>Servisler gevşek bağlıdır.</li>
-                                <li>Yüksek ölçeklenebilirlik sağlar.</li>
-                                <li>Dağıtık transaction yerine eventual consistency ile performans artar.</li>
-                                <li>Kafka, RabbitMQ, Pulsar gibi mesajlaşma sistemleri ile doğal entegrasyon yapılır.</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="question-item mb-6 border-b border-gray-200 pb-4">
-                        <h3 class="text-gray-600  font-semibold text-lg mb-2 cursor-pointer flex justify-between items-center"
-                            onclick="toggleAnswer('msa-q3')">
-                            API Gateway'de rate limiting nasıl yapılır?
-                            <i class="fas fa-chevron-down text-sm transition-transform duration-300"
-                                id="msa-q3-icon"></i>
-                        </h3>
-                        <div id="msa-q3" class="answer-content text-gray-600 mt-2">
-                            <p><strong>Token Bucket Algorithm</strong> veya <strong>Leaky Bucket</strong> algoritmaları ile yapılır.</p>
-                            <p>Spring Cloud Gateway + Redis kullanarak RequestRateLimiter filter ile IP bazlı rate limiting uygulanabilir.</p>
-                        </div>
-                    </div>
-
-                    <div class="question-item mb-6 border-b border-gray-200 pb-4">
-                        <h3 class="text-gray-600  font-semibold text-lg mb-2 cursor-pointer flex justify-between items-center"
-                            onclick="toggleAnswer('msa-q4')">
-                            Microservices ortamında distributed tracing nasıl yapılır?
-                            <i class="fas fa-chevron-down text-sm transition-transform duration-300"
-                                id="msa-q4-icon"></i>
-                        </h3>
-                        <div id="msa-q4" class="answer-content text-gray-600 mt-2">
-                            <p><strong>Spring Cloud Sleuth + Zipkin/Jaeger</strong> kullanılır.</p>
-                            <p>Her request'e <strong>traceId</strong> ve <strong>spanId</strong> eklenir.</p>
-                            <p>Servisler arası çağrılar loglanır.</p>
-                            <p>Zipkin UI üzerinden request path'leri izlenebilir.</p>
-                        </div>
-                    </div>
-
-                    <div class="question-item mb-6 border-b border-gray-200 pb-4">
-                        <h3 class="text-gray-600  font-semibold text-lg mb-2 cursor-pointer flex justify-between items-center"
-                            onclick="toggleAnswer('msa-q5')">
-                            Kafka + Redis + ElasticSearch ile scalable microservice mimarisi nasıl tasarlanır?
-                            <i class="fas fa-chevron-down text-sm transition-transform duration-300"
-                                id="msa-q5-icon"></i>
-                        </h3>
-                        <div id="msa-q5" class="answer-content text-gray-600 mt-2">
-                            <p><strong>Kafka</strong> → event streaming / queue</p>
-                            <p><strong>Redis</strong> → cache + lightweight pub/sub</p>
-                            <p><strong>ElasticSearch</strong> → search / analytics</p>
-                            <p><strong>Spring Cloud</strong> → service discovery + config management</p>
-                            <p><strong>Circuit breaker</strong> + <strong>backpressure</strong> + <strong>reactive WebFlux</strong> → yüksek concurrency ve fault-tolerance sağlanır</p>
                         </div>
                     </div>
                 </div>
@@ -834,7 +708,7 @@
 
             <!-- Spring Cloud & Microservices -->
             <div class="category bg-white rounded-lg shadow-md overflow-hidden">
-                <div class="category-header bg-purple-700 text-white p-4 cursor-pointer flex justify-between items-center"
+                <div class="category-header bg-purple-600 text-white p-4 cursor-pointer flex justify-between items-center"
                     onclick="toggleCategory('spring-cloud')">
                     <h2 class="text-xl font-semibold">Spring Cloud & Microservices</h2>
                     <i class="fas fa-chevron-down transition-transform duration-300" id="spring-cloud-icon"></i>
@@ -842,137 +716,278 @@
                 <div id="spring-cloud" class="category-content p-4">
                     <div class="question-item mb-6 border-b border-gray-200 pb-4">
                         <h3 class="text-gray-600  font-semibold text-lg mb-2 cursor-pointer flex justify-between items-center"
-                            onclick="toggleAnswer('sc-q1')">
-                            Spring Cloud Config Server nedir?
+                            onclick="toggleAnswer('cloud-q1')">
+                            Microservice architecture'de Spring Cloud Config Server nasıl çalışır?
                             <i class="fas fa-chevron-down text-sm transition-transform duration-300"
-                                id="sc-q1-icon"></i>
+                                id="cloud-q1-icon"></i>
                         </h3>
-                        <div id="sc-q1" class="answer-content text-gray-600 mt-2">
-                            <p><strong>Spring Cloud Config Server</strong>, microservices için merkezi konfigürasyon yönetimi sağlar.</p>
+                        <div id="cloud-q1" class="answer-content text-gray-600 mt-2">
+                            <p>Merkezi konfig yönetimi sağlar.</p>
                             <p>Git, filesystem veya Vault gibi kaynaklardan config alır.</p>
-                            <p>@RefreshScope ile runtime config update mümkün.</p>
+                            <p>@RefreshScope ile runtime'da config değişikliklerini uygular.</p>
                         </div>
                     </div>
 
                     <div class="question-item mb-6 border-b border-gray-200 pb-4">
                         <h3 class="text-gray-600  font-semibold text-lg mb-2 cursor-pointer flex justify-between items-center"
-                            onclick="toggleAnswer('sc-q2')">
-                            Spring Cloud Eureka nedir?
+                            onclick="toggleAnswer('cloud-q2')">
+                            Spring Cloud Config Client nasıl yapılandırılır?
                             <i class="fas fa-chevron-down text-sm transition-transform duration-300"
-                                id="sc-q2-icon"></i>
+                                id="cloud-q2-icon"></i>
                         </h3>
-                        <div id="sc-q2" class="answer-content text-gray-600 mt-2">
-                            <p><strong>Spring Cloud Eureka</strong>, service discovery / registry sağlar.</p>
-                            <p>Client → kendini register eder, diğer servisleri discovery ile bulur.</p>
+                        <div id="cloud-q2" class="answer-content text-gray-600 mt-2">
+                            <p>bootstrap.properties/yaml ile config server adresi tanımlanır.</p>
+                            <p>Servis startup sırasında config server'dan config alır.</p>
+                            <p>/actuator/refresh ile manuel veya event-driven refresh yapılabilir.</p>
+                        </div>
+                    </div>
+
+                    <div class="question-item mb-6 border-b border-gray-200 pb-4">
+                        <h3 class="text-gray-600  font-semibold text-lg mb-2 cursor-pointer flex justify-between items-center"
+                            onclick="toggleAnswer('cloud-q3')">
+                            Spring Cloud Eureka nedir ve nasıl kullanılır?
+                            <i class="fas fa-chevron-down text-sm transition-transform duration-300"
+                                id="cloud-q3-icon"></i>
+                        </h3>
+                        <div id="cloud-q3" class="answer-content text-gray-600 mt-2">
+                            <p>Service discovery / registry sağlar.</p>
+                            <p>Client kendini register eder ve diğer servisleri discovery ile bulur.</p>
                             <p>Ribbon veya Feign ile client-side load balancing yapılabilir.</p>
                         </div>
                     </div>
 
                     <div class="question-item mb-6 border-b border-gray-200 pb-4">
                         <h3 class="text-gray-600  font-semibold text-lg mb-2 cursor-pointer flex justify-between items-center"
-                            onclick="toggleAnswer('sc-q3')">
+                            onclick="toggleAnswer('cloud-q4')">
                             Spring Cloud Circuit Breaker nedir?
                             <i class="fas fa-chevron-down text-sm transition-transform duration-300"
-                                id="sc-q3-icon"></i>
+                                id="cloud-q4-icon"></i>
                         </h3>
-                        <div id="sc-q3" class="answer-content text-gray-600 mt-2">
-                            <p><strong>Circuit Breaker</strong>, hatalı servis çağrılarını keser ve fallback mekanizması sağlar.</p>
-                            <p><strong>Resilience4j</strong> veya <strong>Hystrix</strong> ile uygulanır.</p>
+                        <div id="cloud-q4" class="answer-content text-gray-600 mt-2">
+                            <p>Hatalı servis çağrılarını keser ve fallback mekanizması sağlar.</p>
+                            <p>Resilience4j veya Hystrix ile uygulanır.</p>
                             <p>Retry, timeout ve bulkhead pattern ile birleştirilebilir.</p>
                         </div>
                     </div>
 
                     <div class="question-item mb-6 border-b border-gray-200 pb-4">
                         <h3 class="text-gray-600  font-semibold text-lg mb-2 cursor-pointer flex justify-between items-center"
-                            onclick="toggleAnswer('sc-q4')">
-                            Spring Cloud Gateway vs Zuul
+                            onclick="toggleAnswer('cloud-q5')">
+                            Service-to-Service communication nasıl sağlanır?
                             <i class="fas fa-chevron-down text-sm transition-transform duration-300"
-                                id="sc-q4-icon"></i>
+                                id="cloud-q5-icon"></i>
                         </h3>
-                        <div id="sc-q4" class="answer-content text-gray-600 mt-2">
-                            <p><strong>Zuul</strong> → servlet-blocking</p>
-                            <p><strong>Gateway</strong> → reactive, non-blocking, filtre + route</p>
+                        <div id="cloud-q5" class="answer-content text-gray-600 mt-2">
+                            <ul class="list-disc pl-5">
+                                <li>REST (synchronous)</li>
+                                <li>gRPC (binary, high performance)</li>
+                                <li>Kafka / RabbitMQ (async, event-driven)</li>
+                            </ul>
                         </div>
                     </div>
 
                     <div class="question-item mb-6 border-b border-gray-200 pb-4">
                         <h3 class="text-gray-600  font-semibold text-lg mb-2 cursor-pointer flex justify-between items-center"
-                            onclick="toggleAnswer('sc-q5')">
-                            Feign client avantajları
+                            onclick="toggleAnswer('cloud-q6')">
+                            Spring Cloud Stream nedir?
                             <i class="fas fa-chevron-down text-sm transition-transform duration-300"
-                                id="sc-q5-icon"></i>
+                                id="cloud-q6-icon"></i>
                         </h3>
-                        <div id="sc-q5" class="answer-content text-gray-600 mt-2">
-                            <p><strong>Feign</strong>, declarative REST client sağlar.</p>
-                            <p>Ribbon ile load balancing otomatik.</p>
-                            <p>Daha az boilerplate code.</p>
+                        <div id="cloud-q6" class="answer-content text-gray-600 mt-2">
+                            <p>Event-driven microservices için abstraction sağlar.</p>
+                            <p>Kafka veya RabbitMQ ile bind edilir.</p>
+                            <p>Producer ve Consumer kodu minimal değişiklikle reactive olarak çalışabilir.</p>
                         </div>
                     </div>
 
                     <div class="question-item mb-6 border-b border-gray-200 pb-4">
                         <h3 class="text-gray-600  font-semibold text-lg mb-2 cursor-pointer flex justify-between items-center"
-                            onclick="toggleAnswer('sc-q6')">
-                            Distributed tracing nasıl yapılır?
+                            onclick="toggleAnswer('cloud-q7')">
+                            Spring Profiles kullanımı ve environment management
                             <i class="fas fa-chevron-down text-sm transition-transform duration-300"
-                                id="sc-q6-icon"></i>
+                                id="cloud-q7-icon"></i>
                         </h3>
-                        <div id="sc-q6" class="answer-content text-gray-600 mt-2">
-                            <p><strong>Spring Cloud Sleuth + Zipkin/Jaeger</strong> kullanılır.</p>
-                            <p><strong>TraceId</strong> + <strong>SpanId</strong> ile request flow izlenir.</p>
+                        <div id="cloud-q7" class="answer-content text-gray-600 mt-2">
+                            <p>@Profile("dev") ile environment-specific bean tanımlanır.</p>
+                            <p>spring.profiles.active ile runtime ortam seçilir.</p>
+                            <p>Config Server ile birlikte farklı branch/env için config yönetimi yapılabilir.</p>
                         </div>
                     </div>
 
                     <div class="question-item mb-6 border-b border-gray-200 pb-4">
                         <h3 class="text-gray-600  font-semibold text-lg mb-2 cursor-pointer flex justify-between items-center"
-                            onclick="toggleAnswer('sc-q7')">
+                            onclick="toggleAnswer('cloud-q8')">
                             Spring Cloud Bus ne işe yarar?
                             <i class="fas fa-chevron-down text-sm transition-transform duration-300"
-                                id="sc-q7-icon"></i>
+                                id="cloud-q8-icon"></i>
                         </h3>
-                        <div id="sc-q7" class="answer-content text-gray-600 mt-2">
-                            <p><strong>Spring Cloud Bus</strong>, config değişikliklerini servisler arasında broadcast eder.</p>
-                            <p>RabbitMQ veya Kafka üzerinden event-driven.</p>
+                        <div id="cloud-q8" class="answer-content text-gray-600 mt-2">
+                            <p>Config değişikliklerini servisler arasında broadcast eder.</p>
+                            <p>Event-driven güncellemeler RabbitMQ veya Kafka üzerinden yapılır.</p>
                         </div>
                     </div>
 
                     <div class="question-item mb-6 border-b border-gray-200 pb-4">
                         <h3 class="text-gray-600  font-semibold text-lg mb-2 cursor-pointer flex justify-between items-center"
-                            onclick="toggleAnswer('sc-q8')">
-                            Service-to-service communication nasıl sağlanır?
+                            onclick="toggleAnswer('cloud-q9')">
+                            Spring Cloud Gateway ile route ve filter tanımlama
                             <i class="fas fa-chevron-down text-sm transition-transform duration-300"
-                                id="sc-q8-icon"></i>
+                                id="cloud-q9-icon"></i>
                         </h3>
-                        <div id="sc-q8" class="answer-content text-gray-600 mt-2">
-                            <p><strong>REST</strong> (synchronous)</p>
-                            <p><strong>gRPC</strong> (binary, high performance)</p>
-                            <p><strong>Kafka / RabbitMQ</strong> (async, event-driven)</p>
+                        <div id="cloud-q9" class="answer-content text-gray-600 mt-2">
+                            <p><strong>Route:</strong> URI/path bazlı yönlendirme</p>
+                            <p><strong>Filter:</strong> Request/response intercept</p>
+                            <p>Global ve per-route filter'lar ile authentication, logging, metrics</p>
                         </div>
                     </div>
 
                     <div class="question-item mb-6 border-b border-gray-200 pb-4">
                         <h3 class="text-gray-600  font-semibold text-lg mb-2 cursor-pointer flex justify-between items-center"
-                            onclick="toggleAnswer('sc-q9')">
-                            Config Server + GitHub branch kullanımı
+                            onclick="toggleAnswer('cloud-q10')">
+                            Service discovery'de load balancing nasıl çalışır?
                             <i class="fas fa-chevron-down text-sm transition-transform duration-300"
-                                id="sc-q9-icon"></i>
+                                id="cloud-q10-icon"></i>
                         </h3>
-                        <div id="sc-q9" class="answer-content text-gray-600 mt-2">
-                            <p>Branch başına farklı environment (dev, prod) konfig</p>
-                            <p>Servisler spring.profiles.active ile branch seçer</p>
+                        <div id="cloud-q10" class="answer-content text-gray-600 mt-2">
+                            <p>Ribbon veya Spring Cloud LoadBalancer ile client-side balancing</p>
+                            <p>Round-robin veya weighted rule uygulanabilir</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Spring Boot & Core -->
+            <div class="category bg-white rounded-lg shadow-md overflow-hidden">
+                <div class="category-header bg-indigo-600 text-white p-4 cursor-pointer flex justify-between items-center"
+                    onclick="toggleCategory('spring-boot')">
+                    <h2 class="text-xl font-semibold">Spring Boot & Core</h2>
+                    <i class="fas fa-chevron-down transition-transform duration-300" id="spring-boot-icon"></i>
+                </div>
+                <div id="spring-boot" class="category-content p-4">
+                    <div class="question-item mb-6 border-b border-gray-200 pb-4">
+                        <h3 class="text-gray-600  font-semibold text-lg mb-2 cursor-pointer flex justify-between items-center"
+                            onclick="toggleAnswer('boot-q1')">
+                            Spring Boot starter'ları ne işe yarar?
+                            <i class="fas fa-chevron-down text-sm transition-transform duration-300"
+                                id="boot-q1-icon"></i>
+                        </h3>
+                        <div id="boot-q1" class="answer-content text-gray-600 mt-2">
+                            <p>Uygulamayı hızlı başlatmak için bağımlılıkları gruplar.</p>
+                            <p>Örn: spring-boot-starter-web → Spring MVC + Tomcat + JSON support</p>
                         </div>
                     </div>
 
                     <div class="question-item mb-6 border-b border-gray-200 pb-4">
                         <h3 class="text-gray-600  font-semibold text-lg mb-2 cursor-pointer flex justify-between items-center"
-                            onclick="toggleAnswer('sc-q10')">
-                            Microservice fault tolerance stratejileri
+                            onclick="toggleAnswer('boot-q2')">
+                            Spring Boot auto-configuration nasıl çalışır?
                             <i class="fas fa-chevron-down text-sm transition-transform duration-300"
-                                id="sc-q10-icon"></i>
+                                id="boot-q2-icon"></i>
                         </h3>
-                        <div id="sc-q10" class="answer-content text-gray-600 mt-2">
-                            <p><strong>Circuit breaker</strong> + <strong>retry</strong> + <strong>fallback</strong></p>
-                            <p><strong>Bulkhead pattern</strong> → servis izolasyonu</p>
-                            <p><strong>Timeout</strong> ve <strong>backpressure</strong> yönetimi</p>
+                        <div id="boot-q2" class="answer-content text-gray-600 mt-2">
+                            <p>@EnableAutoConfiguration + classpath scanning</p>
+                            <p>Beans, classpath ve properties'e göre otomatik konfig</p>
+                        </div>
+                    </div>
+
+                    <div class="question-item mb-6 border-b border-gray-200 pb-4">
+                        <h3 class="text-gray-600  font-semibold text-lg mb-2 cursor-pointer flex justify-between items-center"
+                            onclick="toggleAnswer('boot-q3')">
+                            @SpringBootApplication neyi kapsar?
+                            <i class="fas fa-chevron-down text-sm transition-transform duration-300"
+                                id="boot-q3-icon"></i>
+                        </h3>
+                        <div id="boot-q3" class="answer-content text-gray-600 mt-2">
+                            <p>@Configuration + @EnableAutoConfiguration + @ComponentScan</p>
+                        </div>
+                    </div>
+
+                    <div class="question-item mb-6 border-b border-gray-200 pb-4">
+                        <h3 class="text-gray-600  font-semibold text-lg mb-2 cursor-pointer flex justify-between items-center"
+                            onclick="toggleAnswer('boot-q4')">
+                            Spring Boot Actuator nedir?
+                            <i class="fas fa-chevron-down text-sm transition-transform duration-300"
+                                id="boot-q4-icon"></i>
+                        </h3>
+                        <div id="boot-q4" class="answer-content text-gray-600 mt-2">
+                            <p>Application health, metrics, info endpoint'leri</p>
+                            <p>Custom endpoint oluşturulabilir</p>
+                        </div>
+                    </div>
+
+                    <div class="question-item mb-6 border-b border-gray-200 pb-4">
+                        <h3 class="text-gray-600  font-semibold text-lg mb-2 cursor-pointer flex justify-between items-center"
+                            onclick="toggleAnswer('boot-q5')">
+                            Spring Boot vs Spring MVC
+                            <i class="fas fa-chevron-down text-sm transition-transform duration-300"
+                                id="boot-q5-icon"></i>
+                        </h3>
+                        <div id="boot-q5" class="answer-content text-gray-600 mt-2">
+                            <p><strong>Boot:</strong> Production-ready default config + embedded server</p>
+                            <p><strong>MVC:</strong> Manual konfig ve dependency management</p>
+                        </div>
+                    </div>
+
+                    <div class="question-item mb-6 border-b border-gray-200 pb-4">
+                        <h3 class="text-gray-600  font-semibold text-lg mb-2 cursor-pointer flex justify-between items-center"
+                            onclick="toggleAnswer('boot-q6')">
+                            Spring Boot properties vs YAML
+                            <i class="fas fa-chevron-down text-sm transition-transform duration-300"
+                                id="boot-q6-icon"></i>
+                        </h3>
+                        <div id="boot-q6" class="answer-content text-gray-600 mt-2">
+                            <p><strong>Properties:</strong> Key=value</p>
+                            <p><strong>YAML:</strong> Nested config için daha okunabilir</p>
+                        </div>
+                    </div>
+
+                    <div class="question-item mb-6 border-b border-gray-200 pb-4">
+                        <h3 class="text-gray-600  font-semibold text-lg mb-2 cursor-pointer flex justify-between items-center"
+                            onclick="toggleAnswer('boot-q7')">
+                            Profiles ve @Profile anotasyonu
+                            <i class="fas fa-chevron-down text-sm transition-transform duration-300"
+                                id="boot-q7-icon"></i>
+                        </h3>
+                        <div id="boot-q7" class="answer-content text-gray-600 mt-2">
+                            <p>Farklı environment (dev, test, prod) konfig yönetimi</p>
+                            <p>Bean'ler aktif/inaktif olarak yüklenebilir</p>
+                        </div>
+                    </div>
+
+                    <div class="question-item mb-6 border-b border-gray-200 pb-4">
+                        <h3 class="text-gray-600  font-semibold text-lg mb-2 cursor-pointer flex justify-between items-center"
+                            onclick="toggleAnswer('boot-q8')">
+                            Spring Boot devtools ne işe yarar?
+                            <i class="fas fa-chevron-down text-sm transition-transform duration-300"
+                                id="boot-q8-icon"></i>
+                        </h3>
+                        <div id="boot-q8" class="answer-content text-gray-600 mt-2">
+                            <p>Hot reload, live reload, remote debug support</p>
+                        </div>
+                    </div>
+
+                    <div class="question-item mb-6 border-b border-gray-200 pb-4">
+                        <h3 class="text-gray-600  font-semibold text-lg mb-2 cursor-pointer flex justify-between items-center"
+                            onclick="toggleAnswer('boot-q9')">
+                            Spring Boot Logging framework
+                            <i class="fas fa-chevron-down text-sm transition-transform duration-300"
+                                id="boot-q9-icon"></i>
+                        </h3>
+                        <div id="boot-q9" class="answer-content text-gray-600 mt-2">
+                            <p>Default → Logback</p>
+                            <p>Log level override → application.properties</p>
+                        </div>
+                    </div>
+
+                    <div class="question-item mb-6 border-b border-gray-200 pb-4">
+                        <h3 class="text-gray-600  font-semibold text-lg mb-2 cursor-pointer flex justify-between items-center"
+                            onclick="toggleAnswer('boot-q10')">
+                            Custom starter oluşturmak
+                            <i class="fas fa-chevron-down text-sm transition-transform duration-300"
+                                id="boot-q10-icon"></i>
+                        </h3>
+                        <div id="boot-q10" class="answer-content text-gray-600 mt-2">
+                            <p>Başka projelerde tekrar kullanılabilir dependency set'i</p>
                         </div>
                     </div>
                 </div>
