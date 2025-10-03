@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="tr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,40 +15,50 @@
             font-family: monospace;
             font-size: 0.875rem;
         }
+
         .code-block.bash {
             background-color: #1e293b;
             color: #e2e8f0;
         }
+
         .code-block.json {
             background-color: #1e3a5f;
             color: #e2e8f0;
         }
+
         .code-block.yaml {
             background-color: #1e3a1e;
             color: #e2e8f0;
         }
+
         .code-block.java {
             background-color: #3a1e3a;
             color: #e2e8f0;
         }
+
         .code-block.dockerfile {
             background-color: #3a1e1e;
             color: #e2e8f0;
         }
+
         .category-card {
             transition: transform 0.3s ease;
         }
+
         .category-card:hover {
             transform: translateY(-5px);
         }
+
         .question-card {
             transition: all 0.3s ease;
         }
+
         .question-card:hover {
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
         }
     </style>
 </head>
+
 <body class="bg-gray-100 min-h-screen">
     <div class="container mx-auto px-4 py-8">
         <header class="text-center mb-12">
@@ -59,12 +70,40 @@
             <div class="category-card bg-white rounded-lg shadow-md p-6">
                 <div class="flex items-center mb-4">
                     <div class="bg-blue-100 p-3 rounded-full mr-4">
+                        <i class="fas fa-book text-blue-600 text-xl"></i>
+                    </div>
+                    <h2 class="text-xl font-bold text-gray-800">Spring Boot & Hibernate</h2>
+                </div>
+                <p class="text-gray-600 mb-4">Spring Boot ve Hibernate mülakatlarında en çok sorulan konular</p>
+                <button onclick="scrollToCategory('spring-boot-hibernate')"
+                    class="text-blue-600 font-medium hover:text-blue-800">Soruları Görüntüle <i
+                        class="fas fa-arrow-right ml-1"></i></button>
+            </div>
+
+            <div class="category-card bg-white rounded-lg shadow-md p-6">
+                <div class="flex items-center mb-4">
+                    <div class="bg-blue-100 p-3 rounded-full mr-4">
+                        <i class="fas fa-database text-blue-600 text-xl"></i>
+                    </div>
+                    <h2 class="text-xl font-bold text-gray-800">Spring Boot @Transactional</h2>
+                </div>
+                <p class="text-gray-600 mb-4">@Transactional anotasyonu ile ilgili mülakat soruları ve cevapları</p>
+                <button onclick="scrollToCategory('transactional')"
+                    class="text-blue-600 font-medium hover:text-blue-800">Soruları Görüntüle <i
+                        class="fas fa-arrow-right ml-1"></i></button>
+            </div>
+
+            <div class="category-card bg-white rounded-lg shadow-md p-6">
+                <div class="flex items-center mb-4">
+                    <div class="bg-blue-100 p-3 rounded-full mr-4">
                         <i class="fas fa-network-wired text-blue-600 text-xl"></i>
                     </div>
                     <h2 class="text-xl font-bold text-gray-800">Mikroservis Mimarisi</h2>
                 </div>
                 <p class="text-gray-600 mb-4">25 adet ileri seviye mikroservis sorusu ve cevabı</p>
-                <button onclick="scrollToCategory('mikroservis')" class="text-blue-600 font-medium hover:text-blue-800">Soruları Görüntüle <i class="fas fa-arrow-right ml-1"></i></button>
+                <button onclick="scrollToCategory('mikroservis')"
+                    class="text-blue-600 font-medium hover:text-blue-800">Soruları Görüntüle <i
+                        class="fas fa-arrow-right ml-1"></i></button>
             </div>
 
             <div class="category-card bg-white rounded-lg shadow-md p-6">
@@ -75,7 +114,9 @@
                     <h2 class="text-xl font-bold text-gray-800">Spring Batch</h2>
                 </div>
                 <p class="text-gray-600 mb-4">25 adet ileri seviye Spring Batch sorusu ve cevabı</p>
-                <button onclick="scrollToCategory('batch')" class="text-blue-600 font-medium hover:text-blue-800">Soruları Görüntüle <i class="fas fa-arrow-right ml-1"></i></button>
+                <button onclick="scrollToCategory('batch')"
+                    class="text-blue-600 font-medium hover:text-blue-800">Soruları Görüntüle <i
+                        class="fas fa-arrow-right ml-1"></i></button>
             </div>
 
             <div class="category-card bg-white rounded-lg shadow-md p-6">
@@ -86,7 +127,9 @@
                     <h2 class="text-xl font-bold text-gray-800">Spring Caching</h2>
                 </div>
                 <p class="text-gray-600 mb-4">25 adet ileri seviye Spring Caching sorusu ve cevabı</p>
-                <button onclick="scrollToCategory('caching')" class="text-blue-600 font-medium hover:text-blue-800">Soruları Görüntüle <i class="fas fa-arrow-right ml-1"></i></button>
+                <button onclick="scrollToCategory('caching')"
+                    class="text-blue-600 font-medium hover:text-blue-800">Soruları Görüntüle <i
+                        class="fas fa-arrow-right ml-1"></i></button>
             </div>
 
             <div class="category-card bg-white rounded-lg shadow-md p-6">
@@ -97,7 +140,8 @@
                     <h2 class="text-xl font-bold text-gray-800">Spring AOP & Events</h2>
                 </div>
                 <p class="text-gray-600 mb-4">25 adet ileri seviye Spring AOP & Events sorusu ve cevabı</p>
-                <button onclick="scrollToCategory('aop')" class="text-blue-600 font-medium hover:text-blue-800">Soruları Görüntüle <i class="fas fa-arrow-right ml-1"></i></button>
+                <button onclick="scrollToCategory('aop')" class="text-blue-600 font-medium hover:text-blue-800">Soruları
+                    Görüntüle <i class="fas fa-arrow-right ml-1"></i></button>
             </div>
 
             <div class="category-card bg-white rounded-lg shadow-md p-6">
@@ -108,7 +152,9 @@
                     <h2 class="text-xl font-bold text-gray-800">Spring Integration</h2>
                 </div>
                 <p class="text-gray-600 mb-4">25 adet ileri seviye Spring Integration sorusu ve cevabı</p>
-                <button onclick="scrollToCategory('integration')" class="text-blue-600 font-medium hover:text-blue-800">Soruları Görüntüle <i class="fas fa-arrow-right ml-1"></i></button>
+                <button onclick="scrollToCategory('integration')"
+                    class="text-blue-600 font-medium hover:text-blue-800">Soruları Görüntüle <i
+                        class="fas fa-arrow-right ml-1"></i></button>
             </div>
 
             <div class="category-card bg-white rounded-lg shadow-md p-6">
@@ -119,9 +165,635 @@
                     <h2 class="text-xl font-bold text-gray-800">Spring DevOps</h2>
                 </div>
                 <p class="text-gray-600 mb-4">25 adet ileri seviye Spring DevOps sorusu ve cevabı</p>
-                <button onclick="scrollToCategory('devops')" class="text-blue-600 font-medium hover:text-blue-800">Soruları Görüntüle <i class="fas fa-arrow-right ml-1"></i></button>
+                <button onclick="scrollToCategory('devops')"
+                    class="text-blue-600 font-medium hover:text-blue-800">Soruları Görüntüle <i
+                        class="fas fa-arrow-right ml-1"></i></button>
             </div>
         </div>
+
+        <!-- Spring Boot & Hibernate Soruları -->
+        <section id="spring-boot-hibernate" class="mb-16">
+            <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+                <div class="flex items-center mb-6">
+                    <div class="bg-blue-100 p-3 rounded-full mr-4">
+                        <i class="fas fa-book text-blue-600 text-xl"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-800">Spring Boot & Hibernate</h2>
+                </div>
+                <p class="text-gray-600 mb-6">Bu dokümanda Spring Boot & Hibernate mülakatlarında en çok sorulan konular
+                    soru-cevap mantığıyla açıklanmış ve örnek kodlar eklenmiştir.</p>
+
+                <div class="space-y-6">
+                    <!-- @Transactional Anotasyonu -->
+                    <div class="bg-gray-50 rounded-lg p-4 mb-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">🔹 Mülakat Soru-Cevap: @Transactional
+                            Anotasyonu</h3>
+
+                        <!-- Soru 1 -->
+                        <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 1: Spring'de `@Transactional`
+                                anotasyonu nedir? Ne işe yarar?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong> `@Transactional`, Spring'in transaction yönetimi için
+                                    kullanılan bir anotasyondur.</p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li>Bir metodu veya sınıfı transactional hale getirir.</li>
+                                    <li>Metod başarıyla tamamlanırsa <strong>commit</strong>, hata oluşursa
+                                        <strong>rollback</strong> yapılır.
+                                    </li>
+                                </ul>
+                                <p class="mt-2 font-medium">Örnek:</p>
+                                <pre class="code-block java mt-2">@Service
+public class UserService {
+    @Autowired
+    private UserRepository userRepository;
+
+    @Transactional
+    public void registerUser(User user) {
+        userRepository.save(user);
+        if(user.getEmail() == null) {
+            throw new RuntimeException("Email cannot be null!");
+        }
+    }
+}</pre>
+                            </div>
+                        </div>
+
+                        <!-- Soru 2 -->
+                        <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 2: `@Transactional`
+                                parametreleri nelerdir?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong></p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li><strong>propagation</strong> → Transaction'un nasıl davranacağını belirler.
+                                        (`REQUIRED`, `REQUIRES_NEW`, `NESTED` …)</li>
+                                    <li><strong>isolation</strong> → Transaction izolasyon seviyeleri (`READ_COMMITTED`,
+                                        `REPEATABLE_READ`, `SERIALIZABLE` …)</li>
+                                    <li><strong>rollbackFor / noRollbackFor</strong> → Hangi exception durumlarında
+                                        rollback yapılacağını kontrol eder.</li>
+                                    <li><strong>readOnly</strong> → Okuma işlemleri için optimize eder.</li>
+                                    <li><strong>timeout</strong> → Maksimum çalışma süresini belirler.</li>
+                                </ul>
+                                <p class="mt-2 font-medium">Örnek:</p>
+                                <pre class="code-block java mt-2">@Transactional(propagation = Propagation.REQUIRES_NEW,
+               isolation = Isolation.REPEATABLE_READ,
+               rollbackFor = Exception.class,
+               timeout = 5)
+public void processOrder(Order order) { ... }</pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Transactional dışında sıkça gelen mülakat soruları -->
+                    <div class="bg-gray-50 rounded-lg p-4">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">🔹 Transactional dışında sıkça gelen mülakat
+                            soruları</h3>
+
+                        <!-- Soru 1 -->
+                        <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 1: Entity Mapping (OneToOne,
+                                OneToMany, vs.)</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Soru:</strong> `@OneToOne`, `@OneToMany`, `@ManyToOne`, `@ManyToMany`
+                                    ilişkilerini açıklayın.</p>
+                                <p class="mt-2 font-medium">Cevap:</p>
+                                <pre class="code-block java mt-2">@Entity
+public class User {
+   @OneToOne(cascade = CascadeType.ALL)
+   private Address address;
+
+   @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+   private List&lt;Order&gt; orders;
+}</pre>
+                            </div>
+                        </div>
+
+                        <!-- Soru 2 -->
+                        <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 2: Fetch Type (Lazy vs Eager)
+                            </h4>
+                            <div class="text-gray-700">
+                                <p><strong>Soru:</strong> `FetchType.LAZY` ve `FetchType.EAGER` arasındaki fark nedir?
+                                </p>
+                                <p><strong>Cevap:</strong></p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li><strong>LAZY:</strong> İlişkili entity sadece çağırıldığında yüklenir.</li>
+                                    <li><strong>EAGER:</strong> İlişkili entity her zaman yüklenir.</li>
+                                </ul>
+                                <p class="mt-2 font-medium">Örnek:</p>
+                                <pre class="code-block java mt-2">@OneToMany(fetch = FetchType.LAZY)
+private List&lt;Order&gt; orders;</pre>
+                            </div>
+                        </div>
+
+                        <!-- Soru 3 -->
+                        <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 3: N+1 Problem ve Çözümleri</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Soru:</strong> N+1 select problemi nedir? Hibernate'de nasıl çözülür?</p>
+                                <p><strong>Cevap:</strong> N+1 problemi, ilişkili verileri çekerken her bir kayıt için
+                                    ayrı bir sorgu çalıştırılmasıdır.</p>
+                                <p class="mt-2 font-medium">Çözüm:</p>
+                                <pre class="code-block java mt-2">@Query("SELECT u FROM User u JOIN FETCH u.orders")
+List&lt;User&gt; findAllWithOrders();</pre>
+                            </div>
+                        </div>
+
+                        <!-- Soru 4 -->
+                        <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 4: Cache Mekanizmaları</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Soru:</strong> Hibernate'de 1st level cache ve 2nd level cache farkı nedir?
+                                </p>
+                                <p><strong>Cevap:</strong></p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li><strong>1st Level Cache:</strong> Varsayılan, session bazlı.</li>
+                                    <li><strong>2nd Level Cache:</strong> SessionFactory seviyesinde, EhCache/Redis gibi
+                                        sağlayıcılarla.</li>
+                                </ul>
+                                <p class="mt-2 font-medium">Örnek:</p>
+                                <pre class="code-block java mt-2">@Entity
+@Cacheable
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+public class User { ... }</pre>
+                            </div>
+                        </div>
+
+                        <!-- Soru 5 -->
+                        <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 5: Locking Stratejileri</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Soru:</strong> Optimistic ve Pessimistic Locking nedir?</p>
+                                <p><strong>Cevap:</strong></p>
+                                <p class="mt-2 font-medium">Örnek:</p>
+                                <pre class="code-block java mt-2">@Version
+private Long version; // Optimistic Locking
+
+// Pessimistic Locking
+User user = entityManager.find(User.class, 1L, LockModeType.PESSIMISTIC_WRITE);</pre>
+                            </div>
+                        </div>
+
+                        <!-- Soru 6 -->
+                        <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 6: Spring Data JPA Query Türleri
+                            </h4>
+                            <div class="text-gray-700">
+                                <p><strong>Soru:</strong> Derived Query, JPQL, Native Query farkı nedir?</p>
+                                <p><strong>Cevap:</strong></p>
+                                <p class="mt-2 font-medium">Örnek:</p>
+                                <pre class="code-block java mt-2">// Derived Query
+User findByEmail(String email);
+
+// JPQL
+@Query("SELECT u FROM User u WHERE u.email = ?1")
+User findByEmailJPQL(String email);
+
+// Native Query
+@Query(value = "SELECT * FROM users WHERE email = ?1", nativeQuery = true)
+User findByEmailNative(String email);</pre>
+                            </div>
+                        </div>
+
+                        <!-- Soru 7 -->
+                        <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 7: Isolation Seviyeleri ve Veri
+                                Tutarsızlıkları</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Soru:</strong> Dirty Read, Non-Repeatable Read, Phantom Read nedir?</p>
+                                <p><strong>Cevap:</strong></p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li><strong>Dirty Read:</strong> Commit edilmemiş veriyi okuma.</li>
+                                    <li><strong>Non-Repeatable Read:</strong> Aynı satır farklı değer döndürmesi.</li>
+                                    <li><strong>Phantom Read:</strong> Aynı sorguda farklı satır sayısı dönmesi.</li>
+                                </ul>
+                                <p class="mt-2 font-medium">Örnek:</p>
+                                <pre class="code-block java mt-2">@Transactional(isolation = Isolation.SERIALIZABLE)
+public void updateBalance(...) { ... }</pre>
+                            </div>
+                        </div>
+
+                        <!-- Soru 8 -->
+                        <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 8: Spring Boot Config, Starters,
+                                Auto-Configuration</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Soru:</strong> `@SpringBootApplication` altında hangi anotasyonlar vardır?
+                                </p>
+                                <p><strong>Cevap:</strong></p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li>`@Configuration`</li>
+                                    <li>`@EnableAutoConfiguration`</li>
+                                    <li>`@ComponentScan`</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Soru 9 -->
+                        <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 9: Exception Handling</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Soru:</strong> Spring Boot'ta global exception handling nasıl yapılır?</p>
+                                <p><strong>Cevap:</strong></p>
+                                <p class="mt-2 font-medium">Örnek:</p>
+                                <pre class="code-block java mt-2">@ControllerAdvice
+public class GlobalExceptionHandler {
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity&lt;String&gt; handle(RuntimeException ex) {
+        return ResponseEntity.badRequest().body(ex.getMessage());
+    }
+}</pre>
+                            </div>
+                        </div>
+
+                        <!-- Soru 10 -->
+                        <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 10: AOP</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Soru:</strong> AOP nedir? Hangi use-case'lerde kullanılır?</p>
+                                <p><strong>Cevap:</strong></p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li>Logging</li>
+                                    <li>Security</li>
+                                    <li>Transaction Management</li>
+                                </ul>
+                                <p class="mt-2 font-medium">Örnek:</p>
+                                <pre class="code-block java mt-2">@Aspect
+@Component
+public class LoggingAspect {
+    @Before("execution(* com.example.service.*.*(..))")
+    public void logBefore() {
+        System.out.println("Method çağrılmadan önce loglandı");
+    }
+}</pre>
+                            </div>
+                        </div>
+
+                        <!-- Soru 11 -->
+                        <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 11: Spring Security</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Soru:</strong> JWT Authentication nasıl çalışır?</p>
+                                <p><strong>Cevap:</strong></p>
+                                <ol class="list-decimal pl-5 mt-2">
+                                    <li>Kullanıcı login olur, backend JWT token üretir.</li>
+                                    <li>Token client tarafında saklanır.</li>
+                                    <li>Her request'te `Authorization: Bearer <token>` header'ı ile gönderilir.</li>
+                                    <li>Backend token'ı doğrular, kullanıcıya erişim izni verir.</li>
+                                </ol>
+                                <p class="mt-2 font-medium">Örnek:</p>
+                                <pre class="code-block java mt-2">@Bean
+public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    return http.csrf().disable()
+            .authorizeHttpRequests()
+            .requestMatchers("/api/public/**").permitAll()
+            .anyRequest().authenticated()
+            .and()
+            .build();
+}</pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Özet -->
+                    <div class="bg-blue-50 rounded-lg p-4 mt-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-2">✅ Özet</h3>
+                        <p class="text-gray-700">Bu doküman Spring Boot & Hibernate mülakatlarında en sık karşılaşılan
+                            konuları soru-cevap ve kod örnekleri ile açıklamaktadır.</p>
+                        <ul class="list-disc pl-5 mt-2">
+                            <li>Transactional yönetimi</li>
+                            <li>Entity mapping & fetch types</li>
+                            <li>N+1 problemleri & cache</li>
+                            <li>Locking stratejileri</li>
+                            <li>Query türleri</li>
+                            <li>Exception handling & AOP</li>
+                            <li>Spring Security & JWT</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Spring Boot @Transactional Soruları -->
+        <section id="transactional" class="mb-16">
+            <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+                <div class="flex items-center mb-6">
+                    <div class="bg-blue-100 p-3 rounded-full mr-4">
+                        <i class="fas fa-database text-blue-600 text-xl"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-800">Spring Boot Hibernate @Transactional Mülakat Soruları
+                        ve Açıklamaları</h2>
+                </div>
+                <p class="text-gray-600 mb-6">Bu döküman, Spring Boot ve Hibernate projelerinde sıklıkla sorulan
+                    `@Transactional` anotasyonu ile ilgili mülakat sorularını, açıklamalarını ve kod örneklerini
+                    kapsamlı olarak içermektedir.</p>
+
+                <div class="space-y-6">
+                    <!-- 1. @Transactional Nedir? -->
+                    <div class="bg-gray-50 rounded-lg p-4 mb-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">1. @Transactional Nedir?</h3>
+
+                        <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru: `@Transactional` nedir? Ne işe
+                                yarar?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong></p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li>Spring Framework tarafından sağlanan bir transaction yönetim anotasyonudur.</li>
+                                    <li>Veritabanı üzerinde birden fazla SQL işlemi yapıldığında, hepsinin tek bir bütün
+                                        olarak çalışmasını sağlar.</li>
+                                    <li>İşlem başarılı olursa <strong>commit</strong>, hata olursa
+                                        <strong>rollback</strong> yapılır.
+                                    </li>
+                                    <li>Hibernate ve JPA ile çalışırken veri tutarlılığını korumak için kullanılır.</li>
+                                </ul>
+                                <p class="mt-2 font-medium">Örnek Kod:</p>
+                                <pre class="code-block java mt-2">@Service
+public class UserService {
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Transactional
+    public void createUserAndAccount(User user, Account account) {
+        userRepository.save(user);
+        if (account.getBalance() < 0) {
+            throw new RuntimeException("Hatalı bakiye!");
+        }
+    }
+}</pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2. @Transactional Parametreleri -->
+                    <div class="bg-gray-50 rounded-lg p-4 mb-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">2. @Transactional Parametreleri</h3>
+
+                        <!-- 2.1 Propagation -->
+                        <div class="mb-6">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">2.1 Propagation</h4>
+                            <p class="text-gray-700 mb-2">Transaction yayılım davranışını belirler. Varsayılan:
+                                <code>Propagation.REQUIRED</code>
+                            </p>
+
+                            <div class="overflow-x-auto">
+                                <table class="min-w-full bg-white border border-gray-200">
+                                    <thead>
+                                        <tr>
+                                            <th class="py-2 px-4 border-b">Propagation Tipi</th>
+                                            <th class="py-2 px-4 border-b">Açıklama</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="py-2 px-4 border-b">REQUIRED</td>
+                                            <td class="py-2 px-4 border-b">Mevcut transaction varsa onu kullanır, yoksa
+                                                yeni açar.</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-2 px-4 border-b">REQUIRES_NEW</td>
+                                            <td class="py-2 px-4 border-b">Her zaman yeni transaction açar. Mevcut varsa
+                                                askıya alır.</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-2 px-4 border-b">MANDATORY</td>
+                                            <td class="py-2 px-4 border-b">Transaction yoksa exception fırlatır.</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-2 px-4 border-b">SUPPORTS</td>
+                                            <td class="py-2 px-4 border-b">Transaction varsa kullanır, yoksa transaction
+                                                olmadan çalışır.</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-2 px-4 border-b">NOT_SUPPORTED</td>
+                                            <td class="py-2 px-4 border-b">Transaction varsa askıya alır, işlemi
+                                                transaction olmadan yapar.</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-2 px-4 border-b">NEVER</td>
+                                            <td class="py-2 px-4 border-b">Transaction olmadan çalışır, eğer varsa
+                                                exception atar.</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-2 px-4 border-b">NESTED</td>
+                                            <td class="py-2 px-4 border-b">Mevcut transaction içinde nested transaction
+                                                açar.</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <p class="mt-2 font-medium">Örnek Kod:</p>
+                            <pre class="code-block java mt-2">@Transactional(propagation = Propagation.REQUIRES_NEW)
+public void saveLog(Log log) {
+    logRepository.save(log);
+}</pre>
+                        </div>
+
+                        <!-- 2.2 Isolation -->
+                        <div class="mb-6">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">2.2 Isolation</h4>
+                            <p class="text-gray-700 mb-2">Transaction izolasyon seviyesini belirler. Kirli okuma, tekrar
+                                eden okuma ve phantom read problemlerini kontrol eder.</p>
+
+                            <div class="overflow-x-auto">
+                                <table class="min-w-full bg-white border border-gray-200">
+                                    <thead>
+                                        <tr>
+                                            <th class="py-2 px-4 border-b">Isolation Seviyesi</th>
+                                            <th class="py-2 px-4 border-b">Açıklama</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="py-2 px-4 border-b">DEFAULT</td>
+                                            <td class="py-2 px-4 border-b">DB'nin varsayılan ayarını kullanır.</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-2 px-4 border-b">READ_UNCOMMITTED</td>
+                                            <td class="py-2 px-4 border-b">Kirli okumalara izin verir.</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-2 px-4 border-b">READ_COMMITTED</td>
+                                            <td class="py-2 px-4 border-b">Sadece commit edilmiş verileri okur.</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-2 px-4 border-b">REPEATABLE_READ</td>
+                                            <td class="py-2 px-4 border-b">Transaction boyunca aynı satırı hep aynı
+                                                görür.</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="py-2 px-4 border-b">SERIALIZABLE</td>
+                                            <td class="py-2 px-4 border-b">En yüksek seviye, tüm transaction'lar sırayla
+                                                çalışır.</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <p class="mt-2 font-medium">Örnek Kod:</p>
+                            <pre class="code-block java mt-2">@Transactional(isolation = Isolation.SERIALIZABLE)
+public void transferMoney(Long fromId, Long toId, double amount) {
+    // En katı izolasyon seviyesi ile çalışır
+}</pre>
+                        </div>
+
+                        <!-- 2.3 rollbackFor ve noRollbackFor -->
+                        <div class="mb-6">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">2.3 rollbackFor ve noRollbackFor</h4>
+                            <p class="text-gray-700 mb-2">
+                                <strong>rollbackFor:</strong> Belirtilen exception oluşursa rollback yapılır.<br>
+                                <strong>noRollbackFor:</strong> Belirtilen exception oluşursa rollback yapılmaz.
+                            </p>
+
+                            <p class="mt-2 font-medium">Örnek Kod:</p>
+                            <pre class="code-block java mt-2">@Transactional(rollbackFor = {IOException.class, SQLException.class})
+public void riskyOperation() throws IOException {
+    // IOException veya SQLException olursa rollback olur
+}
+
+@Transactional(noRollbackFor = IllegalArgumentException.class)
+public void safeOperation() {
+    // IllegalArgumentException olursa rollback olmaz
+}</pre>
+                        </div>
+
+                        <!-- 2.4 timeout -->
+                        <div class="mb-6">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">2.4 timeout</h4>
+                            <p class="text-gray-700 mb-2">Transaction maksimum çalışma süresini (saniye cinsinden)
+                                belirler. Süre aşılırsa rollback yapılır.</p>
+
+                            <p class="mt-2 font-medium">Örnek Kod:</p>
+                            <pre class="code-block java mt-2">@Transactional(timeout = 5)
+public void longRunningTask() {
+    // 5 saniyeyi geçerse rollback olur
+}</pre>
+                        </div>
+
+                        <!-- 2.5 readOnly -->
+                        <div class="mb-6">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">2.5 readOnly</h4>
+                            <p class="text-gray-700 mb-2">Sorgunun sadece okuma amaçlı olduğunu belirtir. Hibernate
+                                dirty check yapmaz → performans artar.</p>
+
+                            <p class="mt-2 font-medium">Örnek Kod:</p>
+                            <pre class="code-block java mt-2">@Transactional(readOnly = true)
+public List<User> findAllUsers() {
+    return userRepository.findAll();
+}</pre>
+                        </div>
+                    </div>
+
+                    <!-- 3. @Transactional Hangi Katmanlarda Kullanılmalı? -->
+                    <div class="bg-gray-50 rounded-lg p-4 mb-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">3. @Transactional Hangi Katmanlarda
+                            Kullanılmalı?</h3>
+
+                        <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                            <div class="text-gray-700">
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li>En doğru kullanım <strong>Service katmanı</strong>dır.</li>
+                                    <li>Repository zaten Spring Data JPA tarafından transaction içinde çalışır.</li>
+                                    <li>Controller'da kullanılmaz.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 4. @Transactional Neden Önemlidir? -->
+                    <div class="bg-gray-50 rounded-lg p-4 mb-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">4. @Transactional Neden Önemlidir?</h3>
+
+                        <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                            <div class="text-gray-700">
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li>Veri bütünlüğünü sağlar.</li>
+                                    <li>Birden fazla tabloya yazma işlemi yapılırken, tutarsız veri oluşumunu engeller.
+                                    </li>
+                                    <li>Özellikle para transferi, stok güncelleme, sipariş işlemleri gibi kritik
+                                        operasyonlarda hayati önem taşır.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 5. Sık Karşılaşılan Problemler -->
+                    <div class="bg-gray-50 rounded-lg p-4 mb-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">5. Sık Karşılaşılan Problemler</h3>
+
+                        <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                            <div class="text-gray-700">
+                                <ol class="list-decimal pl-5 mt-2">
+                                    <li>Checked exception rollback yapmaz → rollbackFor ile belirtilmeli.</li>
+                                    <li>Transaction sadece <strong>public</strong> methodlarda çalışır (proxy tabanlı).
+                                    </li>
+                                    <li>Aynı sınıf içindeki metod çağrılarında transaction devreye girmez
+                                        (self-invocation problemi).</li>
+                                    <li>LazyInitializationException → transaction erken kapanırsa oluşabilir.</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 6. Özet -->
+                    <div class="bg-gray-50 rounded-lg p-4 mb-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">6. Özet</h3>
+
+                        <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                            <div class="text-gray-700">
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li><code>@Transactional</code> → Transaction yönetimini sağlar.</li>
+                                    <li>Parametreler: <code>propagation</code>, <code>isolation</code>,
+                                        <code>timeout</code>, <code>readOnly</code>, <code>rollbackFor</code>,
+                                        <code>noRollbackFor</code>.
+                                    </li>
+                                    <li>En iyi kullanım yeri: <strong>Service katmanı</strong>.</li>
+                                    <li>Mülakatta özellikle propagation ve isolation seviyeleri mutlaka sorulur.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 7. Örnek Full Service Kullanımı -->
+                    <div class="bg-gray-50 rounded-lg p-4 mb-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">7. Örnek Full Service Kullanımı</h3>
+
+                        <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
+                            <div class="text-gray-700">
+                                <p class="mt-2 font-medium">Örnek Kod:</p>
+                                <pre class="code-block java mt-2">@Service
+public class OrderService {
+
+    @Autowired
+    private OrderRepository orderRepository;
+
+    @Autowired
+    private PaymentRepository paymentRepository;
+
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.READ_COMMITTED)
+    public void placeOrder(Order order, Payment payment) {
+        orderRepository.save(order);
+        paymentRepository.save(payment);
+
+        if (payment.getAmount() <= 0) {
+            throw new RuntimeException("Ödeme hatalı!");
+        }
+    }
+
+    @Transactional(readOnly = true)
+    public List<Order> getAllOrders() {
+        return orderRepository.findAll();
+    }
+}</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
         <!-- Mikroservis Mimarisi Soruları -->
         <section id="mikroservis" class="mb-16">
@@ -137,9 +809,12 @@
                 <div class="space-y-6">
                     <!-- Soru 1 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">1. Mikroservislerde API Gateway neden kullanılır?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">1. Mikroservislerde API Gateway neden
+                            kullanılır?</h3>
                         <div class="text-gray-700">
-                            <p>Mikroservisler birçok küçük servise bölündüğü için client doğrudan her servise çağrı yaparsa karmaşa çıkar. <strong>API Gateway</strong> tek giriş noktası sağlar, güvenlik, rate-limiting, logging, load balancing gibi işlemleri üstlenir.</p>
+                            <p>Mikroservisler birçok küçük servise bölündüğü için client doğrudan her servise çağrı
+                                yaparsa karmaşa çıkar. <strong>API Gateway</strong> tek giriş noktası sağlar, güvenlik,
+                                rate-limiting, logging, load balancing gibi işlemleri üstlenir.</p>
                             <p class="mt-2 font-medium">Örnek: Spring Cloud Gateway kullanımı</p>
                             <pre class="code-block yaml mt-2">spring:
   cloud:
@@ -154,9 +829,11 @@
 
                     <!-- Soru 2 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">2. Mikroservislerde Service Discovery (Eureka/Consul) nasıl çalışır?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">2. Mikroservislerde Service Discovery
+                            (Eureka/Consul) nasıl çalışır?</h3>
                         <div class="text-gray-700">
-                            <p>Servisler kendilerini discovery server'a register eder. Client'lar doğrudan IP bilmeden servislere ulaşır.</p>
+                            <p>Servisler kendilerini discovery server'a register eder. Client'lar doğrudan IP bilmeden
+                                servislere ulaşır.</p>
                             <p class="mt-2 font-medium">Kod örneği (Eureka Client):</p>
                             <pre class="code-block java mt-2">@EnableEurekaClient
 @SpringBootApplication
@@ -170,9 +847,11 @@ public class OrderServiceApp {
 
                     <!-- Soru 3 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">3. Mikroservislerde Circuit Breaker mantığını anlatınız.</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">3. Mikroservislerde Circuit Breaker
+                            mantığını anlatınız.</h3>
                         <div class="text-gray-700">
-                            <p>Bir servis çökerse, sürekli retry edip sistemi yormak yerine fallback çalıştırır. Netflix Hystrix / Resilience4j ile yapılır.</p>
+                            <p>Bir servis çökerse, sürekli retry edip sistemi yormak yerine fallback çalıştırır. Netflix
+                                Hystrix / Resilience4j ile yapılır.</p>
                             <p class="mt-2 font-medium">Kod örneği (Resilience4j):</p>
                             <pre class="code-block java mt-2">@CircuitBreaker(name = "inventoryService", fallbackMethod = "fallback")
 public String callInventory() {
@@ -187,9 +866,11 @@ public String fallback(Throwable t) {
 
                     <!-- Soru 4 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">4. Event Driven Architecture mikroservislerde nasıl uygulanır?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">4. Event Driven Architecture
+                            mikroservislerde nasıl uygulanır?</h3>
                         <div class="text-gray-700">
-                            <p>Servisler birbirini REST ile değil event/message broker (Kafka, RabbitMQ) üzerinden dinler. Loose coupling sağlar.</p>
+                            <p>Servisler birbirini REST ile değil event/message broker (Kafka, RabbitMQ) üzerinden
+                                dinler. Loose coupling sağlar.</p>
                             <p class="mt-2 font-medium">Kafka Listener örneği:</p>
                             <pre class="code-block java mt-2">@KafkaListener(topics = "order-events", groupId = "payment-service")
 public void consume(String message) {
@@ -200,17 +881,21 @@ public void consume(String message) {
 
                     <!-- Soru 5 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">5. Mikroservislerde Saga Pattern nedir?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">5. Mikroservislerde Saga Pattern nedir?
+                        </h3>
                         <div class="text-gray-700">
-                            <p>Dağıtık transaction yönetimi için kullanılır. Örn: Sipariş oluştur → ödeme al → stok düş → hata varsa roll-back için compensating action çalışır.</p>
+                            <p>Dağıtık transaction yönetimi için kullanılır. Örn: Sipariş oluştur → ödeme al → stok düş
+                                → hata varsa roll-back için compensating action çalışır.</p>
                         </div>
                     </div>
 
                     <!-- Soru 6 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">6. Mikroservislerde Distributed Tracing neden önemlidir?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">6. Mikroservislerde Distributed Tracing
+                            neden önemlidir?</h3>
                         <div class="text-gray-700">
-                            <p>Mikroservislerde bir isteğin birden fazla servisi tetiklemesi sonucu sorunların kaynağı zor bulunur. Distributed tracing (Zipkin, Jaeger) ile tüm çağrılar takip edilir.</p>
+                            <p>Mikroservislerde bir isteğin birden fazla servisi tetiklemesi sonucu sorunların kaynağı
+                                zor bulunur. Distributed tracing (Zipkin, Jaeger) ile tüm çağrılar takip edilir.</p>
                             <p class="mt-2 font-medium">Örnek Konfigürasyon:</p>
                             <pre class="code-block yaml mt-2">spring.zipkin.base-url=http://localhost:9411
 spring.sleuth.sampler.probability=1</pre>
@@ -219,9 +904,11 @@ spring.sleuth.sampler.probability=1</pre>
 
                     <!-- Soru 7 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">7. Mikroservislerde Load Balancing nasıl uygulanır?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">7. Mikroservislerde Load Balancing nasıl
+                            uygulanır?</h3>
                         <div class="text-gray-700">
-                            <p>Trafik birden fazla servis instance'ı arasında dengelenir. Spring Cloud LoadBalancer veya Ribbon ile uygulanabilir.</p>
+                            <p>Trafik birden fazla servis instance'ı arasında dengelenir. Spring Cloud LoadBalancer veya
+                                Ribbon ile uygulanabilir.</p>
                             <p class="mt-2 font-medium">WebClient ile Load Balancing:</p>
                             <pre class="code-block java mt-2">@Autowired
 private WebClient.Builder webClientBuilder;
@@ -239,23 +926,28 @@ public String getUser() {
 
                     <!-- Soru 8 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">8. Idempotent mikroservis tasarımı neden önemlidir?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">8. Idempotent mikroservis tasarımı neden
+                            önemlidir?</h3>
                         <div class="text-gray-700">
-                            <p>Tekrarlanan istekler sistem üzerinde hataya neden olmamalıdır. Örn: Sipariş servisi, aynı requestId ile tekrarlandığında sadece bir kez işlenir.</p>
+                            <p>Tekrarlanan istekler sistem üzerinde hataya neden olmamalıdır. Örn: Sipariş servisi, aynı
+                                requestId ile tekrarlandığında sadece bir kez işlenir.</p>
                         </div>
                     </div>
 
                     <!-- Soru 9 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">9. Mikroservislerde CQRS pattern ne zaman tercih edilir?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">9. Mikroservislerde CQRS pattern ne zaman
+                            tercih edilir?</h3>
                         <div class="text-gray-700">
-                            <p>Read ve write operasyonlarının farklı veri modelleri ve performans gereksinimleri olduğunda tercih edilir.</p>
+                            <p>Read ve write operasyonlarının farklı veri modelleri ve performans gereksinimleri
+                                olduğunda tercih edilir.</p>
                         </div>
                     </div>
 
                     <!-- Soru 10 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">10. Mikroservislerde Event Sourcing ne işe yarar?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">10. Mikroservislerde Event Sourcing ne işe
+                            yarar?</h3>
                         <div class="text-gray-700">
                             <p>State değişiklikleri event olarak saklanır. History ve audit işlemleri kolaylaşır.</p>
                         </div>
@@ -263,7 +955,8 @@ public String getUser() {
 
                     <!-- Soru 11 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">11. Mikroservislerde Config Server nasıl çalışır?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">11. Mikroservislerde Config Server nasıl
+                            çalışır?</h3>
                         <div class="text-gray-700">
                             <p>Tüm config dosyaları merkezi bir server'da tutulur.</p>
                             <p class="mt-2 font-medium">Örnek application.yml:</p>
@@ -276,7 +969,8 @@ public String getUser() {
 
                     <!-- Soru 12 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">12. Mikroservislerde distributed transaction nasıl yönetilir?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">12. Mikroservislerde distributed
+                            transaction nasıl yönetilir?</h3>
                         <div class="text-gray-700">
                             <p>2PC (Two-Phase Commit), Saga pattern, veya Event Sourcing kullanılarak yönetilir.</p>
                         </div>
@@ -284,15 +978,18 @@ public String getUser() {
 
                     <!-- Soru 13 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">13. Mikroservislerde versioning nasıl yapılır?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">13. Mikroservislerde versioning nasıl
+                            yapılır?</h3>
                         <div class="text-gray-700">
-                            <p>URI versioning (/v1/users), header versioning (Accept-version: v1), veya parameter versioning (/users?version=v1) yöntemleri kullanılır.</p>
+                            <p>URI versioning (/v1/users), header versioning (Accept-version: v1), veya parameter
+                                versioning (/users?version=v1) yöntemleri kullanılır.</p>
                         </div>
                     </div>
 
                     <!-- Soru 14 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">14. Mikroservislerde authentication ve authorization nasıl yönetilir?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">14. Mikroservislerde authentication ve
+                            authorization nasıl yönetilir?</h3>
                         <div class="text-gray-700">
                             <p>OAuth2, JWT, veya API Gateway üzerinde merkezi kimlik doğrulama kullanılır.</p>
                         </div>
@@ -300,7 +997,8 @@ public String getUser() {
 
                     <!-- Soru 15 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">15. Mikroservislerde container orchestration araçları nelerdir?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">15. Mikroservislerde container
+                            orchestration araçları nelerdir?</h3>
                         <div class="text-gray-700">
                             <p>Kubernetes, Docker Swarm, Apache Mesos gibi araçlarla container'lar yönetilir.</p>
                         </div>
@@ -308,15 +1006,18 @@ public String getUser() {
 
                     <!-- Soru 16 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">16. Mikroservislerde monitoring nasıl yapılır?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">16. Mikroservislerde monitoring nasıl
+                            yapılır?</h3>
                         <div class="text-gray-700">
-                            <p>Prometheus, Grafana, ELK stack (Elasticsearch, Logstash, Kibana) ile monitoring yapılır.</p>
+                            <p>Prometheus, Grafana, ELK stack (Elasticsearch, Logstash, Kibana) ile monitoring yapılır.
+                            </p>
                         </div>
                     </div>
 
                     <!-- Soru 17 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">17. Mikroservislerde log aggregation nasıl yapılır?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">17. Mikroservislerde log aggregation nasıl
+                            yapılır?</h3>
                         <div class="text-gray-700">
                             <p>ELK stack, Splunk, veya Fluentd ile loglar merkezi olarak toplanır.</p>
                         </div>
@@ -324,63 +1025,78 @@ public String getUser() {
 
                     <!-- Soru 18 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">18. Mikroservislerde communication pattern'leri nelerdir?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">18. Mikroservislerde communication
+                            pattern'leri nelerdir?</h3>
                         <div class="text-gray-700">
-                            <p>Synchronous (REST, gRPC), Asynchronous (Message Queues), Event-driven communication pattern'leri kullanılır.</p>
+                            <p>Synchronous (REST, gRPC), Asynchronous (Message Queues), Event-driven communication
+                                pattern'leri kullanılır.</p>
                         </div>
                     </div>
 
                     <!-- Soru 19 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">19. Mikroservislerde database per service pattern neden önemlidir?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">19. Mikroservislerde database per service
+                            pattern neden önemlidir?</h3>
                         <div class="text-gray-700">
-                            <p>Her servisin kendi veritabanına sahip olması, servislerin birbirinden bağımsız çalışmasını sağlar.</p>
+                            <p>Her servisin kendi veritabanına sahip olması, servislerin birbirinden bağımsız
+                                çalışmasını sağlar.</p>
                         </div>
                     </div>
 
                     <!-- Soru 20 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">20. Mikroservislerde service mesh nedir?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">20. Mikroservislerde service mesh nedir?
+                        </h3>
                         <div class="text-gray-700">
-                            <p>Service mesh (Istio, Linkerd), servisler arası iletişimi yöneten, güvenlik, monitoring ve load balancing sağlayan bir altyapı katmanıdır.</p>
+                            <p>Service mesh (Istio, Linkerd), servisler arası iletişimi yöneten, güvenlik, monitoring ve
+                                load balancing sağlayan bir altyapı katmanıdır.</p>
                         </div>
                     </div>
 
                     <!-- Soru 21 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">21. Mikroservislerde blue-green deployment nasıl yapılır?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">21. Mikroservislerde blue-green deployment
+                            nasıl yapılır?</h3>
                         <div class="text-gray-700">
-                            <p>İki aynı ortam (blue ve green) hazırlanır. Trafik blue ortamından green ortamına anında yönlendirilir.</p>
+                            <p>İki aynı ortam (blue ve green) hazırlanır. Trafik blue ortamından green ortamına anında
+                                yönlendirilir.</p>
                         </div>
                     </div>
 
                     <!-- Soru 22 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">22. Mikroservislerde canary release nedir?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">22. Mikroservislerde canary release nedir?
+                        </h3>
                         <div class="text-gray-700">
-                            <p>Yeni versiyonun küçük bir kullanıcı grubuna önce yayınlanıp, test edildikten sonra tüm kullanıcılara yayınlanmasıdır.</p>
+                            <p>Yeni versiyonun küçük bir kullanıcı grubuna önce yayınlanıp, test edildikten sonra tüm
+                                kullanıcılara yayınlanmasıdır.</p>
                         </div>
                     </div>
 
                     <!-- Soru 23 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">23. Mikroservislerde chaos engineering nedir?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">23. Mikroservislerde chaos engineering
+                            nedir?</h3>
                         <div class="text-gray-700">
-                            <p>Sistemin dayanıklılığını test etmek için bilinçli olarak hataların (ağ kesintisi, sunucu çökmesi vb.) enjekte edilmesidir.</p>
+                            <p>Sistemin dayanıklılığını test etmek için bilinçli olarak hataların (ağ kesintisi, sunucu
+                                çökmesi vb.) enjekte edilmesidir.</p>
                         </div>
                     </div>
 
                     <!-- Soru 24 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">24. Mikroservislerde domain-driven design (DDD) nasıl uygulanır?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">24. Mikroservislerde domain-driven design
+                            (DDD) nasıl uygulanır?</h3>
                         <div class="text-gray-700">
-                            <p>İş mantığı domain modellerine bölünür, bounded context'ler oluşturulur ve her servis kendi domain sorumluluğunu taşır.</p>
+                            <p>İş mantığı domain modellerine bölünür, bounded context'ler oluşturulur ve her servis
+                                kendi domain sorumluluğunu taşır.</p>
                         </div>
                     </div>
 
                     <!-- Soru 25 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">25. Mikroservislerde anti-pattern'ler nelerdir?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">25. Mikroservislerde anti-pattern'ler
+                            nelerdir?</h3>
                         <div class="text-gray-700">
                             <ul class="list-disc pl-5">
                                 <li>Tüm servisteki shared database kullanmak</li>
@@ -408,14 +1124,16 @@ public String getUser() {
                 <div class="space-y-6">
                     <!-- Soru 1 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">1. Spring Batch'te Chunk-Oriented Processing nedir?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">1. Spring Batch'te Chunk-Oriented
+                            Processing nedir?</h3>
                         <div class="text-gray-700">
-                            <p>Veri küçük chunk'lara bölünerek okunur, işlenir, yazılır. Bellek dostu ve büyük veriler için uygundur.</p>
+                            <p>Veri küçük chunk'lara bölünerek okunur, işlenir, yazılır. Bellek dostu ve büyük veriler
+                                için uygundur.</p>
                             <p class="mt-2 font-medium">Örnek:</p>
                             <pre class="code-block java mt-2">@Bean
 public Step step() {
     return stepBuilderFactory.get("step1")
-        .<String, String>chunk(100) // her seferinde 100 kayıt
+        .&lt;String, String&gt;chunk(100) // her seferinde 100 kayıt
         .reader(reader())
         .processor(processor())
         .writer(writer())
@@ -426,17 +1144,21 @@ public Step step() {
 
                     <!-- Soru 2 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">2. Spring Batch'te JobRepository ne işe yarar?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">2. Spring Batch'te JobRepository ne işe
+                            yarar?</h3>
                         <div class="text-gray-700">
-                            <p>Batch job'ların metadata'sını (başlama, bitiş, status, exitCode) saklar. Restart mekanizması buradan yönetilir.</p>
+                            <p>Batch job'ların metadata'sını (başlama, bitiş, status, exitCode) saklar. Restart
+                                mekanizması buradan yönetilir.</p>
                         </div>
                     </div>
 
                     <!-- Soru 3 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">3. Spring Batch'te Job Parameter neden önemlidir?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">3. Spring Batch'te Job Parameter neden
+                            önemlidir?</h3>
                         <div class="text-gray-700">
-                            <p>Aynı job farklı parametrelerle yeniden çalıştırılabilir. Parametre verilmezse "job instance already exists" hatası alınır.</p>
+                            <p>Aynı job farklı parametrelerle yeniden çalıştırılabilir. Parametre verilmezse "job
+                                instance already exists" hatası alınır.</p>
                             <p class="mt-2 font-medium">Örnek:</p>
                             <pre class="code-block java mt-2">JobParameters params = new JobParametersBuilder()
         .addString("date", LocalDate.now().toString())
@@ -447,15 +1169,18 @@ jobLauncher.run(job, params);</pre>
 
                     <!-- Soru 4 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">4. Spring Batch'te Restartable Jobs nasıl yapılır?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">4. Spring Batch'te Restartable Jobs nasıl
+                            yapılır?</h3>
                         <div class="text-gray-700">
-                            <p>Step başarısız olursa aynı parametreyle tekrar başlatılabilir. JobRepository geçmiş durumları track eder.</p>
+                            <p>Step başarısız olursa aynı parametreyle tekrar başlatılabilir. JobRepository geçmiş
+                                durumları track eder.</p>
                         </div>
                     </div>
 
                     <!-- Soru 5 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">5. Spring Batch'te Partitioning & Parallel Steps nedir?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">5. Spring Batch'te Partitioning & Parallel
+                            Steps nedir?</h3>
                         <div class="text-gray-700">
                             <p>Büyük datayı bölerek çoklu thread ile işler. Ölçeklenebilirlik sağlar.</p>
                         </div>
@@ -463,12 +1188,13 @@ jobLauncher.run(job, params);</pre>
 
                     <!-- Soru 6 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">6. Spring Batch'te Skip Logic nasıl çalışır?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">6. Spring Batch'te Skip Logic nasıl
+                            çalışır?</h3>
                         <div class="text-gray-700">
                             <p>Hatalı item atlanabilir ve job çalışmaya devam eder.</p>
                             <p class="mt-2 font-medium">Örnek:</p>
                             <pre class="code-block java mt-2">.step("step")
-.<String, String>chunk(10)
+.&lt;String, String&gt;chunk(10)
 .faultTolerant()
 .skip(Exception.class)
 .skipLimit(5)
@@ -481,7 +1207,8 @@ jobLauncher.run(job, params);</pre>
 
                     <!-- Soru 7 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">7. Spring Batch'te Retry Logic nasıl uygulanır?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">7. Spring Batch'te Retry Logic nasıl
+                            uygulanır?</h3>
                         <div class="text-gray-700">
                             <p>Geçici hatalarda item tekrar denenebilir.</p>
                             <p class="mt-2 font-medium">Örnek:</p>
@@ -493,7 +1220,8 @@ jobLauncher.run(job, params);</pre>
 
                     <!-- Soru 8 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">8. Spring Batch'te Job Listener nasıl eklenir?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">8. Spring Batch'te Job Listener nasıl
+                            eklenir?</h3>
                         <div class="text-gray-700">
                             <p>Job başlangıcı ve bitişi için listener eklenir.</p>
                             <p class="mt-2 font-medium">Örnek:</p>
@@ -510,7 +1238,8 @@ jobLauncher.run(job, params);</pre>
 
                     <!-- Soru 9 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">9. Spring Batch'te Parallel Step nasıl uygulanır?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">9. Spring Batch'te Parallel Step nasıl
+                            uygulanır?</h3>
                         <div class="text-gray-700">
                             <p>Step'ler parallel olarak çalıştırılır.</p>
                             <p class="mt-2 font-medium">Örnek:</p>
@@ -527,7 +1256,8 @@ public Job parallelJob() {
 
                     <!-- Soru 10 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">10. Spring Batch'te JobIncrementer neden gereklidir?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">10. Spring Batch'te JobIncrementer neden
+                            gereklidir?</h3>
                         <div class="text-gray-700">
                             <p>Aynı job parametreleri ile tekrar çalıştırılabilmesi için unique parametre gerekir.</p>
                             <p class="mt-2 font-medium">Örnek:</p>
@@ -537,7 +1267,8 @@ public Job parallelJob() {
 
                     <!-- Soru 11 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">11. Spring Batch'te Partitioning nasıl yapılır?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">11. Spring Batch'te Partitioning nasıl
+                            yapılır?</h3>
                         <div class="text-gray-700">
                             <p>Büyük veri setlerini paralel işlemek için Partitioning kullanılır.</p>
                             <p class="mt-2 font-medium">Örnek:</p>
@@ -554,7 +1285,8 @@ public Step partitionedStep(StepBuilderFactory stepBuilderFactory, Step slaveSte
 
                     <!-- Soru 12 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">12. Spring Batch'te Remote Chunking nedir?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">12. Spring Batch'te Remote Chunking nedir?
+                        </h3>
                         <div class="text-gray-700">
                             <p>Chunk'lar farklı worker node'lara dağıtılır. Büyük veri paralel işlenir.</p>
                         </div>
@@ -562,11 +1294,14 @@ public Step partitionedStep(StepBuilderFactory stepBuilderFactory, Step slaveSte
 
                     <!-- Soru 13 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">13. Spring Batch'te Job restart nasıl yapılır?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">13. Spring Batch'te Job restart nasıl
+                            yapılır?</h3>
                         <div class="text-gray-700">
-                            <p>Spring Batch job'ları durduğu yerden devam edebilir. Bunun için JobRepository durum bilgisini tutar.</p>
+                            <p>Spring Batch job'ları durduğu yerden devam edebilir. Bunun için JobRepository durum
+                                bilgisini tutar.</p>
                             <p class="mt-2 font-medium">Komut:</p>
-                            <pre class="code-block bash mt-2">java -jar batch-job.jar --spring.batch.job.names=job1</pre>
+                            <pre
+                                class="code-block bash mt-2">java -jar batch-job.jar --spring.batch.job.names=job1</pre>
                         </div>
                     </div>
 
@@ -585,7 +1320,8 @@ public SkipPolicy skipPolicy() {
 
                     <!-- Soru 15 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">15. Spring Batch'te Flow Execution nedir?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">15. Spring Batch'te Flow Execution nedir?
+                        </h3>
                         <div class="text-gray-700">
                             <p>Bir batch job'un farklı step akışlarını kontrol eder.</p>
                             <p class="mt-2 font-medium">Örnek:</p>
@@ -610,7 +1346,8 @@ public Job flowJob(JobBuilderFactory jobs, Step step1, Step step2) {
 
                     <!-- Soru 17 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">17. Spring Batch'te ItemProcessor ne işe yarar?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">17. Spring Batch'te ItemProcessor ne işe
+                            yarar?</h3>
                         <div class="text-gray-700">
                             <p>Okunan veriyi işleyip yazıma hazır hale getirir.</p>
                         </div>
@@ -618,7 +1355,8 @@ public Job flowJob(JobBuilderFactory jobs, Step step1, Step step2) {
 
                     <!-- Soru 18 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">18. Spring Batch'te ItemReader ve ItemWriter arasındaki fark nedir?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">18. Spring Batch'te ItemReader ve
+                            ItemWriter arasındaki fark nedir?</h3>
                         <div class="text-gray-700">
                             <p>ItemReader veriyi okur, ItemWriter veriyi hedefe yazar.</p>
                         </div>
@@ -626,7 +1364,8 @@ public Job flowJob(JobBuilderFactory jobs, Step step1, Step step2) {
 
                     <!-- Soru 19 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">19. Spring Batch'te ValidatingItemProcessor nedir?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">19. Spring Batch'te ValidatingItemProcessor
+                            nedir?</h3>
                         <div class="text-gray-700">
                             <p>Veriyi doğrulamak için kullanılan processor.</p>
                         </div>
@@ -634,7 +1373,8 @@ public Job flowJob(JobBuilderFactory jobs, Step step1, Step step2) {
 
                     <!-- Soru 20 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">20. Spring Batch'te CompositeItemProcessor nasıl kullanılır?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">20. Spring Batch'te CompositeItemProcessor
+                            nasıl kullanılır?</h3>
                         <div class="text-gray-700">
                             <p>Birden fazla processor'ı birleştirmek için kullanılır.</p>
                         </div>
@@ -642,7 +1382,8 @@ public Job flowJob(JobBuilderFactory jobs, Step step1, Step step2) {
 
                     <!-- Soru 21 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">21. Spring Batch'te JobExecution decider nedir?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">21. Spring Batch'te JobExecution decider
+                            nedir?</h3>
                         <div class="text-gray-700">
                             <p>Job akışını koşullara göre yönlendirmek için kullanılır.</p>
                         </div>
@@ -650,7 +1391,8 @@ public Job flowJob(JobBuilderFactory jobs, Step step1, Step step2) {
 
                     <!-- Soru 22 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">22. Spring Batch'te FlatFileItemReader nasıl yapılandırılır?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">22. Spring Batch'te FlatFileItemReader
+                            nasıl yapılandırılır?</h3>
                         <div class="text-gray-700">
                             <p>Dosyadan veri okumak için kullanılır.</p>
                         </div>
@@ -658,7 +1400,8 @@ public Job flowJob(JobBuilderFactory jobs, Step step1, Step step2) {
 
                     <!-- Soru 23 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">23. Spring Batch'te JdbcCursorItemReader ne işe yarar?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">23. Spring Batch'te JdbcCursorItemReader ne
+                            işe yarar?</h3>
                         <div class="text-gray-700">
                             <p>Veritabanından cursor ile veri okumak için kullanılır.</p>
                         </div>
@@ -666,7 +1409,8 @@ public Job flowJob(JobBuilderFactory jobs, Step step1, Step step2) {
 
                     <!-- Soru 24 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">24. Spring Batch'te MultiResourceItemReader nedir?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">24. Spring Batch'te MultiResourceItemReader
+                            nedir?</h3>
                         <div class="text-gray-700">
                             <p>Birden fazla kaynaktan (dosya) veri okumak için kullanılır.</p>
                         </div>
@@ -674,7 +1418,8 @@ public Job flowJob(JobBuilderFactory jobs, Step step1, Step step2) {
 
                     <!-- Soru 25 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">25. Spring Batch'te best practices nelerdir?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">25. Spring Batch'te best practices
+                            nelerdir?</h3>
                         <div class="text-gray-700">
                             <ul class="list-disc pl-5">
                                 <li>Job ve Step'leri modüler tutmak</li>
@@ -703,14 +1448,15 @@ public Job flowJob(JobBuilderFactory jobs, Step step1, Step step2) {
                 <div class="space-y-6">
                     <!-- Soru 1 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">1. Spring Cache'de @Cacheable ve @CacheEvict farkı nedir?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">1. Spring Cache'de @Cacheable ve
+                            @CacheEvict farkı nedir?</h3>
                         <div class="text-gray-700">
                             <ul class="list-disc pl-5">
                                 <li><code>@Cacheable</code> → Sonuç cache'e kaydedilir.</li>
                                 <li><code>@CacheEvict</code> → Cache temizlenir.</li>
                             </ul>
                             <p class="mt-2 font-medium">Örnek:</p>
-                            <pre class="code-block java mt-2">@Cacheable("users")
+                            <pre class="code-block java mt=2">@Cacheable("users")
 public User getUser(Long id) { ... }
 
 @CacheEvict(value = "users", allEntries = true)
@@ -720,7 +1466,8 @@ public void clearCache() { }</pre>
 
                     <!-- Soru 2 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">2. Spring Cache'de @CachePut ne işe yarar?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">2. Spring Cache'de @CachePut ne işe yarar?
+                        </h3>
                         <div class="text-gray-700">
                             <p><code>@CachePut</code> metot çalıştıktan sonra sonucu cache'e günceller.</p>
                             <p class="mt-2 font-medium">Örnek:</p>
@@ -733,7 +1480,8 @@ public User updateUser(User user) {
 
                     <!-- Soru 3 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">3. Spring Cache'de Redis nasıl kullanılır?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">3. Spring Cache'de Redis nasıl kullanılır?
+                        </h3>
                         <div class="text-gray-700">
                             <p>Redis cache provider olarak eklenir.</p>
                             <p class="mt-2 font-medium">application.yml:</p>
@@ -748,7 +1496,8 @@ public User updateUser(User user) {
 
                     <!-- Soru 4 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">4. Spring Cache'de TTL (Time to Live) nasıl ayarlanır?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">4. Spring Cache'de TTL (Time to Live) nasıl
+                            ayarlanır?</h3>
                         <div class="text-gray-700">
                             <p>Redis veya caffeine cache'de entry süreli saklanır.</p>
                             <p class="mt-2 font-medium">Örnek (Caffeine):</p>
@@ -763,7 +1512,8 @@ public CaffeineCacheManager cacheManager() {
 
                     <!-- Soru 5 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">5. Spring Cache'de @Caching nasıl kullanılır?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">5. Spring Cache'de @Caching nasıl
+                            kullanılır?</h3>
                         <div class="text-gray-700">
                             <p>Birden fazla cache anotasyonu gruplamak için kullanılır.</p>
                             <p class="mt-2 font-medium">Örnek:</p>
@@ -777,7 +1527,8 @@ public User updateUser(User user) { ... }</pre>
 
                     <!-- Soru 6 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">6. Spring Cache'de condition parametresi nasıl çalışır?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">6. Spring Cache'de condition parametresi
+                            nasıl çalışır?</h3>
                         <div class="text-gray-700">
                             <p>Koşul sağlandığında caching yapılır.</p>
                             <p class="mt-2 font-medium">Örnek:</p>
@@ -788,15 +1539,19 @@ public User getUser(Long id) { ... }</pre>
 
                     <!-- Soru 7 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">7. Spring Cache'de Cache Stampede problemi nedir?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">7. Spring Cache'de Cache Stampede problemi
+                            nedir?</h3>
                         <div class="text-gray-700">
-                            <p>Aynı anda cache miss olduğunda çok sayıda isteğin DB'ye yönlenmesi. Çözüm: <code>@Cacheable(sync = true)</code> veya locking mekanizması.</p>
+                            <p>Aynı anda cache miss olduğunda çok sayıda isteğin DB'ye yönlenmesi. Çözüm:
+                                <code>@Cacheable(sync = true)</code> veya locking mekanizması.
+                            </p>
                         </div>
                     </div>
 
                     <!-- Soru 8 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">8. Spring Cache'de Key Generator nasıl özelleştirilir?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">8. Spring Cache'de Key Generator nasıl
+                            özelleştirilir?</h3>
                         <div class="text-gray-700">
                             <p>Default key generation yerine custom key generator yazılabilir.</p>
                             <p class="mt-2 font-medium">Örnek:</p>
@@ -809,15 +1564,18 @@ public KeyGenerator customKeyGenerator() {
 
                     <!-- Soru 9 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">9. Spring Cache'de Multi-level Cache nedir?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">9. Spring Cache'de Multi-level Cache nedir?
+                        </h3>
                         <div class="text-gray-700">
-                            <p>Local memory + Distributed cache kombinasyonu. Sık erişilen data local cache'de, nadiren erişilen distributed cache'de tutulur.</p>
+                            <p>Local memory + Distributed cache kombinasyonu. Sık erişilen data local cache'de, nadiren
+                                erişilen distributed cache'de tutulur.</p>
                         </div>
                     </div>
 
                     <!-- Soru 10 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">10. Spring Cache'de Redis vs Caffeine farkları nedir?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">10. Spring Cache'de Redis vs Caffeine
+                            farkları nedir?</h3>
                         <div class="text-gray-700">
                             <ul class="list-disc pl-5">
                                 <li><strong>Redis:</strong> Dağıtık cache, büyük ölçekli projeler için.</li>
@@ -838,7 +1596,8 @@ public class CacheConfig {
 
                     <!-- Soru 11 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">11. Spring Cache'de @CacheEvict stratejileri nelerdir?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">11. Spring Cache'de @CacheEvict
+                            stratejileri nelerdir?</h3>
                         <div class="text-gray-700">
                             <ul class="list-disc pl-5">
                                 <li><code>allEntries = true</code> → tüm cache silinir.</li>
@@ -852,7 +1611,8 @@ public void clearUsersCache() { }</pre>
 
                     <!-- Soru 12 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">12. Spring Cache'de Conditional Eviction nasıl yapılır?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">12. Spring Cache'de Conditional Eviction
+                            nasıl yapılır?</h3>
                         <div class="text-gray-700">
                             <p>Koşul sağlandığında cache temizlenir.</p>
                             <p class="mt-2 font-medium">Örnek:</p>
@@ -863,7 +1623,8 @@ public void removeUser(Long id) { }</pre>
 
                     <!-- Soru 13 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">13. Spring Cache'de Cache Statistics nasıl alınır?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">13. Spring Cache'de Cache Statistics nasıl
+                            alınır?</h3>
                         <div class="text-gray-700">
                             <p>Caffeine veya EhCache ile hit/miss metric izlenebilir.</p>
                         </div>
@@ -871,33 +1632,41 @@ public void removeUser(Long id) { }</pre>
 
                     <!-- Soru 14 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">14. Spring Cache'de Distributed Cache neden önemlidir?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">14. Spring Cache'de Distributed Cache neden
+                            önemlidir?</h3>
                         <div class="text-gray-700">
-                            <p>Çoklu instance çalışan mikroservislerde, local cache senkron kalmaz. Redis gibi merkezi cache ile consistency sağlanır.</p>
+                            <p>Çoklu instance çalışan mikroservislerde, local cache senkron kalmaz. Redis gibi merkezi
+                                cache ile consistency sağlanır.</p>
                         </div>
                     </div>
 
                     <!-- Soru 15 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">15. Spring Cache'de Cache Manager nedir?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">15. Spring Cache'de Cache Manager nedir?
+                        </h3>
                         <div class="text-gray-700">
-                            <p>Cache'leri yöneten merkezi bileşendir. Farklı cache sağlayıcıları (Redis, Caffeine, EhCache) için farklı implementasyonları vardır.</p>
+                            <p>Cache'leri yöneten merkezi bileşendir. Farklı cache sağlayıcıları (Redis, Caffeine,
+                                EhCache) için farklı implementasyonları vardır.</p>
                         </div>
                     </div>
 
                     <!-- Soru 16 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">16. Spring Cache'de @Cacheable anotasyonunun sync parametresi ne işe yarar?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">16. Spring Cache'de @Cacheable
+                            anotasyonunun sync parametresi ne işe yarar?</h3>
                         <div class="text-gray-700">
-                            <p>Cache miss durumunda sadece bir thread'in veritabanına gitmesini sağlar. Diğer thread'ler bu işlem bitene kadar bekler.</p>
+                            <p>Cache miss durumunda sadece bir thread'in veritabanına gitmesini sağlar. Diğer thread'ler
+                                bu işlem bitene kadar bekler.</p>
                         </div>
                     </div>
 
                     <!-- Soru 17 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">17. Spring Cache'de unless parametresi ne işe yarar?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">17. Spring Cache'de unless parametresi ne
+                            işe yarar?</h3>
                         <div class="text-gray-700">
-                            <p>Method sonucuna göre caching yapılıp yapılmayacağını belirler. Koşul sağlanırsa caching yapılmaz.</p>
+                            <p>Method sonucuna göre caching yapılıp yapılmayacağını belirler. Koşul sağlanırsa caching
+                                yapılmaz.</p>
                             <p class="mt-2 font-medium">Örnek:</p>
                             <pre class="code-block java mt-2">@Cacheable(value = "users", unless = "#result.age < 18")
 public User getUser(Long id) { ... }</pre>
@@ -906,7 +1675,8 @@ public User getUser(Long id) { ... }</pre>
 
                     <!-- Soru 18 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">18. Spring Cache'de CacheResolver nedir?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">18. Spring Cache'de CacheResolver nedir?
+                        </h3>
                         <div class="text-gray-700">
                             <p>Runtime'da hangi cache'in kullanılacağını belirleyen bileşendir.</p>
                         </div>
@@ -914,7 +1684,8 @@ public User getUser(Long id) { ... }</pre>
 
                     <!-- Soru 19 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">19. Spring Cache'de CacheConfig nasıl yapılandırılır?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">19. Spring Cache'de CacheConfig nasıl
+                            yapılandırılır?</h3>
                         <div class="text-gray-700">
                             <p>Cache ayarlarını merkezi olarak yapılandırmak için kullanılır.</p>
                         </div>
@@ -922,7 +1693,8 @@ public User getUser(Long id) { ... }</pre>
 
                     <!-- Soru 20 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">20. Spring Cache'de @EnableCaching anotasyonu ne işe yarar?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">20. Spring Cache'de @EnableCaching
+                            anotasyonu ne işe yarar?</h3>
                         <div class="text-gray-700">
                             <p>Spring caching mekanizmasını aktive eder.</p>
                         </div>
@@ -930,7 +1702,8 @@ public User getUser(Long id) { ... }</pre>
 
                     <!-- Soru 21 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">21. Spring Cache'de Cache Eviction için @Scheduled kullanımı?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">21. Spring Cache'de Cache Eviction için
+                            @Scheduled kullanımı?</h3>
                         <div class="text-gray-700">
                             <p>Zamanlanmış görevlerle cache temizlenebilir.</p>
                             <p class="mt-2 font-medium">Örnek:</p>
@@ -942,7 +1715,8 @@ public void clearCachePeriodically() { }</pre>
 
                     <!-- Soru 22 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">22. Spring Cache'de Hazelcast nasıl entegre edilir?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">22. Spring Cache'de Hazelcast nasıl entegre
+                            edilir?</h3>
                         <div class="text-gray-700">
                             <p>Hazelcast bağımlılığı eklenir ve cache manager yapılandırılır.</p>
                         </div>
@@ -950,7 +1724,8 @@ public void clearCachePeriodically() { }</pre>
 
                     <!-- Soru 23 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">23. Spring Cache'de EhCache nasıl kullanılır?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">23. Spring Cache'de EhCache nasıl
+                            kullanılır?</h3>
                         <div class="text-gray-700">
                             <p>EhCache bağımlılığı eklenir ve yapılandırma dosyası oluşturulur.</p>
                         </div>
@@ -958,15 +1733,18 @@ public void clearCachePeriodically() { }</pre>
 
                     <!-- Soru 24 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">24. Spring Cache'de Cache Invalidation nasıl yönetilir?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">24. Spring Cache'de Cache Invalidation
+                            nasıl yönetilir?</h3>
                         <div class="text-gray-700">
-                            <p>Veri güncellendiğinde veya silindiğinde cache'in temizlenmesi gerekir. @CacheEvict anotasyonu ile bu sağlanır.</p>
+                            <p>Veri güncellendiğinde veya silindiğinde cache'in temizlenmesi gerekir. @CacheEvict
+                                anotasyonu ile bu sağlanır.</p>
                         </div>
                     </div>
 
                     <!-- Soru 25 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">25. Spring Cache'de best practices nelerdir?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">25. Spring Cache'de best practices
+                            nelerdir?</h3>
                         <div class="text-gray-700">
                             <ul class="list-disc pl-5">
                                 <li>Doğru cache sağlayıcısını seçmek (Redis, Caffeine, vb.)</li>
@@ -995,7 +1773,8 @@ public void clearCachePeriodically() { }</pre>
                 <div class="space-y-6">
                     <!-- Soru 1 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">1. Spring AOP ile method execution logging nasıl yapılır?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">1. Spring AOP ile method execution logging
+                            nasıl yapılır?</h3>
                         <div class="text-gray-700">
                             <p>Aspect tanımlanır, @Around ile method öncesi/sonrası log tutulur.</p>
                             <p class="mt-2 font-medium">Örnek:</p>
@@ -1015,9 +1794,11 @@ public class LoggingAspect {
 
                     <!-- Soru 2 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">2. Spring Event mekanizması nasıl çalışır?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">2. Spring Event mekanizması nasıl çalışır?
+                        </h3>
                         <div class="text-gray-700">
-                            <p>Event yayınlayan (ApplicationEventPublisher) ve dinleyen (@EventListener) bileşenler vardır.</p>
+                            <p>Event yayınlayan (ApplicationEventPublisher) ve dinleyen (@EventListener) bileşenler
+                                vardır.</p>
                             <p class="mt-2 font-medium">Örnek:</p>
                             <pre class="code-block java mt=2">// Event
 public class UserCreatedEvent extends ApplicationEvent {
@@ -1048,7 +1829,8 @@ public void serviceMethods(){}</pre>
 
                     <!-- Soru 4 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">4. Spring AOP ile Transaction Management nasıl uygulanır?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">4. Spring AOP ile Transaction Management
+                            nasıl uygulanır?</h3>
                         <div class="text-gray-700">
                             <p>AOP proxy mekanizması ile @Transactional anotasyonu çalışır.</p>
                         </div>
@@ -1056,7 +1838,8 @@ public void serviceMethods(){}</pre>
 
                     <!-- Soru 5 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">5. Spring Events ile Domain Event nasıl tasarlanır?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">5. Spring Events ile Domain Event nasıl
+                            tasarlanır?</h3>
                         <div class="text-gray-700">
                             <p>Domain olayları event olarak yayınlanır ve diğer servisler bu olaylara tepki verir.</p>
                             <p class="mt-2 font-medium">Örnek:</p>
@@ -1075,7 +1858,8 @@ applicationEventPublisher.publishEvent(new OrderCreatedEvent(this, "1234"));</pr
 
                     <!-- Soru 6 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">6. Spring AOP'de Advice türleri nelerdir?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">6. Spring AOP'de Advice türleri nelerdir?
+                        </h3>
                         <div class="text-gray-700">
                             <ul class="list-disc pl-5">
                                 <li><strong>Before</strong>: Method öncesi</li>
@@ -1088,7 +1872,8 @@ applicationEventPublisher.publishEvent(new OrderCreatedEvent(this, "1234"));</pr
 
                     <!-- Soru 7 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">7. Spring Events ile asenkron event işleme nasıl yapılır?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">7. Spring Events ile asenkron event işleme
+                            nasıl yapılır?</h3>
                         <div class="text-gray-700">
                             <p>@Async ile event listener asenkron hale getirilir.</p>
                             <p class="mt-2 font-medium">Örnek:</p>
@@ -1102,7 +1887,8 @@ public void handleEvent(OrderCreatedEvent event) {
 
                     <!-- Soru 8 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">8. Spring AOP ile Security kontrolü nasıl yapılır?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">8. Spring AOP ile Security kontrolü nasıl
+                            yapılır?</h3>
                         <div class="text-gray-700">
                             <p>Method çağrısından önce kullanıcı rolü kontrol edilebilir.</p>
                         </div>
@@ -1110,7 +1896,8 @@ public void handleEvent(OrderCreatedEvent event) {
 
                     <!-- Soru 9 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">9. Spring Events ile transactional event listener nasıl çalışır?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">9. Spring Events ile transactional event
+                            listener nasıl çalışır?</h3>
                         <div class="text-gray-700">
                             <p>Event sadece transaction commit edildikten sonra publish edilir.</p>
                             <p class="mt-2 font-medium">Örnek:</p>
@@ -1131,7 +1918,8 @@ public void handleAfterCommit(OrderCreatedEvent event) {
 
                     <!-- Soru 11 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">11. Spring AOP ile Performance Monitoring nasıl yapılır?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">11. Spring AOP ile Performance Monitoring
+                            nasıl yapılır?</h3>
                         <div class="text-gray-700">
                             <p>Method çalıştırma süresi ölçülür ve loglanır.</p>
                             <p class="mt-2 font-medium">Örnek:</p>
@@ -1148,7 +1936,8 @@ public Object monitor(ProceedingJoinPoint pjp) throws Throwable {
 
                     <!-- Soru 12 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">12. Spring AOP ile Exception Handling nasıl yapılır?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">12. Spring AOP ile Exception Handling nasıl
+                            yapılır?</h3>
                         <div class="text-gray-700">
                             <p>AfterThrowing advice ile exception loglanabilir veya yönetilebilir.</p>
                             <p class="mt-2 font-medium">Örnek:</p>
@@ -1161,7 +1950,8 @@ public void logException(Exception ex) {
 
                     <!-- Soru 13 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">13. Spring Events ile custom event publisher nasıl yazılır?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">13. Spring Events ile custom event
+                            publisher nasıl yazılır?</h3>
                         <div class="text-gray-700">
                             <p>Özel bir event publisher sınıfı oluşturulur.</p>
                             <p class="mt-2 font-medium">Örnek:</p>
@@ -1178,7 +1968,8 @@ public class CustomEventPublisher {
 
                     <!-- Soru 14 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">14. Spring AOP'de Pointcut Expression nasıl yazılır?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">14. Spring AOP'de Pointcut Expression nasıl
+                            yazılır?</h3>
                         <div class="text-gray-700">
                             <p>Farklı desenlerle method seçimi yapılabilir.</p>
                             <p class="mt-2 font-medium">Örnek:</p>
@@ -1192,7 +1983,8 @@ public void controllerLayer() { }</pre>
 
                     <!-- Soru 15 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">15. Spring Events ile conditional event handling nasıl yapılır?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">15. Spring Events ile conditional event
+                            handling nasıl yapılır?</h3>
                         <div class="text-gray-700">
                             <p>@EventListener anotasyonuna condition eklenerek event filtreleme yapılabilir.</p>
                             <p class="mt-2 font-medium">Örnek:</p>
@@ -1205,7 +1997,8 @@ public void handleCompleted(OrderEvent event) {
 
                     <!-- Soru 16 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">16. Spring AOP ile method parametrelerini nasıl değiştirebiliriz?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">16. Spring AOP ile method parametrelerini
+                            nasıl değiştirebiliriz?</h3>
                         <div class="text-gray-700">
                             <p>Around advice ile method parametreleri değiştirilebilir.</p>
                             <p class="mt-2 font-medium">Örnek:</p>
@@ -1221,7 +2014,8 @@ public Object changeParameter(ProceedingJoinPoint pjp, Object param) throws Thro
 
                     <!-- Soru 17 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">17. Spring Events ile event chaining nasıl yapılır?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">17. Spring Events ile event chaining nasıl
+                            yapılır?</h3>
                         <div class="text-gray-700">
                             <p>Bir event işlendikten sonra başka bir event tetiklenebilir.</p>
                             <p class="mt-2 font-medium">Örnek:</p>
@@ -1237,13 +2031,15 @@ public void handleOrderCreated(OrderCreatedEvent event) {
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
                         <h3 class="text-lg font-semibold text-gray-800 mb-2">18. Spring AOP'de AspectJ nedir?</h3>
                         <div class="text-gray-700">
-                            <p>AspectJ, AOP için daha güçlü bir implementasyondur. Compile time veya load time weaving yapabilir.</p>
+                            <p>AspectJ, AOP için daha güçlü bir implementasyondur. Compile time veya load time weaving
+                                yapabilir.</p>
                         </div>
                     </div>
 
                     <!-- Soru 19 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">19. Spring Events ile event ordering nasıl sağlanır?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">19. Spring Events ile event ordering nasıl
+                            sağlanır?</h3>
                         <div class="text-gray-700">
                             <p>@Order anotasyonu ile listener'ların çalışma sırası belirlenebilir.</p>
                             <p class="mt-2 font-medium">Örnek:</p>
@@ -1263,7 +2059,8 @@ public void handleSecond(OrderEvent event) {
 
                     <!-- Soru 20 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">20. Spring AOP ile custom annotation nasıl oluşturulur?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">20. Spring AOP ile custom annotation nasıl
+                            oluşturulur?</h3>
                         <div class="text-gray-700">
                             <p>Özel bir anotasyon oluşturulur ve bu anotasyon için pointcut tanımlanır.</p>
                             <p class="mt-2 font-medium">Örnek:</p>
@@ -1284,7 +2081,8 @@ public class LogExecutionTimeAspect {
 
                     <!-- Soru 21 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">21. Spring Events ile generic event handling nasıl yapılır?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">21. Spring Events ile generic event
+                            handling nasıl yapılır?</h3>
                         <div class="text-gray-700">
                             <p>Generic event'ler için @EventListener kullanılabilir.</p>
                             <p class="mt-2 font-medium">Örnek:</p>
@@ -1297,7 +2095,8 @@ public void handleGenericEvent(ApplicationEvent event) {
 
                     <!-- Soru 22 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">22. Spring AOP'de proxy mekanizması nasıl çalışır?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">22. Spring AOP'de proxy mekanizması nasıl
+                            çalışır?</h3>
                         <div class="text-gray-700">
                             <p>Spring AOP, dynamic proxy veya CGLIB kullanarak aspect'leri hedef method'lara bağlar.</p>
                         </div>
@@ -1305,7 +2104,8 @@ public void handleGenericEvent(ApplicationEvent event) {
 
                     <!-- Soru 23 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">23. Spring Events ile event filtering nasıl yapılır?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">23. Spring Events ile event filtering nasıl
+                            yapılır?</h3>
                         <div class="text-gray-700">
                             <p>@EventListener anotasyonuna condition eklenerek event filtreleme yapılabilir.</p>
                         </div>
@@ -1315,13 +2115,15 @@ public void handleGenericEvent(ApplicationEvent event) {
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
                         <h3 class="text-lg font-semibold text-gray-800 mb-2">24. Spring AOP'de weaving nedir?</h3>
                         <div class="text-gray-700">
-                            <p>Aspect'leri target object'lere bağlama işlemidir. Compile time, load time veya runtime weaving yapılabilir.</p>
+                            <p>Aspect'leri target object'lere bağlama işlemidir. Compile time, load time veya runtime
+                                weaving yapılabilir.</p>
                         </div>
                     </div>
 
                     <!-- Soru 25 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">25. Spring AOP ve Events best practices nelerdir?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">25. Spring AOP ve Events best practices
+                            nelerdir?</h3>
                         <div class="text-gray-700">
                             <ul class="list-disc pl-5">
                                 <li>AOP için spesifik pointcut'lar kullanmak</li>
@@ -1350,9 +2152,11 @@ public void handleGenericEvent(ApplicationEvent event) {
                 <div class="space-y-6">
                     <!-- Soru 1 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">1. Spring Integration'da Message Channel nedir?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">1. Spring Integration'da Message Channel
+                            nedir?</h3>
                         <div class="text-gray-700">
-                            <p>Mesajların publisher ile subscriber arasında aktığı kanaldır. QueueChannel, DirectChannel gibi tipleri vardır.</p>
+                            <p>Mesajların publisher ile subscriber arasında aktığı kanaldır. QueueChannel, DirectChannel
+                                gibi tipleri vardır.</p>
                             <p class="mt-2 font-medium">Örnek:</p>
                             <pre class="code-block java mt-2">@Bean
 public MessageChannel inputChannel() {
@@ -1363,7 +2167,8 @@ public MessageChannel inputChannel() {
 
                     <!-- Soru 2 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">2. Spring Integration'da Transformer nedir?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">2. Spring Integration'da Transformer nedir?
+                        </h3>
                         <div class="text-gray-700">
                             <p>Mesaj payload'unu dönüştürmek için kullanılır.</p>
                             <p class="mt-2 font-medium">Örnek:</p>
@@ -1376,7 +2181,8 @@ public String transform(String message) {
 
                     <!-- Soru 3 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">3. Spring Integration DSL ile mesaj akışı nasıl tanımlanır?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">3. Spring Integration DSL ile mesaj akışı
+                            nasıl tanımlanır?</h3>
                         <div class="text-gray-700">
                             <p>DSL ile mesaj akışları daha okunabilir şekilde tanımlanır.</p>
                             <p class="mt-2 font-medium">Örnek:</p>
@@ -1401,7 +2207,8 @@ public IntegrationFlow flow() {
 
                     <!-- Soru 5 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">5. Spring Integration'da Gateway nedir?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">5. Spring Integration'da Gateway nedir?
+                        </h3>
                         <div class="text-gray-700">
                             <p>Java interface üzerinden messaging dünyasına geçiş sağlar.</p>
                         </div>
@@ -1409,7 +2216,8 @@ public IntegrationFlow flow() {
 
                     <!-- Soru 6 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">6. Spring Integration'da Aggregator nedir?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">6. Spring Integration'da Aggregator nedir?
+                        </h3>
                         <div class="text-gray-700">
                             <p>Çoklu mesajları birleştirip tek mesaj haline getirir.</p>
                             <p class="mt-2 font-medium">Örnek:</p>
@@ -1425,7 +2233,8 @@ public IntegrationFlow aggregatorFlow() {
 
                     <!-- Soru 7 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">7. Spring Integration'da Splitter nedir?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">7. Spring Integration'da Splitter nedir?
+                        </h3>
                         <div class="text-gray-700">
                             <p>Bir mesajı birden fazla parçaya böler.</p>
                             <p class="mt-2 font-medium">Örnek:</p>
@@ -1441,7 +2250,8 @@ public IntegrationFlow splitterFlow() {
 
                     <!-- Soru 8 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">8. Spring Integration'da Filter nasıl uygulanır?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">8. Spring Integration'da Filter nasıl
+                            uygulanır?</h3>
                         <div class="text-gray-700">
                             <p>Mesajları belirli kriterlere göre filtreler.</p>
                             <p class="mt-2 font-medium">Örnek:</p>
@@ -1457,7 +2267,8 @@ public IntegrationFlow filterFlow() {
 
                     <!-- Soru 9 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">9. Spring Integration'da Service Activator nedir?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">9. Spring Integration'da Service Activator
+                            nedir?</h3>
                         <div class="text-gray-700">
                             <p>Mesajı alıp bir service methodunu çağırır.</p>
                         </div>
@@ -1465,7 +2276,8 @@ public IntegrationFlow filterFlow() {
 
                     <!-- Soru 10 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">10. Spring Integration'da WireTap nedir?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">10. Spring Integration'da WireTap nedir?
+                        </h3>
                         <div class="text-gray-700">
                             <p>Mesajları izlemek için kullanılır, mesajın kopyasını farklı bir kanala gönderir.</p>
                             <p class="mt-2 font-medium">Örnek:</p>
@@ -1481,7 +2293,8 @@ public IntegrationFlow wiretapFlow() {
 
                     <!-- Soru 11 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">11. Spring Integration'da Bridge nedir?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">11. Spring Integration'da Bridge nedir?
+                        </h3>
                         <div class="text-gray-700">
                             <p>İki farklı channel arasında köprü kurar.</p>
                         </div>
@@ -1489,7 +2302,8 @@ public IntegrationFlow wiretapFlow() {
 
                     <!-- Soru 12 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">12. Spring Integration'da Message Endpoints nelerdir?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">12. Spring Integration'da Message Endpoints
+                            nelerdir?</h3>
                         <div class="text-gray-700">
                             <ul class="list-disc pl-5">
                                 <li>Transformer</li>
@@ -1505,7 +2319,8 @@ public IntegrationFlow wiretapFlow() {
 
                     <!-- Soru 13 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">13. Spring Integration'da Channel Adapter nedir?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">13. Spring Integration'da Channel Adapter
+                            nedir?</h3>
                         <div class="text-gray-700">
                             <p>External sistemlerle (dosya, veritabanı, JMS vb.) iletişim kurmak için kullanılır.</p>
                         </div>
@@ -1513,11 +2328,12 @@ public IntegrationFlow wiretapFlow() {
 
                     <!-- Soru 14 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">14. Spring Integration'da Message nasıl oluşturulur?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">14. Spring Integration'da Message nasıl
+                            oluşturulur?</h3>
                         <div class="text-gray-700">
                             <p>MessageBuilder ile mesaj oluşturulur.</p>
                             <p class="mt-2 font-medium">Örnek:</p>
-                            <pre class="code-block java mt-2">Message<String> message = MessageBuilder.withPayload("Hello")
+                            <pre class="code-block java mt-2">Message&lt;String&gt; message = MessageBuilder.withPayload("Hello")
     .setHeader("header1", "value1")
     .build();</pre>
                         </div>
@@ -1525,7 +2341,8 @@ public IntegrationFlow wiretapFlow() {
 
                     <!-- Soru 15 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">15. Spring Integration'da Polling Consumer nasıl çalışır?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">15. Spring Integration'da Polling Consumer
+                            nasıl çalışır?</h3>
                         <div class="text-gray-700">
                             <p>Belirli aralıklarla kaynakları kontrol eder.</p>
                         </div>
@@ -1533,7 +2350,8 @@ public IntegrationFlow wiretapFlow() {
 
                     <!-- Soru 16 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">16. Spring Integration'da Transactional Messaging nasıl yapılır?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">16. Spring Integration'da Transactional
+                            Messaging nasıl yapılır?</h3>
                         <div class="text-gray-700">
                             <p>Mesajlar transaction kapsamında gönderilir veya rollback edilir.</p>
                         </div>
@@ -1541,7 +2359,8 @@ public IntegrationFlow wiretapFlow() {
 
                     <!-- Soru 17 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">17. Spring Integration'da Error Handling nasıl yapılır?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">17. Spring Integration'da Error Handling
+                            nasıl yapılır?</h3>
                         <div class="text-gray-700">
                             <p>Hata durumunda mesajları özel bir kanala yönlendirmek için error channel kullanılır.</p>
                         </div>
@@ -1549,7 +2368,8 @@ public IntegrationFlow wiretapFlow() {
 
                     <!-- Soru 18 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">18. Spring Integration'da Claim Check pattern nasıl uygulanır?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">18. Spring Integration'da Claim Check
+                            pattern nasıl uygulanır?</h3>
                         <div class="text-gray-700">
                             <p>Büyük veriler geçici olarak depolanır, sadece referansı mesaj olarak gönderilir.</p>
                         </div>
@@ -1557,7 +2377,8 @@ public IntegrationFlow wiretapFlow() {
 
                     <!-- Soru 19 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">19. Spring Integration'da Content Enricher nedir?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">19. Spring Integration'da Content Enricher
+                            nedir?</h3>
                         <div class="text-gray-700">
                             <p>Mesaja ek bilgiler eklemek için kullanılır.</p>
                         </div>
@@ -1565,7 +2386,8 @@ public IntegrationFlow wiretapFlow() {
 
                     <!-- Soru 20 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">20. Spring Integration'da Scatter-Gather pattern nasıl uygulanır?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">20. Spring Integration'da Scatter-Gather
+                            pattern nasıl uygulanır?</h3>
                         <div class="text-gray-700">
                             <p>Mesaj birden fazla recipient'e gönderilir ve yanıtlar toplanır.</p>
                         </div>
@@ -1573,7 +2395,8 @@ public IntegrationFlow wiretapFlow() {
 
                     <!-- Soru 21 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">21. Spring Integration'da Messaging Gateway nasıl kullanılır?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">21. Spring Integration'da Messaging Gateway
+                            nasıl kullanılır?</h3>
                         <div class="text-gray-700">
                             <p>Java interface üzerinden messaging sistemine erişim sağlar.</p>
                             <p class="mt-2 font-medium">Örnek:</p>
@@ -1586,7 +2409,8 @@ public interface OrderGateway {
 
                     <!-- Soru 22 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">22. Spring Integration'da Message Store nedir?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">22. Spring Integration'da Message Store
+                            nedir?</h3>
                         <div class="text-gray-700">
                             <p>Mesajları kalıcı olarak saklamak için kullanılır.</p>
                         </div>
@@ -1594,7 +2418,8 @@ public interface OrderGateway {
 
                     <!-- Soru 23 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">23. Spring Integration'da Control Bus nedir?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">23. Spring Integration'da Control Bus
+                            nedir?</h3>
                         <div class="text-gray-700">
                             <p>Runtime'da sistem bileşenlerini yönetmek için kullanılır.</p>
                         </div>
@@ -1602,7 +2427,8 @@ public interface OrderGateway {
 
                     <!-- Soru 24 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">24. Spring Integration'da Message History nasıl tutulur?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">24. Spring Integration'da Message History
+                            nasıl tutulur?</h3>
                         <div class="text-gray-700">
                             <p>Mesajın geçtiği kanalların kaydını tutar.</p>
                         </div>
@@ -1610,7 +2436,8 @@ public interface OrderGateway {
 
                     <!-- Soru 25 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">25. Spring Integration best practices nelerdir?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">25. Spring Integration best practices
+                            nelerdir?</h3>
                         <div class="text-gray-700">
                             <ul class="list-disc pl-5">
                                 <li>DSL kullanarak akışları daha okunabilir hale getirmek</li>
@@ -1639,7 +2466,8 @@ public interface OrderGateway {
                 <div class="space-y-6">
                     <!-- Soru 1 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">1. Spring Boot uygulamasında Actuator nedir?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">1. Spring Boot uygulamasında Actuator
+                            nedir?</h3>
                         <div class="text-gray-700">
                             <p>Health check, metrics, env bilgisi gibi production izleme endpoint'lerini sağlar.</p>
                             <p class="mt-2 font-medium">Örnek:</p>
@@ -1649,7 +2477,8 @@ public interface OrderGateway {
 
                     <!-- Soru 2 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">2. Spring Boot uygulamasında Prometheus & Grafana entegrasyonu nasıl yapılır?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">2. Spring Boot uygulamasında Prometheus &
+                            Grafana entegrasyonu nasıl yapılır?</h3>
                         <div class="text-gray-700">
                             <p>Actuator metrics Prometheus formatında expose edilir.</p>
                             <p class="mt-2 font-medium">application.yml:</p>
@@ -1663,7 +2492,8 @@ public interface OrderGateway {
 
                     <!-- Soru 3 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">3. Kubernetes ortamında Spring Boot config nasıl yönetilir?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">3. Kubernetes ortamında Spring Boot config
+                            nasıl yönetilir?</h3>
                         <div class="text-gray-700">
                             <p>ConfigMap ve Secret kullanılır.</p>
                             <p class="mt-2 font-medium">Örnek:</p>
@@ -1678,15 +2508,18 @@ public interface OrderGateway {
 
                     <!-- Soru 4 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">4. Spring Boot uygulamasında Blue-Green Deployment nasıl yapılır?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">4. Spring Boot uygulamasında Blue-Green
+                            Deployment nasıl yapılır?</h3>
                         <div class="text-gray-700">
-                            <p>Yeni versiyon (green) yanına deploy edilir. Trafik yönlendirilince eski versiyon (blue) silinir.</p>
+                            <p>Yeni versiyon (green) yanına deploy edilir. Trafik yönlendirilince eski versiyon (blue)
+                                silinir.</p>
                         </div>
                     </div>
 
                     <!-- Soru 5 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">5. Production ortamında Spring Boot için en önemli best practices nelerdir?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">5. Production ortamında Spring Boot için en
+                            önemli best practices nelerdir?</h3>
                         <div class="text-gray-700">
                             <ul class="list-disc pl-5">
                                 <li>Externalized config (Config Server/K8s Secret)</li>
@@ -1700,17 +2533,20 @@ public interface OrderGateway {
 
                     <!-- Soru 6 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">6. Spring Boot uygulamasında Docker Healthcheck nedir ve nasıl uygulanır?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">6. Spring Boot uygulamasında Docker
+                            Healthcheck nedir ve nasıl uygulanır?</h3>
                         <div class="text-gray-700">
                             <p>Container'ın sağlık durumunu kontrol eder.</p>
                             <p class="mt-2 font-medium">Örnek:</p>
-                            <pre class="code-block dockerfile mt-2">HEALTHCHECK --interval=30s --timeout=5s   CMD curl -f http://localhost:8080/actuator/health || exit 1</pre>
+                            <pre
+                                class="code-block dockerfile mt-2">HEALTHCHECK --interval=30s --timeout=5s   CMD curl -f http://localhost:8080/actuator/health || exit 1</pre>
                         </div>
                     </div>
 
                     <!-- Soru 7 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">7. Kubernetes ConfigMap ve Secret farkı nedir?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">7. Kubernetes ConfigMap ve Secret farkı
+                            nedir?</h3>
                         <div class="text-gray-700">
                             <ul class="list-disc pl-5">
                                 <li><strong>ConfigMap</strong>: Konfigürasyon verileri.</li>
@@ -1721,7 +2557,8 @@ public interface OrderGateway {
 
                     <!-- Soru 8 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">8. Kubernetes Rolling Update nasıl yapılır?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">8. Kubernetes Rolling Update nasıl yapılır?
+                        </h3>
                         <div class="text-gray-700">
                             <p>Uygulama sıfır downtime ile güncellenir.</p>
                             <p class="mt-2 font-medium">Komut:</p>
@@ -1732,7 +2569,8 @@ kubectl rollout status deployment/my-app</pre>
 
                     <!-- Soru 9 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">9. Log aggregation için ELK stack nasıl çalışır?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">9. Log aggregation için ELK stack nasıl
+                            çalışır?</h3>
                         <div class="text-gray-700">
                             <ul class="list-disc pl-5">
                                 <li><strong>Elasticsearch</strong>: Logları depolar.</li>
@@ -1744,7 +2582,8 @@ kubectl rollout status deployment/my-app</pre>
 
                     <!-- Soru 10 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">10. Spring Boot uygulamasında Custom Endpoint nasıl oluşturulur?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">10. Spring Boot uygulamasında Custom
+                            Endpoint nasıl oluşturulur?</h3>
                         <div class="text-gray-700">
                             <p>Özel endpoint'ler oluşturulabilir.</p>
                             <p class="mt-2 font-medium">Örnek:</p>
@@ -1759,7 +2598,8 @@ public class CustomEndpoint {
 
                     <!-- Soru 11 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">11. Spring Boot uygulamasında Health Indicator nasıl eklenir?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">11. Spring Boot uygulamasında Health
+                            Indicator nasıl eklenir?</h3>
                         <div class="text-gray-700">
                             <p>Özel health indicator'lar oluşturulabilir.</p>
                             <p class="mt-2 font-medium">Örnek:</p>
@@ -1775,7 +2615,8 @@ public class DatabaseHealthIndicator implements HealthIndicator {
 
                     <!-- Soru 12 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">12. Spring Boot uygulamasında Profil bazlı config nasıl yapılır?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">12. Spring Boot uygulamasında Profil bazlı
+                            config nasıl yapılır?</h3>
                         <div class="text-gray-700">
                             <p>Farklı ortamlar için farklı konfigürasyon dosyaları kullanılır.</p>
                             <p class="mt-2 font-medium">Örnek:</p>
@@ -1788,15 +2629,18 @@ public class DatabaseHealthIndicator implements HealthIndicator {
 
                     <!-- Soru 13 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">13. Spring Boot uygulamasında CI/CD pipeline nasıl oluşturulur?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">13. Spring Boot uygulamasında CI/CD
+                            pipeline nasıl oluşturulur?</h3>
                         <div class="text-gray-700">
-                            <p>Jenkins, GitHub Actions, GitLab CI gibi araçlarla otomatik build, test ve deploy süreçleri oluşturulur.</p>
+                            <p>Jenkins, GitHub Actions, GitLab CI gibi araçlarla otomatik build, test ve deploy
+                                süreçleri oluşturulur.</p>
                         </div>
                     </div>
 
                     <!-- Soru 14 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">14. Spring Boot uygulamasında Distributed Tracing nasıl yapılır?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">14. Spring Boot uygulamasında Distributed
+                            Tracing nasıl yapılır?</h3>
                         <div class="text-gray-700">
                             <p>Sleuth ve Zipkin kullanılarak request'lerin takibi yapılır.</p>
                         </div>
@@ -1804,7 +2648,8 @@ public class DatabaseHealthIndicator implements HealthIndicator {
 
                     <!-- Soru 15 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">15. Spring Boot uygulamasında Circuit Breaker nasıl izlenir?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">15. Spring Boot uygulamasında Circuit
+                            Breaker nasıl izlenir?</h3>
                         <div class="text-gray-700">
                             <p>Hystrix Dashboard veya Resilience4j metrics ile circuit breaker durumu izlenir.</p>
                         </div>
@@ -1812,7 +2657,8 @@ public class DatabaseHealthIndicator implements HealthIndicator {
 
                     <!-- Soru 16 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">16. Spring Boot uygulamasında Memory Leak nasıl tespit edilir?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">16. Spring Boot uygulamasında Memory Leak
+                            nasıl tespit edilir?</h3>
                         <div class="text-gray-700">
                             <p>VisualVM, JProfiler gibi araçlarla veya heap dump analiz edilerek tespit edilir.</p>
                         </div>
@@ -1820,7 +2666,8 @@ public class DatabaseHealthIndicator implements HealthIndicator {
 
                     <!-- Soru 17 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">17. Spring Boot uygulamasında JVM tuning nasıl yapılır?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">17. Spring Boot uygulamasında JVM tuning
+                            nasıl yapılır?</h3>
                         <div class="text-gray-700">
                             <p>JVM parametreleri ile heap boyutu, garbage collector ayarları yapılır.</p>
                             <p class="mt-2 font-medium">Örnek:</p>
@@ -1830,7 +2677,8 @@ public class DatabaseHealthIndicator implements HealthIndicator {
 
                     <!-- Soru 18 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">18. Spring Boot uygulamasında Thread Dump nasıl alınır?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">18. Spring Boot uygulamasında Thread Dump
+                            nasıl alınır?</h3>
                         <div class="text-gray-700">
                             <p>jstack, VisualVM veya Actuator endpoint'i ile thread dump alınabilir.</p>
                             <p class="mt-2 font-medium">Actuator ile:</p>
@@ -1840,7 +2688,8 @@ public class DatabaseHealthIndicator implements HealthIndicator {
 
                     <!-- Soru 19 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">19. Spring Boot uygulamasında Heap Dump nasıl alınır?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">19. Spring Boot uygulamasında Heap Dump
+                            nasıl alınır?</h3>
                         <div class="text-gray-700">
                             <p>jmap, VisualVM veya Actuator endpoint'i ile heap dump alınabilir.</p>
                             <p class="mt-2 font-medium">Actuator ile:</p>
@@ -1850,7 +2699,8 @@ public class DatabaseHealthIndicator implements HealthIndicator {
 
                     <!-- Soru 20 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">20. Spring Boot uygulamasında Liveness ve Readiness Probe nasıl yapılandırılır?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">20. Spring Boot uygulamasında Liveness ve
+                            Readiness Probe nasıl yapılandırılır?</h3>
                         <div class="text-gray-700">
                             <p>Kubernetes'te uygulamanın durumunu kontrol etmek için kullanılır.</p>
                             <p class="mt-2 font-medium">Örnek:</p>
@@ -1867,7 +2717,8 @@ readinessProbe:
 
                     <!-- Soru 21 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">21. Spring Boot uygulamasında Graceful Shutdown nasıl yapılır?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">21. Spring Boot uygulamasında Graceful
+                            Shutdown nasıl yapılır?</h3>
                         <div class="text-gray-700">
                             <p>Uygulama kapatılırken mevcut request'lerin tamamlanması sağlanır.</p>
                             <p class="mt-2 font-medium">Örnek:</p>
@@ -1878,15 +2729,18 @@ readinessProbe:
 
                     <!-- Soru 22 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">22. Spring Boot uygulamasında Externalized Configuration nasıl yapılır?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">22. Spring Boot uygulamasında Externalized
+                            Configuration nasıl yapılır?</h3>
                         <div class="text-gray-700">
-                            <p>Config Server, environment variables, Kubernetes ConfigMap/Secret gibi yöntemlerle konfigürasyon dışarıdan sağlanır.</p>
+                            <p>Config Server, environment variables, Kubernetes ConfigMap/Secret gibi yöntemlerle
+                                konfigürasyon dışarıdan sağlanır.</p>
                         </div>
                     </div>
 
                     <!-- Soru 23 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">23. Spring Boot uygulamasında Logback yapılandırması nasıl yapılır?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">23. Spring Boot uygulamasında Logback
+                            yapılandırması nasıl yapılır?</h3>
                         <div class="text-gray-700">
                             <p>logback-spring.xml dosyası ile loglama yapılandırılır.</p>
                         </div>
@@ -1894,7 +2748,8 @@ readinessProbe:
 
                     <!-- Soru 24 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">24. Spring Boot uygulamasında Micrometer nasıl kullanılır?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">24. Spring Boot uygulamasında Micrometer
+                            nasıl kullanılır?</h3>
                         <div class="text-gray-700">
                             <p>Özel metrikler oluşturmak için kullanılır.</p>
                             <p class="mt-2 font-medium">Örnek:</p>
@@ -1914,7 +2769,8 @@ public void handleRequest() {
 
                     <!-- Soru 25 -->
                     <div class="question-card border-l-4 border-blue-500 pl-4 py-2">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-2">25. Spring Boot DevOps best practices nelerdir?</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 mb-2">25. Spring Boot DevOps best practices
+                            nelerdir?</h3>
                         <div class="text-gray-700">
                             <ul class="list-disc pl-5">
                                 <li>Infrastructure as Code (IaC) kullanmak</li>
@@ -1942,4 +2798,5 @@ public void handleRequest() {
         }
     </script>
 </body>
+
 </html>
