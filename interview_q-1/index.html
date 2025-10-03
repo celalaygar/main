@@ -2765,11 +2765,15 @@ public List findAllUsers() {
                                 id="hibernate-q17-icon"></i>
                         </h3>
                         <div id="hibernate-q17" class="answer-content text-gray-600 mt-2">
-                            <p>- Checked exception rollback yapmaz → rollbackFor ile belirtilmeli.</p>
-                            <p>- Transaction sadece public methodlarda çalışır (proxy tabanlı).</p>
-                            <p>- Aynı sınıf içindeki metod çağrılarında transaction devreye girmez (self-invocation
-                                problemi).</p>
-                            <p>- LazyInitializationException → transaction erken kapanırsa oluşabilir.</p>
+
+
+                            <ul class="list-disc pl-5">
+                                <li> Checked exception rollback yapmaz → rollbackFor ile belirtilmeli.</li>
+                                <li> Transaction sadece public methodlarda çalışır (proxy tabanlı).</li>
+                                <li> Aynı sınıf içindeki metod çağrılarında transaction devreye girmez (self-invocation
+                                    problemi).</li>
+                                <li> LazyInitializationException → transaction erken kapanırsa oluşabilir.</li>
+                            </ul>
                             <p><b>ÖZET</b></p>
 
                             <ul class="list-disc pl-5">
