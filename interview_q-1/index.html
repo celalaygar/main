@@ -2538,6 +2538,295 @@ SELECT * FROM TABLE(DBMS_XPLAN.DISPLAY);</code></pre>
                             </ul>
                         </div>
                     </div>
+                    <div class="question-item mb-6 border-b border-gray-200 pb-4">
+                        <h3 class="text-gray-600  font-semibold text-lg mb-2 cursor-pointer flex justify-between items-center"
+                            onclick="toggleAnswer('hibernate-q9')">
+                            @Transactional` nedir? Ne işe yarar?
+                            <i class="fas fa-chevron-down text-sm transition-transform duration-300"
+                                id="hibernate-q9-icon"></i>
+                        </h3>
+                        <div id="hibernate-q9" class="answer-content text-gray-600 mt-2">
+                            <ul class="list-disc pl-5">
+                                <li> Spring Framework tarafından sağlanan bir transaction yönetim anotasyonudur.</li>
+                                <li> Veritabanı üzerinde birden fazla SQL işlemi yapıldığında, hepsinin tek bir bütün
+                                    olarak
+                                    çalışmasını sağlar.</li>
+                                <li> İşlem başarılı olursa commit, hata olursa rollback yapılır.</li>
+                                <li> Hibernate ve JPA ile çalışırken veri tutarlılığını korumak için kullanılır.</li>
+                            </ul>
+
+                            <p class="mt-2">Örneğin:</p>
+                            <div class="bg-gray-100 p-3 rounded mt-2">
+                                <pre><code>
+@Service
+public class UserService {
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Transactional
+    public void createUserAndAccount(
+        User user, 
+        Account account) {
+
+        userRepository.save(user);
+        if (account.getBalance() < 0) {
+            throw new RuntimeException("Hatalı bakiye!"); 
+        } 
+    } 
+}
+
+                                </code></pre>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="question-item mb-6 border-b border-gray-200 pb-4">
+                        <h3 class="text-gray-600  font-semibold text-lg mb-2 cursor-pointer flex justify-between items-center"
+                            onclick="toggleAnswer('hibernate-q10')">
+                            @Transactional Parametreleri Propagation
+                            <i class="fas fa-chevron-down text-sm transition-transform duration-300"
+                                id="hibernate-q10-icon"></i>
+                        </h3>
+                        <div id="hibernate-q10" class="answer-content text-gray-600 mt-2">
+                            <p>Transaction yayılım davranışını belirler. Varsayılan: <b>Propagation.REQUIRED</b></p>
+                            <ul class="list-disc pl-5">
+                                <li> <b>REQUIRED : </b> Mevcut transaction varsa onu kullanır, yoksa yeni açar.</li>
+                                <li> <b>REQUIRES_NEW : </b> Her zaman yeni transaction açar. Mevcut varsa askıya alır.
+                                </li>
+                                <li> <b>MANDATORY : </b> Transaction yoksa exception fırlatır.</li>
+                                <li> <b>SUPPORTS : </b> Transaction varsa kullanır, yoksa transaction olmadan çalışır.
+                                </li>
+                                <li> <b>NOT_SUPPORTED : </b> Transaction varsa askıya alır, işlemi transaction olmadan
+                                    yapar.
+                                </li>
+                                <li> <b>NEVER : </b> Transaction olmadan çalışır, eğer varsa exception atar.</li>
+                                <li> <b>NESTED : </b> Mevcut transaction içinde nested transaction açar.</li>
+                            </ul>
+
+                            <p class="mt-2">Örneğin:</p>
+                            <div class="bg-gray-100 p-3 rounded mt-2">
+                                <pre><code>
+@Transactional(propagation = Propagation.REQUIRES_NEW)
+public void saveLog(Log log) {
+    logRepository.save(log);
+}
+                    
+                                                    </code></pre>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="question-item mb-6 border-b border-gray-200 pb-4">
+                        <h3 class="text-gray-600  font-semibold text-lg mb-2 cursor-pointer flex justify-between items-center"
+                            onclick="toggleAnswer('hibernate-q11')">
+                            @Transactional Parametreleri Isolation
+                            <i class="fas fa-chevron-down text-sm transition-transform duration-300"
+                                id="hibernate-q11-icon"></i>
+                        </h3>
+                        <div id="hibernate-q11" class="answer-content text-gray-600 mt-2">
+                            <ul class="list-disc pl-5">
+                                <li>Transaction izolasyon seviyesini belirler. Kirli okuma, tekrar eden okuma ve phantom
+                                    read
+                                    problemlerini kontrol eder.</li>
+                                <li> <b>DEFAULT : </b> DB'nin varsayılan ayarını kullanır.</li>
+                                <li> <b>READ_UNCOMMITTED : </b> Kirli okumalara izin verir.</li>
+                                <li> <b>READ_COMMITTED : </b> Sadece commit edilmiş verileri okur.</li>
+                                <li> <b>REPEATABLE_READ : </b> Transaction boyunca aynı satırı hep aynı görür.</li>
+                                <li> <b>SERIALIZABLE : </b> En yüksek seviye, tüm transaction'lar sırayla çalışır.</li>
+                            </ul>
+
+                            <p class="mt-2">Örneğin:</p>
+                            <div class="bg-gray-100 p-3 rounded mt-2">
+                                <pre><code>
+@Transactional(isolation = Isolation.SERIALIZABLE)
+public void transferMoney(
+    Long fromId, 
+    Long toId, 
+    double amount) {
+    // En katı izolasyon seviyesi ile çalışır
+}
+                                        
+                                                                        </code></pre>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="question-item mb-6 border-b border-gray-200 pb-4">
+                        <h3 class="text-gray-600  font-semibold text-lg mb-2 cursor-pointer flex justify-between items-center"
+                            onclick="toggleAnswer('hibernate-q12')">
+                            @Transactional Parametreleri rollbackFor ve noRollbackFor
+                            <i class="fas fa-chevron-down text-sm transition-transform duration-300"
+                                id="hibernate-q12-icon"></i>
+                        </h3>
+                        <div id="hibernate-q12" class="answer-content text-gray-600 mt-2">
+                            <ul class="list-disc pl-5">
+                                <li> <b>rollbackFor : </b> Belirtilen exception oluşursa rollback yapılır.</li>
+                                <li> <b>noRollbackFor : </b> Belirtilen exception oluşursa rollback yapılmaz.</li>
+                            </ul>
+                            <p class="mt-2">Örneğin:</p>
+                            <div class="bg-gray-100 p-3 rounded mt-2">
+                                <pre><code>
+@Transactional(rollbackFor = 
+    {IOException.class, SQLException.class})
+public void riskyOperation() throws IOException {
+// IOException veya SQLException olursa rollback olur
+}
+
+@Transactional(noRollbackFor = 
+    IllegalArgumentException.class)
+public void safeOperation() {
+// IllegalArgumentException olursa rollback olmaz
+}
+                                                            
+                                                                                            </code></pre>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="question-item mb-6 border-b border-gray-200 pb-4">
+                        <h3 class="text-gray-600  font-semibold text-lg mb-2 cursor-pointer flex justify-between items-center"
+                            onclick="toggleAnswer('hibernate-q13')">
+                            @Transactional Parametreleri timeout
+                            <i class="fas fa-chevron-down text-sm transition-transform duration-300"
+                                id="hibernate-q12-icon"></i>
+                        </h3>
+                        <div id="hibernate-q13" class="answer-content text-gray-600 mt-2">
+                            <p>Transaction maksimum çalışma süresini (saniye cinsinden) belirler. Süre aşılırsa rollback
+                                yapılır.</p>
+                            <p class="mt-2">Örneğin:</p>
+                            <div class="bg-gray-100 p-3 rounded mt-2">
+                                <pre><code>
+@Transactional(timeout = 5)
+public void longRunningTask() {
+    // 5 saniyeyi geçerse rollback olur
+}
+                                                                                
+                                                                                                                </code></pre>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="question-item mb-6 border-b border-gray-200 pb-4">
+                        <h3 class="text-gray-600  font-semibold text-lg mb-2 cursor-pointer flex justify-between items-center"
+                            onclick="toggleAnswer('hibernate-q14')">
+                            @Transactional Parametreleri readOnly
+                            <i class="fas fa-chevron-down text-sm transition-transform duration-300"
+                                id="hibernate-q14-icon"></i>
+                        </h3>
+                        <div id="hibernate-q14" class="answer-content text-gray-600 mt-2">
+                            <p>Sorgunun sadece okuma amaçlı olduğunu belirtir. Hibernate dirty check yapmaz → performans
+                                artar.</p>
+                            <p class="mt-2">Örneğin:</p>
+                            <div class="bg-gray-100 p-3 rounded mt-2">
+                                <pre><code>
+@Transactional(readOnly = true)
+public List findAllUsers() {
+    return userRepository.findAll();
+}
+                                                                                                    
+                                                                                                                                    </code></pre>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="question-item mb-6 border-b border-gray-200 pb-4">
+                        <h3 class="text-gray-600  font-semibold text-lg mb-2 cursor-pointer flex justify-between items-center"
+                            onclick="toggleAnswer('hibernate-q15')">
+                            @Transactional Hangi Katmanlarda Kullanılmalı?
+                            <i class="fas fa-chevron-down text-sm transition-transform duration-300"
+                                id="hibernate-q15-icon"></i>
+                        </h3>
+                        <div id="hibernate-q15" class="answer-content text-gray-600 mt-2">
+                            <ul class="list-disc pl-5">
+                                <li> En doğru kullanım Service katmanıdır.</li>
+                                <li> Repository zaten Spring Data JPA tarafından transaction içinde çalışır.</li>
+                                <li> Controller'da kullanılmaz.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="question-item mb-6 border-b border-gray-200 pb-4">
+                        <h3 class="text-gray-600  font-semibold text-lg mb-2 cursor-pointer flex justify-between items-center"
+                            onclick="toggleAnswer('hibernate-q16')">
+                            @Transactional Neden Önemlidir?
+                            <i class="fas fa-chevron-down text-sm transition-transform duration-300"
+                                id="hibernate-q16-icon"></i>
+                        </h3>
+                        <div id="hibernate-q16" class="answer-content text-gray-600 mt-2">
+                            <ul class="list-disc pl-5">
+                                <li> Veri bütünlüğünü sağlar.</li>
+                                <li> Birden fazla tabloya yazma işlemi yapılırken, tutarsız veri oluşumunu engeller.
+                                </li>
+                                <li> Özellikle para transferi, stok güncelleme, sipariş işlemleri gibi kritik
+                                    operasyonlarda
+                                    hayati önem taşır.</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="question-item mb-6 border-b border-gray-200 pb-4">
+                        <h3 class="text-gray-600  font-semibold text-lg mb-2 cursor-pointer flex justify-between items-center"
+                            onclick="toggleAnswer('hibernate-q17')">
+                            @Transactional Sık Karşılaşılan Problemler
+                            <i class="fas fa-chevron-down text-sm transition-transform duration-300"
+                                id="hibernate-q17-icon"></i>
+                        </h3>
+                        <div id="hibernate-q17" class="answer-content text-gray-600 mt-2">
+                            <p>- Checked exception rollback yapmaz → rollbackFor ile belirtilmeli.</p>
+                            <p>- Transaction sadece public methodlarda çalışır (proxy tabanlı).</p>
+                            <p>- Aynı sınıf içindeki metod çağrılarında transaction devreye girmez (self-invocation
+                                problemi).</p>
+                            <p>- LazyInitializationException → transaction erken kapanırsa oluşabilir.</p>
+                            <p><b>ÖZET</b></p>
+
+                            <ul class="list-disc pl-5">
+                                <li> @Transactional → Transaction yönetimini sağlar.</li>
+                                <li> Parametreler: propagation, isolation, timeout, readOnly, rollbackFor,
+                                    noRollbackFor.
+                                </li>
+                                <li> En iyi kullanım yeri: Service katmanı.</li>
+                                <li> Mülakatta özellikle propagation ve isolation seviyeleri mutlaka sorulur.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+
+                    <div class="question-item mb-6 border-b border-gray-200 pb-4">
+                        <h3 class="text-gray-600  font-semibold text-lg mb-2 cursor-pointer flex justify-between items-center"
+                            onclick="toggleAnswer('hibernate-q22')">
+                            @Transactional Örnek Full Service Kullanımı
+                            <i class="fas fa-chevron-down text-sm transition-transform duration-300"
+                                id="hibernate-q22-icon"></i>
+                        </h3>
+                        <div id="hibernate-q22" class="answer-content text-gray-600 mt-2">
+                            <p class="mt-2">Örneğin:</p>
+                            <div class="bg-gray-100 p-3 rounded mt-2">
+                                <pre><code>
+@Service
+public class OrderService {
+
+@Autowired
+private OrderRepository orderRepository;
+
+@Autowired
+private PaymentRepository paymentRepository;
+
+@Transactional(
+    propagation = Propagation.REQUIRED, 
+    isolation = Isolation.READ_COMMITTED)
+public void placeOrder(
+    Order order, 
+    Payment payment) {
+    orderRepository.save(order);
+    paymentRepository.save(payment);
+
+    if (payment.getAmount() <= 0) { 
+        throw new RuntimeException("Ödeme hatalı!"); 
+    } 
+} 
+    @Transactional(readOnly=true) 
+    public List getAllOrders() { 
+        return orderRepository.findAll(); 
+    } 
+}
+                                                                                                                                            
+                                                                                                                                                                            </code></pre>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
