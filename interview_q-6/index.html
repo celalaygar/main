@@ -1,0 +1,3097 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Senior Seviye Kubernetes Mülakat Soruları</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .code-block {
+            border-radius: 0.5rem;
+            padding: 1rem;
+            overflow-x: auto;
+            font-family: monospace;
+            font-size: 0.875rem;
+        }
+
+        .code-block.bash {
+            background-color: #1e293b;
+            color: #e2e8f0;
+        }
+
+        .code-block.yaml {
+            background-color: #1e3a1e;
+            color: #e2e8f0;
+        }
+
+        .code-block.json {
+            background-color: #1e3a5f;
+            color: #e2e8f0;
+        }
+
+        .category-card {
+            transition: transform 0.3s ease;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .question-card {
+            transition: all 0.3s ease;
+        }
+
+        .question-card:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <header class="text-center mb-12">
+            <h1 class="text-4xl font-bold text-gray-800 mb-2">Senior Seviye Kubernetes Mülakat Soruları</h1>
+            <p class="text-gray-600">100 adet ileri seviye soru ve cevapla hazırlanmış kapsamlı arşiv</p>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+            <div class="category-card bg-white rounded-lg shadow-md p-6">
+                <div class="flex items-center mb-4">
+                    <div class="bg-blue-100 p-3 rounded-full mr-4">
+                        <i class="fas fa-cube text-blue-600 text-xl"></i>
+                    </div>
+                    <h2 class="text-xl font-bold text-gray-800">Temel Kubernetes Kavramları</h2>
+                </div>
+                <p class="text-gray-600 mb-4">Kubernetes mimarisinin temel bileşenleri ve çalışma prensipleri</p>
+                <p class="text-sm text-blue-600 font-medium mb-2">20 Soru</p>
+                <button onclick="scrollToCategory('temel-kavramlar')"
+                    class="text-blue-600 font-medium hover:text-blue-800">Soruları Görüntüle <i
+                        class="fas fa-arrow-right ml-1"></i></button>
+            </div>
+
+            <div class="category-card bg-white rounded-lg shadow-md p-6">
+                <div class="flex items-center mb-4">
+                    <div class="bg-blue-100 p-3 rounded-full mr-4">
+                        <i class="fas fa-box text-blue-600 text-xl"></i>
+                    </div>
+                    <h2 class="text-xl font-bold text-gray-800">Pod'lar ve Container'lar</h2>
+                </div>
+                <p class="text-gray-600 mb-4">Pod ve container yönetimi, lifecycle ve yapılandırma</p>
+                <p class="text-sm text-blue-600 font-medium mb-2">15 Soru</p>
+                <button onclick="scrollToCategory('pods-containers')"
+                    class="text-blue-600 font-medium hover:text-blue-800">Soruları Görüntüle <i
+                        class="fas fa-arrow-right ml-1"></i></button>
+            </div>
+
+            <div class="category-card bg-white rounded-lg shadow-md p-6">
+                <div class="flex items-center mb-4">
+                    <div class="bg-blue-100 p-3 rounded-full mr-4">
+                        <i class="fas fa-rocket text-blue-600 text-xl"></i>
+                    </div>
+                    <h2 class="text-xl font-bold text-gray-800">Deployment ve StatefulSet</h2>
+                </div>
+                <p class="text-gray-600 mb-4">Uygulama dağıtımı, güncelleme stratejileri ve stateful uygulamalar</p>
+                <p class="text-sm text-blue-600 font-medium mb-2">15 Soru</p>
+                <button onclick="scrollToCategory('deployment-statefulset')"
+                    class="text-blue-600 font-medium hover:text-blue-800">Soruları Görüntüle <i
+                        class="fas fa-arrow-right ml-1"></i></button>
+            </div>
+
+            <div class="category-card bg-white rounded-lg shadow-md p-6">
+                <div class="flex items-center mb-4">
+                    <div class="bg-blue-100 p-3 rounded-full mr-4">
+                        <i class="fas fa-network-wired text-blue-600 text-xl"></i>
+                    </div>
+                    <h2 class="text-xl font-bold text-gray-800">Service ve Networking</h2>
+                </div>
+                <p class="text-gray-600 mb-4">Kubernetes'de servisler, ağ iletişimi ve trafik yönetimi</p>
+                <p class="text-sm text-blue-600 font-medium mb-2">15 Soru</p>
+                <button onclick="scrollToCategory('service-networking')"
+                    class="text-blue-600 font-medium hover:text-blue-800">Soruları Görüntüle <i
+                        class="fas fa-arrow-right ml-1"></i></button>
+            </div>
+
+            <div class="category-card bg-white rounded-lg shadow-md p-6">
+                <div class="flex items-center mb-4">
+                    <div class="bg-blue-100 p-3 rounded-full mr-4">
+                        <i class="fas fa-key text-blue-600 text-xl"></i>
+                    </div>
+                    <h2 class="text-xl font-bold text-gray-800">ConfigMap ve Secret</h2>
+                </div>
+                <p class="text-gray-600 mb-4">Yapılandırma yönetimi ve hassas verilerin depolanması</p>
+                <p class="text-sm text-blue-600 font-medium mb-2">10 Soru</p>
+                <button onclick="scrollToCategory('configmap-secret')"
+                    class="text-blue-600 font-medium hover:text-blue-800">Soruları Görüntüle <i
+                        class="fas fa-arrow-right ml-1"></i></button>
+            </div>
+
+            <div class="category-card bg-white rounded-lg shadow-md p-6">
+                <div class="flex items-center mb-4">
+                    <div class="bg-blue-100 p-3 rounded-full mr-4">
+                        <i class="fas fa-database text-blue-600 text-xl"></i>
+                    </div>
+                    <h2 class="text-xl font-bold text-gray-800">Persistent Storage</h2>
+                </div>
+                <p class="text-gray-600 mb-4">Kalıcı veri depolama ve volume yönetimi</p>
+                <p class="text-sm text-blue-600 font-medium mb-2">10 Soru</p>
+                <button onclick="scrollToCategory('persistent-storage')"
+                    class="text-blue-600 font-medium hover:text-blue-800">Soruları Görüntüle <i
+                        class="fas fa-arrow-right ml-1"></i></button>
+            </div>
+
+            <div class="category-card bg-white rounded-lg shadow-md p-6">
+                <div class="flex items-center mb-4">
+                    <div class="bg-blue-100 p-3 rounded-full mr-4">
+                        <i class="fas fa-compass text-blue-600 text-xl"></i>
+                    </div>
+                    <h2 class="text-xl font-bold text-gray-800">Helm ve Package Management</h2>
+                </div>
+                <p class="text-gray-600 mb-4">Kubernetes uygulamalarını paketleme ve yönetme</p>
+                <p class="text-sm text-blue-600 font-medium mb-2">5 Soru</p>
+                <button onclick="scrollToCategory('helm-package')"
+                    class="text-blue-600 font-medium hover:text-blue-800">Soruları Görüntüle <i
+                        class="fas fa-arrow-right ml-1"></i></button>
+            </div>
+
+            <div class="category-card bg-white rounded-lg shadow-md p-6">
+                <div class="flex items-center mb-4">
+                    <div class="bg-blue-100 p-3 rounded-full mr-4">
+                        <i class="fas fa-chart-line text-blue-600 text-xl"></i>
+                    </div>
+                    <h2 class="text-xl font-bold text-gray-800">Monitoring ve Logging</h2>
+                </div>
+                <p class="text-gray-600 mb-4">Kubernetes cluster'ını izleme ve log yönetimi</p>
+                <p class="text-sm text-blue-600 font-medium mb-2">5 Soru</p>
+                <button onclick="scrollToCategory('monitoring-logging')"
+                    class="text-blue-600 font-medium hover:text-blue-800">Soruları Görüntüle <i
+                        class="fas fa-arrow-right ml-1"></i></button>
+            </div>
+
+            <div class="category-card bg-white rounded-lg shadow-md p-6">
+                <div class="flex items-center mb-4">
+                    <div class="bg-blue-100 p-3 rounded-full mr-4">
+                        <i class="fas fa-shield-alt text-blue-600 text-xl"></i>
+                    </div>
+                    <h2 class="text-xl font-bold text-gray-800">Kubernetes Güvenliği</h2>
+                </div>
+                <p class="text-gray-600 mb-4">Kubernetes ortamında güvenlik önlemleri ve best practices</p>
+                <p class="text-sm text-blue-600 font-medium mb-2">5 Soru</p>
+                <button onclick="scrollToCategory('kubernetes-guvenligi')"
+                    class="text-blue-600 font-medium hover:text-blue-800">Soruları Görüntüle <i
+                        class="fas fa-arrow-right ml-1"></i></button>
+            </div>
+
+            <div class="category-card bg-white rounded-lg shadow-md p-6">
+                <div class="flex items-center mb-4">
+                    <div class="bg-blue-100 p-3 rounded-full mr-4">
+                        <i class="fas fa-lightbulb text-blue-600 text-xl"></i>
+                    </div>
+                    <h2 class="text-xl font-bold text-gray-800">İpuçları ve Best Practices</h2>
+                </div>
+                <p class="text-gray-600 mb-4">Kubernetes kullanımında ipuçları ve en iyi uygulamalar</p>
+                <p class="text-sm text-blue-600 font-medium mb-2">5 Soru</p>
+                <button onclick="scrollToCategory('ipuclari-bestpractices')"
+                    class="text-blue-600 font-medium hover:text-blue-800">Soruları Görüntüle <i
+                        class="fas fa-arrow-right ml-1"></i></button>
+            </div>
+        </div>
+
+        <!-- Temel Kubernetes Kavramları -->
+        <section id="temel-kavramlar" class="mb-16">
+            <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+                <div class="flex items-center mb-6">
+                    <div class="bg-blue-100 p-3 rounded-full mr-4">
+                        <i class="fas fa-cube text-blue-600 text-xl"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-800">Temel Kubernetes Kavramları</h2>
+                </div>
+                <p class="text-gray-600 mb-6">Kubernetes mimarisinin temel bileşenleri ve çalışma prensipleri ile ilgili sorular ve cevaplar.</p>
+
+                <div class="space-y-6">
+                    <!-- Soru 1 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 1: Kubernetes nedir ve ne işe yarar?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubernetes, container'lı uygulamaları otomatikleştirmek, ölçeklendirmek ve yönetmek için kullanılan açık kaynaklı bir container orkestrasyon sistemidir.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li>Container'ların dağıtımını, ölçeklendirilmesini ve yönetimini otomatikleştirir</li>
+                                <li>Kaynak kullanımını optimize eder</li>
+                                <li>Kendini iyileştiren (self-healing) yetenekleri sunar</li>
+                                <li>Hizmet kesintisini en aza indirir</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Soru 2 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 2: Kubernetes mimarisinin ana bileşenleri nelerdir?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubernetes mimarisi Control Plane (Master) ve Worker (Node) bileşenlerinden oluşur.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li><strong>Control Plane (Master) Bileşenleri:</strong>
+                                    <ul class="list-circle pl-5 mt-1">
+                                        <li>API Server: Tüm operasyonlar için merkezi yönetim noktası</li>
+                                        <li>etcd: Cluster durumunu saklayan anahtar-değer deposu</li>
+                                        <li>Scheduler: Pod'ları node'lara atar</li>
+                                        <li>Controller Manager: Cluster durumunu denetleyen denetleyicileri çalıştırır</li>
+                                        <li>Cloud Controller Manager: Bulut sağlayıcı özelliklerini yönetir</li>
+                                    </ul>
+                                </li>
+                                <li><strong>Worker (Node) Bileşenleri:</strong>
+                                    <ul class="list-circle pl-5 mt-1">
+                                        <li>Kubelet: Node'daki container'ları yönetir</li>
+                                        <li>Kube-proxy: Ağ kurallarını ve yük dengelemeyi yönetir</li>
+                                        <li>Container Runtime: Docker, containerd gibi container çalıştırma ortamları</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Soru 3 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 3: Kubernetes cluster'ı nasıl oluşturulur?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubernetes cluster'ı oluşturmak için farklı yöntemler kullanılabilir:</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li><strong>kubeadm</strong> kullanarak: Standart ve en yaygın yöntem</li>
+                                <li><strong>Minikube</strong> ile: Yerel geliştirme ve test için</li>
+                                <li><strong>Kind (Kubernetes in Docker)</strong> ile: Docker container'ları içinde cluster oluşturma</li>
+                                <li><strong>Bulut sağlayıcıların</strong> yönetilen Kubernetes servisleri (EKS, GKE, AKS)</li>
+                            </ul>
+                            <p class="mt-2 font-medium">kubeadm ile cluster oluşturma örneği:</p>
+                            <pre class="code-block bash mt-2"># Master node'da
+sudo kubeadm init --pod-network-cidr=10.244.0.0/16
+
+# Worker node'ları master'a bağlamak için
+sudo kubeadm join &lt;master-ip&gt;:&lt;master-port&gt; --token &lt;token&gt; --discovery-token-ca-cert-hash &lt;hash&gt;</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 4 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 4: kubectl komutu nedir ve nasıl kullanılır?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> kubectl, Kubernetes cluster'ı ile etkileşim kurmak için kullanılan komut satırı aracıdır.</p>
+                            <p class="mt-2 font-medium">Temel kubectl komutları:</p>
+                            <pre class="code-block bash mt-2"># Cluster bilgilerini görüntüleme
+kubectl cluster-info
+
+# Node'ları listeleme
+kubectl get nodes
+
+# Pod'ları listeleme
+kubectl get pods
+
+# Bir YAML dosyasından kaynak oluşturma
+kubectl create -f &lt;dosya-adı&gt;.yaml
+
+# Bir deployment oluşturma
+kubectl create deployment &lt;deployment-adı&gt; --image=&lt;image-adı&gt;
+
+# Pod loglarını görüntüleme
+kubectl logs &lt;pod-adı&gt;
+
+# Pod içinde komut çalıştırma
+kubectl exec -it &lt;pod-adı&gt; -- &lt;komut&gt;
+
+# Bir kaynağı silme
+kubectl delete deployment &lt;deployment-adı&gt;</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 5 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 5: Kubernetes'te namespace nedir ve ne işe yarar?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Namespace, aynı fiziksel cluster'da kaynakları mantıksal olarak ayırmak için kullanılan bir mekanizmadır.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li>Farklı ortamları (geliştirme, test, üretim) ayırmak için kullanılır</li>
+                                <li>Kaynak çakışmalarını önler</li>
+                                <li>Kaynak erişimini kontrol etmek için kullanılır</li>
+                                <li>Kaynakları organize etmek için kullanılır</li>
+                            </ul>
+                            <p class="mt-2 font-medium">Namespace oluşturma ve kullanma:</p>
+                            <pre class="code-block bash mt-2"># Namespace oluşturma
+kubectl create namespace &lt;namespace-adı&gt;
+
+# Namespace içinde kaynak oluşturma
+kubectl create deployment &lt;deployment-adı&gt; --image=&lt;image-adı&gt; -n &lt;namespace-adı&gt;
+
+# Tüm namespace'leri listeleme
+kubectl get namespaces
+
+# Belirli bir namespace'deki kaynakları listeleme
+kubectl get pods -n &lt;namespace-adı&gt;</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 6 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 6: Kubernetes'te label ve selector nedir?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Label, Kubernetes nesnelerine eklenen key-value çiftleridir. Selector ise bu label'lara göre nesneleri filtrelemek için kullanılır.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li><strong>Label:</strong> Nesnelere metadata eklemek için kullanılır</li>
+                                <li><strong>Selector:</strong> Label'lara göre nesneleri seçmek için kullanılır</li>
+                            </ul>
+                            <p class="mt-2 font-medium">Örnek kullanım:</p>
+                            <pre class="code-block yaml mt-2">apiVersion: v1
+kind: Pod
+metadata:
+  name: my-pod
+  labels:
+    app: my-app
+    tier: frontend
+spec:
+  containers:
+  - name: my-container
+    image: nginx</pre>
+                            <p class="mt-2 font-medium">Selector ile Pod'ları seçme:</p>
+                            <pre class="code-block bash mt-2"># app=my-app label'ına sahip pod'ları listele
+kubectl get pods -l app=my-app
+
+# tier=frontend ve app=my-app label'larına sahip pod'ları listele
+kubectl get pods -l tier=frontend,app=my-app</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 7 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 7: Kubernetes'te annotation nedir ve label'dan farkı nedir?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Annotation, Kubernetes nesnelerine eklenen metadata'dır. Label'dan farkı, selector ile kullanılamaması ve genellikle daha büyük veriler için kullanılmasıdır.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li><strong>Annotation:</strong> Nesneler hakkında ek bilgi depolamak için kullanılır</li>
+                                <li><strong>Label:</strong> Nesneleri seçmek ve gruplamak için kullanılır</li>
+                            </ul>
+                            <p class="mt-2 font-medium">Örnek kullanım:</p>
+                            <pre class="code-block yaml mt-2">apiVersion: v1
+kind: Pod
+metadata:
+  name: my-pod
+  annotations:
+    example.com/owner: "team-a"
+    example.com/created-by: "john.doe"
+  labels:
+    app: my-app
+    tier: frontend
+spec:
+  containers:
+  - name: my-container
+    image: nginx</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 8 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 8: Kubernetes'te etcd nedir ve ne işe yarar?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> etcd, Kubernetes cluster'ının durumunu saklayan dağıtık bir anahtar-değer deposudur.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li>Tüm Kubernetes nesnelerinin durumunu saklar</li>
+                                <li>Service discovery ve yapılandırma için kullanılır</li>
+                                <li>Cluster durumunun tutarlılığını sağlar</li>
+                                <li>Yüksek erişilebilirlik ve güvenilirlik sağlar</li>
+                            </ul>
+                            <p class="mt-2 font-medium">etcd'yi yedekleme:</p>
+                            <pre class="code-block bash mt-2"># etcd snapshot oluşturma
+ETCDCTL_API=3 etcdctl --endpoints=&lt;etcd-ip&gt;:2379 \
+  --cacert=/etc/kubernetes/pki/etcd/ca.crt \
+  --cert=/etc/kubernetes/pki/etcd/server.crt \
+  --key=/etc/kubernetes/pki/etcd/server.key \
+  snapshot save /tmp/etcd-snapshot.db</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 9 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 9: Kubernetes API Server'ın görevi nedir?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubernetes API Server, cluster'ın tüm operasyonları için merkezi yönetim noktasıdır.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li>Tüm Kubernetes nesnelerini (Pod, Service, Deployment vb.) yönetir</li>
+                                <li>Doğrulama ve yetkilendirme işlemlerini gerçekleştirir</li>
+                                <li>Diğer Kubernetes bileşenleri ile iletişim kurar</li>
+                                <li>RESTful API aracılığıyla dış dünyaya açılır</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Soru 10 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 10: Kubernetes Controller Manager'ın görevi nedir?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Controller Manager, cluster durumunu denetleyen denetleyicileri çalıştıran bileşendir.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li><strong>Node Controller:</strong> Node'ların durumunu izler</li>
+                                <li><strong>Replication Controller:</strong> Pod'ların istenen sayıda olmasını sağlar</li>
+                                <li><strong>Endpoint Controller:</strong> Endpoint nesnelerini doldurur</li>
+                                <li><strong>Service Account & Token Controller:</strong> Service account'ları ve token'ları yönetir</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Soru 11 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 11: Kubernetes Scheduler'ın görevi nedir?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubernetes Scheduler, yeni oluşturulan Pod'ları çalıştırmak için uygun Node'ları seçen bileşendir.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li>Pod'ları Node'lara atar</li>
+                                <li>Kaynak kullanımını dikkate alır</li>
+                                <li>Donanım, yazılım ve politika kısıtlamalarını göz önünde bulundurur</li>
+                                <li>Yük dengeleme sağlar</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Soru 12 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 12: Kubelet'in görevi nedir?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubelet, her Node'da çalışan ve Node'daki container'ları yöneten bileşendir.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li>Pod'ların durumunu izler</li>
+                                <li>Container'ları başlatır, durdurur ve yeniden başlatır</li>
+                                <li>Node'un kaynak kullanımını izler</li>
+                                <li>API Server ile iletişim kurar</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Soru 13 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 13: Kube-proxy'nin görevi nedir?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kube-proxy, her Node'da çalışan ve ağ kurallarını ve yük dengelemeyi yöneten bileşendir.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li>Service'ler için ağ kurallarını yönetir</li>
+                                <li>Pod'lara gelen trafiği yönlendirir</li>
+                                <li>Cluster IP'lerini yönetir</li>
+                                <li>Trafiği Pod'lar arasında dağıtır</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Soru 14 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 14: Kubernetes'te RBAC nedir ve nasıl çalışır?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> RBAC (Role-Based Access Control), Kubernetes'te kullanıcıların ve servis hesaplarının yetkilendirilmesini sağlayan bir mekanizmadır.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li><strong>Role:</strong> Belirli bir namespace içindeki izinleri tanımlar</li>
+                                <li><strong>ClusterRole:</strong> Tüm namespace'ler için geçerli olan izinleri tanımlar</li>
+                                <li><strong>RoleBinding:</strong> Role veya ClusterRole'u kullanıcı veya servis hesabına bağlar</li>
+                                <li><strong>ClusterRoleBinding:</strong> ClusterRole'u kullanıcı veya servis hesabına bağlar</li>
+                            </ul>
+                            <p class="mt-2 font-medium">RBAC örneği:</p>
+                            <pre class="code-block yaml mt-2">apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: default
+  name: pod-reader
+rules:
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["get", "watch", "list"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: read-pods
+  namespace: default
+subjects:
+- kind: User
+  name: jane
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: pod-reader
+  apiGroup: rbac.authorization.k8s.io</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 15 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 15: Kubernetes'te ServiceAccount nedir?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> ServiceAccount, Pod'ların Kubernetes API'sine erişmek için kullandığı bir hesaptır.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li>Pod'ların API Server ile iletişim kurmasını sağlar</li>
+                                <li>Her namespace'de varsayılan bir ServiceAccount vardır</li>
+                                <li>Pod'lara özel izinler atamak için kullanılır</li>
+                                <li>Token'lar otomatik olarak Pod'lara mount edilir</li>
+                            </ul>
+                            <p class="mt-2 font-medium">ServiceAccount oluşturma:</p>
+                            <pre class="code-block bash mt-2"># ServiceAccount oluşturma
+kubectl create serviceaccount &lt;serviceaccount-adı&gt;
+
+# ServiceAccount listeleme
+kubectl get serviceaccounts
+
+# ServiceAccount detaylarını görüntüleme
+kubectl describe serviceaccount &lt;serviceaccount-adı&gt;</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 16 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 16: Kubernetes'te Context nedir?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubernetes Context, farklı cluster'lara ve namespace'lere erişim için kullanılan yapılandırmalardır.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li>Farklı cluster'lara kolayca geçiş yapmayı sağlar</li>
+                                <li>Farklı namespace'lerde çalışmayı kolaylaştırır</li>
+                                <li>kubectl config komutu ile yönetilir</li>
+                            </ul>
+                            <p class="mt-2 font-medium">Context yönetimi:</p>
+                            <pre class="code-block bash mt-2"># Mevcut context'i görüntüleme
+kubectl config current-context
+
+# Tüm context'leri listeleme
+kubectl config get-contexts
+
+# Context değiştirme
+kubectl config use-context &lt;context-adı&gt;
+
+# Yeni context oluşturma
+kubectl config set-context &lt;context-adı&gt; --cluster=&lt;cluster-adı&gt; --user=&lt;kullanıcı-adı&gt; --namespace=&lt;namespace-adı&gt;</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 17 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 17: Kubernetes'te kubeconfig dosyası nedir?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> kubeconfig dosyası, cluster'lara erişim için gerekli bilgileri içeren bir yapılandırma dosyasıdır.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li>Cluster'ların URL'lerini içerir</li>
+                                <li>Kullanıcı kimlik doğrulama bilgilerini içerir</li>
+                                <li>Context'leri tanımlar</li>
+                                <li>Varsayılan olarak ~/.kube/config dosyasında bulunur</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Soru 18 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 18: Kubernetes'te Taint ve Tolerance nedir?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Taint, Node'lara uygulanan ve Pod'ların bu Node'larda çalışmasını kısıtlayan bir özelliktir. Tolerance ise Pod'ların Taint'leri tolere etmesini sağlayan bir özelliktir.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li><strong>Taint:</strong> Node'lara "NoSchedule", "PreferNoSchedule" veya "NoExecute" etkileri uygular</li>
+                                <li><strong>Tolerance:</strong> Pod'ların Taint'leri tolere etmesini sağlar</li>
+                            </ul>
+                            <p class="mt-2 font-medium">Taint ve Tolerance örneği:</p>
+                            <pre class="code-block bash mt-2"># Node'a taint ekleme
+kubectl taint nodes &lt;node-adı&gt; key=value:NoSchedule
+
+# Pod'a tolerance ekleme
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-pod
+spec:
+  containers:
+  - name: my-container
+    image: nginx
+  tolerations:
+  - key: "key"
+    operator: "Equal"
+    value: "value"
+    effect: "NoSchedule"</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 19 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 19: Kubernetes'te Node Affinity ve Anti-Affinity nedir?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Node Affinity, Pod'ların belirli Node'larda çalışmasını sağlayan bir kuraldır. Anti-Affinity ise Pod'ların belirli Node'larda çalışmamasını sağlayan bir kuraldır.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li><strong>requiredDuringSchedulingIgnoredDuringExecution:</strong> Zorunlu, scheduling sırasında dikkate alınır</li>
+                                <li><strong>preferredDuringSchedulingIgnoredDuringExecution:</strong> Tercihli, scheduling sırasında dikkate alınır</li>
+                            </ul>
+                            <p class="mt-2 font-medium">Node Affinity örneği:</p>
+                            <pre class="code-block yaml mt-2">apiVersion: v1
+kind: Pod
+metadata:
+  name: with-node-affinity
+spec:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+        - matchExpressions:
+          - key: kubernetes.io/e2e-az-name
+            operator: In
+            values:
+            - e2e-az1
+            - e2e-az2
+      preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 1
+        preference:
+          matchExpressions:
+          - key: another-node-label-key
+            operator: In
+            values:
+            - another-node-label-value
+  containers:
+  - name: with-node-affinity
+    image: k8s.gcr.io/pause:2.0</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 20 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 20: Kubernetes'te Resource Quota ve Limit Range nedir?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Resource Quota, bir namespace içindeki kaynakların kullanımını sınırlayan bir nesnedir. Limit Range ise Pod ve Container'ların kaynak kullanımını sınırlayan bir nesnedir.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li><strong>Resource Quota:</strong> Namespace seviyesinde kaynak sınırlaması</li>
+                                <li><strong>Limit Range:</strong> Pod ve Container seviyesinde kaynak sınırlaması</li>
+                            </ul>
+                            <p class="mt-2 font-medium">Resource Quota örneği:</p>
+                            <pre class="code-block yaml mt-2">apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: compute-resources
+  namespace: my-namespace
+spec:
+  hard:
+    pods: "10"
+    requests.cpu: "4"
+    requests.memory: 8Gi
+    limits.cpu: "10"
+    limits.memory: 16Gi</pre>
+                            <p class="mt-2 font-medium">Limit Range örneği:</p>
+                            <pre class="code-block yaml mt-2">apiVersion: v1
+kind: LimitRange
+metadata:
+  name: cpu-memory-limit-range
+  namespace: my-namespace
+spec:
+  limits:
+  - default:
+      cpu: 500m
+      memory: 512Mi
+    defaultRequest:
+      cpu: 100m
+      memory: 128Mi
+    max:
+      cpu: "1"
+      memory: 1Gi
+    min:
+      cpu: 50m
+      memory: 64Mi
+    type: Container</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pod'lar ve Container'lar -->
+        <section id="pods-containers" class="mb-16">
+            <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+                <div class="flex items-center mb-6">
+                    <div class="bg-blue-100 p-3 rounded-full mr-4">
+                        <i class="fas fa-box text-blue-600 text-xl"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-800">Pod'lar ve Container'lar</h2>
+                </div>
+                <p class="text-gray-600 mb-6">Pod ve container yönetimi, lifecycle ve yapılandırma ile ilgili sorular ve cevaplar.</p>
+
+                <div class="space-y-6">
+                    <!-- Soru 1 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 1: Kubernetes'te Pod nedir ve ne işe yarar?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Pod, Kubernetes'te dağıtım ve yönetim için en küçük birimidir. Bir veya daha fazla container'ı içerebilir.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li>Bir veya daha fazla container'ı barındırır</li>
+                                <li>Aynı Node üzerinde çalışır</li>
+                                <li>Ağ ve depolama kaynaklarını paylaşır</li>
+                                <li>Geçici ve değiştirilebilir bir yapıya sahiptir</li>
+                            </ul>
+                            <p class="mt-2 font-medium">Pod oluşturma örneği:</p>
+                            <pre class="code-block yaml mt-2">apiVersion: v1
+kind: Pod
+metadata:
+  name: my-pod
+spec:
+  containers:
+  - name: nginx-container
+    image: nginx:1.14.2
+    ports:
+    - containerPort: 80</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 2 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 2: Bir Pod içinde birden fazla container neden kullanılır?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Bir Pod içinde birden fazla container kullanmanın çeşitli nedenleri vardır:</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li><strong>Sidecar pattern:</strong> Ana uygulama container'ına yardımcı hizmetler sunmak</li>
+                                <li><strong>Adapter pattern:</strong> Uygulama ile dış dünya arasında arayüz oluşturmak</li>
+                                <li><strong>Ambassador pattern:</strong> Uygulama ile dış servisler arasında proxy oluşturmak</li>
+                                <li><strong>Log collection:</strong> Log toplama ve yönetme</li>
+                                <li><strong>Monitoring:</strong> Uygulama performansını izleme</li>
+                            </ul>
+                            <p class="mt-2 font-medium">Multi-container Pod örneği:</p>
+                            <pre class="code-block yaml mt-2">apiVersion: v1
+kind: Pod
+metadata:
+  name: multi-container-pod
+spec:
+  containers:
+  - name: app-container
+    image: my-app:1.0
+    ports:
+    - containerPort: 8080
+  - name: log-collector
+    image: fluentd:latest
+    volumeMounts:
+    - name: log-volume
+      mountPath: /var/log
+  volumes:
+  - name: log-volume
+    emptyDir: {}</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 3 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 3: Kubernetes'te Pod lifecycle aşamaları nelerdir?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubernetes'te Pod'ların yaşam döngüsü şu aşamalardan oluşur:</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li><strong>Pending:</strong> Pod oluşturuldu, ancak henüz çalışmıyor</li>
+                                <li><strong>Running:</strong> Pod'daki container'lar çalışıyor</li>
+                                <li><strong>Succeeded:</strong> Pod'daki tüm container'lar başarıyla tamamlandı</li>
+                                <li><strong>Failed:</strong> Pod'daki en az bir container hata ile sonlandı</li>
+                                <li><strong>Unknown:</strong> Pod durumu bilinmiyor</li>
+                            </ul>
+                            <p class="mt-2 font-medium">Pod durumlarını görüntüleme:</p>
+                            <pre class="code-block bash mt-2"># Pod durumlarını listeleme
+kubectl get pods
+
+# Pod detaylarını görüntüleme
+kubectl describe pod &lt;pod-adı&gt;
+
+# Pod durumunu izleme
+kubectl get pods -w</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 4 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 4: Kubernetes'te Container Restart Policy nedir?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Container Restart Policy, container'lar hata verdiğinde ne yapılacağını belirler.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li><strong>Always:</strong> Container her zaman yeniden başlatılır (varsayılan)</li>
+                                <li><strong>OnFailure:</strong> Sadece hata durumunda yeniden başlatılır</li>
+                                <li><strong>Never:</strong> Container yeniden başlatılmaz</li>
+                            </ul>
+                            <p class="mt-2 font-medium">Restart Policy örneği:</p>
+                            <pre class="code-block yaml mt-2">apiVersion: v1
+kind: Pod
+metadata:
+  name: my-pod
+spec:
+  containers:
+  - name: my-container
+    image: my-app:1.0
+  restartPolicy: OnFailure</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 5 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 5: Kubernetes'te Init Container nedir?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Init Container, ana container'lar başlamadan önce çalışan özel container'lardır.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li>Uygulama başlamadan önce ön koşulları kontrol etmek için kullanılır</li>
+                                <li>Veritabanı migrasyonu, yapılandırma dosyalarını oluşturma gibi görevler için kullanılır</li>
+                                <li>Sıralı olarak çalışırlar, bir init container tamamlanmadan diğeri başlamaz</li>
+                                <li>Tüm init container'lar tamamlanmadan ana container'lar başlamaz</li>
+                            </ul>
+                            <p class="mt-2 font-medium">Init Container örneği:</p>
+                            <pre class="code-block yaml mt-2">apiVersion: v1
+kind: Pod
+metadata:
+  name: my-app-pod
+spec:
+  containers:
+  - name: my-app-container
+    image: busybox:1.28
+    command: ['sh', '-c', 'echo The app is running! && sleep 3600']
+  initContainers:
+  - name: init-myservice
+    image: busybox:1.28
+    command: ['sh', '-c', 'until nslookup myservice; do echo waiting for myservice; sleep 2; done;']
+  - name: init-mydb
+    image: busybox:1.28
+    command: ['sh', '-c', 'until nslookup mydb; do echo waiting for mydb; sleep 2; done;']</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 6 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 6: Kubernetes'te Pod'lara kaynak limitleri nasıl atanır?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubernetes'te Pod'lara ve container'lara kaynak limitleri (CPU, memory) atamak için resources bölümü kullanılır.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li><strong>requests:</strong> Container'ın ihtiyaç duyduğu minimum kaynak miktarı</li>
+                                <li><strong>limits:</strong> Container'ın kullanabileceği maksimum kaynak miktarı</li>
+                            </ul>
+                            <p class="mt-2 font-medium">Kaynak limitleri örneği:</p>
+                            <pre class="code-block yaml mt-2">apiVersion: v1
+kind: Pod
+metadata:
+  name: resource-pod
+spec:
+  containers:
+  - name: resource-container
+    image: nginx
+    resources:
+      requests:
+        memory: "64Mi"
+        cpu: "250m"
+      limits:
+        memory: "128Mi"
+        cpu: "500m"</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 7 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 7: Kubernetes'te Liveness ve Readiness Probe nedir?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Liveness ve Readiness Probe, Kubernetes'in container'ların durumunu kontrol etmek için kullandığı mekanizmalardır.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li><strong>Liveness Probe:</strong> Container'ın çalışıp çalışmadığını kontrol eder. Hata durumunda container'ı yeniden başlatır.</li>
+                                <li><strong>Readiness Probe:</strong> Container'ın trafiği kabul edip etmediğini kontrol eder. Hazır değilse trafiği yönlendirmez.</li>
+                            </ul>
+                            <p class="mt-2 font-medium">Probe örneği:</p>
+                            <pre class="code-block yaml mt-2">apiVersion: v1
+kind: Pod
+metadata:
+  name: probe-pod
+spec:
+  containers:
+  - name: probe-container
+    image: nginx
+    livenessProbe:
+      httpGet:
+        path: /healthz
+        port: 8080
+      initialDelaySeconds: 15
+      periodSeconds: 20
+    readinessProbe:
+      httpGet:
+        path: /ready
+        port: 8080
+      initialDelaySeconds: 5
+      periodSeconds: 10</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 8 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 8: Kubernetes'te Pod'lara nasıl ortam değişkenleri atanır?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubernetes'te Pod'lara ortam değişkenleri atamak için çeşitli yöntemler kullanılır.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li>Doğrudan Pod tanımında env bölümü kullanarak</li>
+                                <li>ConfigMap'lerden ortam değişkenleri alarak</li>
+                                <li>Secret'lardan ortam değişkenleri alarak</li>
+                            </ul>
+                            <p class="mt-2 font-medium">Ortam değişkenleri örneği:</p>
+                            <pre class="code-block yaml mt-2">apiVersion: v1
+kind: Pod
+metadata:
+  name: env-pod
+spec:
+  containers:
+  - name: env-container
+    image: nginx
+    env:
+    - name: DATABASE_URL
+      value: "postgresql://db:5432/mydb"
+    - name: API_KEY
+      valueFrom:
+        secretKeyRef:
+          name: api-secret
+          key: api-key</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 9 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 9: Kubernetes'te Pod logları nasıl görüntülenir?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubernetes'te Pod loglarını görüntülemek için kubectl logs komutu kullanılır.</p>
+                            <p class="mt-2 font-medium">Log görüntüleme komutları:</p>
+                            <pre class="code-block bash mt-2"># Pod loglarını görüntüleme
+kubectl logs &lt;pod-adı&gt;
+
+# Pod loglarını takip etme
+kubectl logs -f &lt;pod-adı&gt;
+
+# Multi-container Pod'da belirli bir container'ın loglarını görüntüleme
+kubectl logs &lt;pod-adı&gt; -c &lt;container-adı&gt;
+
+# Önceki container'ın loglarını görüntüleme
+kubectl logs &lt;pod-adı&gt; --previous
+
+# Son 100 satırı görüntüleme
+kubectl logs --tail=100 &lt;pod-adı&gt;
+
+# Belirli bir zamandan sonraki logları görüntüleme
+kubectl logs --since=1h &lt;pod-adı&gt;</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 10 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 10: Kubernetes'te Pod'larda hata ayıklama nasıl yapılır?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubernetes'te Pod'larda hata ayıklama için çeşitli yöntemler kullanılır.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li><strong>describe:</strong> Pod detaylarını görüntüleme</li>
+                                <li><strong>logs:</strong> Pod loglarını görüntüleme</li>
+                                <li><strong>exec:</strong> Pod içinde komut çalıştırma</li>
+                                <li><strong>port-forward:</strong> Yerel makineden Pod'a port yönlendirme</li>
+                                <li><strong>events:</strong> Cluster olaylarını görüntüleme</li>
+                            </ul>
+                            <p class="mt-2 font-medium">Hata ayıklama komutları:</p>
+                            <pre class="code-block bash mt-2"># Pod detaylarını görüntüleme
+kubectl describe pod &lt;pod-adı&gt;
+
+# Pod içinde shell çalıştırma
+kubectl exec -it &lt;pod-adı&gt; -- /bin/bash
+
+# Yerel makineden Pod'a port yönlendirme
+kubectl port-forward &lt;pod-adı&gt; &lt;local-port&gt;:&lt;pod-port&gt;
+
+# Cluster olaylarını görüntüleme
+kubectl get events --sort-by=.metadata.creationTimestamp</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 11 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 11: Kubernetes'te Pod'lara Volume nasıl bağlanır?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubernetes'te Pod'lara Volume bağlamak için volumes ve volumeMounts bölümleri kullanılır.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li><strong>emptyDir:</strong> Pod yaşam döngüsü boyunca var olan geçici bir depolama</li>
+                                <li><strong>hostPath:</strong> Node'un dosya sistemini Pod'a bağlama</li>
+                                <li><strong>persistentVolumeClaim:</strong> Kalıcı depolama talebi</li>
+                                <li><strong>configMap:</strong> ConfigMap'i dosya olarak bağlama</li>
+                                <li><strong>secret:</strong> Secret'ı dosya olarak bağlama</li>
+                            </ul>
+                            <p class="mt-2 font-medium">Volume bağlama örneği:</p>
+                            <pre class="code-block yaml mt-2">apiVersion: v1
+kind: Pod
+metadata:
+  name: volume-pod
+spec:
+  containers:
+  - name: volume-container
+    image: nginx
+    volumeMounts:
+    - name: html-volume
+      mountPath: /usr/share/nginx/html
+  volumes:
+  - name: html-volume
+    emptyDir: {}</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 12 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 12: Kubernetes'te Pod'lara güvenlik bağlamı (Security Context) nasıl atanır?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubernetes'te Pod'lara ve container'lara güvenlik bağlamı atamak için securityContext bölümü kullanılır.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li><strong>runAsUser:</strong> Container'ı çalıştıracak kullanıcı ID'si</li>
+                                <li><strong>runAsGroup:</strong> Container'ı çalıştıracak grup ID'si</li>
+                                <li><strong>fsGroup:</strong> Volume'ların dosya sistemi grup ID'si</li>
+                                <li><strong>privileged:</strong> Privileged modda çalıştırma</li>
+                                <li><strong>readOnlyRootFilesystem:</strong> Sadece okunabilir dosya sistemi</li>
+                            </ul>
+                            <p class="mt-2 font-medium">Güvenlik bağlamı örneği:</p>
+                            <pre class="code-block yaml mt-2">apiVersion: v1
+kind: Pod
+metadata:
+  name: security-context-pod
+spec:
+  securityContext:
+    fsGroup: 2000
+  containers:
+  - name: security-context-container
+    image: nginx
+    securityContext:
+      runAsUser: 1000
+      runAsGroup: 3000
+      allowPrivilegeEscalation: false
+      readOnlyRootFilesystem: true</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 13 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 13: Kubernetes'te Pod'lara nasıl kaynak kotası (Resource Quota) atanır?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubernetes'te Pod'lara kaynak kotası atamak için ResourceQuota nesnesi kullanılır.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li>Namespace seviyesinde kaynak kullanımını sınırlar</li>
+                                <li>Pod, Service, PVC gibi nesne sayısını sınırlayabilir</li>
+                                <li>CPU, memory, storage gibi kaynakları sınırlayabilir</li>
+                            </ul>
+                            <p class="mt-2 font-medium">Resource Quota örneği:</p>
+                            <pre class="code-block yaml mt-2">apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: compute-resources
+  namespace: my-namespace
+spec:
+  hard:
+    pods: "10"
+    requests.cpu: "4"
+    requests.memory: 8Gi
+    limits.cpu: "10"
+    limits.memory: 16Gi
+    persistentvolumeclaims: "5"</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 14 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 14: Kubernetes'te Pod'lara nasıl ağ politikası (Network Policy) uygulanır?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubernetes'te Pod'lara ağ politikası uygulamak için NetworkPolicy nesnesi kullanılır.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li>Pod'lar arasındaki ağ trafiğini kontrol eder</li>
+                                <li>Gelen (ingress) ve giden (egress) trafiği kısıtlayabilir</li>
+                                <li>Label selector ile Pod'ları hedefler</li>
+                            </ul>
+                            <p class="mt-2 font-medium">Network Policy örneği:</p>
+                            <pre class="code-block yaml mt-2">apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: test-network-policy
+  namespace: default
+spec:
+  podSelector:
+    matchLabels:
+      role: db
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - ipBlock:
+        cidr: 172.17.0.0/16
+        except:
+        - 172.17.1.0/24
+    - namespaceSelector:
+        matchLabels:
+          project: myproject
+    - podSelector:
+        matchLabels:
+          role: frontend
+    ports:
+    - protocol: TCP
+      port: 6379
+  egress:
+  - to:
+    - ipBlock:
+        cidr: 10.0.0.0/24
+    ports:
+    - protocol: TCP
+      port: 5978</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 15 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 15: Kubernetes'te Pod'lara nasıl pod disruption budget (PDB) uygulanır?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubernetes'te Pod'lara pod disruption budget (PDB) uygulamak için PodDisruptionBudget nesnesi kullanılır.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li>Planlı kesintiler sırasında uygulamanın çalışmaya devam etmesini sağlar</li>
+                                <li>Minimum kullanılabilir Pod sayısını garanti eder</li>
+                                <li>Node bakımı gibi işlemler sırasında hizmet kesintisini önler</li>
+                            </ul>
+                            <p class="mt-2 font-medium">Pod Disruption Budget örneği:</p>
+                            <pre class="code-block yaml mt-2">apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: zk-pdb
+spec:
+  minAvailable: 2
+  selector:
+    matchLabels:
+      app: zookeeper</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Deployment ve StatefulSet -->
+        <section id="deployment-statefulset" class="mb-16">
+            <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+                <div class="flex items-center mb-6">
+                    <div class="bg-blue-100 p-3 rounded-full mr-4">
+                        <i class="fas fa-rocket text-blue-600 text-xl"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-800">Deployment ve StatefulSet</h2>
+                </div>
+                <p class="text-gray-600 mb-6">Uygulama dağıtımı, güncelleme stratejileri ve stateful uygulamalar ile ilgili sorular ve cevaplar.</p>
+
+                <div class="space-y-6">
+                    <!-- Soru 1 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 1: Kubernetes'te Deployment nedir ve ne işe yarar?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Deployment, Kubernetes'te Pod'ları ve ReplicaSet'leri yönetmek için kullanılan bir nesnedir.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li>Pod'ların istenen sayıda olmasını sağlar</li>
+                                <li>Pod'ların durumunu izler ve yeniden oluşturur</li>
+                                <li>Uygulama güncellemelerini yönetir</li>
+                                <li>Geri alma (rollback) işlemlerini destekler</li>
+                            </ul>
+                            <p class="mt-2 font-medium">Deployment oluşturma örneği:</p>
+                            <pre class="code-block yaml mt-2">apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.14.2
+        ports:
+        - containerPort: 80</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 2 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 2: Kubernetes'te ReplicaSet nedir ve Deployment ile ilişkisi nedir?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> ReplicaSet, Kubernetes'te Pod'ların istenen sayıda çalışmasını sağlayan bir denetleyicidir. Deployment, ReplicaSet'leri yönetir.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li>Pod'ların istenen sayıda olmasını sağlar</li>
+                                <li>Pod'ları otomatik olarak yeniden oluşturur</li>
+                                <li>Deployment, ReplicaSet'leri oluşturur ve yönetir</li>
+                                <li>Doğrudan ReplicaSet oluşturmak yerine Deployment kullanmak önerilir</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Soru 3 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 3: Kubernetes'te Deployment güncelleme stratejileri nelerdir?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubernetes'te Deployment güncelleme stratejileri şunlardır:</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li><strong>RollingUpdate (varsayılan):</strong> Eski Pod'ları yavaş yavaş yenileriyle değiştirir</li>
+                                <li><strong>Recreate:</strong> Tüm eski Pod'ları siler ve yenilerini oluşturur</li>
+                            </ul>
+                            <p class="mt-2 font-medium">Güncelleme stratejisi örneği:</p>
+                            <pre class="code-block yaml mt-2">apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  template:
+    # ...</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 4 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 4: Kubernetes'te Deployment nasıl geri alınır (rollback)?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubernetes'te Deployment geri almak için kubectl rollout undo komutu kullanılır.</p>
+                            <p class="mt-2 font-medium">Geri alma komutları:</p>
+                            <pre class="code-block bash mt-2"># Deployment geçmişini görüntüleme
+kubectl rollout history deployment/&lt;deployment-adı&gt;
+
+# Deployment'ı önceki sürüme geri alma
+kubectl rollout undo deployment/&lt;deployment-adı&gt;
+
+# Deployment'ı belirli bir revizyona geri alma
+kubectl rollout undo deployment/&lt;deployment-adı&gt; --to-revision=&lt;revizyon-numarası&gt;</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 5 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 5: Kubernetes'te StatefulSet nedir ve Deployment'dan farkı nedir?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> StatefulSet, durumlu (stateful) uygulamaları yönetmek için kullanılan bir nesnedir. Deployment'dan farkları şunlardır:</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li>Pod'ların öngörülebilir ve benzersiz isimleri vardır</li>
+                                <li>Pod'ların öngörülebilir ve sıralı oluşturulması, güncellenmesi ve silinmesi sağlanır</li>
+                                <li>Pod'ların kararlı ve benzersiz ağ kimlikleri vardır</li>
+                                <li>Pod'ların kararlı ve kalıcı depolamaları vardır</li>
+                                <li>Veritabanı, mesaj kuyruğu gibi durumlu uygulamalar için kullanılır</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Soru 6 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 6: Kubernetes'te StatefulSet için Headless Service nedir?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Headless Service, StatefulSet Pod'ları için ağ kimliği sağlayan bir Service türüdür.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li>clusterIP'si None olarak ayarlanır</li>
+                                <li>Doğrudan Pod'lara DNS sorguları yapılmasını sağlar</li>
+                                <li>StatefulSet Pod'ları arasında keşif (discovery) sağlar</li>
+                            </ul>
+                            <p class="mt-2 font-medium">Headless Service örneği:</p>
+                            <pre class="code-block yaml mt-2">apiVersion: v1
+kind: Service
+metadata:
+  name: nginx
+  labels:
+    app: nginx
+spec:
+  ports:
+  - port: 80
+    name: web
+  clusterIP: None
+  selector:
+    app: nginx</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 7 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 7: Kubernetes'te StatefulSet için Volume Claim Template nedir?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Volume Claim Template, StatefulSet'teki her Pod için ayrı bir PersistentVolumeClaim oluşturan bir şablondur.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li>Her Pod için benzersiz bir PersistentVolumeClaim oluşturur</li>
+                                <li>Pod'lar silindiğinde PersistentVolumeClaim'ler korunur</li>
+                                <li>Veri kalıcılığını sağlar</li>
+                            </ul>
+                            <p class="mt-2 font-medium">Volume Claim Template örneği:</p>
+                            <pre class="code-block yaml mt-2">apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: web
+spec:
+  serviceName: "nginx"
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: k8s.gcr.io/nginx-slim:0.8
+        ports:
+        - containerPort: 80
+          name: web
+        volumeMounts:
+        - name: www
+          mountPath: /usr/share/nginx/html
+  volumeClaimTemplates:
+  - metadata:
+      name: www
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1Gi</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 8 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 8: Kubernetes'te DaemonSet nedir ve ne işe yarar?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> DaemonSet, her Node'da (veya belirli Node'larda) bir Pod çalıştıran bir nesnedir.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li>Her Node'da bir Pod çalıştırır</li>
+                                <li>Yeni Node'lar eklendiğinde otomatik olarak bu Node'larda Pod oluşturur</li>
+                                <li>Node'lar silindiğinde bu Node'lardaki Pod'ları temizler</li>
+                                <li>Log toplama, monitoring, ağ eklentileri gibi sistem seviyesi görevler için kullanılır</li>
+                            </ul>
+                            <p class="mt-2 font-medium">DaemonSet örneği:</p>
+                            <pre class="code-block yaml mt-2">apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: fluentd-elasticsearch
+  namespace: kube-system
+  labels:
+    k8s-app: fluentd-logging
+spec:
+  selector:
+    matchLabels:
+      name: fluentd-elasticsearch
+  template:
+    metadata:
+      labels:
+        name: fluentd-elasticsearch
+    spec:
+      tolerations:
+      - key: node-role.kubernetes.io/master
+        effect: NoSchedule
+      containers:
+      - name: fluentd-elasticsearch
+        image: quay.io/fluentd_elasticsearch/fluentd:v2.5.2</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 9 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 9: Kubernetes'te Job nedir ve ne işe yarar?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Job, Kubernetes'te bir veya daha fazla Pod oluşturan ve bu Pod'ların başarıyla tamamlanmasını sağlayan bir nesnedir.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li>Batch işleri için kullanılır</li>
+                                <li>Pod'ların başarıyla tamamlanmasını garanti eder</li>
+                                <li>Belirli sayıda başarı tamamlanmasını sağlar</li>
+                                <li>Veritabanı migrasyonu, veri işleme gibi görevler için kullanılır</li>
+                            </ul>
+                            <p class="mt-2 font-medium">Job örneği:</p>
+                            <pre class="code-block yaml mt-2">apiVersion: batch/v1
+kind: Job
+metadata:
+  name: pi
+spec:
+  template:
+    spec:
+      containers:
+      - name: pi
+        image: perl
+        command: ["perl",  "-Mbignum=bpi", "-wle", "print bpi(2000)"]
+      restartPolicy: Never
+  backoffLimit: 4</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 10 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 10: Kubernetes'te CronJob nedir ve ne işe yarar?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> CronJob, Kubernetes'te zamanlanmış Job'lar oluşturan bir nesnedir.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li>Zamanlanmış görevler için kullanılır</li>
+                                <li>Cron formatında zamanlama yapar</li>
+                                <li>Veritabanı yedekleme, rapor oluşturma gibi periyodik görevler için kullanılır</li>
+                            </ul>
+                            <p class="mt-2 font-medium">CronJob örneği:</p>
+                            <pre class="code-block yaml mt-2">apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: hello
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: hello
+            image: busybox
+            args:
+            - /bin/sh
+            - -c
+            - date; echo Hello from the Kubernetes cluster
+          restartPolicy: OnFailure</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 11 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 11: Kubernetes'te Deployment durumunu nasıl kontrol edilir?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubernetes'te Deployment durumunu kontrol etmek için çeşitli komutlar kullanılır.</p>
+                            <p class="mt-2 font-medium">Durum kontrol komutları:</p>
+                            <pre class="code-block bash mt-2"># Deployment durumunu görüntüleme
+kubectl rollout status deployment/&lt;deployment-adı&gt;
+
+# Deployment detaylarını görüntüleme
+kubectl describe deployment &lt;deployment-adı&gt;
+
+# Deployment geçmişini görüntüleme
+kubectl rollout history deployment/&lt;deployment-adı&gt;
+
+# Deployment revizyon detaylarını görüntüleme
+kubectl rollout history deployment/&lt;deployment-adı&gt; --revision=&lt;revizyon-numarası&gt;</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 12 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 12: Kubernetes'te Deployment güncellemesi nasıl durdurulur?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubernetes'te Deployment güncellemesini durdurmak için kubectl rollout pause komutu kullanılır.</p>
+                            <p class="mt-2 font-medium">Güncelleme durdurma komutları:</p>
+                            <pre class="code-block bash mt-2"># Deployment güncellemesini durdurma
+kubectl rollout pause deployment/&lt;deployment-adı&gt;
+
+# Deployment güncellemesini devam ettirme
+kubectl rollout resume deployment/&lt;deployment-adı&gt;</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 13 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 13: Kubernetes'te Deployment ölçeği nasıl ayarlanır?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubernetes'te Deployment ölçeğini ayarlamak için kubectl scale komutu veya YAML dosyası kullanılır.</p>
+                            <p class="mt-2 font-medium">Ölçeklendirme komutları:</p>
+                            <pre class="code-block bash mt-2"># Deployment ölçeğini ayarlama
+kubectl scale deployment &lt;deployment-adı&gt; --replicas=&lt;replica-sayısı&gt;
+
+# Otomatik ölçeklendirme (Horizontal Pod Autoscaler) oluşturma
+kubectl autoscale deployment &lt;deployment-adı&gt; --min=&lt;minimum-replica&gt; --max=&lt;maksimum-replica&gt; --cpu-percent=&lt;cpu-yüzdesi&gt;</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 14 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 14: Kubernetes'te StatefulSet ölçeği nasıl ayarlanır?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubernetes'te StatefulSet ölçeğini ayarlamak için kubectl scale komutu kullanılır.</p>
+                            <p class="mt-2 font-medium">Ölçeklendirme komutları:</p>
+                            <pre class="code-block bash mt-2"># StatefulSet ölçeğini ayarlama
+kubectl scale statefulset &lt;statefulset-adı&gt; --replicas=&lt;replica-sayısı&gt;
+
+# StatefulSet ölçeğini artırma (sıralı olarak)
+kubectl scale statefulset &lt;statefulset-adı&gt; --replicas=&lt;replica-sayısı&gt; --current-replicas=&lt;mevcut-replica-sayısı&gt;</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 15 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 15: Kubernetes'te Deployment ve StatefulSet için hangi durumlarda hangisi tercih edilmelidir?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Deployment ve StatefulSet arasında seçim yaparken şu faktörler dikkate alınmalıdır:</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li><strong>Deployment tercih edilir:</strong>
+                                    <ul class="list-circle pl-5 mt-1">
+                                        <li>Stateless (durumsuz) uygulamalar için</li>
+                                        <li>Web sunucuları, API'ler gibi uygulamalar için</li>
+                                        <li>Hızlı ölçeklendirme ve güncelleme gerektiren uygulamalar için</li>
+                                    </ul>
+                                </li>
+                                <li><strong>StatefulSet tercih edilir:</strong>
+                                    <ul class="list-circle pl-5 mt-1">
+                                        <li>Stateful (durumlu) uygulamalar için</li>
+                                        <li>Veritabanları, mesaj kuyrukları gibi uygulamalar için</li>
+                                        <li>Stable network identifier ve persistent storage gerektiren uygulamalar için</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Service ve Networking -->
+        <section id="service-networking" class="mb-16">
+            <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+                <div class="flex items-center mb-6">
+                    <div class="bg-blue-100 p-3 rounded-full mr-4">
+                        <i class="fas fa-network-wired text-blue-600 text-xl"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-800">Service ve Networking</h2>
+                </div>
+                <p class="text-gray-600 mb-6">Kubernetes'de servisler, ağ iletişimi ve trafik yönetimi ile ilgili sorular ve cevaplar.</p>
+
+                <div class="space-y-6">
+                    <!-- Soru 1 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 1: Kubernetes'te Service nedir ve ne işe yarar?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubernetes'te Service, bir grup Pod'a ağ erişimi sağlayan bir nesnedir.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li>Pod'lara stable network identity sağlar</li>
+                                <li>Pod'lar arasında yük dengeleme yapar</li>
+                                <li>Pod'ların değişmesine rağmen erişilebilirliği sağlar</li>
+                                <li>Service discovery imkanı sunar</li>
+                            </ul>
+                            <p class="mt-2 font-medium">Service oluşturma örneği:</p>
+                            <pre class="code-block yaml mt-2">apiVersion: v1
+kind: Service
+metadata:
+  name: my-service
+spec:
+  selector:
+    app: MyApp
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 9376</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 2 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 2: Kubernetes'te Service türleri nelerdir?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubernetes'te Service türleri şunlardır:</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li><strong>ClusterIP (varsayılan):</strong> Sadece cluster içinden erişilebilen bir IP adresi atar</li>
+                                <li><strong>NodePort:</strong> Her Node'un aynı portunu dışarıya açar</li>
+                                <li><strong>LoadBalancer:</strong> Bulut sağlayıcının load balancer'ını kullanır</li>
+                                <li><strong>ExternalName:</strong> Dış bir servisin CNAME kaydını döndürür</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Soru 3 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 3: Kubernetes'te ClusterIP Service nasıl çalışır?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> ClusterIP Service, Kubernetes cluster'ı içinden erişilebilen bir IP adresi sağlar.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li>Sadece cluster içinden erişilebilir</li>
+                                <li>Kube-proxy tarafından iptables veya IPVS kurallarıyla yönetilir</li>
+                                <li>Pod'lar arasında yük dengeleme yapar</li>
+                            </ul>
+                            <p class="mt-2 font-medium">ClusterIP Service örneği:</p>
+                            <pre class="code-block yaml mt-2">apiVersion: v1
+kind: Service
+metadata:
+  name: my-internal-service
+spec:
+  type: ClusterIP
+  selector:
+    app: my-app
+  ports:
+  - name: http
+    protocol: TCP
+    port: 80
+    targetPort: 8080</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 4 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 4: Kubernetes'te NodePort Service nasıl çalışır?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> NodePort Service, her Node'un aynı portunu dışarıya açarak dışarıdan erişim sağlar.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li>Her Node'da aynı port numarasını açar (30000-32767 aralığında)</li>
+                                <li>Dışarıdan herhangi bir Node IP'si ve bu port üzerinden erişim sağlar</li>
+                                <li>Trafik otomatik olarak ilgili Pod'lara yönlendirilir</li>
+                            </ul>
+                            <p class="mt-2 font-medium">NodePort Service örneği:</p>
+                            <pre class="code-block yaml mt-2">apiVersion: v1
+kind: Service
+metadata:
+  name: my-nodeport-service
+spec:
+  type: NodePort
+  selector:
+    app: my-app
+  ports:
+  - name: http
+    protocol: TCP
+    port: 80
+    targetPort: 8080
+    nodePort: 30007</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 5 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 5: Kubernetes'te LoadBalancer Service nasıl çalışır?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> LoadBalancer Service, bulut sağlayıcının load balancer'ını kullanarak dışarıdan erişim sağlar.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li>Bulut sağlayıcının (AWS, GCP, Azure) load balancer'ını kullanır</li>
+                                <li>Dışarıdan erişim için bir dış IP adresi atar</li>
+                                <li>Tüm Node'lara trafik dağıtır</li>
+                                <li>Üretim ortamlarında dışarıya açılan servisler için kullanılır</li>
+                            </ul>
+                            <p class="mt-2 font-medium">LoadBalancer Service örneği:</p>
+                            <pre class="code-block yaml mt-2">apiVersion: v1
+kind: Service
+metadata:
+  name: my-loadbalancer-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: my-app
+  ports:
+  - name: http
+    protocol: TCP
+    port: 80
+    targetPort: 8080</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 6 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 6: Kubernetes'te ExternalName Service nasıl çalışır?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> ExternalName Service, dış bir servisin CNAME kaydını döndüren bir Service türüdür.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li>Dış bir servise (veritabanı, dış API vb.) erişim için kullanılır</li>
+                                <li>Cluster içinden bu servise erişmek için bir DNS adı sağlar</li>
+                                <li>Herhangi bir port veya selector tanımlanmaz</li>
+                            </ul>
+                            <p class="mt-2 font-medium">ExternalName Service örneği:</p>
+                            <pre class="code-block yaml mt-2">apiVersion: v1
+kind: Service
+metadata:
+  name: my-database-service
+spec:
+  type: ExternalName
+  externalName: my-database.example.com</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 7 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 7: Kubernetes'te Ingress nedir ve ne işe yarar?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubernetes'te Ingress, cluster dışından HTTP ve HTTPS trafiğini cluster içine yönlendiren bir nesnedir.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li>HTTP ve HTTPS trafiğini yönetir</li>
+                                <li>Host ve path bazlı yönlendirme yapar</li>
+                                <li>SSL termination sağlar</li>
+                                <li>Tek bir IP adresinden birden fazla servise erişim sağlar</li>
+                            </ul>
+                            <p class="mt-2 font-medium">Ingress örneği:</p>
+                            <pre class="code-block yaml mt-2">apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: my-ingress
+spec:
+  rules:
+  - host: my-app.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: my-service
+            port:
+              number: 80</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 8 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 8: Kubernetes'te Ingress Controller nedir?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubernetes'te Ingress Controller, Ingress kaynaklarını uygulayan ve gelen trafiği yönlendiren bir bileşendir.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li>Ingress kaynaklarını okur ve uygular</li>
+                                <li>Gelen trafiği ilgili servislere yönlendirir</li>
+                                <li>Popüler Ingress Controller'lar: Nginx, Traefik, HAProxy, Istio</li>
+                                <li>Cluster'a Ingress Controller kurulumu gerekir</li>
+                            </ul>
+                            <p class="mt-2 font-medium">Nginx Ingress Controller kurulumu:</p>
+                            <pre class="code-block bash mt-2"># Nginx Ingress Controller kurulumu
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.1.1/deploy/static/provider/cloud/deploy.yaml</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 9 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 9: Kubernetes'te Network Policy nedir ve ne işe yarar?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubernetes'te Network Policy, Pod'lar arasındaki ağ trafiğini kontrol eden bir nesnedir.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li>Pod'lar arasındaki iletişimi kısıtlar</li>
+                                <li>Gelen (ingress) ve giden (egress) trafiği kontrol eder</li>
+                                <li>Güvenlik politikaları uygular</li>
+                                <li>Network plugin'inin bu özelliği desteklemesi gerekir (Calico, Weave Net, Cilium)</li>
+                            </ul>
+                            <p class="mt-2 font-medium">Network Policy örneği:</p>
+                            <pre class="code-block yaml mt-2">apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: test-network-policy
+  namespace: default
+spec:
+  podSelector:
+    matchLabels:
+      role: db
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          role: frontend
+  egress:
+  - to:
+    - podSelector:
+        matchLabels:
+          role: backend</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 10 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 10: Kubernetes'te Headless Service nedir ve ne işe yarar?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubernetes'te Headless Service, clusterIP'si olmayan ve doğrudan Pod'lara DNS sorguları yapılmasını sağlayan bir Service türüdür.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li>clusterIP'si None olarak ayarlanır</li>
+                                <li>Doğrudan Pod'lara DNS sorguları yapılmasını sağlar</li>
+                                <li>StatefulSet'ler ile birlikte kullanılır</li>
+                                <li>Her Pod için ayrı bir DNS kaydı oluşturur</li>
+                            </ul>
+                            <p class="mt-2 font-medium">Headless Service örneği:</p>
+                            <pre class="code-block yaml mt-2">apiVersion: v1
+kind: Service
+metadata:
+  name: my-headless-service
+spec:
+  clusterIP: None
+  selector:
+    app: my-app
+  ports:
+  - name: http
+    protocol: TCP
+    port: 80
+    targetPort: 8080</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 11 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 11: Kubernetes'te Service discovery nasıl çalışır?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubernetes'te Service discovery, DNS ve environment variables kullanılarak çalışır.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li><strong>DNS:</strong> Kubernetes, her Service için DNS kayıtları oluşturur</li>
+                                <li><strong>Environment Variables:</strong> Pod oluşturulduğunda diğer Service'ler için environment variables oluşturulur</li>
+                            </ul>
+                            <p class="mt-2 font-medium">Service discovery örneği:</p>
+                            <pre class="code-block bash mt-2"># Service DNS sorgusu
+nslookup my-service.default.svc.cluster.local
+
+# Pod içinde environment variables görüntüleme
+kubectl exec -it &lt;pod-adı&gt; -- env | grep SERVICE</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 12 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 12: Kubernetes'te EndpointSlice nedir ve ne işe yarar?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubernetes'te EndpointSlice, bir Service'in arkasındaki Pod'ların IP adreslerini ve portlarını içeren bir nesnedir.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li>Service'ler için Endpoint'leri yönetir</li>
+                                <li>Büyük ölçekli sistemlerde daha performanslıdır</li>
+                                <li>Endpoint'leri daha küçük parçalara böler</li>
+                                <li>Topolojik olarak dağıtık Endpoint'leri yönetir</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Soru 13 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 13: Kubernetes'te Ingress için SSL/TLS nasıl yapılandırılır?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubernetes'te Ingress için SSL/TLS yapılandırmak için Secret nesneleri kullanılır.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li>Sertifika ve özel anahtar bir Secret içinde saklanır</li>
+                                <li>Ingress tanımında bu Secret referans edilir</li>
+                                <li>Gelen HTTPS trafiği Ingress Controller tarafından sonlandırılır</li>
+                            </ul>
+                            <p class="mt-2 font-medium">SSL/TLS yapılandırma örneği:</p>
+                            <pre class="code-block bash mt-2"># TLS Secret oluşturma
+kubectl create secret tls my-tls-secret --key my-tls.key --cert my-tls.crt</pre>
+                            <pre class="code-block yaml mt-2">apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: tls-ingress
+spec:
+  tls:
+  - hosts:
+    - my-app.example.com
+    secretName: my-tls-secret
+  rules:
+  - host: my-app.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: my-service
+            port:
+              number: 80</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 14 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 14: Kubernetes'te Service için Session Affinity nasıl ayarlanır?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubernetes'te Service için Session Affinity, bir istemcinin tüm isteklerini aynı Pod'a yönlendirmek için kullanılır.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li>Client IP'ye göre oturum benzerliği sağlar</li>
+                                <li>Stateless uygulamalarda oturum durumunu korumak için kullanılır</li>
+                                <li>sessionAffinity: ClientIP ve sessionAffinityConfig: ClientIP yapılandırması kullanılır</li>
+                            </ul>
+                            <p class="mt-2 font-medium">Session Affinity örneği:</p>
+                            <pre class="code-block yaml mt-2">apiVersion: v1
+kind: Service
+metadata:
+  name: my-service
+spec:
+  selector:
+    app: my-app
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 9376
+  sessionAffinity: ClientIP
+  sessionAffinityConfig:
+    clientIP:
+      timeoutSeconds: 3600</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 15 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 15: Kubernetes'te Ingress için path-based routing nasıl yapılandırılır?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubernetes'te Ingress için path-based routing, farklı URL yollarını farklı servislere yönlendirmek için kullanılır.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li>Farklı path'ler için farklı backend'ler tanımlanır</li>
+                                <li>Gelen isteklerin URL yollarına göre yönlendirme yapılır</li>
+                                <li>Tek bir domain altında birden fazla servise erişim sağlar</li>
+                            </ul>
+                            <p class="mt-2 font-medium">Path-based routing örneği:</p>
+                            <pre class="code-block yaml mt-2">apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: path-routing-ingress
+spec:
+  rules:
+  - host: my-app.example.com
+    http:
+      paths:
+      - path: /api
+        pathType: Prefix
+        backend:
+          service:
+            name: api-service
+            port:
+              number: 80
+      - path: /web
+        pathType: Prefix
+        backend:
+          service:
+            name: web-service
+            port:
+              number: 80</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ConfigMap ve Secret -->
+        <section id="configmap-secret" class="mb-16">
+            <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+                <div class="flex items-center mb-6">
+                    <div class="bg-blue-100 p-3 rounded-full mr-4">
+                        <i class="fas fa-key text-blue-600 text-xl"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-800">ConfigMap ve Secret</h2>
+                </div>
+                <p class="text-gray-600 mb-6">Yapılandırma yönetimi ve hassas verilerin depolanması ile ilgili sorular ve cevaplar.</p>
+
+                <div class="space-y-6">
+                    <!-- Soru 1 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 1: Kubernetes'te ConfigMap nedir ve ne işe yarar?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubernetes'te ConfigMap, yapılandırma verilerini (örneğin, ortam değişkenleri, yapılandırma dosyaları) depolamak için kullanılan bir nesnedir.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li>Yapılandırma verilerini Pod'lardan ayırır</li>
+                                <li>Ortam değişkenleri, komut satırı argümanları veya yapılandırma dosyaları olarak kullanılabilir</li>
+                                <li>Uygulama kodunu değiştirmeden yapılandırmayı güncellemeye olanak tanır</li>
+                                <li>Yapılandırma verilerini version kontrol sistemlerinde saklamaya olanak tanır</li>
+                            </ul>
+                            <p class="mt-2 font-medium">ConfigMap oluşturma örneği:</p>
+                            <pre class="code-block yaml mt-2">apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: my-config
+data:
+  # key-value çiftleri olarak özellikler
+  database_url: "postgresql://db:5432/mydb"
+  # yapılandırma dosyası olarak
+  application.properties: |
+    server.port=8080
+    spring.datasource.url=jdbc:postgresql://db:5432/mydb</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 2 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 2: Kubernetes'te Secret nedir ve ConfigMap'den farkı nedir?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubernetes'te Secret, hassas verileri (şifreler, API anahtarları, token'lar) depolamak için kullanılan bir nesnedir.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li><strong>Secret:</strong> Hassas verileri depolar, veriler base64 ile kodlanır</li>
+                                <li><strong>ConfigMap:</strong> Hassas olmayan yapılandırma verilerini depolar, veriler düz metin olarak saklanır</li>
+                                <li>Secret'lar daha güvenli bir şekilde saklanır ve kullanılır</li>
+                                <li>Secret'lar otomatik olarak Pod'lara mount edilebilir veya ortam değişkenleri olarak kullanılabilir</li>
+                            </ul>
+                            <p class="mt-2 font-medium">Secret oluşturma örneği:</p>
+                            <pre class="code-block yaml mt-2">apiVersion: v1
+kind: Secret
+metadata:
+  name: my-secret
+type: Opaque
+data:
+  # base64 ile kodlanmış değerler
+  username: YWRtaW4=  # admin
+  password: MWYyZDFlMmU2N2Rm  # 1f2d1e2e67df</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 3 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 3: Kubernetes'te ConfigMap ve Secret nasıl oluşturulur?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubernetes'te ConfigMap ve Secret'ler farklı şekillerde oluşturulabilir.</p>
+                            <p class="mt-2 font-medium">YAML dosyası ile oluşturma:</p>
+                            <pre class="code-block bash mt-2"># ConfigMap oluşturma
+kubectl create configmap my-config --from-literal=key1=value1 --from-literal=key2=value2
+
+# Dosyadan ConfigMap oluşturma
+kubectl create configmap my-config --from-file=path/to/config-file
+
+# Secret oluşturma
+kubectl create secret generic my-secret --from-literal=username=admin --from-literal=password=secret
+
+# Dosyadan Secret oluşturma
+kubectl create secret generic my-secret --from-file=path/to/secret-file</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 4 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 4: Kubernetes'te ConfigMap ve Secret'lar Pod'lara nasıl bağlanır?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubernetes'te ConfigMap ve Secret'lar Pod'lara ortam değişkenleri veya volume olarak bağlanabilir.</p>
+                            <p class="mt-2 font-medium">Ortam değişkeni olarak kullanma:</p>
+                            <pre class="code-block yaml mt-2">apiVersion: v1
+kind: Pod
+metadata:
+  name: my-pod
+spec:
+  containers:
+  - name: my-container
+    image: my-image
+    env:
+    - name: DATABASE_URL
+      valueFrom:
+        configMapKeyRef:
+          name: my-config
+          key: database_url
+    - name: PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: my-secret
+          key: password</pre>
+                            <p class="mt-2 font-medium">Volume olarak kullanma:</p>
+                            <pre class="code-block yaml mt-2">apiVersion: v1
+kind: Pod
+metadata:
+  name: my-pod
+spec:
+  containers:
+  - name: my-container
+    image: my-image
+    volumeMounts:
+    - name: config-volume
+      mountPath: /etc/config
+    - name: secret-volume
+      mountPath: /etc/secret
+  volumes:
+  - name: config-volume
+    configMap:
+      name: my-config
+  - name: secret-volume
+    secret:
+      secretName: my-secret</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 5 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 5: Kubernetes'te ConfigMap ve Secret'lar nasıl güncellenir?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubernetes'te ConfigMap ve Secret'lar güncellendiğinde, bu değişikliklerin Pod'lara yansıması bağlama yöntemine bağlıdır.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li><strong>Ortam değişkenleri olarak kullanılan ConfigMap ve Secret'lar:</strong> Güncellenmez, Pod'ların yeniden başlatılması gerekir</li>
+                                <li><strong>Volume olarak bağlanan ConfigMap ve Secret'lar:</strong> Otomatik olarak güncellenir, ancak uygulamanın bu değişiklikleri algılaması gerekir</li>
+                            </ul>
+                            <p class="mt-2 font-medium">ConfigMap güncelleme komutları:</p>
+                            <pre class="code-block bash mt-2"># ConfigMap güncelleme
+kubectl edit configmap &lt;configmap-adı&gt;
+
+# ConfigMap'i dosyadan güncelleme
+kubectl create configmap &lt;configmap-adı&gt; --from-file=path/to/config-file --dry-run=client -o yaml | kubectl apply -f -
+
+# Secret güncelleme
+kubectl edit secret &lt;secret-adı&gt;</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 6 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 6: Kubernetes'te Secret türleri nelerdir?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubernetes'te farklı kullanım amaçları için çeşitli Secret türleri vardır.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li><strong>Opaque (varsayılan):</strong> Key-value çiftleri için kullanılır</li>
+                                <li><strong>kubernetes.io/service-account-token:</strong> Service Account token'ları için kullanılır</li>
+                                <li><strong>kubernetes.io/dockercfg:</strong> Docker registry kimlik doğrulama için kullanılır</li>
+                                <li><strong>kubernetes.io/dockerconfigjson:</strong> Docker registry JSON yapılandırması için kullanılır</li>
+                                <li><strong>kubernetes.io/basic-auth:</strong> Temel kimlik doğrulama için kullanılır</li>
+                                <li><strong>kubernetes.io/ssh-auth:</strong> SSH kimlik doğrulama için kullanılır</li>
+                                <li><strong>kubernetes.io/tls:</strong> TLS sertifikaları için kullanılır</li>
+                                <li><strong>bootstrap.kubernetes.io/token:</strong> Bootstrap token'ları için kullanılır</li>
+                            </ul>
+                            <p class="mt-2 font-medium">Docker registry Secret örneği:</p>
+                            <pre class="code-block yaml mt-2">apiVersion: v1
+kind: Secret
+metadata:
+  name: registry-secret
+type: kubernetes.io/dockerconfigjson
+data:
+  .dockerconfigjson: eyJhdXRocyI6eyJyZWdpc3RyeS5leGFtcGxlLmNvbSI6eyJ1c2VybmFtZSI6ImFkbWluIiwicGFzc3dvcmQiOiJwYXNzd29yZCIsImF1dGgiOiJjbUZqYjI1MFpXNTBhV1Y1UFNKT2FtTnZkWE5rTnpJPSJ9fX0=</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 7 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 7: Kubernetes'te ConfigMap ve Secret'lar için Immutable seçeneği ne işe yarar?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubernetes'te ConfigMap ve Secret'lar için Immutable seçeneği, bu nesnelerin değiştirilemez olmasını sağlar.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li>Immutable ConfigMap ve Secret'lar oluşturulduktan sonra değiştirilemez</li>
+                                <li>Güncelleme yapmak için yeni bir nesne oluşturulmalıdır</li>
+                                <li>Performansı artırır, çünkü Kubernetes bu nesneleri izlemek zorunda kalmaz</li>
+                                <li>İstemci tarafında önbelleğe alma için daha güvenlidir</li>
+                            </ul>
+                            <p class="mt-2 font-medium">Immutable ConfigMap örneği:</p>
+                            <pre class="code-block yaml mt-2">apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: my-immutable-config
+  immutable: true
+data:
+  key1: value1
+  key2: value2</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 8 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 8: Kubernetes'te ConfigMap ve Secret'lar için envFrom kullanımı nasıl yapılır?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubernetes'te envFrom, ConfigMap veya Secret'teki tüm key-value çiftlerini ortam değişkenleri olarak Pod'a eklemek için kullanılır.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li>ConfigMap veya Secret'teki tüm anahtarları ortam değişkenleri olarak ekler</li>
+                                <li>Birden çok ConfigMap veya Secret için kullanılabilir</li>
+                                <li>Önek (prefix) ekleyerek ortam değişkeni adlarını değiştirebilir</li>
+                            </ul>
+                            <p class="mt-2 font-medium">envFrom kullanımı örneği:</p>
+                            <pre class="code-block yaml mt-2">apiVersion: v1
+kind: Pod
+metadata:
+  name: my-pod
+spec:
+  containers:
+  - name: my-container
+    image: my-image
+    envFrom:
+    - configMapRef:
+        name: my-config
+    - secretRef:
+        name: my-secret
+    - prefix: CONFIG_
+      configMapRef:
+        name: my-config-with-prefix</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 9 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 9: Kubernetes'te ConfigMap ve Secret'lar için subPath kullanımı nasıl yapılır?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubernetes'te subPath, ConfigMap veya Secret'teki tek bir dosyayı Pod'daki belirli bir yola bağlamak için kullanılır.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li>ConfigMap veya Secret'teki belirli bir anahtarı dosya olarak bağlar</li>
+                                <li>Pod'daki belirli bir yola bağlar</li>
+                                <li>Diğer dosyaların üzerine yazılmasını önler</li>
+                            </ul>
+                            <p class="mt-2 font-medium">subPath kullanımı örneği:</p>
+                            <pre class="code-block yaml mt-2">apiVersion: v1
+kind: Pod
+metadata:
+  name: my-pod
+spec:
+  containers:
+  - name: my-container
+    image: my-image
+    volumeMounts:
+    - name: config-volume
+      mountPath: /etc/config/my-config-file
+      subPath: my-config-file
+  volumes:
+  - name: config-volume
+    configMap:
+      name: my-config
+      items:
+      - key: my-config-file
+        path: my-config-file</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 10 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 10: Kubernetes'te ConfigMap ve Secret'lar için en iyi güvenlik uygulamaları nelerdir?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubernetes'te ConfigMap ve Secret'lar için en iyi güvenlik uygulamaları şunlardır:</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li>Hassas veriler için ConfigMap yerine Secret kullanın</li>
+                                <li>Secret'ları version kontrol sistemlerinde saklamayın</li>
+                                <li>Secret'ları şifrelemek için Kubernetes Encryption Configuration kullanın</li>
+                                <li>En az prensibini uygulayın, yalnızca gerekli izinleri verin</li>
+                                <li>Secret'ları düzenli olarak döndürün (rotate)</li>
+                                <li>Secret'ları Pod'lara bağlarken salt okunur (read-only) olarak mount edin</li>
+                                <li>Immutable ConfigMap ve Secret'lar kullanarak performansı ve güvenliği artırın</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Persistent Storage -->
+        <section id="persistent-storage" class="mb-16">
+            <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+                <div class="flex items-center mb-6">
+                    <div class="bg-blue-100 p-3 rounded-full mr-4">
+                        <i class="fas fa-database text-blue-600 text-xl"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-800">Persistent Storage</h2>
+                </div>
+                <p class="text-gray-600 mb-6">Kalıcı veri depolama ve volume yönetimi ile ilgili sorular ve cevaplar.</p>
+
+                <div class="space-y-6">
+                    <!-- Soru 1 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 1: Kubernetes'te PersistentVolume (PV) nedir ve ne işe yarar?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubernetes'te PersistentVolume (PV), cluster yöneticisi tarafından sağlanan bir depolama kaynağıdır.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li>Cluster'daki fiziksel depolama kaynaklarını temsil eder</li>
+                                <li>NFS, iSCSI, FC, GCE Persistent Disk, AWS EBS, Azure Disk gibi çeşitli depolama türlerini destekler</li>
+                                <li>Cluster yöneticisi tarafından provision edilir (statik provision)</li>
+                                <li>Pod'ların yaşam döngüsünden bağımsız olarak veri kalıcılığını sağlar</li>
+                            </ul>
+                            <p class="mt-2 font-medium">PersistentVolume oluşturma örneği:</p>
+                            <pre class="code-block yaml mt-2">apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: my-pv
+spec:
+  capacity:
+    storage: 10Gi
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: slow
+  mountOptions:
+    - hard
+    - nfsvers=4.1
+  nfs:
+    path: /tmp
+    server: 172.17.0.2</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 2 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 2: Kubernetes'te PersistentVolumeClaim (PVC) nedir ve ne işe yarar?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubernetes'te PersistentVolumeClaim (PVC), kullanıcıların depolama taleplerini belirtmek için kullandığı bir nesnedir.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li>Kullanıcıların depolama ihtiyaçlarını (boyut, erişim modu vb.) belirtmesine olanak tanır</li>
+                                <li>PVC, uygun PV ile otomatik olarak eşleştirilir</li>
+                                <li>Pod'lar PVC'leri kullanarak depolama kaynaklarına bağlanır</li>
+                                <li>Uygulama geliştiricilerin depolama detaylarından soyutlanmasını sağlar</li>
+                            </ul>
+                            <p class="mt-2 font-medium">PersistentVolumeClaim oluşturma örneği:</p>
+                            <pre class="code-block yaml mt-2">apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: my-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: 8Gi
+  storageClassName: slow</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 3 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 3: Kubernetes'te StorageClass nedir ve ne işe yarar?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubernetes'te StorageClass, depolama kaynaklarının dinamik provision edilmesini sağlayan bir nesnedir.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li>Depolama türlerini (fast, slow, ssd, hdd vb.) tanımlar</li>
+                                <li>Dinamik provision için kullanılır</li>
+                                <li>Volume provisioner'ı (örneğin, kubernetes.io/aws-ebs, kubernetes.io/gce-pd) belirtir</li>
+                                <li>Parametreler (replication, IOPS, vb.) tanımlanabilir</li>
+                                <li>PVC oluşturulurken StorageClass belirtilerek otomatik PV oluşturulur</li>
+                            </ul>
+                            <p class="mt-2 font-medium">StorageClass oluşturma örneği:</p>
+                            <pre class="code-block yaml mt-2">apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: fast-ssd
+provisioner: kubernetes.io/aws-ebs
+parameters:
+  type: gp2
+  replicationtype: "regional"
+reclaimPolicy: Retain
+allowVolumeExpansion: true
+mountOptions:
+  - debug
+volumeBindingMode: Immediate</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 4 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 4: Kubernetes'te PersistentVolume erişim modları nelerdir?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubernetes'te PersistentVolume erişim modları, bir PV'ye nasıl erişilebileceğini belirler.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li><strong>ReadWriteOnce (RWO):</strong> Volume'ü tek bir Node'da okuma/yazma için bağlanabilir</li>
+                                <li><strong>ReadOnlyMany (ROX):</strong> Volume'ü birçok Node'da salt okunur olarak bağlanabilir</li>
+                                <li><strong>ReadWriteMany (RWX):</strong> Volume'ü birçok Node'da okuma/yazma için bağlanabilir</li>
+                                <li><strong>ReadWriteOncePod (RWOP):</strong> Volume'ü tek bir Pod'da okuma/yazma için bağlanabilir (Kubernetes 1.22+)</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Soru 5 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 5: Kubernetes'te PersistentVolume geri kazanım politikaları nelerdir?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubernetes'te PersistentVolume geri kazanım politikaları, PVC silindiğinde PV'ye ne olacağını belirler.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li><strong>Retain (tut):</strong> PV ve veri korunur, PVC silinir ancak PV serbest kalır ve manuel olarak yeniden kullanılabilir</li>
+                                <li><strong>Delete (sil):</strong> PV ve ilişkili depolama kaynağı (AWS EBS, GCE PD vb.) silinir</li>
+                                <li><strong>Recycle (geri dönüştür):</strong> PV'deki veriler temizlenir ve PV yeni bir PVC için kullanılabilir hale gelir (çoğu provisioner tarafından desteklenmez)</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Soru 6 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 6: Kubernetes'te Volume türleri nelerdir?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubernetes'te farklı kullanım amaçları için çeşitli volume türleri vardır.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li><strong>emptyDir:</strong> Pod yaşam döngüsü boyunca var olan geçici bir depolama alanı</li>
+                                <li><strong>hostPath:</strong> Node'un dosya sistemini Pod'a bağlar</li>
+                                <li><strong>persistentVolumeClaim:</strong> PersistentVolumeClaim'i Pod'a bağlar</li>
+                                <li><strong>configMap:</strong> ConfigMap'i dosya olarak Pod'a bağlar</li>
+                                <li><strong>secret:</strong> Secret'ı dosya olarak Pod'a bağlar</li>
+                                <li><strong>downwardAPI:</strong> Pod ve container bilgilerini dosya olarak Pod'a bağlar</li>
+                                <li><strong>projected:</strong> Birden fazla volume kaynağını birleştirir</li>
+                                <li><strong>nfs:</strong> NFS paylaşımını Pod'a bağlar</li>
+                                <li><strong>iscsi:</strong> iSCSI diskini Pod'a bağlar</li>
+                                <li><strong>glusterfs:</strong> GlusterFS dosya sistemini Pod'a bağlar</li>
+                                <li><strong>rbd:</strong> Ceph RBD blok cihazını Pod'a bağlar</li>
+                                <li><strong>flexVolume:</strong> Kendi volume driver'ınızı kullanmanıza olanak tanır</li>
+                                <li><strong>azureFile, azureDisk, cinder, vsphereVolume, vsphereVirtualDiskVolume, portworxVolume, scaleIO, storageos, quobyte:</strong> Bulut sağlayıcı ve üçüncü taraf depolama çözümleri için volume türleri</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Soru 7 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 7: Kubernetes'te Volume'ler Pod'lara nasıl bağlanır?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubernetes'te Volume'ler Pod'lara volumes ve volumeMounts bölümleri kullanılarak bağlanır.</p>
+                            <p class="mt-2 font-medium">Volume bağlama örneği:</p>
+                            <pre class="code-block yaml mt-2">apiVersion: v1
+kind: Pod
+metadata:
+  name: my-pod
+spec:
+  containers:
+  - name: my-container
+    image: my-image
+    volumeMounts:
+    - name: my-persistent-storage
+      mountPath: /data
+    - name: my-config-volume
+      mountPath: /etc/config
+  volumes:
+  - name: my-persistent-storage
+    persistentVolumeClaim:
+      claimName: my-pvc
+  - name: my-config-volume
+    configMap:
+      name: my-config</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 8 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 8: Kubernetes'te StatefulSet'ler için Volume Claim Template nedir?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubernetes'te StatefulSet'ler için Volume Claim Template, StatefulSet'teki her Pod için ayrı bir PersistentVolumeClaim oluşturan bir şablondur.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li>Her Pod için benzersiz bir PersistentVolumeClaim oluşturur</li>
+                                <li>Pod'lar silindiğinde PersistentVolumeClaim'ler korunur</li>
+                                <li>Veri kalıcılığını sağlar</li>
+                                <li>StatefulSet Pod'ları yeniden oluşturulduğunda aynı PersistentVolumeClaim'leri kullanır</li>
+                            </ul>
+                            <p class="mt-2 font-medium">Volume Claim Template örneği:</p>
+                            <pre class="code-block yaml mt-2">apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: web
+spec:
+  serviceName: "nginx"
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: k8s.gcr.io/nginx-slim:0.8
+        ports:
+        - containerPort: 80
+          name: web
+        volumeMounts:
+        - name: www
+          mountPath: /usr/share/nginx/html
+  volumeClaimTemplates:
+  - metadata:
+      name: www
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1Gi</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 9 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 9: Kubernetes'te PersistentVolume'lar nasıl izlenir ve yönetilir?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubernetes'te PersistentVolume'ları izlemek ve yönetmek için çeşitli komutlar kullanılır.</p>
+                            <p class="mt-2 font-medium">PersistentVolume yönetimi komutları:</p>
+                            <pre class="code-block bash mt-2"># PersistentVolume'ları listeleme
+kubectl get pv
+
+# PersistentVolume detaylarını görüntüleme
+kubectl describe pv &lt;pv-adı&gt;
+
+# PersistentVolumeClaim'leri listeleme
+kubectl get pvc
+
+# PersistentVolumeClaim detaylarını görüntüleme
+kubectl describe pvc &lt;pvc-adı&gt;
+
+# StorageClass'ları listeleme
+kubectl get sc
+
+# StorageClass detaylarını görüntüleme
+kubectl describe sc &lt;storageclass-adı&gt;
+
+# PVC'yi PV ile eşleştirme durumunu kontrol etme
+kubectl get pv,pvc -o wide</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 10 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 10: Kubernetes'te PersistentVolume boyutunu nasıl genişletirsiniz?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubernetes'te PersistentVolume boyutunu genişletmek için StorageClass ve PVC güncellemesi yapılır.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li>StorageClass'te allowVolumeExpansion: true olarak ayarlanmalıdır</li>
+                                <li>PVC'nin resources.requests.storage alanı güncellenir</li>
+                                <li>Desteklenen depolama türleri: AWS EBS, GCE PD, Azure Disk, Cinder, vSphere, GlusterFS, Ceph RBD</li>
+                                <li>Pod'ların yeniden başlatılması gerekmez, ancak bazı durumlarda dosya sistemini yeniden boyutlandırmak gerekebilir</li>
+                            </ul>
+                            <p class="mt-2 font-medium">PVC boyutunu genişletme örneği:</p>
+                            <pre class="code-block yaml mt-2">apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: my-expandable-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi  # Önceki değer 10Gi idi, 20Gi'ye çıkarıldı
+  storageClassName: expandable-storage</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Helm ve Package Management -->
+        <section id="helm-package" class="mb-16">
+            <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+                <div class="flex items-center mb-6">
+                    <div class="bg-blue-100 p-3 rounded-full mr-4">
+                        <i class="fas fa-compass text-blue-600 text-xl"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-800">Helm ve Package Management</h2>
+                </div>
+                <p class="text-gray-600 mb-6">Kubernetes uygulamalarını paketleme ve yönetme ile ilgili sorular ve cevaplar.</p>
+
+                <div class="space-y-6">
+                    <!-- Soru 1 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 1: Helm nedir ve ne işe yarar?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Helm, Kubernetes uygulamalarını paketlemek, yapılandırmak ve dağıtmak için kullanılan bir paket yöneticisidir.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li>"Kubernetes için apt/yum/homebrew" olarak bilinir</li>
+                                <li>Kubernetes uygulamalarını "Charts" adı verilen paketler halinde paketler</li>
+                                <li>Karmaşık uygulamaları kolayca yönetmeyi sağlar</li>
+                                <li>Uygulama sürümlerini yönetir ve güncellemeleri kolaylaştırır</li>
+                                <li>Paylaşılan depolar (repositories) aracılığıyla uygulamaları dağıtır</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Soru 2 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 2: Helm Chart'ın yapısı nasıldır?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Helm Chart'ı, Kubernetes uygulamalarını paketlemek için kullanılan dosya koleksiyonudur.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li><strong>Chart.yaml:</strong> Chart'ın meta bilgilerini içerir (ad, versiyon, açıklama vb.)</li>
+                                <li><strong>values.yaml:</strong> Chart için varsayılan yapılandırma değerlerini içerir</li>
+                                <li><strong>templates/:</strong> Kubernetes manifest dosyalarını içerir (Deployment, Service, Ingress vb.)</li>
+                                <li><strong>charts/:</strong> Bu Chart'ın bağımlı olduğu diğer Chart'ları içerir</li>
+                                <li><strong>.helmignore:</strong> Paketlenmeyecek dosyaları belirtir</li>
+                                <li><strong>NOTES.txt:</strong> Kurulumdan sonra gösterilen bilgileri içerir</li>
+                                <li><strong>requirements.yaml (Helm 2'de):</strong> Chart bağımlılıklarını tanımlar</li>
+                            </ul>
+                            <p class="mt-2 font-medium">Chart.yaml örneği:</p>
+                            <pre class="code-block yaml mt-2">apiVersion: v2
+name: my-chart
+description: A Helm chart for Kubernetes
+type: application
+version: 0.1.0
+appVersion: "1.0.0"
+keywords:
+  - my-app
+  - kubernetes
+home: https://my-app.example.com
+sources:
+  - https://github.com/my-org/my-app
+maintainers:
+  - name: John Doe
+    email: john@example.com</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 3 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 3: Helm 2 ve Helm 3 arasındaki temel farklar nelerdir?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Helm 2 ve Helm 3 arasında önemli farklar vardır:</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li><strong>Tiller:</strong> Helm 2'de Tiller adında bir sunucu component'i vardı, Helm 3'te kaldırıldı</li>
+                                <li><strong>Release bilgileri:</strong> Helm 2'de Tiller'da saklanırdı, Helm 3'te Kubernetes'te Secret olarak saklanır</li>
+                                <li><strong>Chart bağımlılıkları:</strong> Helm 2'de requirements.yaml kullanılırdı, Helm 3'te Chart.yaml içinde dependencies bölümü kullanılır</li>
+                                <li><strong>Güvenlik:</strong> Helm 3'te RBAC ve güvenlik iyileştirmeleri yapıldı</li>
+                                <li><strong>Kütüphane:</strong> Helm 3'te Go kütüphanesi yeniden yazıldı</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Soru 4 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 4: Helm ile Chart nasıl oluşturulur ve paketlenir?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Helm ile Chart oluşturmak ve paketlemek için şu adımlar izlenir:</p>
+                            <p class="mt-2 font-medium">Chart oluşturma:</p>
+                            <pre class="code-block bash mt-2"># Yeni bir Chart oluşturma
+helm create my-chart
+
+# Mevcut bir dizinden Chart oluşturma
+helm create .</pre>
+                            <p class="mt-2 font-medium">Chart paketleme:</p>
+                            <pre class="code-block bash mt-2"># Chart'ı paketleme
+helm package my-chart
+
+# Chart'ı belirli bir dizine paketleme
+helm package my-chart -d /path/to/directory
+
+# Chart'ı imzlayarak paketleme
+helm package --sign --key keyname --keyring path/to/keyring my-chart</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 5 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 5: Helm ile Chart nasıl kurulur ve yönetilir?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Helm ile Chart'ları kurmak ve yönetmek için çeşitli komutlar kullanılır.</p>
+                            <p class="mt-2 font-medium">Chart kurulumu ve yönetimi:</p>
+                            <pre class="code-block bash mt-2"># Depo ekleme
+helm repo add stable https://charts.helm.sh/stable
+
+# Depo güncelleme
+helm repo update
+
+# Chart kurulumu
+helm install my-release stable/nginx-ingress
+
+# Varsayılan değerleri özelleştirerek kurulum
+helm install my-release -f values.yaml stable/nginx-ingress
+
+# Sürüm yükseltme
+helm upgrade my-release stable/nginx-ingress
+
+# Sürüm geçmişi
+helm history my-release
+
+# Sürümü önceki bir sürüme geri alma
+helm rollback my-release 1
+
+# Sürümü kaldırma
+helm uninstall my-release
+
+# Kurulu sürümleri listeleme
+helm list
+
+# Tüm sürümleri listeleme
+helm list --all</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Monitoring ve Logging -->
+        <section id="monitoring-logging" class="mb-16">
+            <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+                <div class="flex items-center mb-6">
+                    <div class="bg-blue-100 p-3 rounded-full mr-4">
+                        <i class="fas fa-chart-line text-blue-600 text-xl"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-800">Monitoring ve Logging</h2>
+                </div>
+                <p class="text-gray-600 mb-6">Kubernetes cluster'ını izleme ve log yönetimi ile ilgili sorular ve cevaplar.</p>
+
+                <div class="space-y-6">
+                    <!-- Soru 1 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 1: Kubernetes'te monitoring için hangi araçlar kullanılır?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubernetes'te monitoring için çeşitli araçlar kullanılır:</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li><strong>Prometheus:</strong> Metrik toplama ve depolama için popüler bir açık kaynaklı monitoring çözümü</li>
+                                <li><strong>Grafana:</strong> Metrikleri görselleştirmek için kullanılan bir dashboard aracı</li>
+                                <li><strong>Alertmanager:</strong> Prometheus'tan gelen uyarıları yönetmek için kullanılır</li>
+                                <li><strong>Metrics Server:</strong> Cluster kaynak kullanımı metriklerini toplar (CPU, memory)</li>
+                                <li><strong>Node Exporter:</strong> Node'ların donanım ve işletim sistemi metriklerini toplar</li>
+                                <li><strong>Kube State Metrics:</strong> Kubernetes nesnelerinin (Deployment, Pod, vb.) metriklerini toplar</li>
+                                <li><strong>Jaeger/Zipkin:</strong> Dağıtık izleme (distributed tracing) için kullanılır</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Soru 2 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 2: Kubernetes'te logging için hangi araçlar kullanılır?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubernetes'te logging için çeşitli araçlar kullanılır:</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li><strong>ELK Stack (Elasticsearch, Logstash, Kibana):</strong> Popüler bir log yönetimi çözümü</li>
+                                <li><strong>EFK Stack (Elasticsearch, Fluentd, Kibana):</strong> Fluentd ile log toplama</li>
+                                <li><strong>Fluent Bit:</strong> Hafif bir log forwarder ve processor</li>
+                                <li><strong>Loki:</strong> Grafana Labs tarafından geliştirilen bir log toplama sistemi</li>
+                                <li><strong>Promtail:</strong> Loki ile birlikte kullanılan bir log toplama aracı</li>
+                                <li><strong>Splunk:</strong> Kurumsal bir log yönetimi çözümü</li>
+                                <li><strong>Graylog:</strong> Açık kaynaklı bir log yönetimi platformu</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Soru 3 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 3: Kubernetes'te Prometheus nasıl kurulur ve yapılandırılır?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubernetes'te Prometheus kurulumu ve yapılandırması şu şekildedir:</p>
+                            <p class="mt-2 font-medium">Prometheus kurulumu:</p>
+                            <pre class="code-block bash mt-2"># Helm kullanarak Prometheus kurulumu
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm repo update
+helm install prometheus prometheus-community/kube-prometheus-stack
+
+# Manuel kurulum için YAML dosyaları
+kubectl apply -f https://raw.githubusercontent.com/prometheus-operator/prometheus-operator/master/bundle.yaml</pre>
+                            <p class="mt-2 font-medium">Prometheus yapılandırması:</p>
+                            <pre class="code-block yaml mt-2">apiVersion: monitoring.coreos.com/v1
+kind: Prometheus
+metadata:
+  name: prometheus
+  namespace: monitoring
+spec:
+  serviceMonitorSelector:
+    matchLabels:
+      team: frontend
+  resources:
+    requests:
+      memory: 400Mi
+  enableAdminAPI: false</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 4 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 4: Kubernetes'te ServiceMonitor nedir ve nasıl kullanılır?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubernetes'te ServiceMonitor, Prometheus'un hangi servisleri izleyeceğini belirten bir nesnedir.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li>ServiceMonitor, Prometheus Operator tarafından kullanılır</li>
+                                <li>Hangi servislerin izleneceğini, hangi metriklerin toplanacağını ve hangi portların kullanılacağını belirtir</li>
+                                <li>ServiceMonitor'lar otomatik olarak Prometheus tarafından keşfedilir</li>
+                            </ul>
+                            <p class="mt-2 font-medium">ServiceMonitor örneği:</p>
+                            <pre class="code-block yaml mt-2">apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: my-app-monitor
+  namespace: monitoring
+  labels:
+    app: my-app
+spec:
+  selector:
+    matchLabels:
+      app: my-app
+  endpoints:
+  - port: web
+    interval: 30s
+    path: /metrics</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 5 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 5: Kubernetes'te log toplama nasıl yapılır?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubernetes'te log toplama için çeşitli yöntemler kullanılır:</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li><strong>Node-level logging agent:</strong> Her Node'da bir log toplama aracı çalıştırma (Fluentd, Fluent Bit)</li>
+                                <li><strong>Sidecar container:</strong> Her Pod'da log toplama için bir container çalıştırma</li>
+                                <li><strong>Direct log shipping:</strong> Uygulamaların doğrudan logları merkezi bir sisteme göndermesi</li>
+                            </ul>
+                            <p class="mt-2 font-medium">Fluentd DaemonSet ile log toplama örneği:</p>
+                            <pre class="code-block yaml mt-2">apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: fluentd
+  namespace: logging
+spec:
+  selector:
+    matchLabels:
+      name: fluentd
+  template:
+    metadata:
+      labels:
+        name: fluentd
+    spec:
+      containers:
+      - name: fluentd
+        image: fluent/fluentd:v1.16-1
+        volumeMounts:
+        - name: varlog
+          mountPath: /var/log
+        - name: varlibdockercontainers
+          mountPath: /var/lib/docker/containers
+          readOnly: true
+      volumes:
+      - name: varlog
+        hostPath:
+          path: /var/log
+      - name: varlibdockercontainers
+        hostPath:
+          path: /var/lib/docker/containers</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Kubernetes Güvenliği -->
+        <section id="kubernetes-guvenligi" class="mb-16">
+            <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+                <div class="flex items-center mb-6">
+                    <div class="bg-blue-100 p-3 rounded-full mr-4">
+                        <i class="fas fa-shield-alt text-blue-600 text-xl"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-800">Kubernetes Güvenliği</h2>
+                </div>
+                <p class="text-gray-600 mb-6">Kubernetes ortamında güvenlik önlemleri ve best practices ile ilgili sorular ve cevaplar.</p>
+
+                <div class="space-y-6">
+                    <!-- Soru 1 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 1: Kubernetes'te güvenlik için en iyi uygulamalar nelerdir?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubernetes'te güvenlik için en iyi uygulamalar şunlardır:</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li><strong>En az prensibi:</strong> Sadece gerekli izinleri verin</li>
+                                <li><strong>RBAC (Role-Based Access Control):</strong> Kullanıcı ve servis hesapları için rol tabanlı erişim kontrolü kullanın</li>
+                                <li><strong>Network Policy:</strong> Pod'lar arasındaki ağ trafiğini kısıtlayın</li>
+                                <li><strong>Pod Security Policy (PSP) / Pod Security Admission (PSA):</strong> Güvenli Pod oluşturmayı zorunlu kılın</li>
+                                <li><strong>Image güvenliği:</strong> Sadece güvenilir ve taranmış image'lar kullanın</li>
+                                <li><strong>Secret yönetimi:</strong> Hassas verileri güvenli bir şekilde saklayın</li>
+                                <li><strong>Encryption:</strong> Etki alanında veri şifrelemesi kullanın</li>
+                                <li><strong>Audit logging:</strong> Tüm işlemleri loglayın</li>
+                                <li><strong>Düzenli güncellemeler:</strong> Kubernetes ve bileşenlerini düzenli olarak güncelleyin</li>
+                                <li><strong>Güvenlik taramaları:</strong> Düzenli olarak güvenlik açığı taramaları yapın</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Soru 2 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 2: Kubernetes'te Pod Security Policy (PSP) nedir?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubernetes'te Pod Security Policy (PSP), Pod'ların oluşturulmasında güvenlik kısıtlamaları getiren bir nesnedir.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li>Pod'ların hangi özelliklere sahip olabileceğini kontrol eder</li>
+                                <li>Privileged mod, host network, host PID, host IPC gibi özellikleri kısıtlayabilir</li>
+                                <li>Kullanıcı ve grup ID'lerini kontrol edebilir</li>
+                                <li>Volume türlerini kısıtlayabilir</li>
+                                <li>Not: Kubernetes 1.25+ sürümünde PSP kaldırılmıştır, yerine Pod Security Admission kullanılır</li>
+                            </ul>
+                            <p class="mt-2 font-medium">Pod Security Policy örneği:</p>
+                            <pre class="code-block yaml mt-2">apiVersion: policy/v1beta1
+kind: PodSecurityPolicy
+metadata:
+  name: restricted
+spec:
+  privileged: false
+  allowPrivilegeEscalation: false
+  requiredDropCapabilities:
+    - ALL
+  volumes:
+    - 'configMap'
+    - 'emptyDir'
+    - 'projected'
+    - 'secret'
+    - 'downwardAPI'
+    - 'persistentVolumeClaim'
+  runAsUser:
+    rule: 'MustRunAsNonRoot'
+  seLinux:
+    rule: 'RunAsAny'
+  fsGroup:
+    rule: 'RunAsAny'</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 3 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 3: Kubernetes'te Pod Security Admission (PSA) nedir?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubernetes'te Pod Security Admission, Pod'ların oluşturulmasında güvenlik standartlarını zorunlu kılan bir admission controller'dır.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li>Pod Security Policy'nin yerini alan yeni bir özelliktir</li>
+                                <li>Üç güvenlik seviyesi tanımlar: privileged, baseline, restricted</li>
+                                <li>Namespace veya cluster seviyesinde uygulanabilir</li>
+                                <li>Etiketler ve admission configuration kullanılarak yapılandırılır</li>
+                            </ul>
+                            <p class="mt-2 font-medium">Pod Security Admission yapılandırma örneği:</p>
+                            <pre class="code-block yaml mt-2">apiVersion: v1
+kind: Namespace
+metadata:
+  name: my-namespace
+  labels:
+    pod-security.kubernetes.io/enforce: restricted
+    pod-security.kubernetes.io/enforce-version: v1.25
+    pod-security.kubernetes.io/audit: baseline
+    pod-security.kubernetes.io/audit-version: v1.25
+    pod-security.kubernetes.io/warn: privileged
+    pod-security.kubernetes.io/warn-version: v1.25</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 4 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 4: Kubernetes'te Network Policy nasıl kullanılır?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubernetes'te Network Policy, Pod'lar arasındaki ağ trafiğini kontrol eden bir nesnedir.</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li>Pod'lar arasındaki iletişimi kısıtlar</li>
+                                <li>Gelen (ingress) ve giden (egress) trafiği kontrol eder</li>
+                                <li>Label selector kullanarak Pod'ları hedefler</li>
+                                <li>Network plugin'inin bu özelliği desteklemesi gerekir (Calico, Weave Net, Cilium)</li>
+                            </ul>
+                            <p class="mt-2 font-medium">Network Policy örneği:</p>
+                            <pre class="code-block yaml mt-2">apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: db-network-policy
+  namespace: default
+spec:
+  podSelector:
+    matchLabels:
+      role: db
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          role: frontend
+    ports:
+    - protocol: TCP
+      port: 5432
+  egress:
+  - to:
+    - podSelector:
+        matchLabels:
+          role: backup
+    ports:
+    - protocol: TCP
+      port: 80</pre>
+                        </div>
+                    </div>
+
+                    <!-- Soru 5 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 5: Kubernetes'te container image güvenliği nasıl sağlanır?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubernetes'te container image güvenliği sağlamak için şu yöntemler kullanılır:</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li><strong>Güvenilir registry'ler kullanma:</strong> Docker Hub, GCR, ECR, ACR gibi güvenilir registry'ler kullanın</li>
+                                <li><strong>Image imzalama:</strong> Cosign veya Notary gibi araçlarla image'ları imzalayın</li>
+                                <li><strong>Güvenlik taraması:</strong> Trivy, Clair, Anchore gibi araçlarla image'ları güvenlik açıklarına karşı tarayın</li>
+                                <li><strong>ImagePolicyWebhook:</strong> Image'ları kabul etmeden önce kontrol eden bir webhook kullanın</li>
+                                <li><strong>Minimal image'lar kullanma:</strong> Alpine, Scratch gibi minimal temel image'lar kullanın</li>
+                                <li><strong>Sabit versiyonlar kullanma:</strong> :latest yerine belirli bir versiyon etiketi kullanın</li>
+                                <li><strong>Image güncellemeleri:</strong> Düzenli olarak image'ları güncelleyin ve yeniden tarayın</li>
+                            </ul>
+                            <p class="mt-2 font-medium">ImagePolicyWebhook örneği:</p>
+                            <pre class="code-block yaml mt-2">apiVersion: v1
+kind: ValidatingWebhookConfiguration
+metadata:
+  name: image-policy-webhook
+webhooks:
+- name: image-policy.example.com
+  rules:
+  - apiGroups: [""]
+    apiVersions: ["v1"]
+    operations: ["CREATE", "UPDATE"]
+    resources: ["pods"]
+    scope: "Namespaced"
+  clientConfig:
+    service:
+      name: image-policy-service
+      namespace: image-policy
+      path: "/validate"
+  admissionReviewVersions: ["v1", "v1beta1"]
+  timeoutSeconds: 5</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- İpuçları ve Best Practices -->
+        <section id="ipuclari-bestpractices" class="mb-16">
+            <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+                <div class="flex items-center mb-6">
+                    <div class="bg-blue-100 p-3 rounded-full mr-4">
+                        <i class="fas fa-lightbulb text-blue-600 text-xl"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-800">İpuçları ve Best Practices</h2>
+                </div>
+                <p class="text-gray-600 mb-6">Kubernetes kullanımında ipuçları ve en iyi uygulamalar ile ilgili sorular ve cevaplar.</p>
+
+                <div class="space-y-6">
+                    <!-- Soru 1 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 1: Kubernetes'te kaynak optimizasyonu için en iyi uygulamalar nelerdir?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubernetes'te kaynak optimizasyonu için en iyi uygulamalar şunlardır:</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li><strong>Doğru kaynak limitleri ve istekleri ayarlama:</strong> Her container için uygun CPU ve memory limitleri ve istekleri ayarlayın</li>
+                                <li><strong>Horizontal Pod Autoscaler (HPA) kullanma:</strong> CPU veya memory kullanımına göre Pod sayısını otomatik olarak ölçeklendirin</li>
+                                <li><strong>Vertical Pod Autoscaler (VPA) kullanma:</strong> Container'ların kaynak limitlerini ve isteklerini otomatik olarak ayarlayın</li>
+                                <li><strong>Cluster Autoscaler kullanma:</strong> Node kaynakları yetersiz olduğunda otomatik olarak Node ekleyin</li>
+                                <li><strong>Right-sizing:</strong> Uygulamaların gerçek kaynak kullanımını izleyin ve limitleri buna göre ayarlayın</li>
+                                <li><strong>Resource Quota ve Limit Range kullanma:</strong> Namespace'lerde kaynak kullanımını sınırlayın</li>
+                                <li><strong>Node affinity ve anti-affinity kullanma:</strong> Pod'ları uygun Node'lara yerleştirin</li>
+                                <li><strong>Pod Topology Spread kullanma:</strong> Pod'ları farklı bölgelere, alanlara veya Node'lara dağıtın</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Soru 2 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 2: Kubernetes'te performans optimizasyonu için en iyi uygulamalar nelerdir?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubernetes'te performans optimizasyonu için en iyi uygulamalar şunlardır:</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li><strong>Efficient scheduling:</strong> Pod'ları uygun Node'lara yerleştirmek için node selector, node affinity ve taint/toleration kullanın</li>
+                                <li><strong>Efficient networking:</strong> Calico, Cilium gibi yüksek performanslı CNI plugin'leri kullanın</li>
+                                <li><strong>Efficient storage:</strong> Uygulama ihtiyaçlarına uygun storage sınıfları kullanın</li>
+                                <li><strong>Efficient logging:</strong> Log toplama için Fluent Bit gibi hafif araçlar kullanın</li>
+                                <li><strong>Efficient monitoring:</strong> Prometheus ve Grafana kullanarak performansı izleyin</li>
+                                <li><strong>Efficient scaling:</strong> HPA, VPA ve Cluster Autoscaler kullanarak otomatik ölçeklendirme yapın</li>
+                                <li><strong>Efficient resource usage:</strong> Kaynak kullanımını izleyin ve optimize edin</li>
+                                <li><strong>Efficient updates:</strong> Rolling update stratejilerini kullanarak kesintisiz güncelleme yapın</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Soru 3 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 3: Kubernetes'te hata ayıklama için en iyi uygulamalar nelerdir?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubernetes'te hata ayıklama için en iyi uygulamalar şunlardır:</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li><strong>Detaylı loglama:</strong> Uygulamalarınızdan detaylı loglar çıkarın</li>
+                                <li><strong>Merkezi log yönetimi:</strong> Logları merkezi bir sistemde toplayın</li>
+                                <li><strong>Health check'ler:</strong> Uygulamalarınız için liveness ve readiness probe'lar tanımlayın</li>
+                                <li><strong>Distributed tracing:</strong> Jaeger veya Zipkin kullanarak istekleri izleyin</li>
+                                <li><strong>Event monitoring:</strong> Kubernetes olaylarını izleyin</li>
+                                <li><strong>Resource monitoring:</strong> CPU, memory, disk ve ağ kullanımını izleyin</li>
+                                <li><strong>Debug container'lar:</strong> Hata ayıklama için özel container'lar kullanın</li>
+                                <li><strong>kubectl debug komutu:</strong> Pod'lara hata ayıklama container'ı eklemek için kubectl debug komutunu kullanın</li>
+                                <li><strong>Port forwarding:</strong> Yerel makineden Pod'lara port yönlendirme yapın</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Soru 4 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 4: Kubernetes'te yüksek erişilebilirlik için en iyi uygulamalar nelerdir?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubernetes'te yüksek erişilebilirlik için en iyi uygulamalar şunlardır:</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li><strong>Multi-master setup:</strong> Control Plane bileşenlerini birden fazla Node'a dağıtın</li>
+                                <li><strong>etcd cluster:</strong> etcd'yi birden fazla Node'a dağıtın ve düzenli olarak yedekleyin</li>
+                                <li><strong>Multi-zone deployment:</strong> Uygulamalarınızı farklı bölgelere veya alanlara dağıtın</li>
+                                <li><strong>Pod Disruption Budget (PDB):</strong> Planlı kesintiler sırasında minimum kullanılabilir Pod sayısını garanti edin</li>
+                                <li><strong>Horizontal Pod Autoscaler (HPA):</strong> Yük arttığında otomatik olarak Pod sayısını artırın</li>
+                                <li><strong>Cluster Autoscaler:</strong> Kaynaklar yetersiz olduğunda otomatik olarak Node ekleyin</li>
+                                <li><strong>Health checks:</strong> Uygulamalarınız için liveness ve readiness probe'lar tanımlayın</li>
+                                <li><strong>Load balancing:</strong> Service ve Ingress kullanarak trafiği dağıtın</li>
+                                <li><strong>Graceful shutdown:</strong> Uygulamalarınızın düzgün bir şekilde kapanmasını sağlayın</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Soru 5 -->
+                    <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                        <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 5: Kubernetes'te maliyet optimizasyonu için en iyi uygulamalar nelerdir?</h4>
+                        <div class="text-gray-700">
+                            <p><strong>Cevap:</strong> Kubernetes'te maliyet optimizasyonu için en iyi uygulamalar şunlardır:</p>
+                            <ul class="list-disc pl-5 mt-2">
+                                <li><strong>Right-sizing:</strong> Pod'lar için doğru kaynak limitleri ve istekleri ayarlayın</li>
+                                <li><strong>Spot/preemptible VM'ler kullanma:</strong> Test ve geliştirme ortamları için spot VM'ler kullanın</li>
+                                <li><strong>Autoscaling:</strong> HPA, VPA ve Cluster Autoscaler kullanarak kaynakları ihtiyaç duyulduğunda ekleyin</li>
+                                <li><strong>Cluster küçültme:</strong> Kullanılmayan kaynakları otomatik olarak kaldırın</li>
+                                <li><strong>Efficient storage:</strong> Uygulama ihtiyaçlarına uygun storage sınıfları kullanın</li>
+                                <li><strong>Multi-tenancy:</strong> Aynı cluster'da birden fazla uygulama çalıştırın</li>
+                                <li><strong>Cost monitoring:</strong> OpenCost, Kubecost gibi araçlarla maliyetleri izleyin</li>
+                                <li><strong>Resource quotas:</strong> Namespace'lerde kaynak kullanımını sınırlayın</li>
+                                <li><strong>Scheduling optimizations:</strong> Pod'ları daha az sayıda Node'da çalıştırın</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="text-center py-8 text-gray-600">
+            <p>© 2025 Kubernetes Mülakat Soruları. All rights reserved. Senior Seviye Kubernetes Mülakat Soruları</p>
+        </footer>
+    </div>
+
+    <script>
+        function scrollToCategory(categoryId) {
+            const element = document.getElementById(categoryId);
+            element.scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+
+</html>
