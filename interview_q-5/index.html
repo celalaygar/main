@@ -1,0 +1,2280 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ELK Stack (Elasticsearch, Logstash, Kibana) Mülakat Soruları</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .code-block {
+            border-radius: 0.5rem;
+            padding: 1rem;
+            overflow-x: auto;
+            font-family: monospace;
+            font-size: 0.875rem;
+        }
+
+        .code-block.bash {
+            background-color: #1e293b;
+            color: #e2e8f0;
+        }
+
+        .code-block.json {
+            background-color: #1e3a5f;
+            color: #e2e8f0;
+        }
+
+        .code-block.yaml {
+            background-color: #1e3a1e;
+            color: #e2e8f0;
+        }
+
+        .code-block.java {
+            background-color: #3a1e3a;
+            color: #e2e8f0;
+        }
+
+        .code-block.xml {
+            background-color: #3a1e1e;
+            color: #e2e8f0;
+        }
+
+        .code-block.properties {
+            background-color: #1e293b;
+            color: #e2e8f0;
+        }
+
+        .category-card {
+            transition: transform 0.3s ease;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .question-card {
+            transition: all 0.3s ease;
+        }
+
+        .question-card:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .elasticsearch-color {
+            background-color: #005571;
+        }
+
+        .logstash-color {
+            background-color: #00c49f;
+        }
+
+        .kibana-color {
+            background-color: #f04e23;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <header class="text-center mb-12">
+            <h1 class="text-4xl font-bold text-gray-800 mb-2">ELK Stack Mülakat Soruları</h1>
+            <p class="text-gray-600">70 adet ileri seviye Elasticsearch, Logstash ve Kibana mülakat sorusu ve cevabı</p>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+            <div class="category-card bg-white rounded-lg shadow-md p-6">
+                <div class="flex items-center mb-4">
+                    <div class="bg-blue-100 p-3 rounded-full mr-4">
+                        <i class="fas fa-search text-blue-600 text-xl"></i>
+                    </div>
+                    <h2 class="text-xl font-bold text-gray-800">Elasticsearch</h2>
+                </div>
+                <p class="text-gray-600 mb-4">30 adet ileri seviye Elasticsearch mülakat sorusu ve cevabı</p>
+                <button onclick="scrollToCategory('elasticsearch')"
+                    class="text-blue-600 font-medium hover:text-blue-800">Soruları Görüntüle <i
+                        class="fas fa-arrow-right ml-1"></i></button>
+            </div>
+
+            <div class="category-card bg-white rounded-lg shadow-md p-6">
+                <div class="flex items-center mb-4">
+                    <div class="bg-green-100 p-3 rounded-full mr-4">
+                        <i class="fas fa-filter text-green-600 text-xl"></i>
+                    </div>
+                    <h2 class="text-xl font-bold text-gray-800">Logstash</h2>
+                </div>
+                <p class="text-gray-600 mb-4">20 adet ileri seviye Logstash mülakat sorusu ve cevabı</p>
+                <button onclick="scrollToCategory('logstash')"
+                    class="text-green-600 font-medium hover:text-green-800">Soruları Görüntüle <i
+                        class="fas fa-arrow-right ml-1"></i></button>
+            </div>
+
+            <div class="category-card bg-white rounded-lg shadow-md p-6">
+                <div class="flex items-center mb-4">
+                    <div class="bg-orange-100 p-3 rounded-full mr-4">
+                        <i class="fas fa-chart-bar text-orange-600 text-xl"></i>
+                    </div>
+                    <h2 class="text-xl font-bold text-gray-800">Kibana</h2>
+                </div>
+                <p class="text-gray-600 mb-4">20 adet ileri seviye Kibana mülakat sorusu ve cevabı</p>
+                <button onclick="scrollToCategory('kibana')"
+                    class="text-orange-600 font-medium hover:text-orange-800">Soruları Görüntüle <i
+                        class="fas fa-arrow-right ml-1"></i></button>
+            </div>
+        </div>
+
+        <!-- Elasticsearch Soruları -->
+        <section id="elasticsearch" class="mb-16">
+            <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+                <div class="flex items-center mb-6">
+                    <div class="elasticsearch-color p-3 rounded-full mr-4">
+                        <i class="fas fa-search text-white text-xl"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-800">Elasticsearch Mülakat Soruları</h2>
+                </div>
+                <p class="text-gray-600 mb-6">Bu dokümanda Elasticsearch mülakatlarında en çok sorulan konular soru-cevap mantığıyla açıklanmış ve örnek kodlar eklenmiştir.</p>
+
+                <div class="space-y-6">
+                    <!-- Temel Elasticsearch Kavramları -->
+                    <div class="bg-gray-50 rounded-lg p-4 mb-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">🔹 Temel Elasticsearch Kavramları</h3>
+
+                        <!-- Soru 1 -->
+                        <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 1: Elasticsearch nedir? Ne işe
+                                yarar?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong> Elasticsearch, Apache Lucene tabanlı, dağıtık bir arama ve analiz motorudur.</p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li>Tam metin arama, yapılandırılmış arama ve analiz yetenekleri sunar.</li>
+                                    <li>Gerçek zamanlı veri işleme ve hızlı arama performansı sağlar.</li>
+                                    <li>RESTful arayüzü ile kolay kullanım imkanı sunar.</li>
+                                    <li>Yatay olarak ölçeklenebilir mimariye sahiptir.</li>
+                                </ul>
+                                <p class="mt-2 font-medium">Elasticsearch Başlatma Komutu:</p>
+                                <pre class="code-block bash mt-2">./bin/elasticsearch</pre>
+                            </div>
+                        </div>
+
+                        <!-- Soru 2 -->
+                        <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 2: Elasticsearch'te Index, Type,
+                                Document kavramları nelerdir?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong></p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li><strong>Index:</strong> Benzer özelliklere sahip document'lerin koleksiyonudur. İlişkisel veritabanlarındaki tabloya benzer.</li>
+                                    <li><strong>Type (Eski Versiyonlar):</strong> Index içindeki document'leri kategorize etmek için kullanılır. Elasticsearch 7.0'dan sonra kaldırılmıştır.</li>
+                                    <li><strong>Document:</strong> Index'te depolanan temel veri birimidir. JSON formatında olur ve ilişkisel veritabanlarındaki satıra benzer.</li>
+                                </ul>
+                                <p class="mt-2 font-medium">Index Oluşturma Komutu:</p>
+                                <pre class="code-block bash mt-2">PUT /my-index
+{
+  "settings": {
+    "number_of_shards": 3,
+    "number_of_replicas": 1
+  }
+}</pre>
+                            </div>
+                        </div>
+
+                        <!-- Soru 3 -->
+                        <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 3: Elasticsearch'te Shard ve Replica
+                                nedir? Arasındaki farklar nelerdir?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong></p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li><strong>Shard:</strong> Bir index'in parçalarıdır. Her shard, index verisinin bir alt kümesini içerir ve Elasticsearch kümesindeki farklı node'larda dağıtılabilir.</li>
+                                    <li><strong>Replica:</strong> Bir shard'ın kopyasıdır. Veri kaybını önlemek ve okuma performansını artırmak için kullanılır.</li>
+                                </ul>
+                                <p><strong>Farklar:</strong></p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li>Shard'lar veriyi böler, replikalar veriyi kopyalar.</li>
+                                    <li>Shard'lar yazma ve okuma işlemlerini paralel hale getirir, replikalar sadece okuma işlemlerini paralel hale getirir.</li>
+                                    <li>Her index için shard sayısı oluşturulduğunda belirlenir ve sonradan değiştirilemez, replika sayısı ise dinamik olarak değiştirilebilir.</li>
+                                </ul>
+                                <p class="mt-2 font-medium">Shard ve Replica Ayarları:</p>
+                                <pre class="code-block json mt-2">PUT /my-index/_settings
+{
+  "index" : {
+    "number_of_replicas" : 2
+  }
+}</pre>
+                            </div>
+                        </div>
+
+                        <!-- Soru 4 -->
+                        <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 4: Elasticsearch'te Mapping nedir? Ne
+                                işe yarar?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong> Mapping, bir index içindeki alanların (fields) ve veri tiplerinin tanımlanmasıdır.</p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li>Alanların veri tiplerini (string, integer, date, vb.) belirler.</li>
+                                    <li>Arama ve analiz davranışını kontrol eder.</li>
+                                    <li>Dinamik mapping (otomatik) veya statik mapping (manuel) olarak oluşturulabilir.</li>
+                                </ul>
+                                <p class="mt-2 font-medium">Mapping Oluşturma Komutu:</p>
+                                <pre class="code-block json mt-2">PUT /my-index
+{
+  "mappings": {
+    "properties": {
+      "title": { "type": "text" },
+      "price": { "type": "float" },
+      "created_at": { "type": "date" }
+    }
+  }
+}</pre>
+                            </div>
+                        </div>
+
+                        <!-- Soru 5 -->
+                        <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 5: Elasticsearch'te Analyzer nedir?
+                                Türleri nelerdir?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong> Analyzer, metin alanlarını işlemek için kullanılan bir bileşenler dizisidir.</p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li><strong>Character Filter:</strong> Metindeki karakterleri değiştirir (HTML etiketlerini kaldırma gibi).</li>
+                                    <li><strong>Tokenizer:</strong> Metni kelimelere böler (boşluk, noktalama işaretleri gibi).</li>
+                                    <li><strong>Token Filter:</strong> Token'ları işler (küçük harfe çevirme, stemleme, stop words kaldırma gibi).</li>
+                                </ul>
+                                <p><strong>Örnek Analyzer'lar:</strong></p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li><strong>Standard Analyzer:</strong> Varsayılan analyzer, boşluk ve noktalama işaretlerine göre böler.</li>
+                                    <li><strong>Simple Analyzer:</strong> Sadece alfabetik olmayan karakterlere göre böler ve küçük harfe çevirir.</li>
+                                    <li><strong>Whitespace Analyzer:</strong> Sadece boşluklara göre böler.</li>
+                                    <li><strong>Keyword Analyzer:</strong> Metni hiçbir işlem yapmadan olduğu gibi bırakır.</li>
+                                </ul>
+                                <p class="mt-2 font-medium">Özel Analyzer Oluşturma:</p>
+                                <pre class="code-block json mt-2">PUT /my-index
+{
+  "settings": {
+    "analysis": {
+      "analyzer": {
+        "my_analyzer": {
+          "type": "custom",
+          "tokenizer": "standard",
+          "filter": [
+            "lowercase",
+            "my_stemmer"
+          ]
+        }
+      },
+      "filter": {
+        "my_stemmer": {
+          "type": "stemmer",
+          "name": "english"
+        }
+      }
+    }
+  },
+  "mappings": {
+    "properties": {
+      "content": {
+        "type": "text",
+        "analyzer": "my_analyzer"
+      }
+    }
+  }
+}</pre>
+                            </div>
+                        </div>
+
+                        <!-- Soru 6 -->
+                        <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 6: Elasticsearch'te Query ve Filter
+                                arasındaki fark nedir?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong></p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li><strong>Query Context:</strong> Dokümanların sorguya ne kadar uygun olduğunu skorlamak için kullanılır. _score alanını hesaplar.</li>
+                                    <li><strong>Filter Context:</strong> Dokümanların sorguya uygun olup olmadığını kontrol etmek için kullanılır. Skor hesaplamaz ve sonuçları önbelleğe alır.</li>
+                                </ul>
+                                <p><strong>Farklar:</strong></p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li>Query skoru hesaplar, filter hesaplamaz.</li>
+                                    <li>Filter sonuçları önbelleğe alır, query almaz.</li>
+                                    <li>Filter daha hızlı çalışır.</li>
+                                </ul>
+                                <p class="mt-2 font-medium">Query Örneği:</p>
+                                <pre class="code-block json mt-2">GET /my-index/_search
+{
+  "query": {
+    "match": {
+      "title": "elasticsearch"
+    }
+  }
+}</pre>
+                                <p class="mt-2 font-medium">Filter Örneği:</p>
+                                <pre class="code-block json mt-2">GET /my-index/_search
+{
+  "query": {
+    "bool": {
+      "filter": {
+        "term": {
+          "status": "published"
+        }
+      }
+    }
+  }
+}</pre>
+                            </div>
+                        </div>
+
+                        <!-- Soru 7 -->
+                        <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 7: Elasticsearch'te Term ve Match
+                                sorguları arasındaki fark nedir?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong></p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li><strong>Term Query:</strong> Tam eşleşme araması yapar. Analiz edilmez, tam olarak aranan terimi arar.</li>
+                                    <li><strong>Match Query:</strong> Tam metin araması yapar. Analiz edilir ve eşleşen terimleri arar.</li>
+                                </ul>
+                                <p><strong>Farklar:</strong></p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li>Term query analiz edilmez, match query analiz edilir.</li>
+                                    <li>Term query tam eşleşme arar, match query kısmi eşleşme arar.</li>
+                                    <li>Term query keyword alanlar için daha uygundur, match query text alanlar için.</li>
+                                </ul>
+                                <p class="mt-2 font-medium">Term Query Örneği:</p>
+                                <pre class="code-block json mt-2">GET /my-index/_search
+{
+  "query": {
+    "term": {
+      "status.keyword": "published"
+    }
+  }
+}</pre>
+                                <p class="mt-2 font-medium">Match Query Örneği:</p>
+                                <pre class="code-block json mt-2">GET /my-index/_search
+{
+  "query": {
+    "match": {
+      "title": "elasticsearch tutorial"
+    }
+  }
+}</pre>
+                            </div>
+                        </div>
+
+                        <!-- Soru 8 -->
+                        <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 8: Elasticsearch'te Bool Query nedir?
+                                Kullanım alanları nelerdir?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong> Bool Query, birden fazla sorguyu birleştirmek için kullanılan bir bileşik sorgudur.</p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li><strong>must:</strong> Tüm sorguların eşleşmesi gerekir (AND operatörü).</li>
+                                    <li><strong>should:</strong> Sorgulardan en az birinin eşleşmesi gerekir (OR operatörü).</li>
+                                    <li><strong>must_not:</strong> Sorguların hiçbirinin eşleşmemesi gerekir (NOT operatörü).</li>
+                                    <li><strong>filter:</strong> Filtreleme için kullanılır, skor hesaplamaz.</li>
+                                </ul>
+                                <p class="mt-2 font-medium">Bool Query Örneği:</p>
+                                <pre class="code-block json mt-2">GET /my-index/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        { "match": { "title": "elasticsearch" } },
+        { "match": { "content": "tutorial" } }
+      ],
+      "should": [
+        { "match": { "tags": "search" } },
+        { "match": { "tags": "database" } }
+      ],
+      "must_not": [
+        { "match": { "status": "draft" } }
+      ],
+      "filter": [
+        { "term": { "category": "technology" } }
+      ]
+    }
+  }
+}</pre>
+                            </div>
+                        </div>
+
+                        <!-- Soru 9 -->
+                        <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 9: Elasticsearch'te Aggregation
+                                nedir? Türleri nelerdir?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong> Aggregation, veri üzerinde istatistiksel analizler ve gruplamalar yapmak için kullanılan bir özelliktir.</p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li><strong>Metric Aggregations:</strong> Sayısal değerler üzerinde hesaplamalar yapar (sum, avg, min, max, stats, cardinality vb.).</li>
+                                    <li><strong>Bucket Aggregations:</strong> Veriyi gruplara böler (terms, range, date_range, histogram vb.).</li>
+                                    <li><strong>Pipeline Aggregations:</strong> Diğer aggregation'ların sonuçları üzerinde işlem yapır (derivative, moving_avg, bucket_script vb.).</li>
+                                </ul>
+                                <p class="mt-2 font-medium">Metric Aggregation Örneği:</p>
+                                <pre class="code-block json mt-2">GET /my-index/_search
+{
+  "size": 0,
+  "aggs": {
+    "avg_price": {
+      "avg": { "field": "price" }
+    },
+    "stats_price": {
+      "stats": { "field": "price" }
+    }
+  }
+}</pre>
+                                <p class="mt-2 font-medium">Bucket Aggregation Örneği:</p>
+                                <pre class="code-block json mt-2">GET /my-index/_search
+{
+  "size": 0,
+  "aggs": {
+    "category_terms": {
+      "terms": { "field": "category.keyword" },
+      "aggs": {
+        "avg_price": {
+          "avg": { "field": "price" }
+        }
+      }
+    }
+  }
+}</pre>
+                            </div>
+                        </div>
+
+                        <!-- Soru 10 -->
+                        <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 10: Elasticsearch'te Inverted Index
+                                nedir? Nasıl çalışır?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong> Inverted Index, Elasticsearch'in temel arama mekanizmasıdır.</p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li>Her terim için, o terimi içeren tüm document'lerin listesini içerir.</li>
+                                    <li>Arama yaparken, aranan terim inverted index'te bulunur ve ilgili document'lar döndürülür.</li>
+                                    <li>Hızlı arama performansı sağlar.</li>
+                                </ul>
+                                <p><strong>Çalışma Prensibi:</strong></p>
+                                <ol class="list-decimal pl-5 mt-2">
+                                    <li>Document'ler index'e eklendiğinde, her alan analyzer ile analiz edilir.</li>
+                                    <li>Analiz sonucunda elde edilen terimler inverted index'e eklenir.</li>
+                                    <li>Her terim için, o terimi içeren document ID'leri ve pozisyon bilgileri saklanır.</li>
+                                    <li>Arama yapıldığında, aranan terim inverted index'te bulunur ve ilgili document'lar döndürülür.</li>
+                                </ol>
+                                <p class="mt-2 font-medium">Inverted Index Yapısı:</p>
+                                <pre class="code-block text mt-2">Terim: "elasticsearch"
+Document'ler: [1, 3, 5, 8]
+
+Terim: "tutorial"
+Document'ler: [2, 3, 7]
+
+Terim: "search"
+Document'ler: [1, 4, 6, 8]</pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Elasticsearch İleri Düzey Konular -->
+                    <div class="bg-gray-50 rounded-lg p-4 mb-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">🔹 Elasticsearch İleri Düzey Konular</h3>
+
+                        <!-- Soru 11 -->
+                        <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 11: Elasticsearch'te Cluster, Node,
+                                Shard kavramları arasındaki ilişki nedir?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong></p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li><strong>Cluster:</strong> Bir veya daha fazla node'un bir araya gelmesiyle oluşan yapıdır. Veri ve yük dağıtımını sağlar.</li>
+                                    <li><strong>Node:</strong> Cluster içindeki tek bir sunucudur. Veri depolar ve indeksleme ve arama işlemlerini gerçekleştirir.</li>
+                                    <li><strong>Shard:</strong> Bir index'in parçalarıdır. Cluster içindeki node'lara dağıtılır.</li>
+                                </ul>
+                                <p><strong>İlişki:</strong></p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li>Bir cluster birden fazla node içerir.</li>
+                                    <li>Her node birden fazla shard barındırabilir.</li>
+                                    <li>Her shard, bir index'in verisinin bir kısmını içerir.</li>
+                                    <li>Shard'lar cluster içindeki node'lara dağıtılır ve bu da yük dengelemesini sağlar.</li>
+                                </ul>
+                                <p class="mt-2 font-medium">Cluster Bilgilerini Görme:</p>
+                                <pre class="code-block bash mt-2">GET /_cluster/health
+GET /_cluster/stats
+GET /_nodes/stats</pre>
+                            </div>
+                        </div>
+
+                        <!-- Soru 12 -->
+                        <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 12: Elasticsearch'te Reindexing
+                                nedir? Ne zaman yapılır?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong> Reindexing, bir index'teki verileri yeni bir index'e kopyalama işlemidir.</p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li>Mapping değişiklikleri yaparken (alan tipi değiştirme, yeni alan ekleme vb.).</li>
+                                    <li>Analyzer değişiklikleri yaparken.</li>
+                                    <li>Index ayarlarını değiştirirken (shard sayısı, replica sayısı vb.).</li>
+                                    <li>Veri yapısını yeniden düzenlerken.</li>
+                                </ul>
+                                <p class="mt-2 font-medium">Reindexing Komutu:</p>
+                                <pre class="code-block json mt-2">POST /_reindex
+{
+  "source": {
+    "index": "old-index"
+  },
+  "dest": {
+    "index": "new-index"
+  }
+}</pre>
+                                <p class="mt-2 font-medium">Sorgu ile Reindexing:</p>
+                                <pre class="code-block json mt-2">POST /_reindex
+{
+  "source": {
+    "index": "old-index",
+    "query": {
+      "term": {
+        "status": "published"
+      }
+    }
+  },
+  "dest": {
+    "index": "new-index"
+  }
+}</pre>
+                            </div>
+                        </div>
+
+                        <!-- Soru 13 -->
+                        <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 13: Elasticsearch'te Scroll API nedir? Ne
+                                işe yarar?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong> Scroll API, büyük sonuç setlerini sayfalara bölmek için kullanılır.</p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li>Geleneksel sayfalama (from/size) yerine kullanılır.</li>
+                                    <li>Büyük veri setleri için daha performanslıdır.</li>
+                                    <li>Sunucu tarafında arama bağlamını korur.</li>
+                                </ul>
+                                <p class="mt-2 font-medium">Scroll API Kullanımı:</p>
+                                <pre class="code-block json mt-2">POST /my-index/_search?scroll=1m
+{
+  "size": 1000,
+  "query": {
+    "match_all": {}
+  }
+}</pre>
+                                <p class="mt-2 font-medium">Sonraki Sayfaları Getirme:</p>
+                                <pre class="code-block json mt-2">POST /_search/scroll
+{
+  "scroll": "1m",
+  "scroll_id": "DXF1ZXJ5QW5kRmV0Y2gBAAAAAAAAAAIWYnJ0LV9hZmZsU0hXN2d5U1R0d0FwQQ=="
+}</pre>
+                                <p class="mt-2 font-medium">Scroll'u Temizleme:</p>
+                                <pre class="code-block json mt-2">DELETE /_search/scroll
+{
+  "scroll_id": "DXF1ZXJ5QW5kRmV0Y2gBAAAAAAAAAAIWYnJ0LV9hZmZsU0hXN2d5U1R0d0FwQQ=="
+}</pre>
+                            </div>
+                        </div>
+
+                        <!-- Soru 14 -->
+                        <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 14: Elasticsearch'te Update by Query
+                                nedir? Ne işe yarar?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong> Update by Query, bir sorguya uyan tüm document'ları güncellemek için kullanılır.</p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li>Birden fazla document'ı aynı anda güncellemek için kullanılır.</li>
+                                    <li>Sadece belirli alanları güncellemek için kullanılır.</li>
+                                    <li>Script ile karmaşık güncelleme işlemleri yapılabilir.</li>
+                                </ul>
+                                <p class="mt-2 font-medium">Update by Query Kullanımı:</p>
+                                <pre class="code-block json mt-2">POST /my-index/_update_by_query
+{
+  "script": {
+    "source": "ctx._source.status = 'published'",
+    "lang": "painless"
+  },
+  "query": {
+    "term": {
+      "status": "draft"
+    }
+  }
+}</pre>
+                                <p class="mt-2 font-medium">Değer Artırma:</p>
+                                <pre class="code-block json mt-2">POST /my-index/_update_by_query
+{
+  "script": {
+    "source": "ctx._source.price += params.amount",
+    "lang": "painless",
+    "params": {
+      "amount": 10
+    }
+  },
+  "query": {
+    "range": {
+      "price": {
+        "lt": 100
+      }
+    }
+  }
+}</pre>
+                            </div>
+                        </div>
+
+                        <!-- Soru 15 -->
+                        <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 15: Elasticsearch'te Delete by Query
+                                nedir? Ne işe yarar?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong> Delete by Query, bir sorguya uyan tüm document'ları silmek için kullanılır.</p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li>Birden fazla document'ı aynı anda silmek için kullanılır.</li>
+                                    <li>Karmaşık silme işlemleri için kullanılır.</li>
+                                </ul>
+                                <p class="mt-2 font-medium">Delete by Query Kullanımı:</p>
+                                <pre class="code-block json mt-2">POST /my-index/_delete_by_query
+{
+  "query": {
+    "term": {
+      "status": "draft"
+    }
+  }
+}</pre>
+                                <p class="mt-2 font-medium">Tarih Aralığına Göre Silme:</p>
+                                <pre class="code-block json mt-2">POST /my-index/_delete_by_query
+{
+  "query": {
+    "range": {
+      "created_at": {
+        "lt": "2020-01-01"
+      }
+    }
+  }
+}</pre>
+                            </div>
+                        </div>
+
+                        <!-- Soru 16 -->
+                        <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 16: Elasticsearch'te Nested ve Parent-Child
+                                ilişkileri arasındaki fark nedir?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong></p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li><strong>Nested Data Type:</strong> Bir document içindeki nesneleri ayrı document'lar olarak depolar.</li>
+                                    <li><strong>Parent-Child Relationship:</strong> Farklı document'lar arasındaki ilişkiyi tanımlar.</li>
+                                </ul>
+                                <p><strong>Farklar:</strong></p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li>Nested, aynı document içindeki nesneler arasındaki ilişkidir.</li>
+                                    <li>Parent-Child, farklı document'lar arasındaki ilişkidir.</li>
+                                    <li>Nested, veriyi birlikte güncellemeyi gerektirir.</li>
+                                    <li>Parent-Child, veriyi ayrı ayrı güncellemeye izin verir.</li>
+                                </ul>
+                                <p class="mt-2 font-medium">Nested Mapping Örneği:</p>
+                                <pre class="code-block json mt-2">PUT /my-index
+{
+  "mappings": {
+    "properties": {
+      "name": { "type": "text" },
+      "comments": {
+        "type": "nested",
+        "properties": {
+          "author": { "type": "text" },
+          "content": { "type": "text" }
+        }
+      }
+    }
+  }
+}</pre>
+                                <p class="mt-2 font-medium">Parent-Child Mapping Örneği:</p>
+                                <pre class="code-block json mt-2">PUT /my-index
+{
+  "mappings": {
+    "properties": {
+      "join": {
+        "type": "join",
+        "relations": {
+          "question": "answer"
+        }
+      }
+    }
+  }
+}</pre>
+                            </div>
+                        </div>
+
+                        <!-- Soru 17 -->
+                        <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 17: Elasticsearch'te Suggester nedir?
+                                Türleri nelerdir?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong> Suggester, kullanıcıya otomatik tamamlama veya öneri sunmak için kullanılan bir özelliktir.</p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li><strong>Term Suggester:</strong> Yazım hatalarını düzeltmek için öneriler sunar.</li>
+                                    <li><strong>Phrase Suggester:</strong> Cümlelerdeki hataları düzeltmek için öneriler sunar.</li>
+                                    <li><strong>Completion Suggester:</strong> Otomatik tamamlama için öneriler sunar.</li>
+                                    <li><strong>Context Suggester:</strong> Bağlama göre öneriler sunar.</li>
+                                </ul>
+                                <p class="mt-2 font-medium">Completion Suggester Örneği:</p>
+                                <pre class="code-block json mt-2">PUT /my-index
+{
+  "mappings": {
+    "properties": {
+      "title_suggest": {
+        "type": "completion"
+      }
+    }
+  }
+}</pre>
+                                <p class="mt-2 font-medium">Suggester Kullanımı:</p>
+                                <pre class="code-block json mt-2">POST /my-index/_search
+{
+  "suggest": {
+    "my-suggestion": {
+      "text": "el",
+      "completion": {
+        "field": "title_suggest"
+      }
+    }
+  }
+}</pre>
+                            </div>
+                        </div>
+
+                        <!-- Soru 18 -->
+                        <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 18: Elasticsearch'te Percolate Query
+                                nedir? Ne işe yarar?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong> Percolate Query, sorguları index'leyen ve document'ları bu sorgularla eşleştiren ters bir arama mekanizmasıdır.</p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li>Document'ları sorgularla eşleştirir.</li>
+                                    <li>Gerçek zamanlı uyarı ve bildirim sistemleri için kullanılır.</li>
+                                    <li>İçerik filtreleme ve kategorizasyon için kullanılır.</li>
+                                </ul>
+                                <p class="mt-2 font-medium">Percolate Query Örneği:</p>
+                                <pre class="code-block json mt-2">PUT /queries
+{
+  "mappings": {
+    "properties": {
+      "query": {
+        "type": "percolator"
+      },
+      "category": {
+        "type": "keyword"
+      }
+    }
+  }
+}</pre>
+                                <p class="mt-2 font-medium">Sorgu Ekleme:</p>
+                                <pre class="code-block json mt-2">PUT /queries/_doc/1
+{
+  "query": {
+    "match": {
+      "message": "elasticsearch"
+    }
+  },
+  "category": "technology"
+}</pre>
+                                <p class="mt-2 font-medium">Percolate Arama:</p>
+                                <pre class="code-block json mt-2">GET /queries/_search
+{
+  "query": {
+    "percolate": {
+      "field": "query",
+      "document": {
+        "message": "elasticsearch tutorial"
+      }
+    }
+  }
+}</pre>
+                            </div>
+                        </div>
+
+                        <!-- Soru 19 -->
+                        <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 19: Elasticsearch'te Snapshot ve Restore
+                                nedir? Ne işe yarar?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong> Snapshot, bir veya daha fazla index'in anlık görüntüsünü almak için kullanılır. Restore ise bu anlık görüntüden geri yükleme işlemidir.</p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li>Veri yedekleme ve kurtarma için kullanılır.</li>
+                                    <li>Index'leri farklı cluster'lara taşımak için kullanılır.</li>
+                                    <li>Test ve geliştirme ortamları için veri kopyalamak için kullanılır.</li>
+                                </ul>
+                                <p class="mt-2 font-medium">Snapshot Repository Oluşturma:</p>
+                                <pre class="code-block json mt-2">PUT /_snapshot/my_backup
+{
+  "type": "fs",
+  "settings": {
+    "location": "/mnt/backups"
+  }
+}</pre>
+                                <p class="mt-2 font-medium">Snapshot Alma:</p>
+                                <pre class="code-block json mt-2">PUT /_snapshot/my_backup/snapshot_1?wait_for_completion=true
+{
+  "indices": "index_1,index_2"
+}</pre>
+                                <p class="mt-2 font-medium">Restore Etme:</p>
+                                <pre class="code-block json mt-2">POST /_snapshot/my_backup/snapshot_1/_restore
+{
+  "indices": "index_1,index_2",
+  "ignore_unavailable": true,
+  "include_global_state": false
+}</pre>
+                            </div>
+                        </div>
+
+                        <!-- Soru 20 -->
+                        <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 20: Elasticsearch'te Template nedir? Ne
+                                işe yarar?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong> Template, yeni index'ler için varsayılan ayarları ve mapping'leri tanımlamak için kullanılır.</p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li>Index oluşturulduğunda otomatik olarak uygulanır.</li>
+                                    <li>İsim deseni (pattern) ile eşleşen index'ler için geçerlidir.</li>
+                                    <li>Standartlaşmış yapılar oluşturmak için kullanılır.</li>
+                                </ul>
+                                <p class="mt-2 font-medium">Template Oluşturma:</p>
+                                <pre class="code-block json mt-2">PUT /_index_template/my_template
+{
+  "index_patterns": ["te*"],
+  "template": {
+    "settings": {
+      "number_of_shards": 1,
+      "number_of_replicas": 1
+    },
+    "mappings": {
+      "properties": {
+        "title": { "type": "text" },
+        "timestamp": { "type": "date" }
+      }
+    }
+  }
+}</pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Elasticsearch Performans ve Optimizasyon -->
+                    <div class="bg-gray-50 rounded-lg p-4 mb-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">🔹 Elasticsearch Performans ve Optimizasyon</h3>
+
+                        <!-- Soru 21 -->
+                        <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 21: Elasticsearch performansını
+                                optimize etmek için nelere dikkat etmek gerekir?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong> Elasticsearch performansını optimize etmek için:</p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li><strong>Doğru Shard Sayısı:</strong> Her shard için 10-50 GB veri olmalıdır.</li>
+                                    <li><strong>Hardware Optimizasyonu:</strong> Yeterli RAM, SSD disk ve hızlı CPU.</li>
+                                    <li><strong>Index Ayarları:</strong> Refresh interval, translog ayarları.</li>
+                                    <li><strong>Mapping Optimizasyonu:</strong> Doğru alan tipleri, analyzer seçimi.</li>
+                                    <li><strong>Sorgu Optimizasyonu:</strong> Filter kullanımı, caching.</li>
+                                    <li><strong>Cluster Yapılandırması:</strong> Node rolleri, replica ayarları.</li>
+                                </ul>
+                                <p class="mt-2 font-medium">Performans Ayarları:</p>
+                                <pre class="code-block json mt-2">PUT /my-index/_settings
+{
+  "index": {
+    "refresh_interval": "30s",
+    "number_of_replicas": 1
+  }
+}</pre>
+                            </div>
+                        </div>
+
+                        <!-- Soru 22 -->
+                        <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 22: Elasticsearch'te Hot-Warm
+                                mimarisi nedir? Avantajları nelerdir?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong> Hot-Warm mimarisi, verinin yaşına göre farklı özelliklere sahip node'larda depolanmasıdır.</p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li><strong>Hot Node'lar:</strong> Yeni ve sık erişilen veriler için. Yüksek performanslı SSD diskler ve daha fazla RAM.</li>
+                                    <li><strong>Warm Node'lar:</strong> Daha az erişilen eski veriler için. Daha düşük maliyetli HDD diskler.</li>
+                                </ul>
+                                <p><strong>Avantajları:</strong></p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li>Maliyet optimizasyonu.</li>
+                                    <li>Performans optimizasyonu.</li>
+                                    <li>Veri yaşam döngüsü yönetimi.</li>
+                                </ul>
+                                <p class="mt-2 font-medium">Hot-Warm Yapılandırması:</p>
+                                <pre class="code-block yaml mt-2"># elasticsearch.yml
+node.attr.box_type: hot # veya warm
+
+# Index lifecycle policy
+PUT /_ilm/policy/my_policy
+{
+  "policy": {
+    "phases": {
+      "hot": {
+        "actions": {
+          "rollover": {
+            "max_size": "50GB",
+            "max_age": "30d"
+          }
+        }
+      },
+      "warm": {
+        "min_age": "7d",
+        "actions": {
+          "shrink": {
+            "number_of_shards": 1
+          }
+        }
+      }
+    }
+  }
+}</pre>
+                            </div>
+                        </div>
+
+                        <!-- Soru 23 -->
+                        <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 23: Elasticsearch'te Index Lifecycle
+                                Management (ILM) nedir? Nasıl çalışır?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong> ILM, index'lerin yaşam döngüsünü otomatik olarak yönetmek için kullanılan bir özelliktir.</p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li><strong>Hot Phase:</strong> Index aktif olarak kullanılır, sık okuma/yazma işlemleri.</li>
+                                    <li><strong>Warm Phase:</strong> Index daha az erişilir, read-only olabilir.</li>
+                                    <li><strong>Cold Phase:</strong> Index çok nadir erişilir, daha ucuz depolama.</li>
+                                    <li><strong>Delete Phase:</strong> Index silinir.</li>
+                                </ul>
+                                <p class="mt-2 font-medium">ILM Policy Oluşturma:</p>
+                                <pre class="code-block json mt-2">PUT /_ilm/policy/my_policy
+{
+  "policy": {
+    "phases": {
+      "hot": {
+        "min_age": "0ms",
+        "actions": {
+          "rollover": {
+            "max_size": "50GB",
+            "max_age": "30d"
+          }
+        }
+      },
+      "warm": {
+        "min_age": "7d",
+        "actions": {
+          "shrink": {
+            "number_of_shards": 1
+          },
+          "forcemerge": {
+            "max_num_segments": 1
+          }
+        }
+      },
+      "cold": {
+        "min_age": "30d",
+        "actions": {
+          "freeze": {}
+        }
+      },
+      "delete": {
+        "min_age": "90d",
+        "actions": {
+          "delete": {}
+        }
+      }
+    }
+  }
+}</pre>
+                            </div>
+                        </div>
+
+                        <!-- Soru 24 -->
+                        <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 24: Elasticsearch'te Field Data ve Doc
+                                Values arasındaki fark nedir?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong></p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li><strong>Field Data:</strong> Aggregation, sorting ve scripting işlemleri için kullanılan veri yapısı.</li>
+                                    <li><strong>Doc Values:</strong> Disk tabanlı veri yapısı, field data'nın modern versiyonu.</li>
+                                </ul>
+                                <p><strong>Farklar:</strong></p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li>Field data bellekte tutulur, doc values diskte.</li>
+                                    <li>Doc values daha az bellek kullanır.</li>
+                                    <li>Doc values daha hızlı yükleme süreleri sağlar.</li>
+                                </ul>
+                                <p class="mt-2 font-medium">Doc Values Ayarlama:</p>
+                                <pre class="code-block json mt-2">PUT /my-index
+{
+  "mappings": {
+    "properties": {
+      "title": {
+        "type": "text",
+        "doc_values": true
+      }
+    }
+  }
+}</pre>
+                            </div>
+                        </div>
+
+                        <!-- Soru 25 -->
+                        <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 25: Elasticsearch'te Cache mekanizmaları
+                                nelerdir? Nasıl optimize edilir?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong> Elasticsearch'te çeşitli cache mekanizmaları vardır:</p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li><strong>Query Cache:</strong> Sorgu sonuçlarını önbelleğe alır.</li>
+                                    <li><strong>Request Cache:</strong> Shard seviyesinde sorgu sonuçlarını önbelleğe alır.</li>
+                                    <li><strong>Field Data Cache:</strong> Alan verilerini önbelleğe alır.</li>
+                                    <li><strong>Index Cache:</strong> Index dosyalarını önbelleğe alır.</li>
+                                </ul>
+                                <p><strong>Optimizasyon:</strong></p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li>Doğru cache boyutlarını ayarlamak.</li>
+                                    <li>Filter sorguları kullanmak.</li>
+                                    <li>Doc values kullanmak.</li>
+                                </ul>
+                                <p class="mt-2 font-medium">Cache Ayarları:</p>
+                                <pre class="code-block yaml mt-2"># elasticsearch.yml
+indices.queries.cache.size: 10%
+indices.requests.cache.size: 1%
+indices.fielddata.cache.size: 20%</pre>
+                            </div>
+                        </div>
+
+                        <!-- Soru 26 -->
+                        <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 26: Elasticsearch'te Refresh ve Flush
+                                işlemleri arasındaki fark nedir?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong></p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li><strong>Refresh:</strong> Bellekteki document'leri searchable hale getirir. Index'e yazılmaz.</li>
+                                    <li><strong>Flush:</strong> Bellekteki segment'leri diske yazar ve translog'u temizler.</li>
+                                </ul>
+                                <p><strong>Farklar:</strong></p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li>Refresh sıklıdır (varsayılan 1 saniye), flush daha az sıklıkta olur.</li>
+                                    <li>Refresh veriyi arama yapılabilir hale getirir, flush veriyi kalıcı hale getirir.</li>
+                                    <li>Refresh performansı etkiler, flush veri güvenliğini sağlar.</li>
+                                </ul>
+                                <p class="mt-2 font-medium">Refresh Interval Ayarlama:</p>
+                                <pre class="code-block json mt-2">PUT /my-index/_settings
+{
+  "index": {
+    "refresh_interval": "30s"
+  }
+}</pre>
+                                <p class="mt-2 font-medium">Manuel Refresh:</p>
+                                <pre class="code-block bash mt-2">POST /my-index/_refresh</pre>
+                            </div>
+                        </div>
+
+                        <!-- Soru 27 -->
+                        <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 27: Elasticsearch'te Translog nedir? Ne işe
+                                yarar?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong> Translog, document'ların diske yazılmadan önce geçici olarak saklandığı bir log dosyasıdır.</p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li>Veri kaybını önlemek için kullanılır.</li>
+                                    <li>Node çöktüğünde, translog'daki veriler kurtarılır.</li>
+                                    <li>Flush işlemi sırasında translog temizlenir.</li>
+                                </ul>
+                                <p class="mt-2 font-medium">Translog Ayarları:</p>
+                                <pre class="code-block json mt-2">PUT /my-index/_settings
+{
+  "index": {
+    "translog.sync_interval": "5s",
+    "translog.durability": "async"
+  }
+}</pre>
+                            </div>
+                        </div>
+
+                        <!-- Soru 28 -->
+                        <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 28: Elasticsearch'te Segment birleştirme
+                                (merge) nedir? Ne işe yarar?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong> Segment birleştirme, küçük segment'leri daha büyük segment'ler haline getirme işlemidir.</p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li>Arama performansını artırır.</li>
+                                    <li>Disk alanını optimize eder.</li>
+                                    <li>Açık segment sayısını azaltır.</li>
+                                </ul>
+                                <p class="mt-2 font-medium">Manuel Merge:</p>
+                                <pre class="code-block json mt-2">POST /my-index/_forcemerge?max_num_segments=1</pre>
+                                <p class="mt-2 font-medium">Merge Ayarları:</p>
+                                <pre class="code-block yaml mt-2"># elasticsearch.yml
+indices.merge.scheduler.max_thread_count: 4
+indices.merge.policy.max_merge_at_once: 10</pre>
+                            </div>
+                        </div>
+
+                        <!-- Soru 29 -->
+                        <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 29: Elasticsearch'te Shard Allocation
+                                nedir? Nasıl yönetilir?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong> Shard Allocation, shard'ların cluster içindeki node'lara nasıl dağıtılacağını belirler.</p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li><strong>Balanced Allocation:</strong> Shard'lar eşit olarak dağıtılır.</li>
+                                    <li><strong>Awareness Attributes:</strong> Shard'ları belirli özelliklere göre dağıtır.</li>
+                                </ul>
+                                <p class="mt-2 font-medium">Shard Allocation Ayarları:</p>
+                                <pre class="code-block json mt-2">PUT /_cluster/settings
+{
+  "persistent": {
+    "cluster.routing.allocation.awareness.attributes": "zone"
+  }
+}</pre>
+                                <p class="mt-2 font-medium">Shard'ları Taşıma:</p>
+                                <pre class="code-block json mt-2">POST /_cluster/reroute
+{
+  "commands": [
+    {
+      "move": {
+        "index": "my-index",
+        "shard": 0,
+        "from_node": "node1",
+        "to_node": "node2"
+      }
+    }
+  ]
+}</pre>
+                            </div>
+                        </div>
+
+                        <!-- Soru 30 -->
+                        <div class="question-card border-l-4 border-blue-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 30: Elasticsearch'te Cluster Health
+                                durumları nelerdir? Anlamları nedir?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong> Elasticsearch cluster health durumları:</p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li><strong>Green (Yeşil):</strong> Tüm primary ve replica shard'lar atanmıştır. Cluster tamamen çalışır durumdadır.</li>
+                                    <li><strong>Yellow (Sarı):</strong> Tüm primary shard'lar atanmıştır, ancak bazı replica shard'lar atanmamıştır. Cluster çalışır ancak veri kaybı riski vardır.</li>
+                                    <li><strong>Red (Kırmızı):</strong> Bazı primary shard'lar atanmamıştır. Cluster kısmen çalışır durumdadır, bazı veriler erişilemez.</li>
+                                </ul>
+                                <p class="mt-2 font-medium">Cluster Health Kontrolü:</p>
+                                <pre class="code-block bash mt-2">GET /_cluster/health</pre>
+                                <p class="mt-2 font-medium">Detaylı Cluster Bilgisi:</p>
+                                <pre class="code-block bash mt-2">GET /_cluster/health?pretty
+GET /_cluster/health?level=shards</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Logstash Soruları -->
+        <section id="logstash" class="mb-16">
+            <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+                <div class="flex items-center mb-6">
+                    <div class="logstash-color p-3 rounded-full mr-4">
+                        <i class="fas fa-filter text-white text-xl"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-800">Logstash Mülakat Soruları</h2>
+                </div>
+                <p class="text-gray-600 mb-6">Bu dokümanda Logstash mülakatlarında en çok sorulan konular soru-cevap mantığıyla açıklanmış ve örnek kodlar eklenmiştir.</p>
+
+                <div class="space-y-6">
+                    <!-- Temel Logstash Kavramları -->
+                    <div class="bg-gray-50 rounded-lg p-4 mb-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">🔹 Temel Logstash Kavramları</h3>
+
+                        <!-- Soru 1 -->
+                        <div class="question-card border-l-4 border-green-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 1: Logstash nedir? Ne işe
+                                yarar?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong> Logstash, veri toplama, dönüştürme ve gönderme için kullanılan açık kaynaklı bir veri işleme aracıdır.</p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li>Farklı kaynaklardan veri toplar (loglar, metrikler, web events vb.).</li>
+                                    <li>Verileri yapılandırılmış ve analiz edilebilir formata dönüştürür.</li>
+                                    <li>İşlenmiş verileri Elasticsearch, veritabanları, mesaj kuyrukları gibi hedeflere gönderir.</li>
+                                    <li>ELK Stack (Elasticsearch, Logstash, Kibana) içinde veri işleme katmanıdır.</li>
+                                </ul>
+                                <p class="mt-2 font-medium">Logstash Başlatma Komutu:</p>
+                                <pre class="code-block bash mt-2">bin/logstash -f my-pipeline.conf</pre>
+                            </div>
+                        </div>
+
+                        <!-- Soru 2 -->
+                        <div class="question-card border-l-4 border-green-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 2: Logstash'te Input, Filter, Output
+                                plugin'leri nelerdir? Görevleri nelerdir?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong></p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li><strong>Input Plugin'leri:</strong> Veri toplamak için kullanılır.</li>
+                                    <li><strong>Filter Plugin'leri:</strong> Veriyi işlemek ve dönüştürmek için kullanılır.</li>
+                                    <li><strong>Output Plugin'leri:</strong> İşlenmiş veriyi hedeflere göndermek için kullanılır.</li>
+                                </ul>
+                                <p><strong>Örnek Plugin'ler:</strong></p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li><strong>Input:</strong> file, beats, tcp, udp, http, kafka, jdbc</li>
+                                    <li><strong>Filter:</strong> grok, mutate, date, geoip, csv, json</li>
+                                    <li><strong>Output:</strong> elasticsearch, file, tcp, udp, http, kafka, jdbc</li>
+                                </ul>
+                                <p class="mt-2 font-medium">Temel Pipeline Yapısı:</p>
+                                <pre class="code-block ruby mt-2">input {
+  # Veri kaynağı
+  beats {
+    port => 5044
+  }
+}
+
+filter {
+  # Veri işleme
+  grok {
+    match => { "message" => "%{COMBINEDAPACHELOG}" }
+  }
+  date {
+    match => [ "timestamp", "dd/MMM/yyyy:HH:mm:ss Z" ]
+  }
+}
+
+output {
+  # Veri hedefi
+  elasticsearch {
+    hosts => ["localhost:9200"]
+    index => "apache-logs-%{+YYYY.MM.dd}"
+  }
+}</pre>
+                            </div>
+                        </div>
+
+                        <!-- Soru 3 -->
+                        <div class="question-card border-l-4 border-green-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 3: Logstash'te Grok plugin'i nedir? Ne
+                                işe yarar?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong> Grok plugin'i, yapılandırılmamış log verilerini yapılandırılmış alanlara ayırmak için kullanılır.</p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li>Düzenli ifadeler (regex) kullanarak metinleri ayrıştırır.</li>
+                                    <li>120'den fazla hazır pattern içerir (%{TIMESTAMP_ISO8601}, %{IP}, vb.).</li>
+                                    <li>Özel pattern'ler oluşturulabilir.</li>
+                                </ul>
+                                <p class="mt-2 font-medium">Grok Kullanımı:</p>
+                                <pre class="code-block ruby mt-2">filter {
+  grok {
+    match => { "message" => "%{TIMESTAMP_ISO8601:timestamp} %{LOGLEVEL:loglevel} %{GREEDYDATA:message}" }
+  }
+}</pre>
+                                <p class="mt-2 font-medium">Özel Pattern Oluşturma:</p>
+                                <pre class="code-block ruby mt-2">filter {
+  grok {
+    patterns_dir => ["/patterns"]
+    match => { "message" => "%{MY_CUSTOM_PATTERN}" }
+  }
+}</pre>
+                                <p class="mt-2 font-medium">Pattern Dosyası (patterns/my-pattern):</p>
+                                <pre class="code-block text mt-2">MY_CUSTOM_PATTERN %{DATE:date} - %{WORD:level} - %{GREEDYDATA:log}</pre>
+                            </div>
+                        </div>
+
+                        <!-- Soru 4 -->
+                        <div class="question-card border-l-4 border-green-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 4: Logstash'te Mutate plugin'i nedir?
+                                Ne işe yarar?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong> Mutate plugin'i, alanları dönüştürmek için kullanılır.</p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li>Alan ekleme, kaldırma, yeniden adlandırma.</li>
+                                    <li>Değerleri değiştirme.</li>
+                                    <li>Veri tiplerini dönüştürme.</li>
+                                </ul>
+                                <p class="mt-2 font-medium">Mutate Kullanımı:</p>
+                                <pre class="code-block ruby mt-2">filter {
+  mutate {
+    # Alan yeniden adlandırma
+    rename => { "old_field" => "new_field" }
+    
+    # Alan ekleme
+    add_field => { "new_field" => "value" }
+    
+    # Alan kaldırma
+    remove_field => [ "field1", "field2" ]
+    
+    # Değiştirme
+    replace => { "message" => "%{message} processed" }
+    
+    # Büyük/küçük harf değiştirme
+    lowercase => [ "field1" ]
+    uppercase => [ "field2" ]
+    
+    # Veri tipi değiştirme
+    convert => {
+      "price" => "float"
+      "quantity" => "integer"
+    }
+  }
+}</pre>
+                            </div>
+                        </div>
+
+                        <!-- Soru 5 -->
+                        <div class="question-card border-l-4 border-green-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 5: Logstash'te Date plugin'i nedir? Ne
+                                işe yarar?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong> Date plugin'i, tarih alanlarını ayrıştırmak ve @timestamp alanını ayarlamak için kullanılır.</p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li>Metin formatındaki tarihleri tarih nesnesine dönüştürür.</li>
+                                    <li>Elasticsearch'te doğru sıralama ve analiz için önemlidir.</li>
+                                </ul>
+                                <p class="mt-2 font-medium">Date Kullanımı:</p>
+                                <pre class="code-block ruby mt-2">filter {
+  grok {
+    match => { "message" => "%{TIMESTAMP_ISO8601:timestamp} %{GREEDYDATA:message}" }
+  }
+  
+  date {
+    match => [ "timestamp", "yyyy-MM-dd HH:mm:ss.SSS" ]
+    target => "@timestamp"
+  }
+}</pre>
+                                <p class="mt-2 font-medium">Çoklu Format Desteği:</p>
+                                <pre class="code-block ruby mt-2">filter {
+  date {
+    match => [ "timestamp", "yyyy-MM-dd HH:mm:ss.SSS", "ISO8601" ]
+    target => "@timestamp"
+  }
+}</pre>
+                            </div>
+                        </div>
+
+                        <!-- Soru 6 -->
+                        <div class="question-card border-l-4 border-green-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 6: Logstash'te GeoIP plugin'i nedir? Ne
+                                işe yarar?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong> GeoIP plugin'i, IP adreslerinden coğrafi bilgileri çıkarmak için kullanılır.</p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li>Ülke, şehir, enlem, boylam bilgilerini sağlar.</li>
+                                    <li>MaxMind GeoIP2 veritabanlarını kullanır.</li>
+                                </ul>
+                                <p class="mt-2 font-medium">GeoIP Kullanımı:</p>
+                                <pre class="code-block ruby mt-2">filter {
+  grok {
+    match => { "message" => "%{COMBINEDAPACHELOG}" }
+  }
+  
+  geoip {
+    source => "clientip"
+    target => "geoip"
+  }
+}</pre>
+                                <p class="mt-2 font-medium">Şehir Bilgisi Ekleme:</p>
+                                <pre class="code-block ruby mt-2">filter {
+  geoip {
+    source => "clientip"
+    target => "geoip"
+    fields => ["city_name", "country_name", "location"]
+  }
+}</pre>
+                            </div>
+                        </div>
+
+                        <!-- Soru 7 -->
+                        <div class="question-card border-l-4 border-green-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 7: Logstash'te CSV plugin'i nedir? Ne işe
+                                yarar?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong> CSV plugin'i, CSV formatındaki verileri ayrıştırmak için kullanılır.</p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li>Satırları ve sütunları ayrıştırır.</li>
+                                    <li>Column isimlerini belirler.</li>
+                                </ul>
+                                <p class="mt-2 font-medium">CSV Kullanımı:</p>
+                                <pre class="code-block ruby mt-2">filter {
+  csv {
+    separator => ","
+    columns => ["timestamp", "level", "message", "source_ip"]
+  }
+}</pre>
+                                <p class="mt-2 font-medium">Header'lı CSV:</p>
+                                <pre class="code-block ruby mt-2">filter {
+  csv {
+    separator => ","
+    autodetect_column_types => true
+  }
+}</pre>
+                            </div>
+                        </div>
+
+                        <!-- Soru 8 -->
+                        <div class="question-card border-l-4 border-green-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 8: Logstash'te JSON plugin'i nedir? Ne
+                                işe yarar?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong> JSON plugin'i, JSON formatındaki verileri ayrıştırmak için kullanılır.</p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li>JSON string'lerini nesnelere dönüştürür.</li>
+                                    <li>Nested JSON yapılarını destekler.</li>
+                                </ul>
+                                <p class="mt-2 font-medium">JSON Kullanımı:</p>
+                                <pre class="code-block ruby mt-2">filter {
+  json {
+    source => "message"
+    target => "parsed_json"
+  }
+}</pre>
+                                <p class="mt-2 font-medium">Hata Yönetimi:</p>
+                                <pre class="code-block ruby mt-2">filter {
+  json {
+    source => "message"
+    skip_on_invalid_json => true
+  }
+}</pre>
+                            </div>
+                        </div>
+
+                        <!-- Soru 9 -->
+                        <div class="question-card border-l-4 border-green-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 9: Logstash'te KV (Key-Value)
+                                plugin'i nedir? Ne işe yarar?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong> KV plugin'i, key=value formatındaki verileri ayrıştırmak için kullanılır.</p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li>Query string formatındaki verileri işler.</li>
+                                    <li>Özel ayraçları destekler.</li>
+                                </ul>
+                                <p class="mt-2 font-medium">KV Kullanımı:</p>
+                                <pre class="code-block ruby mt-2">filter {
+  kv {
+    source => "message"
+    field_split => "&?"
+    value_split => "="
+  }
+}</pre>
+                                <p class="mt-2 font-medium">Örnek:</p>
+                                <pre class="code-block text mt-2">Girdi: key1=value1&key2=value2
+Çıktı: { "key1": "value1", "key2": "value2" }</pre>
+                            </div>
+                        </div>
+
+                        <!-- Soru 10 -->
+                        <div class="question-card border-l-4 border-green-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 10: Logstash'te Useragent plugin'i
+                                nedir? Ne işe yarar?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong> Useragent plugin'i, User-Agent string'lerini ayrıştırmak için kullanılır.</p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li>Tarayıcı, işletim sistemi ve cihaz bilgilerini çıkarır.</li>
+                                    <li>UA Parser kütüphanesini kullanır.</li>
+                                </ul>
+                                <p class="mt-2 font-medium">Useragent Kullanımı:</p>
+                                <pre class="code-block ruby mt-2">filter {
+  useragent {
+    source => "user_agent"
+    target => "user_agent"
+  }
+}</pre>
+                                <p class="mt-2 font-medium">Çıktı Alanları:</p>
+                                <pre class="code-block text mt-2">user_agent.name: Chrome
+user_agent.os: Windows 10
+user_agent.device: Other</pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Logstash İleri Düzey Konular -->
+                    <div class="bg-gray-50 rounded-lg p-4 mb-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">🔹 Logstash İleri Düzey Konular</h3>
+
+                        <!-- Soru 11 -->
+                        <div class="question-card border-l-4 border-green-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 11: Logstash'te Conditional ifadeler nasıl
+                                kullanılır?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong> Conditional ifadeler, belirli koşullara göre işlem yapmak için kullanılır.</p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li>Alan değerlerine göre koşullu işlem yapma.</li>
+                                    <li>Hata yönetimi için kullanılır.</li>
+                                </ul>
+                                <p class="mt-2 font-medium">Conditional Kullanımı:</p>
+                                <pre class="code-block ruby mt-2">filter {
+  if [loglevel] == "ERROR" {
+    mutate {
+      add_tag => ["error"]
+    }
+  }
+  
+  if [message] =~ /exception/ {
+    mutate {
+      add_field => { "has_exception" => true }
+    }
+  }
+  
+  if [status] == 404 {
+    mutate {
+      replace => { "status" => "Not Found" }
+    }
+  }
+}</pre>
+                                <p class="mt-2 font-medium">Else ve Else If:</p>
+                                <pre class="code-block ruby mt-2">filter {
+  if [loglevel] == "ERROR" {
+    mutate {
+      add_tag => ["error"]
+    }
+  } else if [loglevel] == "WARN" {
+    mutate {
+      add_tag => ["warning"]
+    }
+  } else {
+    mutate {
+      add_tag => ["info"]
+    }
+  }
+}</pre>
+                            </div>
+                        </div>
+
+                        <!-- Soru 12 -->
+                        <div class="question-card border-l-4 border-green-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 12: Logstash'te Environment değişkenleri nasıl
+                                kullanılır?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong> Environment değişkenleri, yapılandırmayı dinamik hale getirmek için kullanılır.</p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li>${ENV_VARIABLE} formatında kullanılır.</li>
+                                    <li>Güvenlik için hassas bilgileri environment değişkenlerinde saklamak.</li>
+                                </ul>
+                                <p class="mt-2 font-medium">Environment Değişkeni Kullanımı:</p>
+                                <pre class="code-block ruby mt-2">input {
+  tcp {
+    port => "${TCP_PORT:5044}"
+  }
+}
+
+output {
+  elasticsearch {
+    hosts => ["${ES_HOST:localhost}:9200"]
+    index => "${INDEX_NAME:logs}-%{+YYYY.MM.dd}"
+  }
+}</pre>
+                                <p class="mt-2 font-medium">Logstash Başlatma:</p>
+                                <pre class="code-block bash mt-2">export TCP_PORT=5045
+export ES_HOST=elasticsearch.example.com
+export INDEX_NAME=app-logs
+
+bin/logstash -f my-pipeline.conf</pre>
+                            </div>
+                        </div>
+
+                        <!-- Soru 13 -->
+                        <div class="question-card border-l-4 border-green-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 13: Logstash'te Pipeline to Pipeline (P2P)
+                                nasıl çalışır?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong> Pipeline to Pipeline, bir pipeline'ın çıktısını başka bir pipeline'ın girdisi olarak kullanma özelliğidir.</p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li>Karmaşık işlemleri bölmek için kullanılır.</li>
+                                    <li>Veri akışını yönetmek için kullanılır.</li>
+                                </ul>
+                                <p class="mt-2 font-medium">P2P Yapılandırması:</p>
+                                <pre class="code-block ruby mt-2"># pipeline1.conf
+input {
+  beats {
+    port => 5044
+  }
+}
+
+filter {
+  grok {
+    match => { "message" => "%{COMBINEDAPACHELOG}" }
+  }
+}
+
+output {
+  pipeline {
+    send_to => ["pipeline2"]
+  }
+}
+
+# pipeline2.conf
+input {
+  pipeline {
+    address => "pipeline2"
+  }
+}
+
+filter {
+  date {
+    match => [ "timestamp", "dd/MMM/yyyy:HH:mm:ss Z" ]
+  }
+}
+
+output {
+  elasticsearch {
+    hosts => ["localhost:9200"]
+    index => "apache-logs-%{+YYYY.MM.dd}"
+  }
+}</pre>
+                            </div>
+                        </div>
+
+                        <!-- Soru 14 -->
+                        <div class="question-card border-l-4 border-green-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 14: Logstash'te Dead Letter Queue (DLQ)
+                                nasıl yapılandırılır?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong> Dead Letter Queue, işlenemeyen olayları saklamak için kullanılır.</p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li>Hatalı olayları kaybetmemek için kullanılır.</li>
+                                    <li>Sorun analizi için kullanılır.</li>
+                                </ul>
+                                <p class="mt-2 font-medium">DLQ Yapılandırması:</p>
+                                <pre class="code-block ruby mt-2">output {
+  elasticsearch {
+    hosts => ["localhost:9200"]
+    index => "logs-%{+YYYY.MM.dd}"
+    dlq_enabled => true
+    dlq_ttl => 7 # 7 gün
+  }
+}</pre>
+                                <p class="mt-2 font-medium">Özel DLQ Pipeline:</p>
+                                <pre class="code-block ruby mt-2">output {
+  if [type] == "error" {
+    pipeline {
+      send_to => ["dlq-pipeline"]
+    }
+  } else {
+    elasticsearch {
+      hosts => ["localhost:9200"]
+      index => "logs-%{+YYYY.MM.dd}"
+    }
+  }
+}</pre>
+                            </div>
+                        </div>
+
+                        <!-- Soru 15 -->
+                        <div class="question-card border-l-4 border-green-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 15: Logstash'te Persistent Queues nedir? Ne
+                                işe yarar?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong> Persistent Queues, Logstash'in veriyi diskte saklayarak veri kaybını önlemesidir.</p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li>Logstash yeniden başlatıldığında veri kaybını önler.</li>
+                                    <li>Yüksek veri akışlarında kullanılır.</li>
+                                </ul>
+                                <p class="mt-2 font-medium">Persistent Queue Yapılandırması:</p>
+                                <pre class="code-block yaml mt-2"># logstash.yml
+queue.type: persisted
+queue.page_capacity: 250mb
+queue.max_events: 50000
+queue.max_bytes: 1gb</pre>
+                                <p class="mt-2 font-medium">Pipeline Ayarları:</p>
+                                <pre class="code-block ruby mt-2">input {
+  beats {
+    port => 5044
+  }
+}
+
+# Persistent queue otomatik olarak aktif olur
+filter {
+  # ...
+}
+
+output {
+  elasticsearch {
+    hosts => ["localhost:9200"]
+  }
+}</pre>
+                            </div>
+                        </div>
+
+                        <!-- Soru 16 -->
+                        <div class="question-card border-l-4 border-green-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 16: Logstash'te Worker Threads nasıl
+                                optimize edilir?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong> Worker Threads, Logstash'in performansını optimize etmek için kullanılır.</p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li>İşlemci çekirdek sayısına göre ayarlanır.</li>
+                                    <li>Yüksek veri akışları için önemlidir.</li>
+                                </ul>
+                                <p class="mt-2 font-medium">Worker Thread Ayarları:</p>
+                                <pre class="code-block yaml mt-2"># logstash.yml
+pipeline.workers: 4 # CPU çekirdek sayısına göre
+pipeline.batch.size: 125
+pipeline.batch.delay: 50
+pipeline.output.workers: 4</pre>
+                                <p class="mt-2 font-medium">Performans İzleme:</p>
+                                <pre class="code-block bash mt-2"># Logstash API
+GET /_node/stats
+GET /_node/stats/pipeline</pre>
+                            </div>
+                        </div>
+
+                        <!-- Soru 17 -->
+                        <div class="question-card border-l-4 border-green-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 17: Logstash'te Codec'ler nedir? Türleri
+                                nelerdir?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong> Codec'ler, veri formatını belirlemek için kullanılır.</p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li><strong>json:</strong> JSON formatında veri.</li>
+                                    <li><strong>line:</strong> Her satırı ayrı bir olay olarak.</li>
+                                    <li><strong>plain:</strong> Düz metin formatı.</li>
+                                    <li><strong>rubydebug:</strong> Debug amaçlı format.</li>
+                                </ul>
+                                <p class="mt-2 font-medium">Codec Kullanımı:</p>
+                                <pre class="code-block ruby mt-2">input {
+  tcp {
+    port => 5044
+    codec => json
+  }
+}
+
+output {
+  stdout {
+    codec => rubydebug
+  }
+}</pre>
+                            </div>
+                        </div>
+
+                        <!-- Soru 18 -->
+                        <div class="question-card border-l-4 border-green-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 18: Logstash'te Aggregate plugin'i nedir? Ne
+                                işe yarar?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong> Aggregate plugin'i, birden fazla olayı tek bir olayda birleştirmek için kullanılır.</p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li>İlgili olayları gruplamak için kullanılır.</li>
+                                    <li>Zaman serisi analizi için kullanılır.</li>
+                                </ul>
+                                <p class="mt-2 font-medium">Aggregate Kullanımı:</p>
+                                <pre class="code-block ruby mt-2">filter {
+  grok {
+    match => { "message" => "%{TIMESTAMP_ISO8601:timestamp} %{WORD:event_type} %{GREEDYDATA:details}" }
+  }
+  
+  if [event_type] == "start" {
+    aggregate {
+      task_id => "%{task_id}"
+      code => "
+        map['start_time'] = event.get('timestamp')
+        map['start_details'] = event.get('details')
+      "
+    }
+  }
+  
+  if [event_type] == "end" {
+    aggregate {
+      task_id => "%{task_id}"
+      code => "
+        map['end_time'] = event.get('timestamp')
+        map['end_details'] = event.get('details')
+        map['duration'] = (event.get('timestamp') - map['start_time'])
+      "
+      end_of_task => true
+    }
+  }
+}</pre>
+                            </div>
+                        </div>
+
+                        <!-- Soru 19 -->
+                        <div class="question-card border-l-4 border-green-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 19: Logstash'te Fingerprint plugin'i nedir? Ne
+                                işe yarar?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong> Fingerprint plugin'i, veri bütünlüğünü sağlamak için kullanılır.</p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li>Verinin benzersiz bir parmak izini oluşturur.</li>
+                                    <li>Tekrarlayan verileri tespit etmek için kullanılır.</li>
+                                </ul>
+                                <p class="mt-2 font-medium">Fingerprint Kullanımı:</p>
+                                <pre class="code-block ruby mt-2">filter {
+  fingerprint {
+    source => ["message", "timestamp", "source_ip"]
+    target => "fingerprint"
+    method => "SHA1"
+    key => "secret-key"
+  }
+}</pre>
+                            </div>
+                        </div>
+
+                        <!-- Soru 20 -->
+                        <div class="question-card border-l-4 border-green-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 20: Logstash'te Clone plugin'i nedir? Ne işe
+                                yarar?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong> Clone plugin'i, bir olayın kopyasını oluşturmak için kullanılır.</p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li>Aynı veriyi farklı formatlarda işlemek için kullanılır.</li>
+                                    <li>Test ve geliştirme için kullanılır.</li>
+                                </ul>
+                                <p class="mt-2 font-medium">Clone Kullanımı:</p>
+                                <pre class="code-block ruby mt-2">filter {
+  clone {
+    clones => [
+      {
+        "target" => "original"
+      },
+      {
+        "target" => "processed"
+      }
+    ]
+  }
+}
+
+filter {
+  if [type] == "processed" {
+    # İşlenmiş veri için işlemler
+    mutate {
+      add_field => { "processed" => true }
+    }
+  }
+}</pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Kibana Soruları -->
+        <section id="kibana" class="mb-16">
+            <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+                <div class="flex items-center mb-6">
+                    <div class="kibana-color p-3 rounded-full mr-4">
+                        <i class="fas fa-chart-bar text-white text-xl"></i>
+                    </div>
+                    <h2 class="text-2xl font-bold text-gray-800">Kibana Mülakat Soruları</h2>
+                </div>
+                <p class="text-gray-600 mb-6">Bu dokümanda Kibana mülakatlarında en çok sorulan konular soru-cevap mantığıyla açıklanmış ve örnek kodlar eklenmiştir.</p>
+
+                <div class="space-y-6">
+                    <!-- Temel Kibana Kavramları -->
+                    <div class="bg-gray-50 rounded-lg p-4 mb-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">🔹 Temel Kibana Kavramları</h3>
+
+                        <!-- Soru 1 -->
+                        <div class="question-card border-l-4 border-orange-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 1: Kibana nedir? Ne işe yarar?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong> Kibana, Elasticsearch verilerini görselleştirmek ve analiz etmek için kullanılan açık kaynaklı bir arayüzdür.</p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li>Elasticsearch'deki verileri görselleştirir.</li>
+                                    <li>Dashboard'lar oluşturur.</li>
+                                    <li>Gerçek zamanlı veri analizi sağlar.</li>
+                                    <li>ELK Stack (Elasticsearch, Logstash, Kibana) içinde görselleştirme katmanıdır.</li>
+                                </ul>
+                                <p class="mt-2 font-medium">Kibana Başlatma Komutu:</p>
+                                <pre class="code-block bash mt-2">bin/kibana</pre>
+                            </div>
+                        </div>
+
+                        <!-- Soru 2 -->
+                        <div class="question-card border-l-4 border-orange-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 2: Kibana'da Index Pattern nedir? Ne işe
+                                yarar?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong> Index Pattern, Kibana'nın hangi index'lerle çalışacağını belirten bir desendir.</p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li>Örnek: logs-*, metric-*</li>
+                                    <li>Zaman serisi verileri için kullanılır.</li>
+                                    <li>Birden fazla index'i tek bir desende birleştirir.</li>
+                                </ul>
+                                <p class="mt-2 font-medium">Index Pattern Oluşturma:</p>
+                                <pre class="code-block json mt-2">POST /api/saved_objects/index-pattern
+{
+  "attributes": {
+    "title": "logs-*",
+    "timeFieldName": "@timestamp"
+  }
+}</pre>
+                            </div>
+                        </div>
+
+                        <!-- Soru 3 -->
+                        <div class="question-card border-l-4 border-orange-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 3: Kibana'da Discover, Visualize,
+                                Dashboard kavramları nelerdir?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong></p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li><strong>Discover:</strong> Elasticsearch'deki verileri keşfetmek ve aramak için kullanılır.</li>
+                                    <li><strong>Visualize:</strong> Grafikler ve görselleştirmeler oluşturmak için kullanılır.</li>
+                                    <li><strong>Dashboard:</strong> Birden fazla görselleştirmeyi tek bir sayfada birleştirmek için kullanılır.</li>
+                                </ul>
+                                <p><strong>Farkları:</strong></p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li>Discover veri keşfi, Visualize grafik oluşturma, Dashboard ise bu grafikleri bir araya getirme.</li>
+                                    <li>Discover ham veri, Visualize işlenmiş veri, Dashboard ise özet bilgi.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Soru 4 -->
+                        <div class="question-card border-l-4 border-orange-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 4: Kibana'da Visualization türleri
+                                nelerdir?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong> Kibana'da çeşitli visualization türleri vardır:</p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li><strong>Line Chart:</strong> Zaman serisi verilerini gösterir.</li>
+                                    <li><strong>Area Chart:</strong> Alan grafiği, veri dağılımını gösterir.</li>
+                                    <li><strong>Bar Chart:</strong> Kategorik verileri karşılaştırmak için kullanılır.</li>
+                                    <li><strong>Pie Chart:</strong> Yüzde dağılımlarını gösterir.</li>
+                                    <li><strong>Data Table:</strong> Tablo formatında veri gösterir.</li>
+                                    <li><strong>Heat Map:</strong> İki boyutlu veri yoğunluğunu gösterir.</li>
+                                    <li><strong>Tag Cloud:</strong> Kelime frekansını gösterir.</li>
+                                    <li><strong>Metric:</strong> Tek bir metrik değerini gösterir.</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Soru 5 -->
+                        <div class="question-card border-l-4 border-orange-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 5: Kibana'da Saved Objects kavramı
+                                nedir?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong> Saved Objects, Kibana'da oluşturulan ve saklanan nesnelerdir.</p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li><strong>Searches:</strong> Kaydedilmiş aramalar.</li>
+                                    <li><strong>Visualizations:</strong> Kaydedilmiş görselleştirmeler.</li>
+                                    <li><strong>Dashboards:</strong> Kaydedilmiş dashboard'lar.</li>
+                                    <li><strong>Index Patterns:</strong> Kaydedilmiş index desenleri.</li>
+                                </ul>
+                                <p>Saved Objects, .kibana index'inde saklanır ve Kibana arayüzünden yönetilir.</p>
+                            </div>
+                        </div>
+
+                        <!-- Soru 6 -->
+                        <div class="question-card border-l-4 border-orange-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 6: Kibana'da Query ve Filter
+                                arasındaki fark nedir?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong></p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li><strong>Query:</strong> Veri aramak için kullanılır. Lucene sorgu sözdizimini destekler.</li>
+                                    <li><strong>Filter:</strong> Veri filtrelemek için kullanılır. Daha hızlıdır ve sonuçları önbelleğe alır.</li>
+                                </ul>
+                                <p><strong>Farklar:</strong></p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li>Query skor hesaplar, filter hesaplamaz.</li>
+                                    <li>Filter daha hızlı çalışır.</li>
+                                    <li>Filter sonuçları önbelleğe alınır.</li>
+                                </ul>
+                                <p class="mt-2 font-medium">Query Örneği:</p>
+                                <pre class="code-block text mt-2">status:error AND message:*exception*</pre>
+                                <p class="mt-2 font-medium">Filter Örneği:</p>
+                                <pre class="code-block text mt-2">status is "error" AND message contains "exception"</pre>
+                            </div>
+                        </div>
+
+                        <!-- Soru 7 -->
+                        <div class="question-card border-l-4 border-orange-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 7: Kibana'da Timelion nedir? Ne işe
+                                yarar?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong> Timelion, Kibana'da zaman serisi verilerini analiz etmek için kullanılan bir araçtır.</p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li>Zaman serisi verilerini karşılaştırır.</li>
+                                    <li>Matematiksel işlemler uygular.</li>
+                                    <li>Trend analizi yapar.</li>
+                                </ul>
+                                <p class="mt-2 font-medium">Timelion Sözdizimi:</p>
+                                <pre class="code-block text mt-2">.es(index=metric-*, metric=cpu.usage).label('CPU Usage')
+.es(index=metric-*, metric=memory.usage).label('Memory Usage')
+.add().subtract().label('Difference')</pre>
+                            </div>
+                        </div>
+
+                        <!-- Soru 8 -->
+                        <div class="question-card border-l-4 border-orange-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 8: Kibana'da Canvas nedir? Ne işe
+                                yarar?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong> Canvas, Kibana'da özel görselleştirmeler ve raporlar oluşturmak için kullanılan bir araçtır.</p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li>Esnek ve özelleştirilebilir raporlar oluşturur.</li>
+                                    <li>Farklı veri kaynaklarını birleştirir.</li>
+                                    <li>İnteraktif ve dinamik raporlar oluşturur.</li>
+                                </ul>
+                                <p>Canvas, geleneksel dashboard'lardan daha fazla esneklik sunar.</p>
+                            </div>
+                        </div>
+
+                        <!-- Soru 9 -->
+                        <div class="question-card border-l-4 border-orange-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 9: Kibana'da Machine Learning
+                                özellikleri nelerdir?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong> Kibana'da çeşitli Machine Learning özellikleri vardır:</p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li><strong>Anomaly Detection:</strong> Anomali tespiti.</li>
+                                    <li><strong>Regression:</strong> Regresyon analizi.</li>
+                                    <li><strong>Classification:</strong> Sınıflandırma.</li>
+                                    <li><strong>Forecasting:</strong> Tahminleme.</li>
+                                </ul>
+                                <p>Bu özellikler, Elastic Machine Learning (EML) ile entegre çalışır.</p>
+                            </div>
+                        </div>
+
+                        <!-- Soru 10 -->
+                        <div class="question-card border-l-4 border-orange-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 10: Kibana'da Security özellikleri
+                                nelerdir?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong> Kibana'da çeşitli güvenlik özellikleri vardır:</p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li><strong>Authentication:</strong> Kimlik doğrulama (LDAP, SAML, OAuth).</li>
+                                    <li><strong>Authorization:</strong> Yetkilendirme (rol tabanlı erişim).</li>
+                                    <li><strong>Field Level Security:</strong> Alan seviyesinde güvenlik.</li>
+                                    <li><strong>Document Level Security:</strong> Document seviyesinde güvenlik.</li>
+                                </ul>
+                                <p>Bu özellikler, Elastic Security ile entegre çalışır.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Kibana İleri Düzey Konular -->
+                    <div class="bg-gray-50 rounded-lg p-4 mb-6">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">🔹 Kibana İleri Düzey Konular</h3>
+
+                        <!-- Soru 11 -->
+                        <div class="question-card border-l-4 border-orange-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 11: Kibana'da URL Drilling nedir? Ne
+                                işe yarar?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong> URL Drilling, bir görselleştirmeden diğerine veya başka bir uygulamaya geçmek için kullanılır.</p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li>Detaylı analiz için kullanılır.</li>
+                                    <li>Farklı sistemler arasında bağlantı sağlar.</li>
+                                </ul>
+                                <p class="mt-2 font-medium">URL Drilling Yapılandırması:</p>
+                                <pre class="code-block json mt-2">{
+  "type": "url",
+  "url": "http://example.com/detail?id={{_source.id}}",
+  "label": "View Details"
+}</pre>
+                            </div>
+                        </div>
+
+                        <!-- Soru 12 -->
+                        <div class="question-card border-l-4 border-orange-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 12: Kibana'da Dashboard Embedding nasıl
+                                yapılır?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong> Dashboard Embedding, Kibana dashboard'larını web sitelerine veya uygulamalara entegre etmek için kullanılır.</p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li>iFrame kullanarak embedding.</li>
+                                    <li>Kibana Embedding API kullanarak.</li>
+                                </ul>
+                                <p class="mt-2 font-medium">iFrame Embedding:</p>
+                                <pre class="code-block html mt-2">&lt;iframe 
+  src="http://kibana.example.com/app/dashboards#/view/1234567890?embed=true&amp;_g=(filters:!(),refreshInterval:(pause:!t,value:0),time:(from:now-7d,mode:quick,to:now))"&gt;
+&lt;/iframe&gt;</pre>
+                                <p class="mt-2 font-medium">Embedding API:</p>
+                                <pre class="code-block javascript mt-2">const dashboard = await kibanaEmbedding.embedDashboard(container, {
+  id: '1234567890',
+  filters: [],
+  timeRange: {
+    from: 'now-7d',
+    to: 'now'
+  }
+});</pre>
+                            </div>
+                        </div>
+
+                        <!-- Soru 13 -->
+                        <div class="question-card border-l-4 border-orange-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 13: Kibana'da Reporting özellikleri
+                                nelerdir?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong> Kibana'da çeşitli raporlama özellikleri vardır:</p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li><strong>PDF Reports:</strong> Dashboard'ları PDF formatında dışa aktarma.</li>
+                                    <li><strong>PNG Reports:</strong> Görselleştirmeleri PNG formatında dışa aktarma.</li>
+                                    <li><strong>CSV Reports:</strong> Verileri CSV formatında dışa aktarma.</li>
+                                    <li><strong>Scheduled Reports:</strong> Zamanlanmış raporlar.</li>
+                                </ul>
+                                <p class="mt-2 font-medium">Zamanlanmış Rapor Oluşturma:</p>
+                                <pre class="code-block json mt-2">POST /api/reporting/generate/report
+{
+  "jobType": "pdf",
+  "objects": [
+    {
+      "type": "dashboard",
+      "id": "1234567890"
+    }
+  ],
+  "trigger": {
+    "schedule": {
+      "interval": "0 9 * * *"
+    }
+  }
+}</pre>
+                            </div>
+                        </div>
+
+                        <!-- Soru 14 -->
+                        <div class="question-card border-l-4 border-orange-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 14: Kibana'da Alerting nasıl
+                                yapılandırılır?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong> Alerting, belirli koşullar gerçekleştiğinde bildirim göndermek için kullanılır.</p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li><strong>Threshold Alerting:</strong> Eşiği aştığında bildirim gönderme.</li>
+                                    <li><strong>Anomaly Alerting:</strong> Anomali tespit edildiğinde bildirim gönderme.</li>
+                                    <li><strong>Custom Alerting:</strong> Özel koşullar için bildirim gönderme.</li>
+                                </ul>
+                                <p class="mt-2 font-medium">Alert Oluşturma:</p>
+                                <pre class="code-block json mt-2">POST /api/alerting/alert
+{
+  "name": "High CPU Usage",
+  "interval": "1m",
+  "condition": {
+    "script": {
+      "source": "ctx.results[0].value > 80",
+      "lang": "painless"
+    }
+  },
+  "actions": [
+    {
+      "id": "email-action",
+      "type": ".email"
+    }
+  ]
+}</pre>
+                            </div>
+                        </div>
+
+                        <!-- Soru 15 -->
+                        <div class="question-card border-l-4 border-orange-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 15: Kibana'da Space kavramı nedir? Ne işe
+                                yarar?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong> Space, Kibana'da nesneleri organize etmek için kullanılan bir kavramdır.</p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li>İlgili nesneleri gruplar.</li>
+                                    <li>Erişim kontrolü sağlar.</li>
+                                    <li>Farklı departmanlar için ayrı çalışma alanları oluşturur.</li>
+                                </ul>
+                                <p class="mt-2 font-medium">Space Oluşturma:</p>
+                                <pre class="code-block json mt-2">POST /api/spaces/space
+{
+  "name": "Marketing",
+  "description": "Marketing analytics",
+  "color": "#6092c4",
+  "initials": "MKT"
+}</pre>
+                            </div>
+                        </div>
+
+                        <!-- Soru 16 -->
+                        <div class="question-card border-l-4 border-orange-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 16: Kibana'da Short URL nasıl
+                                oluşturulur?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong> Short URL, uzun Kibana URL'lerini kısaltmak için kullanılır.</p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li>Kolay paylaşım için kullanılır.</li>
+                                    <li>Basit ve anlaşılır URL'ler oluşturur.</li>
+                                </ul>
+                                <p class="mt-2 font-medium">Short URL Oluşturma:</p>
+                                <pre class="code-block bash mt-2">POST /api/short_url
+{
+  "locator": "http://kibana.example.com/app/dashboards#/view/1234567890"
+}</pre>
+                            </div>
+                        </div>
+
+                        <!-- Soru 17 -->
+                        <div class="question-card border-l-4 border-orange-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 17: Kibana'da Snippets nasıl
+                                kullanılır?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong> Snippets, Kibana'da sık kullanılan kod parçacıklarını saklamak için kullanılır.</p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li>Sık kullanılan sorguları saklar.</li>
+                                    <li>Şablonlar oluşturur.</li>
+                                </ul>
+                                <p class="mt-2 font-medium">Snippet Oluşturma:</p>
+                                <pre class="code-block json mt-2">POST /api/saved_objects/snippet
+{
+  "attributes": {
+    "title": "Error Logs",
+    "description": "Error log search",
+    "code": "status:error AND message:*exception*"
+  }
+}</pre>
+                            </div>
+                        </div>
+
+                        <!-- Soru 18 -->
+                        <div class="question-card border-l-4 border-orange-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 18: Kibana'da APM (Application
+                                Performance Monitoring) nasıl çalışır?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong> APM, uygulama performansını izlemek için kullanılır.</p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li>Uygulama performans metriklerini toplar.</li>
+                                    <li>Hata oranlarını izler.</li>
+                                    <li>Dağıtık izleme (distributed tracing) sağlar.</li>
+                                </ul>
+                                <p>APM, Elastic APM agent'ı ile entegre çalışır.</p>
+                            </div>
+                        </div>
+
+                        <!-- Soru 19 -->
+                        <div class="question-card border-l-4 border-orange-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 19: Kibana'da Uptime (Heartbeat)
+                                nasıl çalışır?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong> Uptime, sunucu ve servislerin durumunu izlemek için kullanılır.</p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li>Sunucu metriklerini toplar.</li>
+                                    <li>Servis durumlarını izler.</li>
+                                    <li>Uptime raporları oluşturur.</li>
+                                </ul>
+                                <p>Uptime, Heartbeat agent'ı ile entegre çalışır.</p>
+                            </div>
+                        </div>
+
+                        <!-- Soru 20 -->
+                        <div class="question-card border-l-4 border-orange-500 pl-4 py-2 mb-4">
+                            <h4 class="text-lg font-semibold text-gray-800 mb-2">❓ Soru 20: Kibana'da SIEM (Security
+                                Information and Event Management) nasıl çalışır?</h4>
+                            <div class="text-gray-700">
+                                <p><strong>Cevap:</strong> SIEM, güvenlik olaylarını yönetmek için kullanılır.</p>
+                                <ul class="list-disc pl-5 mt-2">
+                                    <li>Güvenlik loglarını toplar.</li>
+                                    <li>Tehditleri tespit eder.</li>
+                                    <li>Güvenlik olaylarını analiz eder.</li>
+                                </ul>
+                                <p>SIEM, Elastic Security ile entegre çalışır.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="text-center py-8 text-gray-600">
+            <p>© 2025 Hacı Celal Aygar. All rights reserved. ELK Stack Mülakat Soruları</p>
+        </footer>
+    </div>
+
+    <script>
+        function scrollToCategory(categoryId) {
+            const element = document.getElementById(categoryId);
+            element.scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+
+</html>
