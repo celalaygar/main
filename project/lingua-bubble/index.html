@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lingua Bubble - Dil Öğrenmeyi Eğlenceli Hale Getir</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Özel stiller */
+        .hero-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .game-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .game-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .mobile-screen {
+            aspect-ratio: 9/16;
+            max-height: 500px;
+        }
+        
+        .mobile-mockup {
+            background: #000;
+            border-radius: 40px;
+            padding: 10px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .mobile-screen-inner {
+            background: #fff;
+            border-radius: 30px;
+            overflow: hidden;
+            height: 100%;
+        }
+        
+        /* Dil seçici animasyonu */
+        .language-selector {
+            transition: all 0.3s ease;
+        }
+        
+        /* Responsive görseller */
+        @media (max-width: 768px) {
+            .mobile-screen {
+                max-height: 300px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigasyon -->
+    <nav class="bg-white shadow-md fixed w-full z-10">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <div class="bg-purple-600 text-white w-10 h-10 rounded-full flex items-center justify-center">
+                    <i class="fas fa-language"></i>
+                </div>
+                <span class="text-xl font-bold text-purple-800">Lingua Bubble</span>
+            </div>
+            
+            <!-- Dil Seçici -->
+            <div class="relative">
+                <button id="languageDropdown" class="flex items-center space-x-2 bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-lg transition">
+                    <span id="selectedLanguage" class="font-medium">Türkçe</span>
+                    <i class="fas fa-chevron-down text-xs"></i>
+                </button>
+                <div id="languageMenu" class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 hidden z-20">
+                    <a href="#" class="language-option block px-4 py-2 hover:bg-purple-50 text-gray-800" data-lang="tr">Türkçe</a>
+                    <a href="#" class="language-option block px-4 py-2 hover:bg-purple-50 text-gray-800" data-lang="en">English</a>
+                    <a href="#" class="language-option block px-4 py-2 hover:bg-purple-50 text-gray-800" data-lang="de">Deutsch</a>
+                    <a href="#" class="language-option block px-4 py-2 hover:bg-purple-50 text-gray-800" data-lang="it">Italiano</a>
+                    <a href="#" class="language-option block px-4 py-2 hover:bg-purple-50 text-gray-800" data-lang="pt">Português</a>
+                    <a href="#" class="language-option block px-4 py-2 hover:bg-purple-50 text-gray-800" data-lang="fr">Français</a>
+                    <a href="#" class="language-option block px-4 py-2 hover:bg-purple-50 text-gray-800" data-lang="ru">Русский</a>
+                    <a href="#" class="language-option block px-4 py-2 hover:bg-purple-50 text-gray-800" data-lang="es">Español</a>
+                    <a href="#" class="language-option block px-4 py-2 hover:bg-purple-50 text-gray-800" data-lang="ko">한국어</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Bölümü -->
+    <header class="hero-bg text-white pt-24 pb-16">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-10 md:mb-0">
+                    <h1 id="heroTitle" class="text-4xl md:text-5xl font-bold mb-4">Dil Öğrenmeyi Eğlenceli Hale Getir</h1>
+                    <p id="heroSubtitle" class="text-xl mb-8">Lingua Bubble ile 9 farklı dilde, kendi seviyende oyunlar oynayarak dil öğrenin.</p>
+                    <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+                        <a href="https://play.google.com/store/apps/details?id=com.new.language&hl=en" target="_blank" class="bg-black hover:bg-gray-800 text-white px-6 py-3 rounded-lg flex items-center justify-center transition">
+                            <i class="fab fa-google-play mr-2"></i> <span id="googlePlayText">Google Play</span>
+                        </a>
+                        <a href="https://apps.apple.com/tr/app/lingua-bubble/id6752529243" target="_blank" class="bg-black hover:bg-gray-800 text-white px-6 py-3 rounded-lg flex items-center justify-center transition">
+                            <i class="fab fa-apple mr-2"></i> <span id="appStoreText">App Store</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="md:w-1/2 flex justify-center">
+                    <img src="https://github.com/celalaygar/main/blob/main/project/lingua-bubble/p0.png?raw=true" alt="Lingua Bubble" class="rounded-xl shadow-2xl max-w-full h-auto">
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Nasıl Çalışır Bölümü -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 id="howItWorksTitle" class="text-3xl font-bold text-center mb-12 text-gray-800">Nasıl Çalışır?</h2>
+            
+            <div class="flex flex-col md:flex-row items-center justify-center space-y-8 md:space-y-0 md:space-x-8">
+                <div class="w-full md:w-1/3 flex flex-col items-center text-center">
+                    <div class="bg-purple-100 text-purple-700 w-16 h-16 rounded-full flex items-center justify-center mb-4">
+                        <span class="text-xl font-bold">1</span>
+                    </div>
+                    <h3 id="step1Title" class="text-xl font-semibold mb-2">Dil Seçimi</h3>
+                    <p id="step1Desc" class="text-gray-600">9 farklı dilden birini seçin ve dil öğrenme yolculuğunuza başlayın.</p>
+                </div>
+                
+                <div class="w-full md:w-1/3 flex flex-col items-center text-center">
+                    <div class="bg-purple-100 text-purple-700 w-16 h-16 rounded-full flex items-center justify-center mb-4">
+                        <span class="text-xl font-bold">2</span>
+                    </div>
+                    <h3 id="step2Title" class="text-xl font-semibold mb-2">Seviye Belirleme</h3>
+                    <p id="step2Desc" class="text-gray-600">A1, A2, B1, B2, C1 veya C2 seviyelerinden kendi seviyenizi seçin.</p>
+                </div>
+                
+                <div class="w-full md:w-1/3 flex flex-col items-center text-center">
+                    <div class="bg-purple-100 text-purple-700 w-16 h-16 rounded-full flex items-center justify-center mb-4">
+                        <span class="text-xl font-bold">3</span>
+                    </div>
+                    <h3 id="step3Title" class="text-xl font-semibold mb-2">Oyun Oyna</h3>
+                    <p id="step3Desc" class="text-gray-600">5 farklı oyun seçeneği ile dil becerilerinizi geliştirin.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Oyunlar Bölümü -->
+    <section class="py-16 bg-gray-100">
+        <div class="container mx-auto px-4">
+            <h2 id="gamesTitle" class="text-3xl font-bold text-center mb-12 text-gray-800">Oyunlarımız</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Scrambled Word -->
+                <div class="game-card bg-white rounded-xl shadow-lg overflow-hidden">
+                    <img src="https://github.com/celalaygar/main/blob/main/project/lingua-bubble/p7.png?raw=true" alt="Scrambled Word" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 id="game1Title" class="text-xl font-bold mb-2 text-purple-700">Scrambled Word</h3>
+                        <p id="game1Desc" class="text-gray-600">Karışık harflerden doğru kelimeyi oluşturun ve kelime dağarcığınızı genişletin.</p>
+                    </div>
+                </div>
+                
+                <!-- Sentence Completion -->
+                <div class="game-card bg-white rounded-xl shadow-lg overflow-hidden">
+                    <img src="https://github.com/celalaygar/main/blob/main/project/lingua-bubble/p6.png?raw=true" alt="Sentence Completion" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 id="game2Title" class="text-xl font-bold mb-2 text-purple-700">Sentence Completion</h3>
+                        <p id="game2Desc" class="text-gray-600">Cümledeki boşluğu doğru kelimeyi tamamlayarak doldurun.</p>
+                    </div>
+                </div>
+                
+                <!-- Sentence Builder -->
+                <div class="game-card bg-white rounded-xl shadow-lg overflow-hidden">
+                    <img src="https://github.com/celalaygar/main/blob/main/project/lingua-bubble/p8.png?raw=true" alt="Sentence Builder" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 id="game3Title" class="text-xl font-bold mb-2 text-purple-700">Sentence Builder</h3>
+                        <p id="game3Desc" class="text-gray-600">Karışık kelimeleri doğru sıraya koyarak anlamlı cümleler oluşturun.</p>
+                    </div>
+                </div>
+                
+                <!-- Speech Game -->
+                <div class="game-card bg-white rounded-xl shadow-lg overflow-hidden">
+                    <img src="https://github.com/celalaygar/main/blob/main/project/lingua-bubble/p5.png?raw=true" alt="Speech Game" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 id="game4Title" class="text-xl font-bold mb-2 text-purple-700">Speech Game</h3>
+                        <p id="game4Desc" class="text-gray-600">Dinlediğiniz cümledeki eksik kelimeyi tahmin ederek dinleme becerinizi geliştirin.</p>
+                    </div>
+                </div>
+                
+                <!-- Voice Match -->
+                <div class="game-card bg-white rounded-xl shadow-lg overflow-hidden">
+                    <img src="https://github.com/celalaygar/main/blob/main/project/lingua-bubble/p0.png?raw=true" alt="Voice Match" class="w-full h-48 object-cover">
+                    <div class="p-6">
+                        <h3 id="game5Title" class="text-xl font-bold mb-2 text-purple-700">Voice Match</h3>
+                        <p id="game5Desc" class="text-gray-600">Dinlediğiniz cümleyi seçenekler arasından doğru şekilde eşleştirin.</p>
+                    </div>
+                </div>
+                
+                <!-- Boş kart (grid düzeni için) -->
+                <div class="hidden lg:block"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mobil Ekran Görüntüleri -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 id="screenshotsTitle" class="text-3xl font-bold text-center mb-12 text-gray-800">Uygulama Ekran Görüntüleri</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Dil Seçim Ekranı -->
+                <div class="mobile-mockup mx-auto">
+                    <div class="mobile-screen-inner">
+                        <img src="https://github.com/celalaygar/main/blob/main/project/lingua-bubble/p1.png?raw=true" alt="Dil Seçim Ekranı" class="w-full h-full object-cover">
+                    </div>
+                </div>
+                
+                <!-- Dil Seviyesi Seçim Ekranı -->
+                <div class="mobile-mockup mx-auto">
+                    <div class="mobile-screen-inner">
+                        <img src="https://github.com/celalaygar/main/blob/main/project/lingua-bubble/p3.png?raw=true" alt="Dil Seviyesi Seçim Ekranı" class="w-full h-full object-cover">
+                    </div>
+                </div>
+                
+                <!-- Oyun Seçim Ekranı -->
+                <div class="mobile-mockup mx-auto">
+                    <div class="mobile-screen-inner">
+                        <img src="https://github.com/celalaygar/main/blob/main/project/lingua-bubble/p2.png?raw=true" alt="Oyun Seçim Ekranı" class="w-full h-full object-cover">
+                    </div>
+                </div>
+                
+                <!-- Speech Game Ekranı -->
+                <div class="mobile-mockup mx-auto">
+                    <div class="mobile-screen-inner">
+                        <img src="https://github.com/celalaygar/main/blob/main/project/lingua-bubble/p5.png?raw=true" alt="Speech Game Ekranı" class="w-full h-full object-cover">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- İndirme Bölümü -->
+    <section class="py-16 bg-purple-700 text-white">
+        <div class="container mx-auto px-4 text-center">
+            <h2 id="downloadTitle" class="text-3xl font-bold mb-4">Lingua Bubble'ı İndirin</h2>
+            <p id="downloadSubtitle" class="text-xl mb-8 max-w-2xl mx-auto">Dil öğrenme yolculuğunuza hemen başlayın. App Store ve Google Play'den indirebilirsiniz.</p>
+            
+            <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6">
+                <a href="https://play.google.com/store/apps/details?id=com.new.language&hl=en" target="_blank" class="bg-black hover:bg-gray-800 text-white px-8 py-4 rounded-lg flex items-center justify-center transition">
+                    <i class="fab fa-google-play mr-3 text-2xl"></i>
+                    <div class="text-left">
+                        <div class="text-xs" id="googlePlayFrom">Google Play'den</div>
+                        <div class="text-lg font-bold" id="googlePlayDownload">İndirin</div>
+                    </div>
+                </a>
+                
+                <a href="https://apps.apple.com/tr/app/lingua-bubble/id6752529243" target="_blank" class="bg-black hover:bg-gray-800 text-white px-8 py-4 rounded-lg flex items-center justify-center transition">
+                    <i class="fab fa-apple mr-3 text-2xl"></i>
+                    <div class="text-left">
+                        <div class="text-xs" id="appStoreFrom">App Store'dan</div>
+                        <div class="text-lg font-bold" id="appStoreDownload">İndirin</div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <div class="flex items-center space-x-2">
+                        <div class="bg-purple-600 text-white w-8 h-8 rounded-full flex items-center justify-center">
+                            <i class="fas fa-language"></i>
+                        </div>
+                        <span class="text-xl font-bold">Lingua Bubble</span>
+                    </div>
+                    <p class="mt-2 text-gray-400">© 2023 Lingua Bubble. <span id="footerCopyright">Tüm hakları saklıdır.</span></p>
+                </div>
+                
+                <div class="flex space-x-4">
+                    <a href="#" class="text-gray-400 hover:text-white transition">
+                        <i class="fab fa-facebook-f text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition">
+                        <i class="fab fa-twitter text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition">
+                        <i class="fab fa-instagram text-xl"></i>
+                    </a>
+                    <a href="#" class="text-gray-400 hover:text-white transition">
+                        <i class="fab fa-linkedin-in text-xl"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Çeviri verileri
+        const translations = {
+            tr: {
+                heroTitle: "Dil Öğrenmeyi Eğlenceli Hale Getir",
+                heroSubtitle: "Lingua Bubble ile 9 farklı dilde, kendi seviyende oyunlar oynayarak dil öğrenin.",
+                googlePlayText: "Google Play",
+                appStoreText: "App Store",
+                howItWorksTitle: "Nasıl Çalışır?",
+                step1Title: "Dil Seçimi",
+                step1Desc: "9 farklı dilden birini seçin ve dil öğrenme yolculuğunuza başlayın.",
+                step2Title: "Seviye Belirleme",
+                step2Desc: "A1, A2, B1, B2, C1 veya C2 seviyelerinden kendi seviyenizi seçin.",
+                step3Title: "Oyun Oyna",
+                step3Desc: "5 farklı oyun seçeneği ile dil becerilerinizi geliştirin.",
+                gamesTitle: "Oyunlarımız",
+                game1Title: "Scrambled Word",
+                game1Desc: "Karışık harflerden doğru kelimeyi oluşturun ve kelime dağarcığınızı genişletin.",
+                game2Title: "Sentence Completion",
+                game2Desc: "Cümledeki boşluğu doğru kelimeyi tamamlayarak doldurun.",
+                game3Title: "Sentence Builder",
+                game3Desc: "Karışık kelimeleri doğru sıraya koyarak anlamlı cümleler oluşturun.",
+                game4Title: "Speech Game",
+                game4Desc: "Dinlediğiniz cümledeki eksik kelimeyi tahmin ederek dinleme becerinizi geliştirin.",
+                game5Title: "Voice Match",
+                game5Desc: "Dinlediğiniz cümleyi seçenekler arasından doğru şekilde eşleştirin.",
+                screenshotsTitle: "Uygulama Ekran Görüntüleri",
+                downloadTitle: "Lingua Bubble'ı İndirin",
+                downloadSubtitle: "Dil öğrenme yolculuğunuza hemen başlayın. App Store ve Google Play'den indirebilirsiniz.",
+                googlePlayFrom: "Google Play'den",
+                googlePlayDownload: "İndirin",
+                appStoreFrom: "App Store'dan",
+                appStoreDownload: "İndirin",
+                footerCopyright: "Tüm hakları saklıdır."
+            },
+            en: {
+                heroTitle: "Make Language Learning Fun",
+                heroSubtitle: "Learn languages by playing games at your own level in 9 different languages with Lingua Bubble.",
+                googlePlayText: "Google Play",
+                appStoreText: "App Store",
+                howItWorksTitle: "How It Works",
+                step1Title: "Language Selection",
+                step1Desc: "Choose one of 9 different languages and start your language learning journey.",
+                step2Title: "Level Selection",
+                step2Desc: "Select your level from A1, A2, B1, B2, C1 or C2.",
+                step3Title: "Play Games",
+                step3Desc: "Develop your language skills with 5 different game options.",
+                gamesTitle: "Our Games",
+                game1Title: "Scrambled Word",
+                game1Desc: "Create the correct word from mixed letters and expand your vocabulary.",
+                game2Title: "Sentence Completion",
+                game2Desc: "Fill in the blank in the sentence with the correct word.",
+                game3Title: "Sentence Builder",
+                game3Desc: "Create meaningful sentences by putting mixed words in the correct order.",
+                game4Title: "Speech Game",
+                game4Desc: "Improve your listening skills by guessing the missing word in the sentence you hear.",
+                game5Title: "Voice Match",
+                game5Desc: "Match the sentence you hear correctly from the options.",
+                screenshotsTitle: "App Screenshots",
+                downloadTitle: "Download Lingua Bubble",
+                downloadSubtitle: "Start your language learning journey now. Download from App Store and Google Play.",
+                googlePlayFrom: "From Google Play",
+                googlePlayDownload: "Download",
+                appStoreFrom: "From App Store",
+                appStoreDownload: "Download",
+                footerCopyright: "All rights reserved."
+            },
+            de: {
+                heroTitle: "Sprachenlernen lustig machen",
+                heroSubtitle: "Lernen Sie Sprachen, indem Sie in 9 verschiedenen Sprachen mit Lingua Bubble Spiele auf Ihrem eigenen Niveau spielen.",
+                googlePlayText: "Google Play",
+                appStoreText: "App Store",
+                howItWorksTitle: "Wie es funktioniert",
+                step1Title: "Sprachauswahl",
+                step1Desc: "Wählen Sie eine von 9 verschiedenen Sprachen und beginnen Sie Ihre Sprachlernreise.",
+                step2Title: "Niveausauswahl",
+                step2Desc: "Wählen Sie Ihr Niveau von A1, A2, B1, B2, C1 oder C2.",
+                step3Title: "Spiele spielen",
+                step3Desc: "Entwickeln Sie Ihre Sprachfähigkeiten mit 5 verschiedenen Spieloptionen.",
+                gamesTitle: "Unsere Spiele",
+                game1Title: "Scrambled Word",
+                game1Desc: "Erstellen Sie das richtige Wort aus gemischten Buchstaben und erweitern Sie Ihren Wortschatz.",
+                game2Title: "Sentence Completion",
+                game2Desc: "Füllen Sie die Lücke im Satz mit dem richtigen Wort.",
+                game3Title: "Sentence Builder",
+                game3Desc: "Erstellen Sie sinnvolle Sätze, indem Sie gemischte Wörter in die richtige Reihenfolge bringen.",
+                game4Title: "Speech Game",
+                game4Desc: "Verbessern Sie Ihre Hörverständnisfähigkeiten, indem Sie das fehlende Wort im Satz, den Sie hören, erraten.",
+                game5Title: "Voice Match",
+                game5Desc: "Ordnen Sie den Satz, den Sie hören, korrekt aus den Optionen zu.",
+                screenshotsTitle: "App-Screenshots",
+                downloadTitle: "Lingua Bubble herunterladen",
+                downloadSubtitle: "Beginnen Sie jetzt Ihre Sprachlernreise. Herunterladen von App Store und Google Play.",
+                googlePlayFrom: "Von Google Play",
+                googlePlayDownload: "Herunterladen",
+                appStoreFrom: "Vom App Store",
+                appStoreDownload: "Herunterladen",
+                footerCopyright: "Alle Rechte vorbehalten."
+            },
+            it: {
+                heroTitle: "Rendi l'apprendimento delle lingue divertente",
+                heroSubtitle: "Impara le lingue giocando a giochi al tuo livello in 9 lingue diverse con Lingua Bubble.",
+                googlePlayText: "Google Play",
+                appStoreText: "App Store",
+                howItWorksTitle: "Come Funziona",
+                step1Title: "Selezione della Lingua",
+                step1Desc: "Scegli una delle 9 lingue diverse e inizia il tuo viaggio di apprendimento linguistico.",
+                step2Title: "Selezione del Livello",
+                step2Desc: "Seleziona il tuo livello da A1, A2, B1, B2, C1 o C2.",
+                step3Title: "Gioca",
+                step3Desc: "Sviluppa le tue abilità linguistiche con 5 diverse opzioni di gioco.",
+                gamesTitle: "I Nostri Giochi",
+                game1Title: "Scrambled Word",
+                game1Desc: "Crea la parola corretta da lettere mescolate e espandi il tuo vocabolario.",
+                game2Title: "Sentence Completion",
+                game2Desc: "Riempi lo spazio vuoto nella frase con la parola corretta.",
+                game3Title: "Sentence Builder",
+                game3Desc: "Crea frasi significative mettendo parole mescolate nell'ordine corretto.",
+                game4Title: "Speech Game",
+                game4Desc: "Migliora le tue abilità di ascolto indovinando la parola mancante nella frase che senti.",
+                game5Title: "Voice Match",
+                game5Desc: "Abbina correttamente la frase che senti dalle opzioni.",
+                screenshotsTitle: "Screenshot dell'App",
+                downloadTitle: "Scarica Lingua Bubble",
+                downloadSubtitle: "Inizia subito il tuo viaggio di apprendimento linguistico. Scarica da App Store e Google Play.",
+                googlePlayFrom: "Da Google Play",
+                googlePlayDownload: "Scarica",
+                appStoreFrom: "Dall'App Store",
+                appStoreDownload: "Scarica",
+                footerCopyright: "Tutti i diritti riservati."
+            },
+            pt: {
+                heroTitle: "Torne o Aprendizado de Idiomas Divertido",
+                heroSubtitle: "Aprenda idiomas jogando jogos no seu nível em 9 idiomas diferentes com o Lingua Bubble.",
+                googlePlayText: "Google Play",
+                appStoreText: "App Store",
+                howItWorksTitle: "Como Funciona",
+                step1Title: "Seleção de Idioma",
+                step1Desc: "Escolha um dos 9 idiomas diferentes e comece sua jornada de aprendizado de idiomas.",
+                step2Title: "Seleção de Nível",
+                step2Desc: "Selecione seu nível de A1, A2, B1, B2, C1 ou C2.",
+                step3Title: "Jogar Jogos",
+                step3Desc: "Desenvolva suas habilidades linguísticas com 5 opções diferentes de jogos.",
+                gamesTitle: "Nossos Jogos",
+                game1Title: "Scrambled Word",
+                game1Desc: "Crie a palavra correta a partir de letras misturadas e expanda seu vocabulário.",
+                game2Title: "Sentence Completion",
+                game2Desc: "Preencha o espaço em branco na frase com a palavra correta.",
+                game3Title: "Sentence Builder",
+                game3Desc: "Crie frases significativas colocando palavras misturadas na ordem correta.",
+                game4Title: "Speech Game",
+                game4Desc: "Melhore suas habilidades de audição adivinhando a palavra que falta na frase que você ouve.",
+                game5Title: "Voice Match",
+                game5Desc: "Combine corretamente a frase que você ouve das opções.",
+                screenshotsTitle: "Capturas de Tela do Aplicativo",
+                downloadTitle: "Baixar Lingua Bubble",
+                downloadSubtitle: "Comece sua jornada de aprendizado de idiomas agora. Baixe da App Store e Google Play.",
+                googlePlayFrom: "Da Google Play",
+                googlePlayDownload: "Baixar",
+                appStoreFrom: "Da App Store",
+                appStoreDownload: "Baixar",
+                footerCopyright: "Todos os direitos reservados."
+            },
+            fr: {
+                heroTitle: "Rendez l'apprentissage des langues amusant",
+                heroSubtitle: "Apprenez des langues en jouant à des jeux à votre niveau dans 9 langues différentes avec Lingua Bubble.",
+                googlePlayText: "Google Play",
+                appStoreText: "App Store",
+                howItWorksTitle: "Comment ça Marche",
+                step1Title: "Sélection de la Langue",
+                step1Desc: "Choisissez l'une des 9 langues différentes et commencez votre voyage d'apprentissage des langues.",
+                step2Title: "Sélection du Niveau",
+                step2Desc: "Sélectionnez votre niveau parmi A1, A2, B1, B2, C1 ou C2.",
+                step3Title: "Jouer à des Jeux",
+                step3Desc: "Développez vos compétences linguistiques avec 5 options de jeu différentes.",
+                gamesTitle: "Nos Jeux",
+                game1Title: "Scrambled Word",
+                game1Desc: "Créez le mot correct à partir de lettres mélangées et élargissez votre vocabulaire.",
+                game2Title: "Sentence Completion",
+                game2Desc: "Remplissez le blanc dans la phrase avec le mot correct.",
+                game3Title: "Sentence Builder",
+                game3Desc: "Créez des phrases significatives en mettant des mots mélangés dans le bon ordre.",
+                game4Title: "Speech Game",
+                game4Desc: "Améliorez vos compétences d'écoute en devinant le mot manquant dans la phrase que vous entendez.",
+                game5Title: "Voice Match",
+                game5Desc: "Associez correctement la phrase que vous entendez parmi les options.",
+                screenshotsTitle: "Captures d'Écran de l'Application",
+                downloadTitle: "Télécharger Lingua Bubble",
+                downloadSubtitle: "Commencez votre voyage d'apprentissage des langues maintenant. Téléchargez depuis l'App Store et Google Play.",
+                googlePlayFrom: "De Google Play",
+                googlePlayDownload: "Télécharger",
+                appStoreFrom: "De l'App Store",
+                appStoreDownload: "Télécharger",
+                footerCopyright: "Tous droits réservés."
+            },
+            ru: {
+                heroTitle: "Сделайте изучение языков увлекательным",
+                heroSubtitle: "Изучайте языки, играя в игры на своем уровне на 9 разных языках с Lingua Bubble.",
+                googlePlayText: "Google Play",
+                appStoreText: "App Store",
+                howItWorksTitle: "Как это работает",
+                step1Title: "Выбор языка",
+                step1Desc: "Выберите один из 9 разных языков и начните свое путешествие по изучению языка.",
+                step2Title: "Выбор уровня",
+                step2Desc: "Выберите свой уровень из A1, A2, B1, B2, C1 или C2.",
+                step3Title: "Играть в игры",
+                step3Desc: "Развивайте свои языковые навыки с помощью 5 различных игровых опций.",
+                gamesTitle: "Наши игры",
+                game1Title: "Scrambled Word",
+                game1Desc: "Создайте правильное слово из перемешанных букв и расширьте свой словарный запас.",
+                game2Title: "Sentence Completion",
+                game2Desc: "Заполните пропуск в предложении правильным словом.",
+                game3Title: "Sentence Builder",
+                game3Desc: "Создавайте осмысленные предложения, расставляя перемешанные слова в правильном порядке.",
+                game4Title: "Speech Game",
+                game4Desc: "Улучшайте свои навыки аудирования, угадывая недостающее слово в предложении, которое вы слышите.",
+                game5Title: "Voice Match",
+                game5Desc: "Правильно сопоставьте предложение, которое вы слышите, из вариантов.",
+                screenshotsTitle: "Скриншоты приложения",
+                downloadTitle: "Скачать Lingua Bubble",
+                downloadSubtitle: "Начните свое путешествие по изучению языка прямо сейчас. Скачайте из App Store и Google Play.",
+                googlePlayFrom: "Из Google Play",
+                googlePlayDownload: "Скачать",
+                appStoreFrom: "Из App Store",
+                appStoreDownload: "Скачать",
+                footerCopyright: "Все права защищены."
+            },
+            es: {
+                heroTitle: "Haz divertido el aprendizaje de idiomas",
+                heroSubtitle: "Aprende idiomas jugando juegos en tu nivel en 9 idiomas diferentes con Lingua Bubble.",
+                googlePlayText: "Google Play",
+                appStoreText: "App Store",
+                howItWorksTitle: "Cómo Funciona",
+                step1Title: "Selección de Idioma",
+                step1Desc: "Elige uno de los 9 idiomas diferentes y comienza tu viaje de aprendizaje de idiomas.",
+                step2Title: "Selección de Nivel",
+                step2Desc: "Selecciona tu nivel de A1, A2, B1, B2, C1 o C2.",
+                step3Title: "Jugar Juegos",
+                step3Desc: "Desarrolla tus habilidades lingüísticas con 5 opciones diferentes de juegos.",
+                gamesTitle: "Nuestros Juegos",
+                game1Title: "Scrambled Word",
+                game1Desc: "Crea la palabra correcta a partir de letras mezcladas y expande tu vocabulario.",
+                game2Title: "Sentence Completion",
+                game2Desc: "Rellena el espacio en blanco en la oración con la palabra correcta.",
+                game3Title: "Sentence Builder",
+                game3Desc: "Crea oraciones significativas poniendo palabras mezcladas en el orden correcto.",
+                game4Title: "Speech Game",
+                game4Desc: "Mejora tus habilidades de escucha adivinando la palabra que falta en la oración que escuchas.",
+                game5Title: "Voice Match",
+                game5Desc: "Empareja correctamente la oración que escuchas de las opciones.",
+                screenshotsTitle: "Capturas de Pantalla de la Aplicación",
+                downloadTitle: "Descargar Lingua Bubble",
+                downloadSubtitle: "Comienza tu viaje de aprendizaje de idiomas ahora. Descarga desde App Store y Google Play.",
+                googlePlayFrom: "De Google Play",
+                googlePlayDownload: "Descargar",
+                appStoreFrom: "De App Store",
+                appStoreDownload: "Descargar",
+                footerCopyright: "Todos los derechos reservados."
+            },
+            ko: {
+                heroTitle: "언어 학습을 재미있게 만드세요",
+                heroSubtitle: "링구아 버블로 9가지 다른 언어로 자신의 수준에서 게임을 하며 언어를 배우세요.",
+                googlePlayText: "Google Play",
+                appStoreText: "App Store",
+                howItWorksTitle: "작동 방식",
+                step1Title: "언어 선택",
+                step1Desc: "9가지 다른 언어 중 하나를 선택하고 언어 학습 여정을 시작하세요.",
+                step2Title: "수준 선택",
+                step2Desc: "A1, A2, B1, B2, C1 또는 C2 수준 중 자신의 수준을 선택하세요.",
+                step3Title: "게임 플레이",
+                step3Desc: "5가지 다른 게임 옵션으로 언어 능력을 발전시키세요.",
+                gamesTitle: "우리의 게임",
+                game1Title: "Scrambled Word",
+                game1Desc: "섞인 문자로 올바른 단어를 만들고 어휘를 확장하세요.",
+                game2Title: "Sentence Completion",
+                game2Desc: "올바른 단어로 문장의 빈칸을 채우세요.",
+                game3Title: "Sentence Builder",
+                game3Desc: "섞인 단어를 올바른 순서로 배열하여 의미 있는 문장을 만드세요.",
+                game4Title: "Speech Game",
+                game4Desc: "듣는 문장에서 빠진 단어를 추측하여 청취 능력을 향상시키세요.",
+                game5Title: "Voice Match",
+                game5Desc: "옵션에서 듣는 문장을 올바르게 일치시키세요.",
+                screenshotsTitle: "앱 스크린샷",
+                downloadTitle: "링구아 버블 다운로드",
+                downloadSubtitle: "지금 바로 언어 학습 여정을 시작하세요. App Store 및 Google Play에서 다운로드하세요.",
+                googlePlayFrom: "Google Play에서",
+                googlePlayDownload: "다운로드",
+                appStoreFrom: "App Store에서",
+                appStoreDownload: "다운로드",
+                footerCopyright: "모든 권리 보유."
+            }
+        };
+
+        // Dil seçici işlevselliği
+        document.getElementById('languageDropdown').addEventListener('click', function() {
+            const menu = document.getElementById('languageMenu');
+            menu.classList.toggle('hidden');
+        });
+        
+        // Dil seçenekleri
+        const languageOptions = document.querySelectorAll('.language-option');
+        const selectedLanguage = document.getElementById('selectedLanguage');
+        
+        languageOptions.forEach(option => {
+            option.addEventListener('click', function(e) {
+                e.preventDefault();
+                const lang = this.getAttribute('data-lang');
+                const langText = this.textContent;
+                
+                selectedLanguage.textContent = langText;
+                document.getElementById('languageMenu').classList.add('hidden');
+                
+                // Sayfayı seçilen dile göre çevir
+                translatePage(lang);
+            });
+        });
+        
+        // Sayfa çeviri fonksiyonu
+        function translatePage(lang) {
+            const translation = translations[lang];
+            
+            // Başlıklar ve metinleri güncelle
+            document.getElementById('heroTitle').textContent = translation.heroTitle;
+            document.getElementById('heroSubtitle').textContent = translation.heroSubtitle;
+            document.getElementById('googlePlayText').textContent = translation.googlePlayText;
+            document.getElementById('appStoreText').textContent = translation.appStoreText;
+            document.getElementById('howItWorksTitle').textContent = translation.howItWorksTitle;
+            document.getElementById('step1Title').textContent = translation.step1Title;
+            document.getElementById('step1Desc').textContent = translation.step1Desc;
+            document.getElementById('step2Title').textContent = translation.step2Title;
+            document.getElementById('step2Desc').textContent = translation.step2Desc;
+            document.getElementById('step3Title').textContent = translation.step3Title;
+            document.getElementById('step3Desc').textContent = translation.step3Desc;
+            document.getElementById('gamesTitle').textContent = translation.gamesTitle;
+            document.getElementById('game1Title').textContent = translation.game1Title;
+            document.getElementById('game1Desc').textContent = translation.game1Desc;
+            document.getElementById('game2Title').textContent = translation.game2Title;
+            document.getElementById('game2Desc').textContent = translation.game2Desc;
+            document.getElementById('game3Title').textContent = translation.game3Title;
+            document.getElementById('game3Desc').textContent = translation.game3Desc;
+            document.getElementById('game4Title').textContent = translation.game4Title;
+            document.getElementById('game4Desc').textContent = translation.game4Desc;
+            document.getElementById('game5Title').textContent = translation.game5Title;
+            document.getElementById('game5Desc').textContent = translation.game5Desc;
+            document.getElementById('screenshotsTitle').textContent = translation.screenshotsTitle;
+            document.getElementById('downloadTitle').textContent = translation.downloadTitle;
+            document.getElementById('downloadSubtitle').textContent = translation.downloadSubtitle;
+            document.getElementById('googlePlayFrom').textContent = translation.googlePlayFrom;
+            document.getElementById('googlePlayDownload').textContent = translation.googlePlayDownload;
+            document.getElementById('appStoreFrom').textContent = translation.appStoreFrom;
+            document.getElementById('appStoreDownload').textContent = translation.appStoreDownload;
+            document.getElementById('footerCopyright').textContent = translation.footerCopyright;
+        }
+        
+        // Sayfa dışına tıklandığında dil menüsünü kapat
+        document.addEventListener('click', function(event) {
+            const dropdown = document.getElementById('languageDropdown');
+            const menu = document.getElementById('languageMenu');
+            
+            if (!dropdown.contains(event.target) && !menu.contains(event.target)) {
+                menu.classList.add('hidden');
+            }
+        });
+        
+        // Smooth scroll için
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
