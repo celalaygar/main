@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="tr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,40 +12,115 @@
         .hero-bg {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
-        
+
         .game-card {
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        
+
         .game-card:hover {
             transform: translateY(-10px);
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
-        
+
         .mobile-screen {
             aspect-ratio: 9/16;
             max-height: 500px;
         }
-        
-        .mobile-mockup {
+
+        .phone-mockup {
             background: #000;
             border-radius: 40px;
             padding: 10px;
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            position: relative;
         }
-        
-        .mobile-screen-inner {
+
+        .phone-mockup::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: #333;
+            border-radius: 2px;
+            z-index: 1;
+        }
+
+        .phone-screen-inner {
             background: #fff;
             border-radius: 30px;
             overflow: hidden;
             height: 100%;
+            position: relative;
         }
-        
-        /* Dil seçici animasyonu */
-        .language-selector {
+
+        .slider-container {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slider {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .slide {
+            min-width: 100%;
+            padding: 0 15px;
+        }
+
+        .slider-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.7);
+            color: #333;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
             transition: all 0.3s ease;
         }
-        
+
+        .slider-btn:hover {
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .slider-btn.prev {
+            left: 10px;
+        }
+
+        .slider-btn.next {
+            right: 10px;
+        }
+
+        .indicators {
+            display: flex;
+            justify-content: center;
+            margin-top: 15px;
+            gap: 8px;
+        }
+
+        .indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #ccc;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .indicator.active {
+            background: #764ba2;
+        }
+
         /* Responsive görseller */
         @media (max-width: 768px) {
             .mobile-screen {
@@ -53,6 +129,7 @@
         }
     </style>
 </head>
+
 <body class="bg-gray-50">
     <!-- Navigasyon -->
     <nav class="bg-white shadow-md fixed w-full z-10">
@@ -63,23 +140,34 @@
                 </div>
                 <span class="text-xl font-bold text-purple-800">Lingua Bubble</span>
             </div>
-            
+
             <!-- Dil Seçici -->
             <div class="relative">
-                <button id="languageDropdown" class="flex items-center space-x-2 bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-lg transition">
+                <button id="languageDropdown"
+                    class="flex items-center space-x-2 bg-gray-100 hover:bg-gray-200 px-4 py-2 rounded-lg transition">
                     <span id="selectedLanguage" class="font-medium">Türkçe</span>
                     <i class="fas fa-chevron-down text-xs"></i>
                 </button>
-                <div id="languageMenu" class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 hidden z-20">
-                    <a href="#" class="language-option block px-4 py-2 hover:bg-purple-50 text-gray-800" data-lang="tr">Türkçe</a>
-                    <a href="#" class="language-option block px-4 py-2 hover:bg-purple-50 text-gray-800" data-lang="en">English</a>
-                    <a href="#" class="language-option block px-4 py-2 hover:bg-purple-50 text-gray-800" data-lang="de">Deutsch</a>
-                    <a href="#" class="language-option block px-4 py-2 hover:bg-purple-50 text-gray-800" data-lang="it">Italiano</a>
-                    <a href="#" class="language-option block px-4 py-2 hover:bg-purple-50 text-gray-800" data-lang="pt">Português</a>
-                    <a href="#" class="language-option block px-4 py-2 hover:bg-purple-50 text-gray-800" data-lang="fr">Français</a>
-                    <a href="#" class="language-option block px-4 py-2 hover:bg-purple-50 text-gray-800" data-lang="ru">Русский</a>
-                    <a href="#" class="language-option block px-4 py-2 hover:bg-purple-50 text-gray-800" data-lang="es">Español</a>
-                    <a href="#" class="language-option block px-4 py-2 hover:bg-purple-50 text-gray-800" data-lang="ko">한국어</a>
+                <div id="languageMenu"
+                    class="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 hidden z-20">
+                    <a href="#" class="language-option block px-4 py-2 hover:bg-purple-50 text-gray-800"
+                        data-lang="tr">Türkçe</a>
+                    <a href="#" class="language-option block px-4 py-2 hover:bg-purple-50 text-gray-800"
+                        data-lang="en">English</a>
+                    <a href="#" class="language-option block px-4 py-2 hover:bg-purple-50 text-gray-800"
+                        data-lang="de">Deutsch</a>
+                    <a href="#" class="language-option block px-4 py-2 hover:bg-purple-50 text-gray-800"
+                        data-lang="it">Italiano</a>
+                    <a href="#" class="language-option block px-4 py-2 hover:bg-purple-50 text-gray-800"
+                        data-lang="pt">Português</a>
+                    <a href="#" class="language-option block px-4 py-2 hover:bg-purple-50 text-gray-800"
+                        data-lang="fr">Français</a>
+                    <a href="#" class="language-option block px-4 py-2 hover:bg-purple-50 text-gray-800"
+                        data-lang="ru">Русский</a>
+                    <a href="#" class="language-option block px-4 py-2 hover:bg-purple-50 text-gray-800"
+                        data-lang="es">Español</a>
+                    <a href="#" class="language-option block px-4 py-2 hover:bg-purple-50 text-gray-800"
+                        data-lang="ko">한국어</a>
                 </div>
             </div>
         </div>
@@ -90,19 +178,24 @@
         <div class="container mx-auto px-4">
             <div class="flex flex-col md:flex-row items-center">
                 <div class="md:w-1/2 mb-10 md:mb-0">
-                    <h1 id="heroTitle" class="text-4xl md:text-5xl font-bold mb-4">Dil Öğrenmeyi Eğlenceli Hale Getir</h1>
-                    <p id="heroSubtitle" class="text-xl mb-8">Lingua Bubble ile 9 farklı dilde, kendi seviyende oyunlar oynayarak dil öğrenin.</p>
+                    <h1 id="heroTitle" class="text-4xl md:text-5xl font-bold mb-4">Dil Öğrenmeyi Eğlenceli Hale Getir
+                    </h1>
+                    <p id="heroSubtitle" class="text-xl mb-8">Lingua Bubble ile 9 farklı dilde, kendi seviyende oyunlar
+                        oynayarak dil öğrenin.</p>
                     <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
-                        <a href="https://play.google.com/store/apps/details?id=com.new.language&hl=en" target="_blank" class="bg-black hover:bg-gray-800 text-white px-6 py-3 rounded-lg flex items-center justify-center transition">
+                        <a href="https://play.google.com/store/apps/details?id=com.new.language&hl=en" target="_blank"
+                            class="bg-black hover:bg-gray-800 text-white px-6 py-3 rounded-lg flex items-center justify-center transition">
                             <i class="fab fa-google-play mr-2"></i> <span id="googlePlayText">Google Play</span>
                         </a>
-                        <a href="https://apps.apple.com/tr/app/lingua-bubble/id6752529243" target="_blank" class="bg-black hover:bg-gray-800 text-white px-6 py-3 rounded-lg flex items-center justify-center transition">
+                        <a href="https://apps.apple.com/tr/app/lingua-bubble/id6752529243" target="_blank"
+                            class="bg-black hover:bg-gray-800 text-white px-6 py-3 rounded-lg flex items-center justify-center transition">
                             <i class="fab fa-apple mr-2"></i> <span id="appStoreText">App Store</span>
                         </a>
                     </div>
                 </div>
                 <div class="md:w-1/2 flex justify-center">
-                    <img src="https://github.com/celalaygar/main/blob/main/project/lingua-bubble/p0.png?raw=true" alt="Lingua Bubble" class="rounded-xl shadow-2xl max-w-full h-auto">
+                    <img src="https://github.com/celalaygar/main/blob/main/project/lingua-bubble/p0.jpeg?raw=true"
+                        alt="Lingua Bubble" class="rounded-xl shadow-2xl max-w-full h-auto">
                 </div>
             </div>
         </div>
@@ -112,30 +205,81 @@
     <section class="py-16 bg-white">
         <div class="container mx-auto px-4">
             <h2 id="howItWorksTitle" class="text-3xl font-bold text-center mb-12 text-gray-800">Nasıl Çalışır?</h2>
-            
+
             <div class="flex flex-col md:flex-row items-center justify-center space-y-8 md:space-y-0 md:space-x-8">
                 <div class="w-full md:w-1/3 flex flex-col items-center text-center">
-                    <div class="bg-purple-100 text-purple-700 w-16 h-16 rounded-full flex items-center justify-center mb-4">
+                    <div
+                        class="bg-purple-100 text-purple-700 w-16 h-16 rounded-full flex items-center justify-center mb-4">
                         <span class="text-xl font-bold">1</span>
                     </div>
                     <h3 id="step1Title" class="text-xl font-semibold mb-2">Dil Seçimi</h3>
-                    <p id="step1Desc" class="text-gray-600">9 farklı dilden birini seçin ve dil öğrenme yolculuğunuza başlayın.</p>
+                    <p id="step1Desc" class="text-gray-600">9 farklı dilden birini seçin ve dil öğrenme yolculuğunuza
+                        başlayın.</p>
                 </div>
-                
+
                 <div class="w-full md:w-1/3 flex flex-col items-center text-center">
-                    <div class="bg-purple-100 text-purple-700 w-16 h-16 rounded-full flex items-center justify-center mb-4">
+                    <div
+                        class="bg-purple-100 text-purple-700 w-16 h-16 rounded-full flex items-center justify-center mb-4">
                         <span class="text-xl font-bold">2</span>
                     </div>
                     <h3 id="step2Title" class="text-xl font-semibold mb-2">Seviye Belirleme</h3>
-                    <p id="step2Desc" class="text-gray-600">A1, A2, B1, B2, C1 veya C2 seviyelerinden kendi seviyenizi seçin.</p>
+                    <p id="step2Desc" class="text-gray-600">A1, A2, B1, B2, C1 veya C2 seviyelerinden kendi seviyenizi
+                        seçin.</p>
                 </div>
-                
+
                 <div class="w-full md:w-1/3 flex flex-col items-center text-center">
-                    <div class="bg-purple-100 text-purple-700 w-16 h-16 rounded-full flex items-center justify-center mb-4">
+                    <div
+                        class="bg-purple-100 text-purple-700 w-16 h-16 rounded-full flex items-center justify-center mb-4">
                         <span class="text-xl font-bold">3</span>
                     </div>
                     <h3 id="step3Title" class="text-xl font-semibold mb-2">Oyun Oyna</h3>
-                    <p id="step3Desc" class="text-gray-600">5 farklı oyun seçeneği ile dil becerilerinizi geliştirin.</p>
+                    <p id="step3Desc" class="text-gray-600">5 farklı oyun seçeneği ile dil becerilerinizi geliştirin.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Oyun Seçimi ve Açıklamaları -->
+            <div class="mt-16 max-w-4xl mx-auto">
+                <h3 id="gameSelectionTitle" class="text-2xl font-bold text-center mb-8 text-purple-700">Oyun Seçimi</h3>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Scrambled Word -->
+                    <div class="bg-purple-50 p-6 rounded-lg">
+                        <h4 id="scrambledWordTitle" class="text-xl font-bold mb-2 text-purple-700">Scrambled Word</h4>
+                        <p id="scrambledWordDesc" class="text-gray-600">Kelime harfleri karışık veriliyor ve doğru
+                            yerleştirip kelimeyi bulmaya çalışıyorsunuz.</p>
+                    </div>
+
+                    <!-- Sentence Completion -->
+                    <div class="bg-purple-50 p-6 rounded-lg">
+                        <h4 id="sentenceCompletionTitle" class="text-xl font-bold mb-2 text-purple-700">Sentence
+                            Completion</h4>
+                        <p id="sentenceCompletionDesc" class="text-gray-600">Cümlede bir kelime boş kalıyor ve o
+                            kelimeyi bulup cümleye yerleştirmeye çalışıyorsunuz.</p>
+                    </div>
+
+                    <!-- Sentence Builder -->
+                    <div class="bg-purple-50 p-6 rounded-lg">
+                        <h4 id="sentenceBuilderTitle" class="text-xl font-bold mb-2 text-purple-700">Sentence Builder
+                        </h4>
+                        <p id="sentenceBuilderDesc" class="text-gray-600">Cümlenin kelimeleri yerleri değişik olarak
+                            karşınıza çıkıyor ve yeniden cümleyi oluşturuyorsunuz.</p>
+                    </div>
+
+                    <!-- Speech Game -->
+                    <div class="bg-purple-50 p-6 rounded-lg">
+                        <h4 id="speechGameTitle" class="text-xl font-bold mb-2 text-purple-700">Speech Game</h4>
+                        <p id="speechGameDesc" class="text-gray-600">Cümleyi ses olarak dinliyorsun ve boş kalan
+                            kelimenin harfleri karışık veriliyor, o kelimeyi bulmaya çalışıyorsun.</p>
+                    </div>
+
+                    <!-- Voice Match -->
+                    <div class="bg-purple-50 p-6 rounded-lg md:col-span-2">
+                        <h4 id="voiceMatchTitle" class="text-xl font-bold mb-2 text-purple-700">Voice Match</h4>
+                        <p id="voiceMatchDesc" class="text-gray-600">Sesi dinliyorsun ve birkaç cümle arasından
+                            dinlediğin sese bağlı olan cümle ile eşlemeye çalışıyorsun. Seslendirilen cümle hangisi ise
+                            onunla ilgili seçim yapıyorsun.</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -145,55 +289,97 @@
     <section class="py-16 bg-gray-100">
         <div class="container mx-auto px-4">
             <h2 id="gamesTitle" class="text-3xl font-bold text-center mb-12 text-gray-800">Oyunlarımız</h2>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Scrambled Word -->
-                <div class="game-card bg-white rounded-xl shadow-lg overflow-hidden">
-                    <img src="https://github.com/celalaygar/main/blob/main/project/lingua-bubble/p7.png?raw=true" alt="Scrambled Word" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 id="game1Title" class="text-xl font-bold mb-2 text-purple-700">Scrambled Word</h3>
-                        <p id="game1Desc" class="text-gray-600">Karışık harflerden doğru kelimeyi oluşturun ve kelime dağarcığınızı genişletin.</p>
+
+            <div class="max-w-4xl mx-auto">
+                <div class="slider-container relative">
+                    <div id="gamesSlider" class="slider">
+                        <!-- Scrambled Word -->
+                        <div class="slide">
+                            <div class="flex flex-col items-center">
+                                <h3 id="game1Title" class="text-2xl font-bold mb-4 text-purple-700">Scrambled Word</h3>
+                                <div class="phone-mockup w-64 mx-auto">
+                                    <div class="phone-screen-inner">
+                                        <img src="https://github.com/celalaygar/main/blob/main/project/lingua-bubble/p7.png?raw=true"
+                                            alt="Scrambled Word" class="w-full h-full object-cover">
+                                    </div>
+                                </div>
+                                <p id="game1Desc" class="mt-6 text-gray-600 max-w-md text-center">Karışık harflerden
+                                    doğru kelimeyi oluşturun ve kelime dağarcığınızı genişletin.</p>
+                            </div>
+                        </div>
+
+                        <!-- Sentence Completion -->
+                        <div class="slide">
+                            <div class="flex flex-col items-center">
+                                <h3 id="game2Title" class="text-2xl font-bold mb-4 text-purple-700">Sentence Completion
+                                </h3>
+                                <div class="phone-mockup w-64 mx-auto">
+                                    <div class="phone-screen-inner">
+                                        <img src="https://github.com/celalaygar/main/blob/main/project/lingua-bubble/p6.png?raw=true"
+                                            alt="Sentence Completion" class="w-full h-full object-cover">
+                                    </div>
+                                </div>
+                                <p id="game2Desc" class="mt-6 text-gray-600 max-w-md text-center">Cümledeki boşluğu
+                                    doğru kelimeyi tamamlayarak doldurun.</p>
+                            </div>
+                        </div>
+
+                        <!-- Sentence Builder -->
+                        <div class="slide">
+                            <div class="flex flex-col items-center">
+                                <h3 id="game3Title" class="text-2xl font-bold mb-4 text-purple-700">Sentence Builder
+                                </h3>
+                                <div class="phone-mockup w-64 mx-auto">
+                                    <div class="phone-screen-inner">
+                                        <img src="https://github.com/celalaygar/main/blob/main/project/lingua-bubble/p8.png?raw=true"
+                                            alt="Sentence Builder" class="w-full h-full object-cover">
+                                    </div>
+                                </div>
+                                <p id="game3Desc" class="mt-6 text-gray-600 max-w-md text-center">Karışık kelimeleri
+                                    doğru sıraya koyarak anlamlı cümleler oluşturun.</p>
+                            </div>
+                        </div>
+
+                        <!-- Speech Game -->
+                        <div class="slide">
+                            <div class="flex flex-col items-center">
+                                <h3 id="game4Title" class="text-2xl font-bold mb-4 text-purple-700">Speech Game</h3>
+                                <div class="phone-mockup w-64 mx-auto">
+                                    <div class="phone-screen-inner">
+                                        <img src="https://github.com/celalaygar/main/blob/main/project/lingua-bubble/p5.png?raw=true"
+                                            alt="Speech Game" class="w-full h-full object-cover">
+                                    </div>
+                                </div>
+                                <p id="game4Desc" class="mt-6 text-gray-600 max-w-md text-center">Dinlediğiniz cümledeki
+                                    eksik kelimeyi tahmin ederek dinleme becerinizi geliştirin.</p>
+                            </div>
+                        </div>
+
+                        <!-- Voice Match -->
+                        <div class="slide">
+                            <div class="flex flex-col items-center">
+                                <h3 id="game5Title" class="text-2xl font-bold mb-4 text-purple-700">Voice Match</h3>
+                                <div class="phone-mockup w-64 mx-auto">
+                                    <div class="phone-screen-inner">
+                                        <img src="https://github.com/celalaygar/main/blob/main/project/lingua-bubble/p4.png?raw=true"
+                                            alt="Voice Match" class="w-full h-full object-cover">
+                                    </div>
+                                </div>
+                                <p id="game5Desc" class="mt-6 text-gray-600 max-w-md text-center">Dinlediğiniz cümleyi
+                                    seçenekler arasından doğru şekilde eşleştirin.</p>
+                            </div>
+                        </div>
                     </div>
+
+                    <button id="gamesPrevBtn" class="slider-btn prev">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button id="gamesNextBtn" class="slider-btn next">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+
+                    <div id="gamesIndicators" class="indicators"></div>
                 </div>
-                
-                <!-- Sentence Completion -->
-                <div class="game-card bg-white rounded-xl shadow-lg overflow-hidden">
-                    <img src="https://github.com/celalaygar/main/blob/main/project/lingua-bubble/p6.png?raw=true" alt="Sentence Completion" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 id="game2Title" class="text-xl font-bold mb-2 text-purple-700">Sentence Completion</h3>
-                        <p id="game2Desc" class="text-gray-600">Cümledeki boşluğu doğru kelimeyi tamamlayarak doldurun.</p>
-                    </div>
-                </div>
-                
-                <!-- Sentence Builder -->
-                <div class="game-card bg-white rounded-xl shadow-lg overflow-hidden">
-                    <img src="https://github.com/celalaygar/main/blob/main/project/lingua-bubble/p8.png?raw=true" alt="Sentence Builder" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 id="game3Title" class="text-xl font-bold mb-2 text-purple-700">Sentence Builder</h3>
-                        <p id="game3Desc" class="text-gray-600">Karışık kelimeleri doğru sıraya koyarak anlamlı cümleler oluşturun.</p>
-                    </div>
-                </div>
-                
-                <!-- Speech Game -->
-                <div class="game-card bg-white rounded-xl shadow-lg overflow-hidden">
-                    <img src="https://github.com/celalaygar/main/blob/main/project/lingua-bubble/p5.png?raw=true" alt="Speech Game" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 id="game4Title" class="text-xl font-bold mb-2 text-purple-700">Speech Game</h3>
-                        <p id="game4Desc" class="text-gray-600">Dinlediğiniz cümledeki eksik kelimeyi tahmin ederek dinleme becerinizi geliştirin.</p>
-                    </div>
-                </div>
-                
-                <!-- Voice Match -->
-                <div class="game-card bg-white rounded-xl shadow-lg overflow-hidden">
-                    <img src="https://github.com/celalaygar/main/blob/main/project/lingua-bubble/p0.png?raw=true" alt="Voice Match" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <h3 id="game5Title" class="text-xl font-bold mb-2 text-purple-700">Voice Match</h3>
-                        <p id="game5Desc" class="text-gray-600">Dinlediğiniz cümleyi seçenekler arasından doğru şekilde eşleştirin.</p>
-                    </div>
-                </div>
-                
-                <!-- Boş kart (grid düzeni için) -->
-                <div class="hidden lg:block"></div>
             </div>
         </div>
     </section>
@@ -201,35 +387,112 @@
     <!-- Mobil Ekran Görüntüleri -->
     <section class="py-16 bg-white">
         <div class="container mx-auto px-4">
-            <h2 id="screenshotsTitle" class="text-3xl font-bold text-center mb-12 text-gray-800">Uygulama Ekran Görüntüleri</h2>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <!-- Dil Seçim Ekranı -->
-                <div class="mobile-mockup mx-auto">
-                    <div class="mobile-screen-inner">
-                        <img src="https://github.com/celalaygar/main/blob/main/project/lingua-bubble/p1.png?raw=true" alt="Dil Seçim Ekranı" class="w-full h-full object-cover">
+            <h2 id="screenshotsTitle" class="text-3xl font-bold text-center mb-12 text-gray-800">Uygulama Ekran
+                Görüntüleri</h2>
+
+            <div class="max-w-4xl mx-auto">
+                <div class="slider-container relative">
+                    <div id="screenshotsSlider" class="slider">
+                        <!-- Dil Seçim Ekranı -->
+                        <div class="slide">
+                            <div class="flex flex-col items-center">
+                                <h3 class="text-xl font-semibold mb-4">Dil Seçim Ekranı</h3>
+                                <div class="phone-mockup w-64 mx-auto">
+                                    <div class="phone-screen-inner">
+                                        <img src="https://github.com/celalaygar/main/blob/main/project/lingua-bubble/p1.png?raw=true"
+                                            alt="Dil Seçim Ekranı" class="w-full h-full object-cover">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Dil Seviyesi Seçim Ekranı -->
+                        <div class="slide">
+                            <div class="flex flex-col items-center">
+                                <h3 class="text-xl font-semibold mb-4">Dil Seviyesi Seçim Ekranı</h3>
+                                <div class="phone-mockup w-64 mx-auto">
+                                    <div class="phone-screen-inner">
+                                        <img src="https://github.com/celalaygar/main/blob/main/project/lingua-bubble/p3.png?raw=true"
+                                            alt="Dil Seviyesi Seçim Ekranı" class="w-full h-full object-cover">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Oyun Seçim Ekranı -->
+                        <div class="slide">
+                            <div class="flex flex-col items-center">
+                                <h3 class="text-xl font-semibold mb-4">Oyun Seçim Ekranı</h3>
+                                <div class="phone-mockup w-64 mx-auto">
+                                    <div class="phone-screen-inner">
+                                        <img src="https://github.com/celalaygar/main/blob/main/project/lingua-bubble/p2.png?raw=true"
+                                            alt="Oyun Seçim Ekranı" class="w-full h-full object-cover">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Speech Game Ekranı -->
+                        <div class="slide">
+                            <div class="flex flex-col items-center">
+                                <h3 class="text-xl font-semibold mb-4">Speech Game Ekranı</h3>
+                                <div class="phone-mockup w-64 mx-auto">
+                                    <div class="phone-screen-inner">
+                                        <img src="https://github.com/celalaygar/main/blob/main/project/lingua-bubble/p5.png?raw=true"
+                                            alt="Speech Game Ekranı" class="w-full h-full object-cover">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sentence Completion Ekranı -->
+                        <div class="slide">
+                            <div class="flex flex-col items-center">
+                                <h3 class="text-xl font-semibold mb-4">Sentence Completion Ekranı</h3>
+                                <div class="phone-mockup w-64 mx-auto">
+                                    <div class="phone-screen-inner">
+                                        <img src="https://github.com/celalaygar/main/blob/main/project/lingua-bubble/p6.png?raw=true"
+                                            alt="Sentence Completion Ekranı" class="w-full h-full object-cover">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Scrambled Word Ekranı -->
+                        <div class="slide">
+                            <div class="flex flex-col items-center">
+                                <h3 class="text-xl font-semibold mb-4">Scrambled Word Ekranı</h3>
+                                <div class="phone-mockup w-64 mx-auto">
+                                    <div class="phone-screen-inner">
+                                        <img src="https://github.com/celalaygar/main/blob/main/project/lingua-bubble/p7.png?raw=true"
+                                            alt="Scrambled Word Ekranı" class="w-full h-full object-cover">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sentence Builder Ekranı -->
+                        <div class="slide">
+                            <div class="flex flex-col items-center">
+                                <h3 class="text-xl font-semibold mb-4">Sentence Builder Ekranı</h3>
+                                <div class="phone-mockup w-64 mx-auto">
+                                    <div class="phone-screen-inner">
+                                        <img src="https://github.com/celalaygar/main/blob/main/project/lingua-bubble/p8.png?raw=true"
+                                            alt="Sentence Builder Ekranı" class="w-full h-full object-cover">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                
-                <!-- Dil Seviyesi Seçim Ekranı -->
-                <div class="mobile-mockup mx-auto">
-                    <div class="mobile-screen-inner">
-                        <img src="https://github.com/celalaygar/main/blob/main/project/lingua-bubble/p3.png?raw=true" alt="Dil Seviyesi Seçim Ekranı" class="w-full h-full object-cover">
-                    </div>
-                </div>
-                
-                <!-- Oyun Seçim Ekranı -->
-                <div class="mobile-mockup mx-auto">
-                    <div class="mobile-screen-inner">
-                        <img src="https://github.com/celalaygar/main/blob/main/project/lingua-bubble/p2.png?raw=true" alt="Oyun Seçim Ekranı" class="w-full h-full object-cover">
-                    </div>
-                </div>
-                
-                <!-- Speech Game Ekranı -->
-                <div class="mobile-mockup mx-auto">
-                    <div class="mobile-screen-inner">
-                        <img src="https://github.com/celalaygar/main/blob/main/project/lingua-bubble/p5.png?raw=true" alt="Speech Game Ekranı" class="w-full h-full object-cover">
-                    </div>
+
+                    <button id="screenshotsPrevBtn" class="slider-btn prev">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button id="screenshotsNextBtn" class="slider-btn next">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+
+                    <div id="screenshotsIndicators" class="indicators"></div>
                 </div>
             </div>
         </div>
@@ -239,18 +502,21 @@
     <section class="py-16 bg-purple-700 text-white">
         <div class="container mx-auto px-4 text-center">
             <h2 id="downloadTitle" class="text-3xl font-bold mb-4">Lingua Bubble'ı İndirin</h2>
-            <p id="downloadSubtitle" class="text-xl mb-8 max-w-2xl mx-auto">Dil öğrenme yolculuğunuza hemen başlayın. App Store ve Google Play'den indirebilirsiniz.</p>
-            
+            <p id="downloadSubtitle" class="text-xl mb-8 max-w-2xl mx-auto">Dil öğrenme yolculuğunuza hemen başlayın.
+                App Store ve Google Play'den indirebilirsiniz.</p>
+
             <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-6">
-                <a href="https://play.google.com/store/apps/details?id=com.new.language&hl=en" target="_blank" class="bg-black hover:bg-gray-800 text-white px-8 py-4 rounded-lg flex items-center justify-center transition">
+                <a href="https://play.google.com/store/apps/details?id=com.new.language&hl=en" target="_blank"
+                    class="bg-black hover:bg-gray-800 text-white px-8 py-4 rounded-lg flex items-center justify-center transition">
                     <i class="fab fa-google-play mr-3 text-2xl"></i>
                     <div class="text-left">
                         <div class="text-xs" id="googlePlayFrom">Google Play'den</div>
                         <div class="text-lg font-bold" id="googlePlayDownload">İndirin</div>
                     </div>
                 </a>
-                
-                <a href="https://apps.apple.com/tr/app/lingua-bubble/id6752529243" target="_blank" class="bg-black hover:bg-gray-800 text-white px-8 py-4 rounded-lg flex items-center justify-center transition">
+
+                <a href="https://apps.apple.com/tr/app/lingua-bubble/id6752529243" target="_blank"
+                    class="bg-black hover:bg-gray-800 text-white px-8 py-4 rounded-lg flex items-center justify-center transition">
                     <i class="fab fa-apple mr-3 text-2xl"></i>
                     <div class="text-left">
                         <div class="text-xs" id="appStoreFrom">App Store'dan</div>
@@ -272,9 +538,10 @@
                         </div>
                         <span class="text-xl font-bold">Lingua Bubble</span>
                     </div>
-                    <p class="mt-2 text-gray-400">© 2023 Lingua Bubble. <span id="footerCopyright">Tüm hakları saklıdır.</span></p>
+                    <p class="mt-2 text-gray-400">© 2023 Lingua Bubble. <span id="footerCopyright">Tüm hakları
+                            saklıdır.</span></p>
                 </div>
-                
+
                 <div class="flex space-x-4">
                     <a href="#" class="text-gray-400 hover:text-white transition">
                         <i class="fab fa-facebook-f text-xl"></i>
@@ -308,6 +575,17 @@
                 step2Desc: "A1, A2, B1, B2, C1 veya C2 seviyelerinden kendi seviyenizi seçin.",
                 step3Title: "Oyun Oyna",
                 step3Desc: "5 farklı oyun seçeneği ile dil becerilerinizi geliştirin.",
+                gameSelectionTitle: "Oyun Seçimi",
+                scrambledWordTitle: "Scrambled Word",
+                scrambledWordDesc: "Kelime harfleri karışık veriliyor ve doğru yerleştirip kelimeyi bulmaya çalışıyorsunuz.",
+                sentenceCompletionTitle: "Sentence Completion",
+                sentenceCompletionDesc: "Cümlede bir kelime boş kalıyor ve o kelimeyi bulup cümleye yerleştirmeye çalışıyorsunuz.",
+                sentenceBuilderTitle: "Sentence Builder",
+                sentenceBuilderDesc: "Cümlenin kelimeleri yerleri değişik olarak karşınıza çıkıyor ve yeniden cümleyi oluşturuyorsunuz.",
+                speechGameTitle: "Speech Game",
+                speechGameDesc: "Cümleyi ses olarak dinliyorsun ve boş kalan kelimenin harfleri karışık veriliyor, o kelimeyi bulmaya çalışıyorsun.",
+                voiceMatchTitle: "Voice Match",
+                voiceMatchDesc: "Sesi dinliyorsun ve birkaç cümle arasından dinlediğin sese bağlı olan cümle ile eşlemeye çalışıyorsun. Seslendirilen cümle hangisi ise onunla ilgili seçim yapıyorsun.",
                 gamesTitle: "Oyunlarımız",
                 game1Title: "Scrambled Word",
                 game1Desc: "Karışık harflerden doğru kelimeyi oluşturun ve kelime dağarcığınızı genişletin.",
@@ -340,6 +618,17 @@
                 step2Desc: "Select your level from A1, A2, B1, B2, C1 or C2.",
                 step3Title: "Play Games",
                 step3Desc: "Develop your language skills with 5 different game options.",
+                gameSelectionTitle: "Game Selection",
+                scrambledWordTitle: "Scrambled Word",
+                scrambledWordDesc: "The letters of the word are given mixed up and you try to find the word by placing them correctly.",
+                sentenceCompletionTitle: "Sentence Completion",
+                sentenceCompletionDesc: "A word is missing in the sentence and you try to find the correct word and place it in the sentence.",
+                sentenceBuilderTitle: "Sentence Builder",
+                sentenceBuilderDesc: "The words of the sentence appear in different positions and you rebuild the sentence.",
+                speechGameTitle: "Speech Game",
+                speechGameDesc: "You listen to the sentence as audio and a word is missing in the sentence. The letters of the missing word are given mixed up and you try to find that word.",
+                voiceMatchTitle: "Voice Match",
+                voiceMatchDesc: "You listen to the audio and try to match it with the related sentence among several sentences. You make a selection for the spoken sentence from three options.",
                 gamesTitle: "Our Games",
                 game1Title: "Scrambled Word",
                 game1Desc: "Create the correct word from mixed letters and expand your vocabulary.",
@@ -372,6 +661,17 @@
                 step2Desc: "Wählen Sie Ihr Niveau von A1, A2, B1, B2, C1 oder C2.",
                 step3Title: "Spiele spielen",
                 step3Desc: "Entwickeln Sie Ihre Sprachfähigkeiten mit 5 verschiedenen Spieloptionen.",
+                gameSelectionTitle: "Spielauswahl",
+                scrambledWordTitle: "Scrambled Word",
+                scrambledWordDesc: "Die Buchstaben des Wortes werden gemischt gegeben und Sie versuchen, das Wort durch korrekte Platzierung zu finden.",
+                sentenceCompletionTitle: "Sentence Completion",
+                sentenceCompletionDesc: "Ein Wort fehlt im Satz und Sie versuchen, das richtige Wort zu finden und es in den Satz einzufügen.",
+                sentenceBuilderTitle: "Sentence Builder",
+                sentenceBuilderDesc: "Die Wörter des Satzes erscheinen an verschiedenen Positionen und Sie bauen den Satz neu auf.",
+                speechGameTitle: "Speech Game",
+                speechGameDesc: "Sie hören den Satz als Audio und ein Wort fehlt im Satz. Die Buchstaben des fehlenden Wortes werden gemischt gegeben und Sie versuchen, dieses Wort zu finden.",
+                voiceMatchTitle: "Voice Match",
+                voiceMatchDesc: "Sie hören die Audio und versuchen, sie mit dem zugehörigen Satz unter mehreren Sätzen abzugleichen. Sie treffen eine Auswahl für den gesprochenen Satz aus drei Optionen.",
                 gamesTitle: "Unsere Spiele",
                 game1Title: "Scrambled Word",
                 game1Desc: "Erstellen Sie das richtige Wort aus gemischten Buchstaben und erweitern Sie Ihren Wortschatz.",
@@ -404,6 +704,17 @@
                 step2Desc: "Seleziona il tuo livello da A1, A2, B1, B2, C1 o C2.",
                 step3Title: "Gioca",
                 step3Desc: "Sviluppa le tue abilità linguistiche con 5 diverse opzioni di gioco.",
+                gameSelectionTitle: "Selezione del Gioco",
+                scrambledWordTitle: "Scrambled Word",
+                scrambledWordDesc: "Le lettere della parola sono date mescolate e cerchi di trovare la parola posizionandole correttamente.",
+                sentenceCompletionTitle: "Sentence Completion",
+                sentenceCompletionDesc: "Una parola manca nella frase e cerchi di trovare la parola corretta e inserirla nella frase.",
+                sentenceBuilderTitle: "Sentence Builder",
+                sentenceBuilderDesc: "Le parole della frase appaiono in posizioni diverse e tu ricostruisci la frase.",
+                speechGameTitle: "Speech Game",
+                speechGameDesc: "Ascolti la frase come audio e una parola manca nella frase. Le lettere della parola mancante sono date mescolate e cerchi di trovare quella parola.",
+                voiceMatchTitle: "Voice Match",
+                voiceMatchDesc: "Ascolti l'audio e cerchi di abbinarlo alla frase correlata tra diverse frasi. Fai una selezione per la frase pronunciata da tre opzioni.",
                 gamesTitle: "I Nostri Giochi",
                 game1Title: "Scrambled Word",
                 game1Desc: "Crea la parola corretta da lettere mescolate e espandi il tuo vocabolario.",
@@ -436,6 +747,17 @@
                 step2Desc: "Selecione seu nível de A1, A2, B1, B2, C1 ou C2.",
                 step3Title: "Jogar Jogos",
                 step3Desc: "Desenvolva suas habilidades linguísticas com 5 opções diferentes de jogos.",
+                gameSelectionTitle: "Seleção de Jogo",
+                scrambledWordTitle: "Scrambled Word",
+                scrambledWordDesc: "As letras da palavra são dadas embaralhadas e você tenta encontrar a palavra colocando-as corretamente.",
+                sentenceCompletionTitle: "Sentence Completion",
+                sentenceCompletionDesc: "Uma palavra está faltando na frase e você tenta encontrar a palavra correta e colocá-la na frase.",
+                sentenceBuilderTitle: "Sentence Builder",
+                sentenceBuilderDesc: "As palavras da frase aparecem em posições diferentes e você reconstrói a frase.",
+                speechGameTitle: "Speech Game",
+                speechGameDesc: "Você ouve a frase como áudio e uma palavra está faltando na frase. As letras da palavra faltante são dadas embaralhadas e você tenta encontrar essa palavra.",
+                voiceMatchTitle: "Voice Match",
+                voiceMatchDesc: "Você ouve o áudio e tenta combiná-lo com a frase relacionada entre várias frases. Você faz uma seleção para a frase falada a partir de três opções.",
                 gamesTitle: "Nossos Jogos",
                 game1Title: "Scrambled Word",
                 game1Desc: "Crie a palavra correta a partir de letras misturadas e expanda seu vocabulário.",
@@ -468,6 +790,17 @@
                 step2Desc: "Sélectionnez votre niveau parmi A1, A2, B1, B2, C1 ou C2.",
                 step3Title: "Jouer à des Jeux",
                 step3Desc: "Développez vos compétences linguistiques avec 5 options de jeu différentes.",
+                gameSelectionTitle: "Sélection de Jeu",
+                scrambledWordTitle: "Scrambled Word",
+                scrambledWordDesc: "Les lettres du mot sont données mélangées et vous essayez de trouver le mot en les plaçant correctement.",
+                sentenceCompletionTitle: "Sentence Completion",
+                sentenceCompletionDesc: "Un mot manque dans la phrase et vous essayez de trouver le mot correct et de le placer dans la phrase.",
+                sentenceBuilderTitle: "Sentence Builder",
+                sentenceBuilderDesc: "Les mots de la phrase apparaissent à des positions différentes et vous reconstruisez la phrase.",
+                speechGameTitle: "Speech Game",
+                speechGameDesc: "Vous écoutez la phrase comme audio et un mot manque dans la phrase. Les lettres du mot manquant sont données mélangées et vous essayez de trouver ce mot.",
+                voiceMatchTitle: "Voice Match",
+                voiceMatchDesc: "Vous écoutez l'audio et essayez de le faire correspondre à la phrase associée parmi plusieurs phrases. Vous faites une sélection pour la phrase prononcée à partir de trois options.",
                 gamesTitle: "Nos Jeux",
                 game1Title: "Scrambled Word",
                 game1Desc: "Créez le mot correct à partir de lettres mélangées et élargissez votre vocabulaire.",
@@ -500,6 +833,17 @@
                 step2Desc: "Выберите свой уровень из A1, A2, B1, B2, C1 или C2.",
                 step3Title: "Играть в игры",
                 step3Desc: "Развивайте свои языковые навыки с помощью 5 различных игровых опций.",
+                gameSelectionTitle: "Выбор игры",
+                scrambledWordTitle: "Scrambled Word",
+                scrambledWordDesc: "Буквы слова даются в перемешанном виде, и вы пытаетесь найти слово, правильно расставляя их.",
+                sentenceCompletionTitle: "Sentence Completion",
+                sentenceCompletionDesc: "В предложении отсутствует слово, и вы пытаетесь найти правильное слово и поместить его в предложение.",
+                sentenceBuilderTitle: "Sentence Builder",
+                sentenceBuilderDesc: "Слова предложения появляются в разных позициях, и вы перестраиваете предложение.",
+                speechGameTitle: "Speech Game",
+                speechGameDesc: "Вы слушаете предложение как аудио, и в предложении отсутствует слово. Буквы отсутствующего слова даются в перемешанном виде, и вы пытаетесь найти это слово.",
+                voiceMatchTitle: "Voice Match",
+                voiceMatchDesc: "Вы слушаете аудио и пытаетесь сопоставить его с соответствующим предложением среди нескольких предложений. Вы делаете выбор для произнесенного предложения из трех вариантов.",
                 gamesTitle: "Наши игры",
                 game1Title: "Scrambled Word",
                 game1Desc: "Создайте правильное слово из перемешанных букв и расширьте свой словарный запас.",
@@ -532,6 +876,17 @@
                 step2Desc: "Selecciona tu nivel de A1, A2, B1, B2, C1 o C2.",
                 step3Title: "Jugar Juegos",
                 step3Desc: "Desarrolla tus habilidades lingüísticas con 5 opciones diferentes de juegos.",
+                gameSelectionTitle: "Selección de Juego",
+                scrambledWordTitle: "Scrambled Word",
+                scrambledWordDesc: "Las letras de la palabra se dan mezcladas y tratas de encontrar la palabra colocándolas correctamente.",
+                sentenceCompletionTitle: "Sentence Completion",
+                sentenceCompletionDesc: "Falta una palabra en la oración y tratas de encontrar la palabra correcta y colocarla en la oración.",
+                sentenceBuilderTitle: "Sentence Builder",
+                sentenceBuilderDesc: "Las palabras de la oración aparecen en diferentes posiciones y tú reconstruyes la oración.",
+                speechGameTitle: "Speech Game",
+                speechGameDesc: "Escuchas la oración como audio y falta una palabra en la oración. Las letras de la palabra faltante se dan mezcladas y tratas de encontrar esa palabra.",
+                voiceMatchTitle: "Voice Match",
+                voiceMatchDesc: "Escuchas el audio y tratas de combinarlo con la oración relacionada entre varias oraciones. Haces una selección para la oración pronunciada de tres opciones.",
                 gamesTitle: "Nuestros Juegos",
                 game1Title: "Scrambled Word",
                 game1Desc: "Crea la palabra correcta a partir de letras mezcladas y expande tu vocabulario.",
@@ -564,6 +919,17 @@
                 step2Desc: "A1, A2, B1, B2, C1 또는 C2 수준 중 자신의 수준을 선택하세요.",
                 step3Title: "게임 플레이",
                 step3Desc: "5가지 다른 게임 옵션으로 언어 능력을 발전시키세요.",
+                gameSelectionTitle: "게임 선택",
+                scrambledWordTitle: "Scrambled Word",
+                scrambledWordDesc: "단어의 문자가 섞여서 제공되고 올바르게 배치하여 단어를 찾으려고 노력합니다.",
+                sentenceCompletionTitle: "Sentence Completion",
+                sentenceCompletionDesc: "문장에 단어가 비어 있고 올바른 단어를 찾아 문장에 배치하려고 노력합니다.",
+                sentenceBuilderTitle: "Sentence Builder",
+                sentenceBuilderDesc: "문장의 단어들이 다른 위치에 나타나고 당신은 문장을 다시 만듭니다.",
+                speechGameTitle: "Speech Game",
+                speechGameDesc: "문장을 오디오로 듣고 문장에 단어가 비어 있습니다. 비어 있는 단어의 문자가 섞여서 제공되고 그 단어를 찾으려고 노력합니다.",
+                voiceMatchTitle: "Voice Match",
+                voiceMatchDesc: "오디오를 듣고 여러 문장 중 관련 문장과 일치시키려고 노력합니다. 세 가지 옵션 중 발음된 문장에 대한 선택을 합니다.",
                 gamesTitle: "우리의 게임",
                 game1Title: "Scrambled Word",
                 game1Desc: "섞인 문자로 올바른 단어를 만들고 어휘를 확장하세요.",
@@ -587,33 +953,33 @@
         };
 
         // Dil seçici işlevselliği
-        document.getElementById('languageDropdown').addEventListener('click', function() {
+        document.getElementById('languageDropdown').addEventListener('click', function () {
             const menu = document.getElementById('languageMenu');
             menu.classList.toggle('hidden');
         });
-        
+
         // Dil seçenekleri
         const languageOptions = document.querySelectorAll('.language-option');
         const selectedLanguage = document.getElementById('selectedLanguage');
-        
+
         languageOptions.forEach(option => {
-            option.addEventListener('click', function(e) {
+            option.addEventListener('click', function (e) {
                 e.preventDefault();
                 const lang = this.getAttribute('data-lang');
                 const langText = this.textContent;
-                
+
                 selectedLanguage.textContent = langText;
                 document.getElementById('languageMenu').classList.add('hidden');
-                
+
                 // Sayfayı seçilen dile göre çevir
                 translatePage(lang);
             });
         });
-        
+
         // Sayfa çeviri fonksiyonu
         function translatePage(lang) {
             const translation = translations[lang];
-            
+
             // Başlıklar ve metinleri güncelle
             document.getElementById('heroTitle').textContent = translation.heroTitle;
             document.getElementById('heroSubtitle').textContent = translation.heroSubtitle;
@@ -626,6 +992,17 @@
             document.getElementById('step2Desc').textContent = translation.step2Desc;
             document.getElementById('step3Title').textContent = translation.step3Title;
             document.getElementById('step3Desc').textContent = translation.step3Desc;
+            document.getElementById('gameSelectionTitle').textContent = translation.gameSelectionTitle;
+            document.getElementById('scrambledWordTitle').textContent = translation.scrambledWordTitle;
+            document.getElementById('scrambledWordDesc').textContent = translation.scrambledWordDesc;
+            document.getElementById('sentenceCompletionTitle').textContent = translation.sentenceCompletionTitle;
+            document.getElementById('sentenceCompletionDesc').textContent = translation.sentenceCompletionDesc;
+            document.getElementById('sentenceBuilderTitle').textContent = translation.sentenceBuilderTitle;
+            document.getElementById('sentenceBuilderDesc').textContent = translation.sentenceBuilderDesc;
+            document.getElementById('speechGameTitle').textContent = translation.speechGameTitle;
+            document.getElementById('speechGameDesc').textContent = translation.speechGameDesc;
+            document.getElementById('voiceMatchTitle').textContent = translation.voiceMatchTitle;
+            document.getElementById('voiceMatchDesc').textContent = translation.voiceMatchDesc;
             document.getElementById('gamesTitle').textContent = translation.gamesTitle;
             document.getElementById('game1Title').textContent = translation.game1Title;
             document.getElementById('game1Desc').textContent = translation.game1Desc;
@@ -646,27 +1023,85 @@
             document.getElementById('appStoreDownload').textContent = translation.appStoreDownload;
             document.getElementById('footerCopyright').textContent = translation.footerCopyright;
         }
-        
+
         // Sayfa dışına tıklandığında dil menüsünü kapat
-        document.addEventListener('click', function(event) {
+        document.addEventListener('click', function (event) {
             const dropdown = document.getElementById('languageDropdown');
             const menu = document.getElementById('languageMenu');
-            
+
             if (!dropdown.contains(event.target) && !menu.contains(event.target)) {
                 menu.classList.add('hidden');
             }
         });
-        
-        // Smooth scroll için
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
+
+        // Slider işlevselliği
+        function initSlider(sliderId, prevBtnId, nextBtnId, indicatorsId) {
+            const slider = document.getElementById(sliderId);
+            const slides = slider.querySelectorAll('.slide');
+            const prevBtn = document.getElementById(prevBtnId);
+            const nextBtn = document.getElementById(nextBtnId);
+            const indicatorsContainer = document.getElementById(indicatorsId);
+
+            let currentIndex = 0;
+
+            // İndikatörleri oluştur
+            slides.forEach((_, index) => {
+                const indicator = document.createElement('div');
+                indicator.classList.add('indicator');
+                if (index === 0) indicator.classList.add('active');
+                indicator.addEventListener('click', () => {
+                    goToSlide(index);
                 });
+                indicatorsContainer.appendChild(indicator);
             });
+
+            const indicators = indicatorsContainer.querySelectorAll('.indicator');
+
+            // Slayda git
+            function goToSlide(index) {
+                currentIndex = index;
+                slider.style.transform = `translateX(-${currentIndex * 100}%)`;
+
+                // İndikatörleri güncelle
+                indicators.forEach((indicator, i) => {
+                    indicator.classList.toggle('active', i === currentIndex);
+                });
+            }
+
+            // Önceki slayt
+            prevBtn.addEventListener('click', () => {
+                if (currentIndex > 0) {
+                    goToSlide(currentIndex - 1);
+                } else {
+                    goToSlide(slides.length - 1); // İlk slaytta ise sona git
+                }
+            });
+
+            // Sonraki slayt
+            nextBtn.addEventListener('click', () => {
+                if (currentIndex < slides.length - 1) {
+                    goToSlide(currentIndex + 1);
+                } else {
+                    goToSlide(0); // Son slaytta ise başa git
+                }
+            });
+
+            // Otomatik slayt geçişi
+            setInterval(() => {
+                if (currentIndex < slides.length - 1) {
+                    goToSlide(currentIndex + 1);
+                } else {
+                    goToSlide(0);
+                }
+            }, 5000);
+        }
+
+        // Slider'ları başlat
+        document.addEventListener('DOMContentLoaded', () => {
+            initSlider('gamesSlider', 'gamesPrevBtn', 'gamesNextBtn', 'gamesIndicators');
+            initSlider('screenshotsSlider', 'screenshotsPrevBtn', 'screenshotsNextBtn', 'screenshotsIndicators');
         });
     </script>
 </body>
+
 </html>
