@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Hacı Celal Aygar - Oyunlar & Portföy</title>
+    <title>Hacı Celal Aygar - Oyunlar & Özgeçmiş</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <script>
@@ -188,8 +188,8 @@
             </button>
             <button
                 class="category-filter px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
-                data-category="portfolio">
-                <i class="fas fa-briefcase mr-2"></i><span id="portfolioCategory">Portföy</span>
+                data-category="Resume">
+                <i class="fas fa-briefcase mr-2"></i><span id="ResumeCategory">Özgeçmiş</span>
             </button>
             <button
                 class="category-filter px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
@@ -443,7 +443,7 @@
                     <!-- CTA Button -->
                     <a href="https://celalaygar.github.io/" target="_blank"
                         class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-medium rounded-lg hover:opacity-90 transition-opacity">
-                        <span id="portfolioButton">Portföyümü Görüntüle</span>
+                        <span id="ResumeButton">Özgeçmişümü Görüntüle</span>
                         <i class="fas fa-arrow-right ml-2"></i>
                     </a>
                 </div>
@@ -525,9 +525,9 @@
     <script>
         // Game data with categories
         const games = [
-            { en: "Portfolio", tr: "Portföy", url: "https://celalaygar.github.io/", color: "from-indigo-500 to-purple-500", category: "portfolio" },
+            { en: "Resume", tr: "Özgeçmiş", url: "https://celalaygar.github.io/", color: "from-indigo-500 to-purple-500", category: "Resume" },
             { en: "Profile Track", tr: "Profile Track", url: "https://celalaygar.github.io/main/project/profile-track/", color: "from-purple-200 to-indigo-600", category: "project" },
-            { en: "Domain Track", tr: "Domain Track", url: "https://celalaygar.github.io/main/project/domain-track/", color: "from-cyan-500 to-yellow-200", category: "project" },
+            { en: "Domain Track", tr: "Domain Track", url: "https://celalaygar.github.io/main/project/domain-track/", color: "from-orange-500 to-yellow-300", category: "project" },
             { en: "Job Tracking System V2", tr: "İş Takip Sistemi V2", url: "https://celalaygar.github.io/main/project/job-tracking-system-v2/", color: "from-green-500 to-teal-600", category: "project" },
             { en: "Lingua Bubble", tr: "Lingua Bubble", url: "https://celalaygar.github.io/main/project/lingua-bubble/", color: "from-yellow-300 to-blue-400", category: "project" },
             { en: "Interview Questions", tr: "Mülakat Soruları", url: "https://celalaygar.github.io/main/interview_q-1/", color: "from-yellow-500 to-orange-600", category: "general" },
@@ -564,12 +564,12 @@
         const heroTitle = document.getElementById("heroTitle");
         const heroSubtitle = document.getElementById("heroSubtitle");
         const skillsTitle = document.getElementById("skillsTitle");
-        const portfolioButton = document.getElementById("portfolioButton");
+        const ResumeButton = document.getElementById("ResumeButton");
         const socialTitle = document.getElementById("socialTitle");
         const footerText = document.getElementById("footerText");
         const allCategory = document.getElementById("allCategory");
         const gameCategory = document.getElementById("gameCategory");
-        const portfolioCategory = document.getElementById("portfolioCategory");
+        const ResumeCategory = document.getElementById("ResumeCategory");
         const projectCategory = document.getElementById("projectCategory");
         const generalCategory = document.getElementById("generalCategory");
         const featuredProjectsTitle = document.getElementById("featuredProjectsTitle");
@@ -594,12 +594,12 @@ Also I am constantly working to make life easier and trying to find solutions to
                 heroTitle: "My Software Projects & Games",
                 heroSubtitle: "Projects and games developed as a Full Stack Developer",
                 skillsTitle: "Skills",
-                portfolioButton: "View My Portfolio",
+                ResumeButton: "View My Resume",
                 socialTitle: "Social Media & Connections",
                 footerText: "Full Stack Developer & Java Developer",
                 allCategory: "All",
                 gameCategory: "Games",
-                portfolioCategory: "Portfolio",
+                ResumeCategory: "Resume",
                 projectCategory: "Projects",
                 generalCategory: "General",
                 featuredProjectsTitle: "My Featured Projects",
@@ -617,12 +617,12 @@ Bunun yanında hayatı kolaylaştırmak için sürekli çalışıyor ve insanlar
                 heroTitle: "Yazılım Projelerim & Oyunlarım",
                 heroSubtitle: "Full Stack Developer olarak geliştirdiğim projeler ve oyunlar",
                 skillsTitle: "Yetenekler",
-                portfolioButton: "Portföyümü Görüntüle",
+                ResumeButton: "Özgeçmişümü Görüntüle",
                 socialTitle: "Sosyal Medya & Bağlantılar",
                 footerText: "Full Stack Developer & Java Geliştirici",
                 allCategory: "Tümü",
                 gameCategory: "Oyunlar",
-                portfolioCategory: "Portföy",
+                ResumeCategory: "Özgeçmiş",
                 projectCategory: "Projeler",
                 generalCategory: "Genel",
                 featuredProjectsTitle: "Öne Çıkan Projelerim",
@@ -701,7 +701,7 @@ Bunun yanında hayatı kolaylaştırmak için sürekli çalışıyor ve insanlar
 
                 // Set icon based on category
                 let icon = "fa-gamepad";
-                if (game.category === "portfolio") {
+                if (game.category === "Resume") {
                     icon = "fa-briefcase";
                 } else if (game.category === "project") {
                     icon = "fa-project-diagram";
@@ -728,12 +728,12 @@ Bunun yanında hayatı kolaylaştırmak için sürekli çalışıyor ve insanlar
             heroTitle.textContent = translations[lang].heroTitle;
             heroSubtitle.textContent = translations[lang].heroSubtitle;
             skillsTitle.textContent = translations[lang].skillsTitle;
-            portfolioButton.textContent = translations[lang].portfolioButton;
+            ResumeButton.textContent = translations[lang].ResumeButton;
             socialTitle.textContent = translations[lang].socialTitle;
             footerText.textContent = translations[lang].footerText;
             allCategory.textContent = translations[lang].allCategory;
             gameCategory.textContent = translations[lang].gameCategory;
-            portfolioCategory.textContent = translations[lang].portfolioCategory;
+            ResumeCategory.textContent = translations[lang].ResumeCategory;
             projectCategory.textContent = translations[lang].projectCategory;
             generalCategory.textContent = translations[lang].generalCategory;
             featuredProjectsTitle.textContent = translations[lang].featuredProjectsTitle;
