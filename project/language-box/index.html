@@ -102,12 +102,15 @@
         /* DİL SEÇİCİ STİLLERİ - Okunabilirlik İçin Güncellendi */
         .language-selector {
             appearance: none;
-            background-color: rgba(30, 41, 59, 0.9); /* Daha koyu ve opak arka plan */
+            background-color: rgba(30, 41, 59, 0.9);
+            /* Daha koyu ve opak arka plan */
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.3);
-            padding: 10px 36px 10px 16px; /* İkon için sağda boşluk */
+            padding: 10px 36px 10px 16px;
+            /* İkon için sağda boşluk */
             border-radius: 8px;
-            color: white; /* Beyaz yazı */
+            color: white;
+            /* Beyaz yazı */
             font-weight: 500;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -130,8 +133,10 @@
 
         /* Option elementleri tarayıcı tarzından etkilenir ancak burada temel ayarları yapıyoruz */
         .language-selector option {
-            background-color: #1e293b; /* Koyu gri arka plan */
-            color: white; /* Beyaz yazı */
+            background-color: #1e293b;
+            /* Koyu gri arka plan */
+            color: white;
+            /* Beyaz yazı */
             padding: 10px;
         }
 
@@ -215,15 +220,31 @@
         }
 
         @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-            100% { transform: translateY(0px); }
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
         }
 
         @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                transform: scale(1);
+            }
         }
 
         .float-animation {
@@ -406,13 +427,11 @@
                         fun and effective.
                     </p>
                     <div class="flex justify-center lg:justify-start gap-4 flex-wrap mb-8">
-                        <a href="" target="_blank"
-                            class="download-button">
+                        <a href="" target="_blank" class="download-button">
                             <i class="fab fa-apple text-xl"></i>
                             <span data-i18n="btn_apple">Download on App Store</span>
                         </a>
-                        <a href="" target="_blank"
-                            class="download-button">
+                        <a href="" target="_blank" class="download-button">
                             <i class="fab fa-google-play text-xl"></i>
                             <span data-i18n="btn_google">Get it on Google Play</span>
                         </a>
@@ -448,7 +467,8 @@
     <!-- App Screenshots Slider Section -->
     <section class="py-20 px-6 bg-gray-900 bg-opacity-50">
         <div class="container mx-auto">
-            <h2 class="text-4xl font-bold text-center mb-12 gradient-text" data-i18n="section_screenshots">App Screenshots</h2>
+            <h2 class="text-4xl font-bold text-center mb-12 gradient-text" data-i18n="section_screenshots">App
+                Screenshots</h2>
 
             <div class="slider-container">
                 <div class="slider" id="screenshotSlider">
@@ -523,7 +543,8 @@
     <!-- Games Section -->
     <section class="py-20 px-6">
         <div class="container mx-auto">
-            <h2 class="text-4xl font-bold text-center mb-4 gradient-text" data-i18n="section_games">Interactive Language Games</h2>
+            <h2 class="text-4xl font-bold text-center mb-4 gradient-text" data-i18n="section_games">Interactive Language
+                Games</h2>
             <p class="text-center text-gray-300 mb-12 max-w-2xl mx-auto" data-i18n="section_games_desc">
                 Each game targets specific language skills to help you become fluent faster
             </p>
@@ -559,7 +580,8 @@
                     <div class="flex justify-center gap-2 text-sm text-gray-400">
                         <span class="px-3 py-1 bg-gray-800 rounded-full" data-i18n="tag_vocab">Vocabulary</span>
                         <span class="px-3 py-1 bg-gray-800 rounded-full" data-i18n="tag_context">Context</span>
-                        <span class="px-3 py-1 bg-gray-800 rounded-full" data-i18n="tag_intermediate">Intermediate</span>
+                        <span class="px-3 py-1 bg-gray-800 rounded-full"
+                            data-i18n="tag_intermediate">Intermediate</span>
                     </div>
                 </div>
 
@@ -610,7 +632,8 @@
                     <div class="flex justify-center gap-2 text-sm text-gray-400">
                         <span class="px-3 py-1 bg-gray-800 rounded-full" data-i18n="tag_dictation">Dictation</span>
                         <span class="px-3 py-1 bg-gray-800 rounded-full" data-i18n="tag_spelling">Spelling</span>
-                        <span class="px-3 py-1 bg-gray-800 rounded-full" data-i18n="tag_intermediate">Intermediate</span>
+                        <span class="px-3 py-1 bg-gray-800 rounded-full"
+                            data-i18n="tag_intermediate">Intermediate</span>
                     </div>
                 </div>
 
@@ -722,7 +745,8 @@
     <!-- Stats Section -->
     <section class="py-20 px-6">
         <div class="container mx-auto">
-            <h2 class="text-4xl font-bold text-center mb-12 gradient-text" data-i18n="section_stats">Your Learning Statistics</h2>
+            <h2 class="text-4xl font-bold text-center mb-12 gradient-text" data-i18n="section_stats">Your Learning
+                Statistics</h2>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
                 <div class="stats-card">
@@ -752,7 +776,8 @@
     <!-- FAQ Section -->
     <section class="py-20 px-6 bg-gray-900 bg-opacity-50">
         <div class="container mx-auto max-w-4xl">
-            <h2 class="text-4xl font-bold text-center mb-12 gradient-text" data-i18n="section_faq">Frequently Asked Questions</h2>
+            <h2 class="text-4xl font-bold text-center mb-12 gradient-text" data-i18n="section_faq">Frequently Asked
+                Questions</h2>
 
             <div class="faq-list">
                 <div class="faq-item">
@@ -965,9 +990,9 @@
             tr: {
                 app_title: "Language Box",
                 hero_badge: "#1 Dil Öğrenme Uygulaması",
-                hero_h1_1: "Dilleri Öğrenin",
+                hero_h1_1: "Etkileşimli Oyunlar",
                 hero_h1_2: "Aracılığıyla",
-                hero_h1_3: "Etkileşimli Oyunlar",
+                hero_h1_3: "Dilleri Öğrenin",
                 hero_desc: "Öğrenmeyi eğlenceli ve etkili hale getirmek için tasarlanmış, ilgi çekici interaktif oyunlarımızla yeni dilleri öğrenin.",
                 btn_apple: "App Store'dan İndir",
                 btn_google: "Google Play'den Al",
@@ -1200,10 +1225,10 @@
 
         // === DİL DEĞİŞTİRME MANTIĞI ===
         const languageSelector = document.getElementById('languageSelector');
-        
+
         function changeLanguage(lang) {
             const elements = document.querySelectorAll('[data-i18n]');
-            
+
             elements.forEach(element => {
                 const key = element.getAttribute('data-i18n');
                 if (translations[lang] && translations[lang][key]) {
@@ -1225,7 +1250,7 @@
 
 
         // === DİĞER JS FONKSİYONLARI (SLIDER VE FAQ) ===
-        
+
         // FAQ accordion functionality
         document.querySelectorAll('.faq-question').forEach(question => {
             question.addEventListener('click', () => {
