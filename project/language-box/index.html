@@ -38,13 +38,6 @@
             background-clip: text;
         }
 
-        .gradient-text-blue {
-            background: linear-gradient(90deg, #3B82F6, #4F46E5);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
         .hero-gradient {
             background: linear-gradient(135deg, rgba(79, 70, 229, 0.1), rgba(124, 58, 237, 0.1), rgba(236, 72, 153, 0.1));
             backdrop-filter: blur(10px);
@@ -106,19 +99,40 @@
             transition: all 0.3s ease;
         }
 
+        /* DİL SEÇİCİ STİLLERİ - Okunabilirlik İçin Güncellendi */
         .language-selector {
-            background: rgba(255, 255, 255, 0.1);
+            appearance: none;
+            background-color: rgba(30, 41, 59, 0.9); /* Daha koyu ve opak arka plan */
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            padding: 8px 16px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 10px 36px 10px 16px; /* İkon için sağda boşluk */
             border-radius: 8px;
-            color: white;
+            color: white; /* Beyaz yazı */
+            font-weight: 500;
             cursor: pointer;
             transition: all 0.3s ease;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 16px;
         }
 
         .language-selector:hover {
-            background: rgba(255, 255, 255, 0.2);
+            background-color: rgba(51, 65, 85, 0.95);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .language-selector:focus {
+            outline: none;
+            border-color: #818cf8;
+            box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.3);
+        }
+
+        /* Option elementleri tarayıcı tarzından etkilenir ancak burada temel ayarları yapıyoruz */
+        .language-selector option {
+            background-color: #1e293b; /* Koyu gri arka plan */
+            color: white; /* Beyaz yazı */
+            padding: 10px;
         }
 
         .screenshot {
@@ -201,31 +215,15 @@
         }
 
         @keyframes float {
-            0% {
-                transform: translateY(0px);
-            }
-
-            50% {
-                transform: translateY(-20px);
-            }
-
-            100% {
-                transform: translateY(0px);
-            }
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
         }
 
         @keyframes pulse {
-            0% {
-                transform: scale(1);
-            }
-
-            50% {
-                transform: scale(1.05);
-            }
-
-            100% {
-                transform: scale(1);
-            }
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
         }
 
         .float-animation {
@@ -368,17 +366,19 @@
 
 <body>
     <!-- Navigation -->
-    <nav class="fixed top-0 w-full z-50 bg-black bg-opacity-80 backdrop-blur-md">
+    <nav class="fixed top-0 w-full z-50 bg-black bg-opacity-80 backdrop-blur-md border-b border-gray-800">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
             <div class="flex items-center gap-3">
                 <img src="https://raw.githubusercontent.com/celalaygar/main/refs/heads/main/project/language-box/Language-Box-Logo.png"
                     alt="Language Box Logo" class="h-10">
-                <span class="text-xl font-bold gradient-text">Language Box</span>
+                <span class="text-xl font-bold gradient-text" data-i18n="app_title">Language Box</span>
             </div>
             <div class="flex items-center gap-4">
                 <select id="languageSelector" class="language-selector">
                     <option value="en">English</option>
                     <option value="tr">Türkçe</option>
+                    <option value="de">Deutsch</option>
+                    <option value="it">Italiano</option>
                 </select>
             </div>
         </div>
@@ -393,15 +393,15 @@
                     <div class="mb-6">
                         <span class="feature-badge purple">
                             <i class="fas fa-star"></i>
-                            #1 Language Learning App
+                            <span data-i18n="hero_badge">#1 Language Learning App</span>
                         </span>
                     </div>
                     <h1 class="text-5xl md:text-6xl font-bold mb-6 leading-tight">
-                        <span class="gradient-text">Learn Languages</span><br>
-                        <span class="gradient-text-purple">Through</span><br>
-                        <span class="gradient-text-pink">Interactive Games</span>
+                        <span class="gradient-text" data-i18n="hero_h1_1">Learn Languages</span><br>
+                        <span class="gradient-text-purple" data-i18n="hero_h1_2">Through</span><br>
+                        <span class="gradient-text-pink" data-i18n="hero_h1_3">Interactive Games</span>
                     </h1>
-                    <p class="text-xl text-gray-300 mb-8 max-w-2xl">
+                    <p class="text-xl text-gray-300 mb-8 max-w-2xl" data-i18n="hero_desc">
                         Master new languages with our engaging collection of interactive games designed to make learning
                         fun and effective.
                     </p>
@@ -409,12 +409,12 @@
                         <a href="https://apps.apple.com/tr/app/lingua-bubble/id6752529243" target="_blank"
                             class="download-button">
                             <i class="fab fa-apple text-xl"></i>
-                            <span>Download on App Store</span>
+                            <span data-i18n="btn_apple">Download on App Store</span>
                         </a>
                         <a href="https://play.google.com/store/apps/details?id=com.new.language&hl=en" target="_blank"
                             class="download-button">
                             <i class="fab fa-google-play text-xl"></i>
-                            <span>Get it on Google Play</span>
+                            <span data-i18n="btn_google">Get it on Google Play</span>
                         </a>
                     </div>
 
@@ -422,15 +422,15 @@
                     <div class="flex flex-wrap gap-3 justify-center lg:justify-start">
                         <span class="feature-badge blue">
                             <i class="fas fa-gamepad"></i>
-                            5 Interactive Games
+                            <span data-i18n="badge_games">5 Interactive Games</span>
                         </span>
                         <span class="feature-badge purple">
                             <i class="fas fa-language"></i>
-                            Multiple Languages
+                            <span data-i18n="badge_languages">Multiple Languages</span>
                         </span>
                         <span class="feature-badge pink">
                             <i class="fas fa-chart-line"></i>
-                            Progress Tracking
+                            <span data-i18n="badge_tracking">Progress Tracking</span>
                         </span>
                     </div>
                 </div>
@@ -448,7 +448,7 @@
     <!-- App Screenshots Slider Section -->
     <section class="py-20 px-6 bg-gray-900 bg-opacity-50">
         <div class="container mx-auto">
-            <h2 class="text-4xl font-bold text-center mb-12 gradient-text">App Screenshots</h2>
+            <h2 class="text-4xl font-bold text-center mb-12 gradient-text" data-i18n="section_screenshots">App Screenshots</h2>
 
             <div class="slider-container">
                 <div class="slider" id="screenshotSlider">
@@ -523,8 +523,8 @@
     <!-- Games Section -->
     <section class="py-20 px-6">
         <div class="container mx-auto">
-            <h2 class="text-4xl font-bold text-center mb-4 gradient-text">Interactive Language Games</h2>
-            <p class="text-center text-gray-300 mb-12 max-w-2xl mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-4 gradient-text" data-i18n="section_games">Interactive Language Games</h2>
+            <p class="text-center text-gray-300 mb-12 max-w-2xl mx-auto" data-i18n="section_games_desc">
                 Each game targets specific language skills to help you become fluent faster
             </p>
 
@@ -534,15 +534,15 @@
                     <div class="game-icon mb-4">
                         <i class="fas fa-puzzle-piece"></i>
                     </div>
-                    <h3 class="text-2xl font-semibold mb-4">Sentence Builder</h3>
-                    <p class="text-gray-300 mb-4">
+                    <h3 class="text-2xl font-semibold mb-4" data-i18n="game1_title">Sentence Builder</h3>
+                    <p class="text-gray-300 mb-4" data-i18n="game1_desc">
                         Drag and drop mixed-up words to form grammatically correct sentences. Perfect for understanding
                         sentence structure and improving your grammar skills.
                     </p>
                     <div class="flex justify-center gap-2 text-sm text-gray-400">
-                        <span class="px-3 py-1 bg-gray-800 rounded-full">Grammar</span>
-                        <span class="px-3 py-1 bg-gray-800 rounded-full">Structure</span>
-                        <span class="px-3 py-1 bg-gray-800 rounded-full">Beginner</span>
+                        <span class="px-3 py-1 bg-gray-800 rounded-full" data-i18n="tag_grammar">Grammar</span>
+                        <span class="px-3 py-1 bg-gray-800 rounded-full" data-i18n="tag_structure">Structure</span>
+                        <span class="px-3 py-1 bg-gray-800 rounded-full" data-i18n="tag_beginner">Beginner</span>
                     </div>
                 </div>
 
@@ -551,15 +551,15 @@
                     <div class="game-icon mb-4">
                         <i class="fas fa-fill-drip"></i>
                     </div>
-                    <h3 class="text-2xl font-semibold mb-4">Sentence Completion</h3>
-                    <p class="text-gray-300 mb-4">
+                    <h3 class="text-2xl font-semibold mb-4" data-i18n="game2_title">Sentence Completion</h3>
+                    <p class="text-gray-300 mb-4" data-i18n="game2_desc">
                         Complete sentences by unscrambling words. Enhance your vocabulary and contextual understanding
                         while learning to form complete thoughts.
                     </p>
                     <div class="flex justify-center gap-2 text-sm text-gray-400">
-                        <span class="px-3 py-1 bg-gray-800 rounded-full">Vocabulary</span>
-                        <span class="px-3 py-1 bg-gray-800 rounded-full">Context</span>
-                        <span class="px-3 py-1 bg-gray-800 rounded-full">Intermediate</span>
+                        <span class="px-3 py-1 bg-gray-800 rounded-full" data-i18n="tag_vocab">Vocabulary</span>
+                        <span class="px-3 py-1 bg-gray-800 rounded-full" data-i18n="tag_context">Context</span>
+                        <span class="px-3 py-1 bg-gray-800 rounded-full" data-i18n="tag_intermediate">Intermediate</span>
                     </div>
                 </div>
 
@@ -568,15 +568,15 @@
                     <div class="game-icon mb-4">
                         <i class="fas fa-random"></i>
                     </div>
-                    <h3 class="text-2xl font-semibold mb-4">Scrambled Word</h3>
-                    <p class="text-gray-300 mb-4">
+                    <h3 class="text-2xl font-semibold mb-4" data-i18n="game3_title">Scrambled Word</h3>
+                    <p class="text-gray-300 mb-4" data-i18n="game3_desc">
                         Unscramble letters to form the correct word. Great for spelling practice and vocabulary building
                         with hints available when needed.
                     </p>
                     <div class="flex justify-center gap-2 text-sm text-gray-400">
-                        <span class="px-3 py-1 bg-gray-800 rounded-full">Spelling</span>
-                        <span class="px-3 py-1 bg-gray-800 rounded-full">Letters</span>
-                        <span class="px-3 py-1 bg-gray-800 rounded-full">All Levels</span>
+                        <span class="px-3 py-1 bg-gray-800 rounded-full" data-i18n="tag_spelling">Spelling</span>
+                        <span class="px-3 py-1 bg-gray-800 rounded-full" data-i18n="tag_letters">Letters</span>
+                        <span class="px-3 py-1 bg-gray-800 rounded-full" data-i18n="tag_all_levels">All Levels</span>
                     </div>
                 </div>
 
@@ -585,15 +585,15 @@
                     <div class="game-icon mb-4">
                         <i class="fas fa-headphones"></i>
                     </div>
-                    <h3 class="text-2xl font-semibold mb-4">Match Sentence</h3>
-                    <p class="text-gray-300 mb-4">
+                    <h3 class="text-2xl font-semibold mb-4" data-i18n="game4_title">Match Sentence</h3>
+                    <p class="text-gray-300 mb-4" data-i18n="game4_desc">
                         Listen to audio clips and match them with the correct written sentences. Improve your listening
                         comprehension and pronunciation skills.
                     </p>
                     <div class="flex justify-center gap-2 text-sm text-gray-400">
-                        <span class="px-3 py-1 bg-gray-800 rounded-full">Listening</span>
-                        <span class="px-3 py-1 bg-gray-800 rounded-full">Audio</span>
-                        <span class="px-3 py-1 bg-gray-800 rounded-full">Advanced</span>
+                        <span class="px-3 py-1 bg-gray-800 rounded-full" data-i18n="tag_listening">Listening</span>
+                        <span class="px-3 py-1 bg-gray-800 rounded-full" data-i18n="tag_audio">Audio</span>
+                        <span class="px-3 py-1 bg-gray-800 rounded-full" data-i18n="tag_advanced">Advanced</span>
                     </div>
                 </div>
 
@@ -602,15 +602,15 @@
                     <div class="game-icon mb-4">
                         <i class="fas fa-volume-up"></i>
                     </div>
-                    <h3 class="text-2xl font-semibold mb-4">Listen Word</h3>
-                    <p class="text-gray-300 mb-4">
+                    <h3 class="text-2xl font-semibold mb-4" data-i18n="game5_title">Listen Word</h3>
+                    <p class="text-gray-300 mb-4" data-i18n="game5_desc">
                         Listen to sentences with missing words and spell them correctly. Perfect for auditory learners
                         and improving dictation skills.
                     </p>
                     <div class="flex justify-center gap-2 text-sm text-gray-400">
-                        <span class="px-3 py-1 bg-gray-800 rounded-full">Dictation</span>
-                        <span class="px-3 py-1 bg-gray-800 rounded-full">Spelling</span>
-                        <span class="px-3 py-1 bg-gray-800 rounded-full">Intermediate</span>
+                        <span class="px-3 py-1 bg-gray-800 rounded-full" data-i18n="tag_dictation">Dictation</span>
+                        <span class="px-3 py-1 bg-gray-800 rounded-full" data-i18n="tag_spelling">Spelling</span>
+                        <span class="px-3 py-1 bg-gray-800 rounded-full" data-i18n="tag_intermediate">Intermediate</span>
                     </div>
                 </div>
 
@@ -619,15 +619,15 @@
                     <div class="game-icon mb-4">
                         <i class="fas fa-cog"></i>
                     </div>
-                    <h3 class="text-2xl font-semibold mb-4">Game Settings</h3>
-                    <p class="text-gray-300 mb-4">
+                    <h3 class="text-2xl font-semibold mb-4" data-i18n="game6_title">Game Settings</h3>
+                    <p class="text-gray-300 mb-4" data-i18n="game6_desc">
                         Customize your learning experience with sound controls, language selection, and difficulty
                         levels. Track your progress and achievements.
                     </p>
                     <div class="flex justify-center gap-2 text-sm text-gray-400">
-                        <span class="px-3 py-1 bg-gray-800 rounded-full">Settings</span>
-                        <span class="px-3 py-1 bg-gray-800 rounded-full">Progress</span>
-                        <span class="px-3 py-1 bg-gray-800 rounded-full">Profile</span>
+                        <span class="px-3 py-1 bg-gray-800 rounded-full" data-i18n="tag_settings">Settings</span>
+                        <span class="px-3 py-1 bg-gray-800 rounded-full" data-i18n="tag_progress">Progress</span>
+                        <span class="px-3 py-1 bg-gray-800 rounded-full" data-i18n="tag_profile">Profile</span>
                     </div>
                 </div>
             </div>
@@ -637,8 +637,8 @@
     <!-- Features Section -->
     <section class="py-20 px-6 bg-gray-900 bg-opacity-50">
         <div class="container mx-auto">
-            <h2 class="text-4xl font-bold text-center mb-4 gradient-text">Key Features</h2>
-            <p class="text-center text-gray-300 mb-12 max-w-2xl mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-4 gradient-text" data-i18n="section_features">Key Features</h2>
+            <p class="text-center text-gray-300 mb-12 max-w-2xl mx-auto" data-i18n="section_features_desc">
                 Advanced features designed to enhance your language learning journey
             </p>
 
@@ -648,8 +648,8 @@
                         <i class="fas fa-chart-line text-2xl"></i>
                     </div>
                     <div>
-                        <h3 class="text-xl font-semibold mb-2">Progress Tracking</h3>
-                        <p class="text-gray-300">
+                        <h3 class="text-xl font-semibold mb-2" data-i18n="feat1_title">Progress Tracking</h3>
+                        <p class="text-gray-300" data-i18n="feat1_desc">
                             Track your learning progress with detailed statistics and skill levels for each language.
                         </p>
                     </div>
@@ -660,8 +660,8 @@
                         <i class="fas fa-save text-2xl"></i>
                     </div>
                     <div>
-                        <h3 class="text-xl font-semibold mb-2">Smart Caching</h3>
-                        <p class="text-gray-300">
+                        <h3 class="text-xl font-semibold mb-2" data-i18n="feat2_title">Smart Caching</h3>
+                        <p class="text-gray-300" data-i18n="feat2_desc">
                             Your progress is automatically saved locally, allowing you to continue from where you left
                             off.
                         </p>
@@ -673,8 +673,8 @@
                         <i class="fas fa-redo text-2xl"></i>
                     </div>
                     <div>
-                        <h3 class="text-xl font-semibold mb-2">Clear Cache</h3>
-                        <p class="text-gray-300">
+                        <h3 class="text-xl font-semibold mb-2" data-i18n="feat3_title">Clear Cache</h3>
+                        <p class="text-gray-300" data-i18n="feat3_desc">
                             Reset your progress at any time to start fresh with a language or difficulty level.
                         </p>
                     </div>
@@ -685,8 +685,8 @@
                         <i class="fas fa-cubes text-2xl"></i>
                     </div>
                     <div>
-                        <h3 class="text-xl font-semibold mb-2">Modular Architecture</h3>
-                        <p class="text-gray-300">
+                        <h3 class="text-xl font-semibold mb-2" data-i18n="feat4_title">Modular Architecture</h3>
+                        <p class="text-gray-300" data-i18n="feat4_desc">
                             Clean, maintainable code structure ensures smooth performance and future updates.
                         </p>
                     </div>
@@ -697,8 +697,8 @@
                         <i class="fas fa-sync-alt text-2xl"></i>
                     </div>
                     <div>
-                        <h3 class="text-xl font-semibold mb-2">Dynamic Content</h3>
-                        <p class="text-gray-300">
+                        <h3 class="text-xl font-semibold mb-2" data-i18n="feat5_title">Dynamic Content</h3>
+                        <p class="text-gray-300" data-i18n="feat5_desc">
                             Fresh content fetched from servers ensures you always have new challenges to tackle.
                         </p>
                     </div>
@@ -709,8 +709,8 @@
                         <i class="fas fa-magic text-2xl"></i>
                     </div>
                     <div>
-                        <h3 class="text-xl font-semibold mb-2">Modern UX</h3>
-                        <p class="text-gray-300">
+                        <h3 class="text-xl font-semibold mb-2" data-i18n="feat6_title">Modern UX</h3>
+                        <p class="text-gray-300" data-i18n="feat6_desc">
                             Clean, neumorphic design with TTS for pronunciation and smooth animations.
                         </p>
                     </div>
@@ -722,28 +722,28 @@
     <!-- Stats Section -->
     <section class="py-20 px-6">
         <div class="container mx-auto">
-            <h2 class="text-4xl font-bold text-center mb-12 gradient-text">Your Learning Statistics</h2>
+            <h2 class="text-4xl font-bold text-center mb-12 gradient-text" data-i18n="section_stats">Your Learning Statistics</h2>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
                 <div class="stats-card">
                     <i class="fas fa-trophy text-4xl text-yellow-400 mb-4"></i>
-                    <h3 class="text-2xl font-bold mb-2">Levels Completed</h3>
+                    <h3 class="text-2xl font-bold mb-2" data-i18n="stat1_title">Levels Completed</h3>
                     <p class="text-3xl font-bold gradient-text">24</p>
-                    <p class="text-gray-400 mt-2">Across 5 languages</p>
+                    <p class="text-gray-400 mt-2" data-i18n="stat1_desc">Across 5 languages</p>
                 </div>
 
                 <div class="stats-card">
                     <i class="fas fa-fire text-4xl text-orange-400 mb-4"></i>
-                    <h3 class="text-2xl font-bold mb-2">Current Streak</h3>
+                    <h3 class="text-2xl font-bold mb-2" data-i18n="stat2_title">Current Streak</h3>
                     <p class="text-3xl font-bold gradient-text">7 days</p>
-                    <p class="text-gray-400 mt-2">Keep it up!</p>
+                    <p class="text-gray-400 mt-2" data-i18n="stat2_desc">Keep it up!</p>
                 </div>
 
                 <div class="stats-card">
                     <i class="fas fa-star text-4xl text-purple-400 mb-4"></i>
-                    <h3 class="text-2xl font-bold mb-2">Accuracy Rate</h3>
+                    <h3 class="text-2xl font-bold mb-2" data-i18n="stat3_title">Accuracy Rate</h3>
                     <p class="text-3xl font-bold gradient-text">87%</p>
-                    <p class="text-gray-400 mt-2">Great progress!</p>
+                    <p class="text-gray-400 mt-2" data-i18n="stat3_desc">Great progress!</p>
                 </div>
             </div>
         </div>
@@ -752,16 +752,16 @@
     <!-- FAQ Section -->
     <section class="py-20 px-6 bg-gray-900 bg-opacity-50">
         <div class="container mx-auto max-w-4xl">
-            <h2 class="text-4xl font-bold text-center mb-12 gradient-text">Frequently Asked Questions</h2>
+            <h2 class="text-4xl font-bold text-center mb-12 gradient-text" data-i18n="section_faq">Frequently Asked Questions</h2>
 
             <div class="faq-list">
                 <div class="faq-item">
                     <div class="faq-question">
-                        <span>How does Language Box help me learn a new language?</span>
+                        <span data-i18n="faq1_q">How does Language Box help me learn a new language?</span>
                         <i class="fas fa-chevron-down"></i>
                     </div>
                     <div class="faq-answer">
-                        <p>
+                        <p data-i18n="faq1_a">
                             Language Box uses game-based learning to make language acquisition fun and engaging. Each of
                             our five games targets different language skills - from sentence construction to listening
                             comprehension - ensuring a well-rounded learning experience.
@@ -771,11 +771,11 @@
 
                 <div class="faq-item">
                     <div class="faq-question">
-                        <span>Can I track my progress across different languages?</span>
+                        <span data-i18n="faq2_q">Can I track my progress across different languages?</span>
                         <i class="fas fa-chevron-down"></i>
                     </div>
                     <div class="faq-answer">
-                        <p>
+                        <p data-i18n="faq2_a">
                             Yes! Language Box saves your progress for each language separately. You can view detailed
                             statistics showing your skill level in each language and game type, allowing you to focus on
                             areas that need improvement.
@@ -785,11 +785,11 @@
 
                 <div class="faq-item">
                     <div class="faq-question">
-                        <span>Is my progress saved if I close the app?</span>
+                        <span data-i18n="faq3_q">Is my progress saved if I close the app?</span>
                         <i class="fas fa-chevron-down"></i>
                     </div>
                     <div class="faq-answer">
-                        <p>
+                        <p data-i18n="faq3_a">
                             Absolutely. Language Box uses intelligent caching to save your progress locally on your
                             device. When you reopen the app, you'll continue exactly where you left off, even if you
                             were in the middle of a game.
@@ -799,11 +799,11 @@
 
                 <div class="faq-item">
                     <div class="faq-question">
-                        <span>How can I reset my progress for a specific language?</span>
+                        <span data-i18n="faq4_q">How can I reset my progress for a specific language?</span>
                         <i class="fas fa-chevron-down"></i>
                     </div>
                     <div class="faq-answer">
-                        <p>
+                        <p data-i18n="faq4_a">
                             You can use the "Clear Cache" feature in the settings to reset your progress for the current
                             language and level. This allows you to start fresh whenever you want to review fundamentals
                             or try a different approach.
@@ -813,11 +813,11 @@
 
                 <div class="faq-item">
                     <div class="faq-question">
-                        <span>Does the app work offline?</span>
+                        <span data-i18n="faq5_q">Does the app work offline?</span>
                         <i class="fas fa-chevron-down"></i>
                     </div>
                     <div class="faq-answer">
-                        <p>
+                        <p data-i18n="faq5_a">
                             While an internet connection is required to initially download content and sync progress,
                             Language Box caches content locally, allowing you to continue learning even when you're
                             offline. Your progress will sync when you reconnect.
@@ -831,7 +831,7 @@
     <!-- Developer Section -->
     <section class="py-20 px-6">
         <div class="container mx-auto text-center">
-            <h2 class="text-4xl font-bold mb-6 gradient-text">Developer</h2>
+            <h2 class="text-4xl font-bold mb-6 gradient-text" data-i18n="section_dev">Developer</h2>
             <div class="max-w-2xl mx-auto bg-gray-900 bg-opacity-50 rounded-2xl p-8">
                 <div class="flex justify-center mb-6">
                     <div
@@ -861,7 +861,7 @@
     <!-- Footer -->
     <footer class="py-8 px-6 bg-gray-900 bg-opacity-70 border-t border-gray-800">
         <div class="container mx-auto text-center">
-            <p class="text-gray-400">
+            <p class="text-gray-400" data-i18n="footer_rights">
                 © 2023 Language Box. All rights reserved.
             </p>
             <div class="flex justify-center gap-6 mt-4">
@@ -882,9 +882,350 @@
     </footer>
 
     <script>
-        // Language selector functionality
-        const languageSelector = document.getElementById('languageSelector');
+        // === DİL ÇEVİRİ VERİTABANI ===
+        const translations = {
+            en: {
+                app_title: "Language Box",
+                hero_badge: "#1 Language Learning App",
+                hero_h1_1: "Learn Languages",
+                hero_h1_2: "Through",
+                hero_h1_3: "Interactive Games",
+                hero_desc: "Master new languages with our engaging collection of interactive games designed to make learning fun and effective.",
+                btn_apple: "Download on App Store",
+                btn_google: "Get it on Google Play",
+                badge_games: "5 Interactive Games",
+                badge_languages: "Multiple Languages",
+                badge_tracking: "Progress Tracking",
+                section_screenshots: "App Screenshots",
+                section_games: "Interactive Language Games",
+                section_games_desc: "Each game targets specific language skills to help you become fluent faster",
+                game1_title: "Sentence Builder",
+                game1_desc: "Drag and drop mixed-up words to form grammatically correct sentences. Perfect for understanding sentence structure and improving your grammar skills.",
+                game2_title: "Sentence Completion",
+                game2_desc: "Complete sentences by unscrambling words. Enhance your vocabulary and contextual understanding while learning to form complete thoughts.",
+                game3_title: "Scrambled Word",
+                game3_desc: "Unscramble letters to form the correct word. Great for spelling practice and vocabulary building with hints available when needed.",
+                game4_title: "Match Sentence",
+                game4_desc: "Listen to audio clips and match them with the correct written sentences. Improve your listening comprehension and pronunciation skills.",
+                game5_title: "Listen Word",
+                game5_desc: "Listen to sentences with missing words and spell them correctly. Perfect for auditory learners and improving dictation skills.",
+                game6_title: "Game Settings",
+                game6_desc: "Customize your learning experience with sound controls, language selection, and difficulty levels. Track your progress and achievements.",
+                tag_grammar: "Grammar",
+                tag_structure: "Structure",
+                tag_beginner: "Beginner",
+                tag_vocab: "Vocabulary",
+                tag_context: "Context",
+                tag_intermediate: "Intermediate",
+                tag_spelling: "Spelling",
+                tag_letters: "Letters",
+                tag_all_levels: "All Levels",
+                tag_listening: "Listening",
+                tag_audio: "Audio",
+                tag_advanced: "Advanced",
+                tag_dictation: "Dictation",
+                tag_settings: "Settings",
+                tag_progress: "Progress",
+                tag_profile: "Profile",
+                section_features: "Key Features",
+                section_features_desc: "Advanced features designed to enhance your language learning journey",
+                feat1_title: "Progress Tracking",
+                feat1_desc: "Track your learning progress with detailed statistics and skill levels for each language.",
+                feat2_title: "Smart Caching",
+                feat2_desc: "Your progress is automatically saved locally, allowing you to continue from where you left off.",
+                feat3_title: "Clear Cache",
+                feat3_desc: "Reset your progress at any time to start fresh with a language or difficulty level.",
+                feat4_title: "Modular Architecture",
+                feat4_desc: "Clean, maintainable code structure ensures smooth performance and future updates.",
+                feat5_title: "Dynamic Content",
+                feat5_desc: "Fresh content fetched from servers ensures you always have new challenges to tackle.",
+                feat6_title: "Modern UX",
+                feat6_desc: "Clean, neumorphic design with TTS for pronunciation and smooth animations.",
+                section_stats: "Your Learning Statistics",
+                stat1_title: "Levels Completed",
+                stat1_desc: "Across 5 languages",
+                stat2_title: "Current Streak",
+                stat2_desc: "Keep it up!",
+                stat3_title: "Accuracy Rate",
+                stat3_desc: "Great progress!",
+                section_faq: "Frequently Asked Questions",
+                faq1_q: "How does Language Box help me learn a new language?",
+                faq1_a: "Language Box uses game-based learning to make language acquisition fun and engaging. Each of our five games targets different language skills - from sentence construction to listening comprehension - ensuring a well-rounded learning experience.",
+                faq2_q: "Can I track my progress across different languages?",
+                faq2_a: "Yes! Language Box saves your progress for each language separately. You can view detailed statistics showing your skill level in each language and game type, allowing you to focus on areas that need improvement.",
+                faq3_q: "Is my progress saved if I close the app?",
+                faq3_a: "Absolutely. Language Box uses intelligent caching to save your progress locally on your device. When you reopen the app, you'll continue exactly where you left off, even if you were in the middle of a game.",
+                faq4_q: "How can I reset my progress for a specific language?",
+                faq4_a: "You can use the 'Clear Cache' feature in the settings to reset your progress for the current language and level. This allows you to start fresh whenever you want to review fundamentals or try a different approach.",
+                faq5_q: "Does the app work offline?",
+                faq5_a: "While an internet connection is required to initially download content and sync progress, Language Box caches content locally, allowing you to continue learning even when you're offline. Your progress will sync when you reconnect.",
+                section_dev: "Developer",
+                footer_rights: "© 2023 Language Box. All rights reserved."
+            },
+            tr: {
+                app_title: "Language Box",
+                hero_badge: "#1 Dil Öğrenme Uygulaması",
+                hero_h1_1: "Dilleri Öğrenin",
+                hero_h1_2: "Aracılığıyla",
+                hero_h1_3: "Etkileşimli Oyunlar",
+                hero_desc: "Öğrenmeyi eğlenceli ve etkili hale getirmek için tasarlanmış, ilgi çekici interaktif oyunlarımızla yeni dilleri öğrenin.",
+                btn_apple: "App Store'dan İndir",
+                btn_google: "Google Play'den Al",
+                badge_games: "5 Etkileşimli Oyun",
+                badge_languages: "Çoklu Dil Desteği",
+                badge_tracking: "İlerleme Takibi",
+                section_screenshots: "Uygulama Ekran Görüntüleri",
+                section_games: "Etkileşimli Dil Oyunları",
+                section_games_desc: "Her oyun, daha hızlı akıcı hale gelmenize yardımcı olmak için belirli dil becerilerini hedefler.",
+                game1_title: "Cümle Oluşturucu",
+                game1_desc: "Karıştırılmış kelimeleri sürükleyip bırakarak dilbilgisi açısından doğru cümleler oluşturun. Cümle yapısını anlamak ve dilbilgisi becerilerinizi geliştirmek için harika.",
+                game2_title: "Cümle Tamamlama",
+                game2_desc: "Kelimeleri çözerek cümleleri tamamlayın. Kelime dağarcığınızı ve bağlamsal anlayışınızı tam düşünceler oluşturmayı öğrenirken geliştirin.",
+                game3_title: "Harf Karıştırma",
+                game3_desc: "Harfleri çözerek doğru kelimeyi oluşturun. Yazım pratiği ve gerektiğinde ipuçlarıyla kelime oluşturma için harikadır.",
+                game4_title: "Cümle Eşleştirme",
+                game4_desc: "Ses kliplerini dinleyin ve bunları doğru yazılı cümlelerle eşleştirin. Dinleme anlayışınızı ve telaffuz becerilerinizi geliştirin.",
+                game5_title: "Kelime Dinleme",
+                game5_desc: "Eksik kelimelerle cümleleri dinleyin ve bunları doğru heceleyin. İşitsel öğrenenler ve dikte becerilerini geliştirmek için mükemmel.",
+                game6_title: "Oyun Ayarları",
+                game6_desc: "Ses kontrolleri, dil seçimi ve zorluk seviyeleri ile öğrenme deneyiminizi özelleştirin. İlerlemenizi ve başarılarınızı takip edin.",
+                tag_grammar: "Dilbilgisi",
+                tag_structure: "Yapı",
+                tag_beginner: "Başlangıç",
+                tag_vocab: "Kelime",
+                tag_context: "Bağlam",
+                tag_intermediate: "Orta Seviye",
+                tag_spelling: "Yazım",
+                tag_letters: "Harfler",
+                tag_all_levels: "Tüm Seviyeler",
+                tag_listening: "Dinleme",
+                tag_audio: "Ses",
+                tag_advanced: "İleri Seviye",
+                tag_dictation: "Dikte",
+                tag_settings: "Ayarlar",
+                tag_progress: "İlerleme",
+                tag_profile: "Profil",
+                section_features: "Öne Çıkan Özellikler",
+                section_features_desc: "Dil öğrenme yolculuğunuzu geliştirmek için tasarlanmış gelişmiş özellikler",
+                feat1_title: "İlerleme Takibi",
+                feat1_desc: "Her dil için detaylı istatistikler ve beceri seviyeleri ile öğrenme ilerlemenizi takip edin.",
+                feat2_title: "Akıllı Önbellekleme",
+                feat2_desc: "İlerlemeniz yerel olarak otomatik olarak kaydedilir, böylece kaldığınız yerden devam edebilirsiniz.",
+                feat3_title: "Önbelleği Temizle",
+                feat3_desc: "İstediğiniz zaman bir dil veya zorluk seviyesini sıfırdan başlamak için ilerlemenizi sıfırlayın.",
+                feat4_title: "Modüler Mimari",
+                feat4_desc: "Temiz, sürdürülebilir kod yapısı sorunsuz performans ve gelecekteki güncellemeler sağlar.",
+                feat5_title: "Dinamik İçerik",
+                feat5_desc: "Sunuculardan alınan yeni içerikler, her zaman yeni meydan okumalarla karşılaşmanızı sağlar.",
+                feat6_title: "Modern UX",
+                feat6_desc: "Telaffuz için TTS ve pürüzsüz animasyonlarla temiz, neumorfik tasarım.",
+                section_stats: "Öğrenme İstatistikleriniz",
+                stat1_title: "Tamamlanan Seviyeler",
+                stat1_desc: "5 dil boyunca",
+                stat2_title: "Mevcut Seri",
+                stat2_desc: "Böyle devam et!",
+                stat3_title: "Doğruluk Oranı",
+                stat3_desc: "Harika ilerleme!",
+                section_faq: "Sıkça Sorulan Sorular",
+                faq1_q: "Language Box yeni bir dil öğrenmeme nasıl yardımcı olur?",
+                faq1_a: "Language Box, dil edinimini eğlenceli ve ilgi çekici hale getirmek için oyun tabanlı öğrenme kullanır. Beş oyunumuzun her biri, cümle yapımından dinleme anlayışına kadar farklı dil becerilerini hedefler ve kapsamlı bir öğrenme deneyimi sağlar.",
+                faq2_q: "Farklı dillerdeki ilerlememi takip edebilir miyim?",
+                faq2_a: "Evet! Language Box ilerlemenizi her dil için ayrı ayrı kaydeder. Her dil ve oyun türündeki beceri seviyenizi gösteren detaylı istatistikleri görüntüleyebilir, böylece iyileştirilmesi gereken alanlara odaklanabilirsiniz.",
+                faq3_q: "Uygulamayı kapatırsam ilerlemem kaydedilir mi?",
+                faq3_a: "Kesinlikle. Language Box, ilerlemenizi cihazınızda yerel olarak kaydetmek için akıllı önbellekleme kullanır. Uygulamayı yeniden açtığınızda, bir oyunun ortasında olsanız bile, tam olarak kaldığınız yerden devam edersiniz.",
+                faq4_q: "Belirli bir dil için ilerlememi nasıl sıfırlarım?",
+                faq4_a: "Ayarlar'daki 'Önbelleği Temizle' özelliğini kullanarak mevcut dil ve seviye için ilerlemenizi sıfırlayabilirsiniz. Bu, temelleri gözden geçirmek veya farklı bir yaklaşım denemek istediğinizde sıfırdan başlamanıza olanak tanır.",
+                faq5_q: "Uygulama çevrimdışı çalışır mı?",
+                faq5_a: "Başlangıçta içerik indirmek ve ilerlemeyi senkronize etmek için bir internet bağlantısı gerekse de, Language Box içeriği yerel olarak önbelleğe alır, böylece çevrimdışıyken bile öğrenmeye devam edebilirsiniz. İlerlemeniz yeniden bağlandığınızda senkronize olacaktır.",
+                section_dev: "Geliştirici",
+                footer_rights: "© 2023 Language Box. Tüm hakları saklıdır."
+            },
+            de: {
+                app_title: "Language Box",
+                hero_badge: "#1 Sprachlern-App",
+                hero_h1_1: "Sprachen lernen",
+                hero_h1_2: "Durch",
+                hero_h1_3: "Interaktive Spiele",
+                hero_desc: "Meistern Sie neue Sprachen mit unserer ansprechenden Sammlung interaktiver Spiele, die das Lernen lustig und effektiv machen.",
+                btn_apple: "Im App Store herunterladen",
+                btn_google: "Bei Google Play holen",
+                badge_games: "5 interaktive Spiele",
+                badge_languages: "Mehrere Sprachen",
+                badge_tracking: "Fortschrittsverfolgung",
+                section_screenshots: "App-Screenshots",
+                section_games: "Interaktive Sprachspiele",
+                section_games_desc: "Jedes Spiel zielt auf bestimmte Sprachkenntnisse ab, damit Sie schneller fließend werden.",
+                game1_title: "Satzbau",
+                game1_desc: "Ziehen Sie mischte Wörter, um grammatikalisch korrekte Sätze zu bilden. Perfekt zum Verstehen der Satzstruktur und zur Verbesserung Ihrer Grammatikfähigkeiten.",
+                game2_title: "Satzergänzung",
+                game2_desc: "Ergänzen Sie Sätze, indem Sie Wörter entwirren. Verbessern Sie Ihren Wortschatz und das Kontextverständnis, während Sie lernen, vollständige Gedanken zu formulieren.",
+                game3_title: "Wörter mischen",
+                game3_desc: "Entwirren Sie Buchstaben, um das richtige Wort zu bilden. Großartig für Rechtschreibübungen und Wortschatzerweiterung mit Hinweisen bei Bedarf.",
+                game4_title: "Sätze zuordnen",
+                game4_desc: "Hören Sie Audio-Clips und ordnen Sie sie den richtigen geschriebenen Sätzen zu. Verbessern Sie Ihre Hörverständnis- und Aussprachefähigkeiten.",
+                game5_title: "Wort hören",
+                game5_desc: "Hören Sie Sätze mit fehlenden Wörtern und schreiben Sie diese richtig auf. Perfekt für auditiv Lernende und zur Verbesserung der Diktierfähigkeiten.",
+                game6_title: "Spiel-Einstellungen",
+                game6_desc: "Passen Sie Ihre Lernerfahrung mit Soundsteuerungen, Sprachauswahl und Schwierigkeitsstufen an. Verfolgen Sie Ihren Fortschritt und Ihre Erfolge.",
+                tag_grammar: "Grammatik",
+                tag_structure: "Struktur",
+                tag_beginner: "Anfänger",
+                tag_vocab: "Wortschatz",
+                tag_context: "Kontext",
+                tag_intermediate: "Fortgeschritten",
+                tag_spelling: "Rechtschreibung",
+                tag_letters: "Buchstaben",
+                tag_all_levels: "Alle Level",
+                tag_listening: "Zuhören",
+                tag_audio: "Audio",
+                tag_advanced: "Experte",
+                tag_dictation: "Diktat",
+                tag_settings: "Einstellungen",
+                tag_progress: "Fortschritt",
+                tag_profile: "Profil",
+                section_features: "Hauptfunktionen",
+                section_features_desc: "Fortschrittliche Funktionen zur Verbesserung Ihrer Sprachlernreise",
+                feat1_title: "Fortschrittsverfolgung",
+                feat1_desc: "Verfolgen Sie Ihren Lernfortschritt mit detaillierten Statistiken und Fähigkeitsstufen für jede Sprache.",
+                feat2_title: "Intelligentes Caching",
+                feat2_desc: "Ihr Fortschritt wird automatisch lokal gespeichert, sodass Sie dort weitermachen können, wo Sie aufgehört haben.",
+                feat3_title: "Cache leeren",
+                feat3_desc: "Setzen Sie Ihren Fortschritt jederzeit zurück, um mit einer Sprache oder einem Schwierigkeitsgrad neu zu beginnen.",
+                feat4_title: "Modulare Architektur",
+                feat4_desc: "Eine saubere, wartbare Codestruktur sorgt für reibungslose Leistung und zukünftige Updates.",
+                feat5_title: "Dynamischer Inhalt",
+                feat5_desc: "Frischer Inhalt von Servern stellt sicher, dass Sie immer neue Herausforderungen haben.",
+                feat6_title: "Modernes UX",
+                feat6_desc: "Sauberes, neumorphisches Design mit TTS für Aussprache und sanften Animationen.",
+                section_stats: "Ihre Lernstatistiken",
+                stat1_title: "Abgeschlossene Level",
+                stat1_desc: "In 5 Sprachen",
+                stat2_title: "Aktuelle Serie",
+                stat2_desc: "Weiter so!",
+                stat3_title: "Genauigkeitsrate",
+                stat3_desc: "Großer Fortschritt!",
+                section_faq: "Häufig gestellte Fragen",
+                faq1_q: "Wie hilft mir Language Box, eine neue Sprache zu lernen?",
+                faq1_a: "Language Box nutzt spielerisches Lernen, um den Spracherwerb lustig und ansprechend zu gestalten. Jedes unserer fünf Spiele zielt auf verschiedene Sprachkenntnisse ab – vom Satzbau bis zum Hörverständnis – und sorgt für eine ganzheitliche Lernerfahrung.",
+                faq2_q: "Kann ich meinen Fortschritt in verschiedenen Sprachen verfolgen?",
+                faq2_a: "Ja! Language Box speichert Ihren Fortschritt für jede Sprache separat. Sie können detaillierte Statistiken anzeigen, die Ihr Können in jeder Sprache und jedem Spieltyp zeigen, damit Sie sich auf Bereiche konzentrieren können, die Verbesserung benötigen.",
+                faq3_q: "Wird mein Fortschritt gespeichert, wenn ich die App schließe?",
+                faq3_a: "Absolut. Language Box verwendet intelligentes Caching, um Ihren Fortschritt lokal auf Ihrem Gerät zu speichern. Wenn Sie die App erneut öffnen, setzen Sie genau dort fort, wo Sie aufgehört haben, sogar mitten im Spiel.",
+                faq4_q: "Wie kann ich meinen Fortschritt für eine bestimmte Sprache zurücksetzen?",
+                faq4_a: "Sie können die Funktion 'Cache leeren' in den Einstellungen verwenden, um Ihren Fortschritt für die aktuelle Sprache und Stufe zurückzusetzen. Dies ermöglicht Ihnen, jederzeit neu zu beginnen, um Grundlagen zu wiederholen oder einen anderen Ansatz auszuprobieren.",
+                faq5_q: "Funktioniert die App offline?",
+                faq5_a: "Obwohl zum Herunterladen von Inhalten und Synchronisieren des Fortschritts zunächst eine Internetverbindung erforderlich ist, zwischenspeichert Language Box Inhalte lokal, sodass Sie auch offline weiterlernen können. Ihr Fortschritt wird synchronisiert, wenn Sie sich erneut verbinden.",
+                section_dev: "Entwickler",
+                footer_rights: "© 2023 Language Box. Alle Rechte vorbehalten."
+            },
+            it: {
+                app_title: "Language Box",
+                hero_badge: "#1 App per l'apprendimento delle lingue",
+                hero_h1_1: "Impara le lingue",
+                hero_h1_2: "Attraverso",
+                hero_h1_3: "Giochi interattivi",
+                hero_desc: "Padroneggia nuove lingue con la nostra coinvolgente collezione di giochi interattivi progettati per rendere l'apprendimento divertente ed efficace.",
+                btn_apple: "Scarica su App Store",
+                btn_google: "Ottieni su Google Play",
+                badge_games: "5 giochi interattivi",
+                badge_languages: "Più lingue",
+                badge_tracking: "Monitoraggio dei progressi",
+                section_screenshots: "Screenshot dell'app",
+                section_games: "Giochi di lingua interattivi",
+                section_games_desc: "Ogni gioco mira a specifiche abilità linguistiche per aiutarti a diventare fluente più velocemente.",
+                game1_title: "Costruttore di frasi",
+                game1_desc: "Trascina e rilascia parole mescolate per formare frasi grammaticalmente corrette. Perfetto per comprendere la struttura delle frasi e migliorare le tue abilità grammaticali.",
+                game2_title: "Completamento frasi",
+                game2_desc: "Completa le frasi ordinando le parole. Migliora il tuo vocabolario e la comprensione del contesto mentre impari a formare pensieri completi.",
+                game3_title: "Parole mescolate",
+                game3_desc: "Ordina le lettere per formare la parola corretta. Ottimo per l'esercizio di ortografia e la costruzione del vocabolario con suggerimenti quando necessario.",
+                game4_title: "Abbina le frasi",
+                game4_desc: "Ascolta clip audio e abbinali alle frasi scritte corrette. Migliora la tua comprensione orale e le tue capacità di pronuncia.",
+                game5_title: "Ascolta la parola",
+                game5_desc: "Ascolta frasi con parole mancanti e scrivile correttamente. Perfetto per chi apprende mediante l'ascolto e per migliorare le abilità di dettatura.",
+                game6_title: "Impostazioni di gioco",
+                game6_desc: "Personalizza la tua esperienza di apprendimento con controlli del suono, selezione della lingua e livelli di difficoltà. Tieni traccia dei tuoi progressi e traguardi.",
+                tag_grammar: "Grammatica",
+                tag_structure: "Struttura",
+                tag_beginner: "Principiante",
+                tag_vocab: "Vocabolario",
+                tag_context: "Contesto",
+                tag_intermediate: "Intermedio",
+                tag_spelling: "Ortografia",
+                tag_letters: "Lettere",
+                tag_all_levels: "Tutti i livelli",
+                tag_listening: "Ascolto",
+                tag_audio: "Audio",
+                tag_advanced: "Avanzato",
+                tag_dictation: "Dettatura",
+                tag_settings: "Impostazioni",
+                tag_progress: "Progressi",
+                tag_profile: "Profilo",
+                section_features: "Caratteristiche principali",
+                section_features_desc: "Funzionalità avanzate progettate per migliorare il tuo viaggio di apprendimento linguistico",
+                feat1_title: "Monitoraggio dei progressi",
+                feat1_desc: "Tieni traccia dei tuoi progressi di apprendimento con statistiche dettagliate e livelli di abilità per ogni lingua.",
+                feat2_title: "Caching intelligente",
+                feat2_desc: "I tuoi progressi vengono salvati automaticamente in locale, permettendoti di continuare da dove avevi interrotto.",
+                feat3_title: "Cancella cache",
+                feat3_desc: "Reimposta i tuoi progressi in qualsiasi momento per ricominciare da capo con una lingua o un livello di difficoltà.",
+                feat4_title: "Architettura modulare",
+                feat4_desc: "Una struttura di codice pulita e manutenibile garantisce prestazioni fluide e aggiornamenti futuri.",
+                feat5_title: "Contenuto dinamico",
+                feat5_desc: "Contenuti freschi recuperati dai server assicurano che tu abbia sempre nuove sfide da affrontare.",
+                feat6_title: "UX moderna",
+                feat6_desc: "Design neumorico pulito con sintesi vocale per la pronuncia e animazioni fluide.",
+                section_stats: "Le tue statistiche di apprendimento",
+                stat1_title: "Livelli completati",
+                stat1_desc: "In 5 lingue",
+                stat2_title: "Serie attuale",
+                stat2_desc: "Continua così!",
+                stat3_title: "Tasso di precisione",
+                stat3_desc: "Ottimi progressi!",
+                section_faq: "Domande frequenti",
+                faq1_q: "Come Language Box mi aiuta a imparare una nuova lingua?",
+                faq1_a: "Language Box utilizza l'apprendimento basato sui giochi per rendere l'acquisizione della lingua divertente e coinvolgente. Ognuno dei nostri cinque giochi mira a diverse competenze linguistiche - dalla costruzione di frasi alla comprensione orale - garantendo un'esperienza di apprendimento completa.",
+                faq2_q: "Posso monitorare i miei progressi in diverse lingue?",
+                faq2_a: "Sì! Language Box salva i tuoi progressi separatamente per ogni lingua. Puoi visualizzare statistiche dettagliate che mostrano il tuo livello di abilità in ogni lingua e tipo di gioco, permettendoti di concentrarti sulle aree che necessitano miglioramenti.",
+                faq3_q: "I miei progressi vengono salvati se chiudo l'app?",
+                faq3_a: "Assolutamente. Language Box utilizza un caching intelligente per salvare i tuoi progressi localmente sul tuo dispositivo. Quando riapri l'app, continuerai esattamente dove avevi interrotto, anche se eri a metà di una partita.",
+                faq4_q: "Come posso ripristinare i miei progressi per una lingua specifica?",
+                faq4_a: "Puoi usare la funzione 'Cancella cache' nelle impostazioni per ripristinare i tuoi progressi per la lingua e il livello correnti. Questo ti permette di ricominciare da capo quando vuoi rivedere le basi o provare un approccio diverso.",
+                faq5_q: "L'app funziona offline?",
+                faq5_a: "Sebbene sia richiesta una connessione internet per scaricare inizialmente i contenuti e sincronizzare i progressi, Language Box memorizza i contenuti in locale, permettendoti di continuare ad imparare anche quando sei offline. I tuoi progressi verranno sincronizzati quando ti riconnetterai.",
+                section_dev: "Sviluppatore",
+                footer_rights: "© 2023 Language Box. Tutti i diritti riservati."
+            }
+        };
 
+        // === DİL DEĞİŞTİRME MANTIĞI ===
+        const languageSelector = document.getElementById('languageSelector');
+        
+        function changeLanguage(lang) {
+            const elements = document.querySelectorAll('[data-i18n]');
+            
+            elements.forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    element.textContent = translations[lang][key];
+                }
+            });
+
+            // Sayfa dilini HTML etiketinde de güncelle
+            document.documentElement.lang = lang;
+        }
+
+        // Event Listener: Dil seçildiğinde çalışır
+        languageSelector.addEventListener('change', (e) => {
+            changeLanguage(e.target.value);
+        });
+
+        // Varsayılan olarak İngilizce ile başlat (veya tarayıcı diline göre yapılabilir)
+        // changeLanguage('en'); 
+
+
+        // === DİĞER JS FONKSİYONLARI (SLIDER VE FAQ) ===
+        
         // FAQ accordion functionality
         document.querySelectorAll('.faq-question').forEach(question => {
             question.addEventListener('click', () => {
