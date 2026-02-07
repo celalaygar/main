@@ -1,4 +1,4 @@
-Privacy Policy for [WixBook: Language Box]
+Privacy Policy for WixBook: Language Box
 
 Effective Date: February 8, 2026
 1. Introduction
@@ -46,4 +46,4 @@ We may update our Privacy Policy from time to time. You are advised to review th
 
 If you have any questions or suggestions about our Privacy Policy, do not hesitate to contact us at:
 
-    Email: [aygarcelalx@gmail.com]
+    Email: aygarcelalx@gmail.com
