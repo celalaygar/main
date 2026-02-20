@@ -382,6 +382,34 @@
             background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(79, 70, 229, 0.2));
             border: 1px solid rgba(59, 130, 246, 0.3);
         }
+
+        /* Advantages Section Styles */
+        .advantage-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 30px;
+            transition: all 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .advantage-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 20px 40px rgba(79, 70, 229, 0.2);
+        }
+
+        .advantage-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #4F46E5, #7C3AED);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
     </style>
 </head>
 
@@ -748,32 +776,79 @@
         </div>
     </section>
 
-    <!-- Stats Section -->
+    <!-- Advantages Section (replacing Stats Section) -->
     <section class="py-20 px-6">
         <div class="container mx-auto">
-            <h2 class="text-4xl font-bold text-center mb-12 gradient-text" data-i18n="section_stats">Your Learning
-                Statistics</h2>
+            <h2 class="text-4xl font-bold text-center mb-12 gradient-text" data-i18n="section_advantages">Why Choose Language Box?</h2>
+            <p class="text-center text-gray-300 mb-12 max-w-2xl mx-auto" data-i18n="section_advantages_desc">
+                Discover the unique benefits that make Language Box your ideal language learning companion
+            </p>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-                <div class="stats-card">
-                    <i class="fas fa-trophy text-4xl text-yellow-400 mb-4"></i>
-                    <h3 class="text-2xl font-bold mb-2" data-i18n="stat1_title">Levels Completed</h3>
-                    <p class="text-3xl font-bold gradient-text">24</p>
-                    <p class="text-gray-400 mt-2" data-i18n="stat1_desc">Across 5 languages</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Advantage 1: Game-Based Learning -->
+                <div class="advantage-card">
+                    <div class="advantage-icon">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <h3 class="text-2xl font-semibold mb-4" data-i18n="advantage1_title">Engaging Game-Based Learning</h3>
+                    <p class="text-gray-300" data-i18n="advantage1_desc">
+                        Traditional language learning can be boring. Our interactive games transform vocabulary and grammar practice into an enjoyable experience, keeping you motivated and engaged.
+                    </p>
                 </div>
 
-                <div class="stats-card">
-                    <i class="fas fa-fire text-4xl text-orange-400 mb-4"></i>
-                    <h3 class="text-2xl font-bold mb-2" data-i18n="stat2_title">Current Streak</h3>
-                    <p class="text-3xl font-bold gradient-text">7 days</p>
-                    <p class="text-gray-400 mt-2" data-i18n="stat2_desc">Keep it up!</p>
+                <!-- Advantage 2: Comprehensive Skill Development -->
+                <div class="advantage-card">
+                    <div class="advantage-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3 class="text-2xl font-semibold mb-4" data-i18n="advantage2_title">Comprehensive Skill Development</h3>
+                    <p class="text-gray-300" data-i18n="advantage2_desc">
+                        Each game targets different language skills - from listening comprehension to sentence structure. This comprehensive approach ensures you develop well-rounded language abilities.
+                    </p>
                 </div>
 
-                <div class="stats-card">
-                    <i class="fas fa-star text-4xl text-purple-400 mb-4"></i>
-                    <h3 class="text-2xl font-bold mb-2" data-i18n="stat3_title">Accuracy Rate</h3>
-                    <p class="text-3xl font-bold gradient-text">87%</p>
-                    <p class="text-gray-400 mt-2" data-i18n="stat3_desc">Great progress!</p>
+                <!-- Advantage 3: Flexible Learning -->
+                <div class="advantage-card">
+                    <div class="advantage-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3 class="text-2xl font-semibold mb-4" data-i18n="advantage3_title">Learn Anytime, Anywhere</h3>
+                    <p class="text-gray-300" data-i18n="advantage3_desc">
+                        With offline capability and mobile-first design, you can practice languages during your commute, on breaks, or whenever you have a few spare moments.
+                    </p>
+                </div>
+
+                <!-- Advantage 4: Personalized Experience -->
+                <div class="advantage-card">
+                    <div class="advantage-icon">
+                        <i class="fas fa-user-cog"></i>
+                    </div>
+                    <h3 class="text-2xl font-semibold mb-4" data-i18n="advantage4_title">Personalized Learning Path</h3>
+                    <p class="text-gray-300" data-i18n="advantage4_desc">
+                        Choose your difficulty level, focus on specific skills, and track your progress. Language Box adapts to your learning style and pace for maximum effectiveness.
+                    </p>
+                </div>
+
+                <!-- Advantage 5: Multi-Language Support -->
+                <div class="advantage-card">
+                    <div class="advantage-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <h3 class="text-2xl font-semibold mb-4" data-i18n="advantage5_title">Multiple Languages in One App</h3>
+                    <p class="text-gray-300" data-i18n="advantage5_desc">
+                        Instead of downloading multiple apps, access various languages in one place. Perfect for polyglots or those interested in learning more than one language simultaneously.
+                    </p>
+                </div>
+
+                <!-- Advantage 6: Regular Updates -->
+                <div class="advantage-card">
+                    <div class="advantage-icon">
+                        <i class="fas fa-sync"></i>
+                    </div>
+                    <h3 class="text-2xl font-semibold mb-4" data-i18n="advantage6_title">Always Fresh Content</h3>
+                    <p class="text-gray-300" data-i18n="advantage6_desc">
+                        We regularly add new games, levels, and challenges to keep your learning experience fresh and exciting. No more repetitive exercises that lead to learning plateaus.
+                    </p>
                 </div>
             </div>
         </div>
@@ -972,13 +1047,20 @@
                 feat5_desc: "Fresh content fetched from servers ensures you always have new challenges to tackle.",
                 feat6_title: "Modern UX",
                 feat6_desc: "Clean, neumorphic design with TTS for pronunciation and smooth animations.",
-                section_stats: "Your Learning Statistics",
-                stat1_title: "Levels Completed",
-                stat1_desc: "Across 5 languages",
-                stat2_title: "Current Streak",
-                stat2_desc: "Keep it up!",
-                stat3_title: "Accuracy Rate",
-                stat3_desc: "Great progress!",
+                section_advantages: "Why Choose Language Box?",
+                section_advantages_desc: "Discover the unique benefits that make Language Box your ideal language learning companion",
+                advantage1_title: "Engaging Game-Based Learning",
+                advantage1_desc: "Traditional language learning can be boring. Our interactive games transform vocabulary and grammar practice into an enjoyable experience, keeping you motivated and engaged.",
+                advantage2_title: "Comprehensive Skill Development",
+                advantage2_desc: "Each game targets different language skills - from listening comprehension to sentence structure. This comprehensive approach ensures you develop well-rounded language abilities.",
+                advantage3_title: "Learn Anytime, Anywhere",
+                advantage3_desc: "With offline capability and mobile-first design, you can practice languages during your commute, on breaks, or whenever you have a few spare moments.",
+                advantage4_title: "Personalized Learning Path",
+                advantage4_desc: "Choose your difficulty level, focus on specific skills, and track your progress. Language Box adapts to your learning style and pace for maximum effectiveness.",
+                advantage5_title: "Multiple Languages in One App",
+                advantage5_desc: "Instead of downloading multiple apps, access various languages in one place. Perfect for polyglots or those interested in learning more than one language simultaneously.",
+                advantage6_title: "Always Fresh Content",
+                advantage6_desc: "We regularly add new games, levels, and challenges to keep your learning experience fresh and exciting. No more repetitive exercises that lead to learning plateaus.",
                 section_faq: "Frequently Asked Questions",
                 faq1_q: "How does Language Box help me learn a new language?",
                 faq1_a: "Language Box uses game-based learning to make language acquisition fun and engaging. Each of our five games targets different language skills - from sentence construction to listening comprehension - ensuring a well-rounded learning experience.",
@@ -1050,13 +1132,20 @@
                 feat5_desc: "Sunuculardan alınan yeni içerikler, her zaman yeni meydan okumalarla karşılaşmanızı sağlar.",
                 feat6_title: "Modern UX",
                 feat6_desc: "Telaffuz için TTS ve pürüzsüz animasyonlarla temiz, neumorfik tasarım.",
-                section_stats: "Öğrenme İstatistikleriniz",
-                stat1_title: "Tamamlanan Seviyeler",
-                stat1_desc: "5 dil boyunca",
-                stat2_title: "Mevcut Seri",
-                stat2_desc: "Böyle devam et!",
-                stat3_title: "Doğruluk Oranı",
-                stat3_desc: "Harika ilerleme!",
+                section_advantages: "Neden Language Box'ı Seçmelisiniz?",
+                section_advantages_desc: "Language Box'ı ideal dil öğrenme ortağınız yapan benzersiz faydaları keşfedin",
+                advantage1_title: "Eğlenceli Oyun Tabanlı Öğrenme",
+                advantage1_desc: "Geleneksel dil öğrenimi sıkıcı olabilir. Etkileşimli oyunlarımız kelime ve dilbilgisi pratiğini keyifli bir deneyime dönüştürerek sizi motive ve meşgul eder.",
+                advantage2_title: "Kapsamlı Beceri Gelişimi",
+                advantage2_desc: "Her oyun farklı dil becerilerini hedefler - dinleme anlayışından cümle yapısına kadar. Bu kapsamlı yaklaşım, iyi gelişmiş dil yetenekleri kazanmanızı sağlar.",
+                advantage3_title: "İstediğiniz Zaman, İstediğiniz Yerde Öğrenin",
+                advantage3_desc: "Çevrimdışı yeteneği ve mobil öncelikli tasarım ile işe gidip gelirken, molalarda veya birkaç boş anınız olduğunda diller pratik yapabilirsiniz.",
+                advantage4_title: "Kişiselleştirilmiş Öğrenme Yolu",
+                advantage4_desc: "Zorluk seviyenizi seçin, belirli becerilere odaklanın ve ilerlemenizi takip edin. Language Box, maksimum etkinlik için öğrenme stilinize ve hızınıza uyum sağlar.",
+                advantage5_title: "Tek Uygulamada Çoklu Dil",
+                advantage5_desc: "Birden fazla uygulama indirmek yerine, çeşitli dilleri tek bir yerden erişin. Çok dilli kişiler veya aynı anda birden fazla dil öğrenmekle ilgilenenler için mükemmel.",
+                advantage6_title: "Her Zaman Taze İçerik",
+                advantage6_desc: "Öğrenme deneyiminizi taze ve heyecanlı tutmak için düzenli olarak yeni oyunlar, seviyeler ve meydan okumalar ekliyoruz. Öğrenme platolarına neden olan tekrarlayan egzersizler olmayacak.",
                 section_faq: "Sıkça Sorulan Sorular",
                 faq1_q: "Language Box yeni bir dil öğrenmeme nasıl yardımcı olur?",
                 faq1_a: "Language Box, dil edinimini eğlenceli ve ilgi çekici hale getirmek için oyun tabanlı öğrenme kullanır. Beş oyunumuzun her biri, cümle yapımından dinleme anlayışına kadar farklı dil becerilerini hedefler ve kapsamlı bir öğrenme deneyimi sağlar.",
@@ -1128,16 +1217,23 @@
                 feat5_desc: "Frischer Inhalt von Servern stellt sicher, dass Sie immer neue Herausforderungen haben.",
                 feat6_title: "Modernes UX",
                 feat6_desc: "Sauberes, neumorphisches Design mit TTS für Aussprache und sanften Animationen.",
-                section_stats: "Ihre Lernstatistiken",
-                stat1_title: "Abgeschlossene Level",
-                stat1_desc: "In 5 Sprachen",
-                stat2_title: "Aktuelle Serie",
-                stat2_desc: "Weiter so!",
-                stat3_title: "Genauigkeitsrate",
-                stat3_desc: "Großer Fortschritt!",
+                section_advantages: "Warum Language Box wählen?",
+                section_advantages_desc: "Entdecken Sie die einzigartigen Vorteile, die Language Box zu Ihrem idealen Sprachlernbegleiter machen",
+                advantage1_title: "Fesselndes spielbasiertes Lernen",
+                advantage1_desc: "Traditionelles Sprachenlernen kann langweilig sein. Unsere interaktiven Spiele verwandeln Wortschatz- und Grammatikübungen in ein unterhaltsames Erlebnis und halten Sie motiviert und engagiert.",
+                advantage2_title: "Umfassende Fähigkeitsentwicklung",
+                advantage2_desc: "Jedes Spiel zielt auf verschiedene Sprachfähigkeiten ab - vom Hörverständnis bis zur Satzstruktur. Dieser umfassende Ansatz stellt sicher, dass Sie gut entwickelte Sprachfähigkeiten erwerben.",
+                advantage3_title: "Jederzeit und überall lernen",
+                advantage3_desc: "Mit Offline-Fähigkeit und mobil-first-Design können Sie Sprachen während Ihres Pendelverkehrs, in Pausen oder wann immer Sie einige freie Momente haben, üben.",
+                advantage4_title: "Personalisierter Lernpfad",
+                advantage4_desc: "Wählen Sie Ihren Schwierigkeitsgrad, konzentrieren Sie sich auf bestimmte Fähigkeiten und verfolgen Sie Ihren Fortschritt. Language Box passt sich Ihrem Lernstil und Ihrem Tempo für maximale Effektivität an.",
+                advantage5_title: "Mehrere Sprachen in einer App",
+                advantage5_desc: "Anstatt mehrere Apps herunterzuladen, greifen Sie auf verschiedene Sprachen an einem Ort zu. Perfekt für Polyglotte oder solche, die daran interessiert sind, gleichzeitig mehrere Sprachen zu lernen.",
+                advantage6_title: "Immer frischer Inhalt",
+                advantage6_desc: "Wir fügen regelmäßig neue Spiele, Level und Herausforderungen hinzu, um Ihr Lernerlebnis frisch und spannend zu halten. Keine repetitiven Übungen mehr, die zu Lernplateaus führen.",
                 section_faq: "Häufig gestellte Fragen",
                 faq1_q: "Wie hilft mir Language Box, eine neue Sprache zu lernen?",
-                faq1_a: "Language Box nutzt spielerisches Lernen, um den Spracherwerb lustig und ansprechend zu gestalten. Jedes unserer fünf Spiele zielt auf verschiedene Sprachkenntnisse ab – vom Satzbau bis zum Hörverständnis – und sorgt für eine ganzheitliche Lernerfahrung.",
+                faq1_a: "Language Box nutzt spielerisches Lernen, um den Spracherwerb lustig und ansprechend zu gestalten. Jedes unserer fünf Spiele zielt auf verschiedene Sprachkenntnisse ab - vom Satzbau bis zum Hörverständnis - und sorgt für eine ganzheitliche Lernerfahrung.",
                 faq2_q: "Kann ich meinen Fortschritt in verschiedenen Sprachen verfolgen?",
                 faq2_a: "Ja! Language Box speichert Ihren Fortschritt für jede Sprache separat. Sie können detaillierte Statistiken anzeigen, die Ihr Können in jeder Sprache und jedem Spieltyp zeigen, damit Sie sich auf Bereiche konzentrieren können, die Verbesserung benötigen.",
                 faq3_q: "Wird mein Fortschritt gespeichert, wenn ich die App schließe?",
@@ -1193,7 +1289,7 @@
                 tag_progress: "Progressi",
                 tag_profile: "Profilo",
                 section_features: "Caratteristiche principali",
-                section_features_desc: "Funzionalità avanzate progettate per migliorare il tuo viaggio di apprendimento linguistico",
+                section_features_desc: "Caratteristiche avanzate progettate per migliorare il tuo viaggio di apprendimento linguistico",
                 feat1_title: "Monitoraggio dei progressi",
                 feat1_desc: "Tieni traccia dei tuoi progressi di apprendimento con statistiche dettagliate e livelli di abilità per ogni lingua.",
                 feat2_title: "Caching intelligente",
@@ -1201,29 +1297,36 @@
                 feat3_title: "Cancella cache",
                 feat3_desc: "Reimposta i tuoi progressi in qualsiasi momento per ricominciare da capo con una lingua o un livello di difficoltà.",
                 feat4_title: "Architettura modulare",
-                feat4_desc: "Una struttura di codice pulita e manutenibile garantisce prestazioni fluide e aggiornamenti futuri.",
+                feat4_desc: "Una struttura di codice pulita e manutenibile garantisce prestazioni fluide e futuri aggiornamenti.",
                 feat5_title: "Contenuto dinamico",
                 feat5_desc: "Contenuti freschi recuperati dai server assicurano che tu abbia sempre nuove sfide da affrontare.",
                 feat6_title: "UX moderna",
                 feat6_desc: "Design neumorico pulito con sintesi vocale per la pronuncia e animazioni fluide.",
-                section_stats: "Le tue statistiche di apprendimento",
-                stat1_title: "Livelli completati",
-                stat1_desc: "In 5 lingue",
-                stat2_title: "Serie attuale",
-                stat2_desc: "Continua così!",
-                stat3_title: "Tasso di precisione",
-                stat3_desc: "Ottimi progressi!",
+                section_advantages: "Perché scegliere Language Box?",
+                section_advantages_desc: "Scopri i vantaggi unici che rendono Language Box il tuo compagno ideale per l'apprendimento delle lingue",
+                advantage1_title: "Apprendimento basato su giochi coinvolgenti",
+                advantage1_desc: "L'apprendimento tradizionale delle lingue può essere noioso. I nostri giochi interattivi trasformano la pratica del vocabolario e della grammatica in un'esperienza piacevole, mantenendoti motivato e impegnato.",
+                advantage2_title: "Sviluppo completo delle abilità",
+                advantage2_desc: "Ogni gioco si concentra su diverse abilità linguistiche - dalla comprensione orale alla struttura delle frasi. Questo approccio completo assicura che tu sviluppi capacità linguistiche ben bilanciate.",
+                advantage3_title: "Impara in qualsiasi momento, ovunque",
+                advantage3_desc: "Con capacità offline e design mobile-first, puoi praticare le lingue durante il pendolarismo, nelle pause o ogni volta che hai qualche momento libero.",
+                advantage4_title: "Percorso di apprendimento personalizzato",
+                advantage4_desc: "Scegli il tuo livello di difficoltà, concentrati su abilità specifiche e traccia i tuoi progressi. Language Box si adatta al tuo stile di apprendimento e al tuo ritmo per massima efficacia.",
+                advantage5_title: "Più lingue in una sola app",
+                advantage5_desc: "Invece di scaricare più app, accedi a varie lingue in un unico posto. Perfetto per poliglotti o per chi è interessato ad imparare più lingue contemporaneamente.",
+                advantage6_title: "Contenuti sempre freschi",
+                advantage6_desc: "Aggiungiamo regolarmente nuovi giochi, livelli e sfide per mantenere la tua esperienza di apprendimento fresca ed eccitante. Niente più esercizi ripetitivi che portano a plateau di apprendimento.",
                 section_faq: "Domande frequenti",
                 faq1_q: "Come Language Box mi aiuta a imparare una nuova lingua?",
                 faq1_a: "Language Box utilizza l'apprendimento basato sui giochi per rendere l'acquisizione della lingua divertente e coinvolgente. Ognuno dei nostri cinque giochi mira a diverse competenze linguistiche - dalla costruzione di frasi alla comprensione orale - garantendo un'esperienza di apprendimento completa.",
                 faq2_q: "Posso monitorare i miei progressi in diverse lingue?",
-                faq2_a: "Sì! Language Box salva i tuoi progressi separatamente per ogni lingua. Puoi visualizzare statistiche dettagliate che mostrano il tuo livello di abilità in ogni lingua e tipo di gioco, permettendoti di concentrarti sulle aree che necessitano miglioramenti.",
+                faq2_a: "Sì! Language Box salva i tuoi progressi per ogni lingua separatamente. Puoi visualizzare statistiche dettagliate che mostrano il tuo livello di abilità in ogni lingua e tipo di gioco, permettendoti di concentrarti sulle aree che necessitano miglioramenti.",
                 faq3_q: "I miei progressi vengono salvati se chiudo l'app?",
                 faq3_a: "Assolutamente. Language Box utilizza un caching intelligente per salvare i tuoi progressi localmente sul tuo dispositivo. Quando riapri l'app, continuerai esattamente dove avevi interrotto, anche se eri a metà di una partita.",
                 faq4_q: "Come posso ripristinare i miei progressi per una lingua specifica?",
                 faq4_a: "Puoi usare la funzione 'Cancella cache' nelle impostazioni per ripristinare i tuoi progressi per la lingua e il livello correnti. Questo ti permette di ricominciare da capo quando vuoi rivedere le basi o provare un approccio diverso.",
                 faq5_q: "L'app funziona offline?",
-                faq5_a: "Sebbene sia richiesta una connessione internet per scaricare inizialmente i contenuti e sincronizzare i progressi, Language Box memorizza i contenuti in locale, permettendoti di continuare ad imparare anche quando sei offline. I tuoi progressi verranno sincronizzati quando ti riconnetterai.",
+                faq5_a: "Sebbene sia richiesta una connessione internet per scaricare contenuti inizialmente e sincronizzare i progressi, Language Box memorizza i contenuti localmente, permettendoti di continuare a imparare anche quando sei offline. I tuoi progressi verranno sincronizzati quando ti riconnetterai.",
                 section_dev: "Sviluppatore",
                 footer_rights: "© 2026 Language Box. Tutti i diritti riservati."
             },
@@ -1279,25 +1382,32 @@
                 feat3_title: "Limpar Cache",
                 feat3_desc: "Redefina seu progresso a qualquer momento para começar do zero com um idioma ou nível de dificuldade.",
                 feat4_title: "Arquitetura Modular",
-                feat4_desc: "Estrutura de código limpa e maintenível garante performance suave e futuras atualizações.",
+                feat4_desc: "Estrutura de código limpa e mantenível garante performance suave e futuras atualizações.",
                 feat5_title: "Conteúdo Dinâmico",
                 feat5_desc: "Conteúdo novo buscado dos servidores garante que você sempre tenha novos desafios para enfrentar.",
                 feat6_title: "UX Moderno",
                 feat6_desc: "Design limpo, neumórfico com TTS para pronúncia e animações suaves.",
-                section_stats: "Suas Estatísticas de Aprendizado",
-                stat1_title: "Níveis Concluídos",
-                stat1_desc: "Em 5 idiomas",
-                stat2_title: "Sequência Atual",
-                stat2_desc: "Continue assim!",
-                stat3_title: "Taxa de Precisão",
-                stat3_desc: "Ótimo progresso!",
+                section_advantages: "Por que escolher a Caixa de Idiomas?",
+                section_advantages_desc: "Descubra os benefícios únicos que tornam a Caixa de Idiomas seu companheiro ideal de aprendizado de idiomas",
+                advantage1_title: "Aprendizagem Baseada em Jogos Envolvedores",
+                advantage1_desc: "O aprendizado tradicional de idiomas pode ser chato. Nossos jogos interativos transformam a prática de vocabulário e gramática em uma experiência agradável, mantendo-o motivado e engajado.",
+                advantage2_title: "Desenvolvimento Abrangente de Habilidades",
+                advantage2_desc: "Cada jogo visa diferentes habilidades linguísticas - da compreensão auditiva à estrutura das frases. Esta abordagem abrangente garante que você desenvolva habilidades linguísticas bem equilibradas.",
+                advantage3_title: "Aprenda a Qualquer Hora, em Qualquer Lugar",
+                advantage3_desc: "Com capacidade offline e design mobile-first, você pode praticar idiomas durante o trajeto, nas pausas ou sempre que tiver alguns momentos livres.",
+                advantage4_title: "Caminho de Aprendizagem Personalizado",
+                advantage4_desc: "Escolha seu nível de dificuldade, concentre-se em habilidades específicas e acompanhe seu progresso. A Caixa de Idiomas se adapta ao seu estilo de aprendizado e ritmo para máxima eficácia.",
+                advantage5_title: "Múltiplos Idiomas em um Único Aplicativo",
+                advantage5_desc: "Em vez de baixar múltiplos aplicativos, acesse vários idiomas em um só lugar. Perfeito para poliglotas ou aqueles interessados em aprender mais de um idioma simultaneamente.",
+                advantage6_title: "Conteúdo Sempre Fresco",
+                advantage6_desc: "Adicionamos regularmente novos jogos, níveis e desafios para manter sua experiência de aprendizado fresca e empolgante. Chega de exercícios repetitivos que levam a platôs de aprendizado.",
                 section_faq: "Perguntas Frequentes",
                 faq1_q: "Como o Caixa de Idiomas me ajuda a aprender um novo idioma?",
                 faq1_a: "O Caixa de Idiomas usa o aprendizado baseado em jogos para tornar a aquisição de idiomas divertida e envolvente. Cada um dos nossos cinco jogos visa diferentes habilidades linguísticas - da construção de frases à compreensão auditiva - garantindo uma experiência de aprendizado completa.",
                 faq2_q: "Posso acompanhar meu progresso em diferentes idiomas?",
                 faq2_a: "Sim! O Caixa de Idiomas salva seu progresso para cada idioma separadamente. Você pode visualizar estatísticas detalhadas mostrando seu nível de habilidade em cada idioma e tipo de jogo, permitindo que você se concentre nas áreas que precisam de melhoria.",
                 faq3_q: "Meu progresso é salvo se eu fechar o aplicativo?",
-                faq3_a: "Absolutamente. O Caixa de Idiomas usa cache inteligente para salvar seu progresso localmente em seu dispositivo. Quando você reabre o aplicativo, continuará exatamente de onde parou, mesmo que estivesse no meio de um jogo.",
+                faq3_a: "Absolutamente. O Caixa de Idiomas usa cache inteligente para salvar seu progresso localmente em seu dispositivo. Quando você reabre o aplicativo, continua exatamente de onde parou, mesmo que estivesse no meio de um jogo.",
                 faq4_q: "Como posso redefinir meu progresso para um idioma específico?",
                 faq4_a: "Você pode usar o recurso 'Limpar Cache' nas configurações para redefinir seu progresso para o idioma e nível atuais. Isso permite que você comece do zero sempre que quiser revisar os fundamentos ou tentar uma abordagem diferente.",
                 faq5_q: "O aplicativo funciona offline?",
@@ -1362,13 +1472,20 @@
                 feat5_desc: "El contenido nuevo obtenido de los servidores asegura que siempre tengas nuevos desafíos que enfrentar.",
                 feat6_title: "UX Moderno",
                 feat6_desc: "Diseño limpio y neumórfico con TTS para pronunciación y animaciones suaves.",
-                section_stats: "Tus Estadísticas de Aprendizaje",
-                stat1_title: "Niveles Completados",
-                stat1_desc: "En 5 idiomas",
-                stat2_title: "Racha Actual",
-                stat2_desc: "¡Así se sigue!",
-                stat3_title: "Tasa de Precisión",
-                stat3_desc: "¡Gran progreso!",
+                section_advantages: "¿Por qué elegir Caja de Idiomas?",
+                section_advantages_desc: "Descubre los beneficios únicos que hacen de Caja de Idiomas tu compañero ideal de aprendizaje de idiomas",
+                advantage1_title: "Aprendizaje Basado en Juegos Atractivo",
+                advantage1_desc: "El aprendizaje tradicional de idiomas puede ser aburrido. Nuestros juegos interactivos transforman la práctica de vocabulario y gramática en una experiencia agradable, manteniéndote motivado y comprometido.",
+                advantage2_title: "Desarrollo Integral de Habilidades",
+                advantage2_desc: "Cada juego se enfoca en diferentes habilidades lingüísticas: desde la comprensión auditiva hasta la estructura de las oraciones. Este enfoque integral garantiza que desarrolles habilidades lingüísticas bien equilibradas.",
+                advantage3_title: "Aprende en Cualquier Momento, en Cualquier Lugar",
+                advantage3_desc: "Con capacidad sin conexión y diseño móvil primero, puedes practicar idiomas durante tu trayecto, en los descansos o siempre que tengas unos momentos libres.",
+                advantage4_title: "Ruta de Aprendizaje Personalizada",
+                advantage4_desc: "Elige tu nivel de dificultad, concéntrate en habilidades específicas y rastrea tu progreso. Caja de Idiomas se adapta a tu estilo de aprendizaje y ritmo para máxima efectividad.",
+                advantage5_title: "Múltiples Idiomas en Una Sola Aplicación",
+                advantage5_desc: "En lugar de descargar múltiples aplicaciones, accede a varios idiomas en un solo lugar. Perfecto para políglotas o aquellos interesados en aprender más de un idioma simultáneamente.",
+                advantage6_title: "Contenido Siempre Fresco",
+                advantage6_desc: "Agregamos regularmente nuevos juegos, niveles y desafíos para mantener tu experiencia de aprendizaje fresca y emocionante. No más ejercicios repetitivos que lleven a mesetas de aprendizaje.",
                 section_faq: "Preguntas Frecuentes",
                 faq1_q: "¿Cómo me ayuda Caja de Idiomas a aprender un nuevo idioma?",
                 faq1_a: "Caja de Idiomas utiliza el aprendizaje basado en juegos para hacer la adquisición de idiomas divertida y atractiva. Cada uno de nuestros cinco juegos se enfoca en diferentes habilidades lingüísticas, desde la construcción de oraciones hasta la comprensión auditiva, garantizando una experiencia de aprendizaje integral.",
@@ -1440,13 +1557,20 @@
                 feat5_desc: "Du nouveau contenu récupéré sur les serveurs assure que vous ayez toujours de nouveaux défis à relever.",
                 feat6_title: "UX Moderne",
                 feat6_desc: "Design épuré et neumorphique avec TTS pour la prononciation et des animations fluides.",
-                section_stats: "Vos Statistiques d'Apprentissage",
-                stat1_title: "Niveaux Terminés",
-                stat1_desc: "Sur 5 langues",
-                stat2_title: "Série Actuelle",
-                stat2_desc: "Continuez comme ça !",
-                stat3_title: "Taux de Précision",
-                stat3_desc: "Excellent progrès !",
+                section_advantages: "Pourquoi choisir la Boîte de Langues?",
+                section_advantages_desc: "Découvrez les avantages uniques qui font de la Boîte de Langues votre compagnon idéal d'apprentissage des langues",
+                advantage1_title: "Apprentissage Basé sur des Jeux Engageants",
+                advantage1_desc: "L'apprentissage traditionnel des langues peut être ennuyeux. Nos jeux interactifs transforment la pratique du vocabulaire et de la grammaire en une expérience agréable, vous gardant motivé et engagé.",
+                advantage2_title: "Développement Complet des Compétences",
+                advantage2_desc: "Chaque jeu se concentre sur différentes compétences linguistiques - de la compréhension orale à la structure des phrases. Cette approche complète garantit que vous développez des compétences linguistiques bien équilibrées.",
+                advantage3_title: "Apprenez à Tout Moment, N'importe Où",
+                advantage3_desc: "Avec la capacité hors ligne et une conception mobile-first, vous pouvez pratiquer les langues pendant vos trajets, pendant les pauses ou chaque fois que vous avez quelques moments libres.",
+                advantage4_title: "Parcours d'Apprentissage Personnalisé",
+                advantage4_desc: "Choisissez votre niveau de difficulté, concentrez-vous sur des compétences spécifiques et suivez vos progrès. La Boîte de Langues s'adapte à votre style d'apprentissage et à votre rythme pour une efficacité maximale.",
+                advantage5_title: "Plusieurs Langues dans une Seule Application",
+                advantage5_desc: "Au lieu de télécharger plusieurs applications, accédez à diverses langues en un seul endroit. Parfait pour les polyglottes ou ceux intéressés à apprendre plusieurs langues simultanément.",
+                advantage6_title: "Contenu Toujours Frais",
+                advantage6_desc: "Nous ajoutons régulièrement de nouveaux jeux, niveaux et défis pour garder votre expérience d'apprentissage fraîche et passionnante. Fini les exercices répétitifs qui mènent à des plateaux d'apprentissage.",
                 section_faq: "Questions Fréquemment Posées",
                 faq1_q: "Comment Boîte de Langues m'aide-t-elle à apprendre une nouvelle langue ?",
                 faq1_a: "Boîte de Langues utilise l'apprentissage par le jeu pour rendre l'acquisition des langues amusante et engageante. Chacun de nos cinq jeux cible différentes compétences linguistiques - de la construction de phrases à la compréhension orale - garantissant une expérience d'apprentissage complète.",
@@ -1475,7 +1599,7 @@
                 badge_tracking: "Gjurmimi i Progresit",
                 section_screenshots: "Foto e Ekranit të Aplikacionit",
                 section_games: "Lojëra Interaktive të Gjuhës",
-                section_games_desc: "Çdo lojë synon aftësi specifike të gjuhës për të ndihmuar ju të bëheni më shpehtë i rrjedhshëm",
+                section_games_desc: "Çdo lojë synon aftësi specifike të gjuhës për të ndihmuar ju të bëheni më shpejt i rrjedhshëm",
                 game1_title: "Ndërtuesi i Fjalive",
                 game1_desc: "Zvarritni dhe lëshoni fjalët e përzier për të formuar fjalitë gramatikalisht të sakta. Perfekt për të kuptuar strukturën e fjalive dhe për të përmirësuar aftësitë tuaja të gramatikës.",
                 game2_title: "Plotësimi i Fjalive",
@@ -1483,11 +1607,11 @@
                 game3_title: "Fjalë e Ngjeshur",
                 game3_desc: "Zbrisni shkronjat për të formuar fjalën e saktë. Shkëlqyer për praktikën e drejtshkrimit dhe ndërtimin e fjalorit me udhëzime të disponueshme kur nevojiten.",
                 game4_title: "Përputhni Fjalinë",
-                game4_desc: "Dëgjoni copëzat audio dhe përputhini ato me fjalitë e shkruara të sakta. Përmirësoni kuptimin dëgjimor dhe aftësitë e shqiptimit.",
+                game4_desc: "Dëgjoni copëzat audio dhe përputhni ato me fjalitë e shkruara të sakta. Përmirësoni kuptimin dëgjimor dhe aftësitë e shqiptimit.",
                 game5_title: "Dëgjoni Fjalën",
-                game5_desc: "Dëgjoni fjalitë me fjalët që mungojnë dhe shkruajini ato saktësisht. Perfekt për nxënësit auditivë dhe për përmirësimin e aftësive të diktimit.",
+                game5_desc: "Dëgjoni fjalitë me fjalët që mungojnë dhe shkruajni ato saktësisht. Perfekt për nxënësit auditivë dhe për përmirësimin e aftësive të diktimit.",
                 game6_title: "Cilësimet e Lojës",
-                game6_desc: "Përshtatni përvojën tuaj të mësimit me kontrolle tingulli, përzgjedhje gjuhe dhe nivele vështirësie. Ndjekni progresin dhe arritjet tuaja.",
+                game6_desc: "Përshtatni përvojën tuaj të mësimit me kontrole tingulli, përzgjedhje gjuhe dhe nivele vështirësie. Ndjekni progresin dhe arritjet tuaja.",
                 tag_grammar: "Gramatikë",
                 tag_structure: "Struktura",
                 tag_beginner: "Fillestar",
@@ -1511,20 +1635,27 @@
                 feat2_title: "Cache inteligjent",
                 feat2_desc: "Progresi juaj ruhet automatikisht në vend, duke ju lejuar të vazhdoni nga ku e lëtë.",
                 feat3_title: "Pastro Cache",
-                feat3_desc: "Rivendosni progresin tuaj në çdo moment për të filluar sërishi me një gjuhë ose nivel vështirësie.",
+                feat3_desc: "Rivendosni progresin tuaj në çdo moment për të filluar sërish me një gjuhë ose nivel vështirësie.",
                 feat4_title: "Arkitektura Modulare",
                 feat4_desc: "Struktura e pastër dhe e mirëmbajtshme e kodit siguron performancë të butë dhe përditësime të ardhshme.",
                 feat5_title: "Përmbajtje Dinamike",
                 feat5_desc: "Përmbajtja e freskët e marrë nga serverat siguron që gjithmonë të keni sfida të reja për t'u përballur.",
                 feat6_title: "UX Modern",
                 feat6_desc: "Dizajn i pastër, neumorfik me TTS për shqiptim dhe animacione të buta.",
-                section_stats: "Statistikat Tuaja të Mësimit",
-                stat1_title: "Nivelet e Përfunduara",
-                stat1_desc: "Në 5 gjuhë",
-                stat2_title: "Rradhë Aktuale",
-                stat2_desc: "Vazhdoni kështu!",
-                stat3_title: "Norma e Saktësisë",
-                stat3_desc: "Progres i madh!",
+                section_advantages: "Pse të zgjidhni Kutinë e Gjuhëve?",
+                section_advantages_desc: "Zbulo avantazhet unike që bëjnë Kutinë e Gjuhëve shoqëruesin tuaj ideal të mësimit të gjuhëve",
+                advantage1_title: "Mësim Bazuar në Lojra Angazhuese",
+                advantage1_desc: "Mësimi tradicional i gjuhëve mund të jetë i mërzitshëm. Lojërat tona interaktive transformojnë praktikën e fjalorit dhe gramatikës në një përvojë të këndshme, duke ju mbajtur motivuar dhe të angazhuar.",
+                advantage2_title: "Zhvillim i Plotë i Aftësive",
+                advantage2_desc: "Çdo lojë përqendrohet në aftësi të ndryshme të gjuhës - nga kuptimi dëgjimor në strukturën e fjalive. Ky qasje e plotë siguron që ju të zhvilloni aftësi të balancuara të gjuhës.",
+                advantage3_title: "Mësoni në Çdo Kohë, Kudo",
+                advantage3_desc: "Me aftësinë offline dhe dizajnin mobile-first, ju mund të praktikoni gjuhët gjatë udhëtimit, në pushime ose kur keni disa momente të lira.",
+                advantage4_title: "Shteg Mësimi i Personalizuar",
+                advantage4_desc: "Zgjidhni nivelin tuaj të vështirësisë, përqendrohuni në aftësi specifike dhe ndiqni progresin tuaj. Kutia e Gjuhëve përshtatet me stilin dhe ritmin tuaj të mësimit për efektivitet maksimal.",
+                advantage5_title: "Shumë Gjuhë në Një Aplikacion",
+                advantage5_desc: "Në vend të shkarkoni aplikacione të shumta, qasni në gjuhë të ndryshme në një vend. Perfekt për poliglotët ose ata që janë të interesuar të mësojnë më shumë se një gjuhë njëkohësisht.",
+                advantage6_title: "Përmbajtje Gjithmonë e Freskët",
+                advantage6_desc: "Ne shtojmë rregullisht lojra të reja, nivele dhe sfida për të mbajtur përvojën tuaj të mësimit të freskët dhe emocionuese. Jo më shumë ushtrime të përsëritura që çojnë në platotë mësimi.",
                 section_faq: "Pyetje të Shpeshta",
                 faq1_q: "Si më ndihmon Kutia e Gjuhëve të msoj një gjuhë të re?",
                 faq1_a: "Kutia e Gjuhëve përdor mësimin e bazuar në lojëra për të bërë marrjen e gjuhës argëtuese dhe angazhuese. Secila nga pesë lojërat tona synon aftësi të ndryshme të gjuhës - nga ndërtimi i fjalive në kuptimin dëgjimor - duke siguruar një përvojë mësimi të plotë.",
@@ -1596,13 +1727,20 @@
                 feat5_desc: "A szerverekről lekért friss tartalom biztosítja, hogy mindig új kihívásokkal nézzen szembe.",
                 feat6_title: "Modern UX",
                 feat6_desc: "Tiszta, neumorf dizájn TTS-sel a kiejtéshez és sima animációkkal.",
-                section_stats: "Tanulási Statisztikái",
-                stat1_title: "Befejezett Szintek",
-                stat1_desc: "5 nyelven",
-                stat2_title: "Jelenlegi Sorozat",
-                stat2_desc: "Folytassa így!",
-                stat3_title: "Pontossági Arány",
-                stat3_desc: "Nagy haladás!",
+                section_advantages: "Miért válassza a Nyelvi Dobozt?",
+                section_advantages_desc: "Fedezze fel az egyedi előnyöket, amelyek a Nyelvi Dobozt ideális nyelvtanuló társává teszik",
+                advantage1_title: "Elbűvölő játékalapú tanulás",
+                advantage1_desc: "A hagyományos nyelvtanulás unalmas lehet. Interaktív játékaink a szókincs- és nyelvtani gyakorlást élvezetessé teszik, motiváltan és lelkesen tartva.",
+                advantage2_title: "Átfogó készségfejlesztés",
+                advantage2_desc: "Minden játék különböző nyelvi készségekre összpontosít - a hallási megértéstől a mondatstruktúráig. Ez a átfogó megközelítés biztosítja, hogy jól fejlett nyelvi készségeket szerezzen.",
+                advantage3_title: "Tanuljon bármikor, bárhol",
+                advantage3_desc: "Offline képességgel és mobil-first dizájnnal a munkába járás közben, szünetekben vagy amikor csak néhány szabad perce van, gyakorolhatja a nyelveket.",
+                advantage4_title: "Személyre szabott tanulási útvonal",
+                advantage4_desc: "Válassza nehézségi szintjét, koncentráljon specifikus készségekre és kövesse haladását. A Nyelvi Doboz a tanulási stílusához és tempójához igazodik a maximális hatékonyság érdekében.",
+                advantage5_title: "Több nyelv egy alkalmazásban",
+                advantage5_desc: "Ahelyett, hogy több alkalmazást töltene le, különböző nyelveket érhet el egy helyen. Tökéletes többnyelvűeknek vagy azoknak, akik egyszerre több nyelvet szeretnének tanulni.",
+                advantage6_title: "Mindig friss tartalom",
+                advantage6_desc: "Rendszeresen adunk hozzá új játékokat, szinteket és kihívásokat, hogy tanulási élményét frissen és izgalmasan tartsuk. Nincs több ismétlődő gyakorlat, amely tanulási platókhoz vezet.",
                 section_faq: "Gyakran Ismételt Kérdések",
                 faq1_q: "Hogyan segít a Nyelvi Doboz új nyelvet tanulni?",
                 faq1_a: "A Nyelvi Doboz a játék alapú tanulást használja a nyelvszerzést szórakoztatóvá és lebilincselővé téve. Minden öt játékunk különböző nyelvi készségeket céloz meg - a mondatépítéstől a hallási megértésig - biztosítva egy átfogó tanulási élményt.",
@@ -1674,26 +1812,33 @@
                 feat5_desc: "Свежий контент, получаемый с серверов, гарантирует, что у вас всегда будут новые вызовы.",
                 feat6_title: "Современный UX",
                 feat6_desc: "Чистый, нейморфный дизайн с TTS для произношения и плавной анимацией.",
-                section_stats: "Ваша статистика обучения",
-                stat1_title: "Пройденные уровни",
-                stat1_desc: "На 5 языках",
-                stat2_title: "Текущая серия",
-                stat2_desc: "Продолжайте в том же духе!",
-                stat3_title: "Точность",
-                stat3_desc: "Отличный прогресс!",
+                section_advantages: "Почему стоит выбрать Языковой Коробок?",
+                section_advantages_desc: "Откройте для себя уникальные преимущества, которые делают Языковой Коробок вашим идеальным партнером для изучения языков",
+                advantage1_title: "Увлекательное обучение на основе игр",
+                advantage1_desc: "Традиционное изучение языков может быть скучным. Наши интерактивные игры превращают практику словарного запаса и грамматики в приятный опыт, поддерживая вашу мотивацию и вовлеченность.",
+                advantage2_title: "Комплексное развитие навыков",
+                advantage2_desc: "Каждая игра фокусируется на различных языковых навыках - от аудирования до структуры предложений. Этот комплексный подход гарантирует, что вы разовьете хорошо сбалансированные языковые способности.",
+                advantage3_title: "Учитесь в любое время, в любом месте",
+                advantage3_desc: "С возможностью офлайн и мобильным дизайном, вы можете практиковать языки во время поездки на работу, на перерывах или в любое свободное время.",
+                advantage4_title: "Персонализированный путь обучения",
+                advantage4_desc: "Выберите свой уровень сложности, сосредоточьтесь на конкретных навыках и отслеживайте свой прогресс. Языковой Коробок адаптируется к вашему стилю обучения и темпу для максимальной эффективности.",
+                advantage5_title: "Множество языков в одном приложении",
+                advantage5_desc: "Вместо загрузки нескольких приложений, получайте доступ к различным языкам в одном месте. Идеально для полиглотов или тех, кто интересуется изучением нескольких языков одновременно.",
+                advantage6_title: "Всегда свежий контент",
+                advantage6_desc: "Мы регулярно добавляем новые игры, уровни и вызовы, чтобы поддерживать ваш опыт обучения свежим и увлекательным. Больше никаких повторяющихся упражнений, которые приводят к плато в обучении.",
                 section_faq: "Часто задаваемые вопросы",
-                faq1_q: "Как Языковой Коробка помогает мне выучить новый язык?",
-                faq1_a: "Языковой Коробка использует игровое обучение, чтобы сделать изучение языка веселым и увлекательным. Каждая из наших пяти игр нацелена на различные языковые навыки - от построения предложений до аудирования - обеспечивая всесторонний опыт обучения.",
+                faq1_q: "Как Языковой Коробок помогает мне выучить новый язык?",
+                faq1_a: "Языковой Коробок использует игровое обучение, чтобы сделать изучение языка веселым и увлекательным. Каждая из наших пяти игр нацелена на различные языковые навыки - от построения предложений до аудирования - обеспечивая всесторонний опыт обучения.",
                 faq2_q: "Могу ли я отслеживать свой прогресс на разных языках?",
-                faq2_a: "Да! Языковой Коробка сохраняет ваш прогресс для каждого языка отдельно. Вы можете просматривать подробную статистику, показывающую ваш уровень владения каждым языком и типом игры, что позволяет вам сосредоточиться на областях, требующих улучшения.",
+                faq2_a: "Да! Языковой Коробок сохраняет ваш прогресс для каждого языка отдельно. Вы можете просматривать подробную статистику, показывающую ваш уровень владения каждым языком и типом игры, что позволяет вам сосредоточиться на областях, требующих улучшения.",
                 faq3_q: "Сохраняется ли мой прогресс, если я закрою приложение?",
-                faq3_a: "Безусловно. Языковой Коробка использует интеллектуальное кэширование для сохранения вашего прогресса локально на вашем устройстве. Когда вы снова откроете приложение, вы продолжите именно с того места, где остановились, даже если были в середине игры.",
+                faq3_a: "Безусловно. Языковой Коробок использует интеллектуальное кэширование для сохранения вашего прогресса локально на вашем устройстве. Когда вы снова откроете приложение, вы продолжите именно с того места, где остановились, даже если были в середине игры.",
                 faq4_q: "Как я могу сбросить свой прогресс для определенного языка?",
                 faq4_a: "Вы можете использовать функцию 'Очистить кэш' в настройках, чтобы сбросить свой прогресс для текущего языка и уровня. Это позволяет вам начать с чистого листа, когда вы хотите повторить основы или попробовать другой подход.",
                 faq5_q: "Приложение работает в автономном режиме?",
-                faq5_a: "Хотя для первоначальной загрузки контента и синхронизации прогресса требуется подключение к интернету, Языковой Коробка кэширует контент локально, позволяя вам продолжать обучение, даже когда вы не в сети. Ваш прогресс синхронизируется при повторном подключении.",
+                faq5_a: "Хотя для первоначальной загрузки контента и синхронизации прогресса требуется подключение к интернету, Языковой Коробок кэширует контент локально, позволяя вам продолжать обучение, даже когда вы не в сети. Ваш прогресс синхронизируется при повторном подключении.",
                 section_dev: "Разработчик",
-                footer_rights: "© 2026 Языковой Коробка. Все права защищены."
+                footer_rights: "© 2026 Языковой Коробок. Все права защищены."
             }
         };
 
