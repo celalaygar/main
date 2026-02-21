@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,46 +7,347 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --dark-bg: #0f0f23;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --card-border: rgba(255, 255, 255, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
         body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #000;
-            color: #fff;
+            font-family: 'Inter', sans-serif;
+            background: var(--dark-bg);
+            color: #ffffff;
             overflow-x: hidden;
+            line-height: 1.6;
         }
 
-        .gradient-text {
-            background: linear-gradient(90deg, #4F46E5, #7C3AED, #EC4899);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        /* Animated Background */
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: linear-gradient(to bottom, #0f0f23, #1a1a3e);
+            overflow: hidden;
         }
 
-        .gradient-text-purple {
-            background: linear-gradient(90deg, #A855F7, #7C3AED);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        .animated-bg::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background: radial-gradient(circle, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.05) 50%, transparent 70%);
+            animation: rotate 30s linear infinite;
         }
 
-        .gradient-text-pink {
-            background: linear-gradient(90deg, #EC4899, #F97316);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        .animated-bg::after {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background: radial-gradient(circle, rgba(240, 147, 251, 0.1) 0%, rgba(245, 87, 108, 0.05) 50%, transparent 70%);
+            animation: rotate 40s linear infinite reverse;
         }
 
-        .hero-gradient {
-            background: linear-gradient(135deg, rgba(79, 70, 229, 0.1), rgba(124, 58, 237, 0.1), rgba(236, 72, 153, 0.1));
-            backdrop-filter: blur(10px);
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
-        .game-card {
+        /* Glassmorphism Card */
+        .glass-card {
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(10px);
+            border-radius: 16px;
             border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(102, 126, 234, 0.2);
+            border-color: rgba(102, 126, 234, 0.3);
+        }
+
+        /* Gradient Text */
+        .gradient-text {
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .gradient-text-2 {
+            background: var(--secondary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .gradient-text-3 {
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 1rem 0;
+            background: rgba(15, 15, 35, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .navbar.scrolled {
+            padding: 0.5rem 0;
+            background: rgba(15, 15, 35, 0.95);
+        }
+
+        /* Language Selector */
+        .language-selector {
+            appearance: none;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 2.5rem 0.5rem 1rem;
+            border-radius: 12px;
+            color: white;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 0.7rem center;
+            background-size: 1rem;
+        }
+
+        .language-selector:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .language-selector:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+        }
+
+        .language-selector option {
+            background: #1a1a3e;
+            color: white;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 8rem 0 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-bg-shape {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: var(--primary-gradient);
+            opacity: 0.1;
+            filter: blur(100px);
+            top: -200px;
+            right: -200px;
+        }
+
+        .hero-bg-shape-2 {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: var(--secondary-gradient);
+            opacity: 0.1;
+            filter: blur(80px);
+            bottom: -150px;
+            left: -150px;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            background: rgba(102, 126, 234, 0.2);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-description {
+            font-size: 1.25rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 2rem;
+            max-width: 600px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: var(--primary-gradient);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(102, 126, 234, 0.5);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-3px);
+        }
+
+        .hero-image {
+            position: relative;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .hero-image-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: var(--primary-gradient);
+            opacity: 0.1;
+            filter: blur(40px);
+            border-radius: 50%;
+            z-index: -1;
+        }
+
+        /* Feature Pills */
+        .feature-pills {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .feature-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .feature-pill:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        /* Section Styles */
+        .section {
+            padding: 5rem 0;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 700px;
+            margin: 0 auto 3rem;
+        }
+
+        /* Game Cards */
+        .game-card {
+            padding: 2rem;
+            text-align: center;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             position: relative;
             overflow: hidden;
         }
@@ -67,19 +367,16 @@
             left: 100%;
         }
 
-        .game-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 20px 40px rgba(79, 70, 229, 0.3);
-            border-color: rgba(79, 70, 229, 0.5);
-            background: rgba(255, 255, 255, 0.08);
-        }
-
         .game-icon {
-            font-size: 3rem;
-            background: linear-gradient(135deg, #4F46E5, #7C3AED, #EC4899);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 20px;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            background: var(--primary-gradient);
             transition: all 0.3s ease;
         }
 
@@ -87,178 +384,141 @@
             transform: scale(1.1) rotate(5deg);
         }
 
+        .game-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .game-description {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .game-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .game-tag {
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            background: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Feature Cards */
+        .feature-card {
+            padding: 2rem;
+            display: flex;
+            gap: 1.5rem;
+            align-items: flex-start;
+        }
+
         .feature-icon {
-            background: linear-gradient(135deg, #4F46E5, #7C3AED);
             width: 60px;
             height: 60px;
             display: flex;
             align-items: center;
             justify-content: center;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            transition: all 0.3s ease;
+            border-radius: 15px;
+            flex-shrink: 0;
+            font-size: 1.5rem;
+            background: var(--primary-gradient);
         }
 
-        /* DİL SEÇİCİ STİLLERİ - Okunabilirlik İçin Güncellendi */
-        .language-selector {
-            appearance: none;
-            background-color: rgba(30, 41, 59, 0.9);
-            /* Daha koyu ve opak arka plan */
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            padding: 10px 36px 10px 16px;
-            /* İkon için sağda boşluk */
-            border-radius: 8px;
-            color: white;
-            /* Beyaz yazı */
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-            background-repeat: no-repeat;
-            background-position: right 10px center;
-            background-size: 16px;
+        .feature-content h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
         }
 
-        .language-selector:hover {
-            background-color: rgba(51, 65, 85, 0.95);
-            border-color: rgba(255, 255, 255, 0.5);
+        .feature-content p {
+            color: rgba(255, 255, 255, 0.7);
         }
 
-        .language-selector:focus {
-            outline: none;
-            border-color: #818cf8;
-            box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.3);
+        /* Advantage Cards */
+        .advantage-card {
+            padding: 2rem;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
         }
 
-        /* Option elementleri tarayıcı tarzından etkilenir ancak burada temel ayarları yapıyoruz */
-        .language-selector option {
-            background-color: #1e293b;
-            /* Koyu gri arka plan */
-            color: white;
-            /* Beyaz yazı */
-            padding: 10px;
-        }
-
-        .screenshot {
+        .advantage-icon {
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            transition: all 0.3s ease;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            background: var(--secondary-gradient);
         }
 
-        .screenshot:hover {
-            transform: scale(1.05);
-            box-shadow: 0 15px 40px rgba(79, 70, 229, 0.4);
+        .advantage-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
         }
 
+        .advantage-description {
+            color: rgba(255, 255, 255, 0.7);
+            flex-grow: 1;
+        }
+
+        /* FAQ */
         .faq-item {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 1rem;
             border-radius: 12px;
-            margin-bottom: 16px;
             overflow: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .faq-item:hover {
-            background: rgba(255, 255, 255, 0.08);
         }
 
         .faq-question {
-            padding: 20px;
+            padding: 1.5rem;
             cursor: pointer;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background: rgba(255, 255, 255, 0.05);
         }
 
         .faq-answer {
-            padding: 0 20px;
+            padding: 0 1.5rem;
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.3s ease, padding 0.3s ease;
+            transition: all 0.3s ease;
         }
 
         .faq-item.active .faq-answer {
-            padding: 0 20px 20px;
+            padding: 0 1.5rem 1.5rem;
             max-height: 500px;
         }
 
-        .download-button {
-            background: linear-gradient(90deg, #4F46E5, #7C3AED);
-            padding: 12px 30px;
-            border-radius: 50px;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4);
-            text-decoration: none;
-            color: white;
+        .faq-icon {
+            transition: transform 0.3s ease;
         }
 
-        .download-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(79, 70, 229, 0.6);
-            text-decoration: none;
-            color: white;
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
         }
 
-        .stats-card {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
-            padding: 20px;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
-
-        .stats-card:hover {
-            transform: translateY(-5px);
-            background: rgba(255, 255, 255, 0.08);
-        }
-
-        @keyframes float {
-            0% {
-                transform: translateY(0px);
-            }
-
-            50% {
-                transform: translateY(-20px);
-            }
-
-            100% {
-                transform: translateY(0px);
-            }
-        }
-
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-            }
-
-            50% {
-                transform: scale(1.05);
-            }
-
-            100% {
-                transform: scale(1);
-            }
-        }
-
-        .float-animation {
-            animation: float 6s ease-in-out infinite;
-        }
-
-        .pulse-animation {
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        /* Slider Styles */
+        /* Slider */
         .slider-container {
             position: relative;
-            max-width: 800px;
+            max-width: 1000px;
             margin: 0 auto;
             overflow: hidden;
             border-radius: 20px;
@@ -279,7 +539,7 @@
             max-width: 100%;
             max-height: 600px;
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
 
         .slider-controls {
@@ -289,35 +549,35 @@
             display: flex;
             justify-content: space-between;
             transform: translateY(-50%);
+            padding: 0 1rem;
         }
 
         .slider-btn {
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            border: none;
-            color: white;
-            font-size: 20px;
             width: 50px;
             height: 50px;
             border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            font-size: 1.2rem;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            margin: 0 20px;
             transition: all 0.3s ease;
-            z-index: 10;
         }
 
         .slider-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.2);
             transform: scale(1.1);
         }
 
         .slider-dots {
             display: flex;
             justify-content: center;
-            margin-top: 20px;
+            margin-top: 1.5rem;
+            gap: 0.5rem;
         }
 
         .dot {
@@ -325,98 +585,114 @@
             height: 12px;
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.3);
-            margin: 0 5px;
             cursor: pointer;
             transition: all 0.3s ease;
         }
 
         .dot.active {
-            background: #4F46E5;
+            background: #667eea;
             transform: scale(1.2);
         }
 
-        .hero-logo-container {
-            position: relative;
+        /* Developer Section */
+        .developer-card {
+            max-width: 500px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .developer-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            background: var(--primary-gradient);
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 3rem;
         }
 
-        .hero-logo-bg {
-            position: absolute;
-            width: 400px;
-            height: 400px;
-            background: linear-gradient(135deg, rgba(79, 70, 229, 0.3), rgba(124, 58, 237, 0.3), rgba(236, 72, 153, 0.3));
-            border-radius: 50%;
-            filter: blur(60px);
-            animation: pulse 4s ease-in-out infinite;
+        .developer-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
         }
 
-        .feature-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 16px;
-            border-radius: 50px;
-            font-size: 14px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-
-        .feature-badge:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
-        }
-
-        .feature-badge.purple {
-            background: linear-gradient(135deg, rgba(168, 85, 247, 0.2), rgba(124, 58, 237, 0.2));
-            border: 1px solid rgba(168, 85, 247, 0.3);
-        }
-
-        .feature-badge.pink {
-            background: linear-gradient(135deg, rgba(236, 72, 153, 0.2), rgba(249, 115, 22, 0.2));
-            border: 1px solid rgba(236, 72, 153, 0.3);
-        }
-
-        .feature-badge.blue {
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(79, 70, 229, 0.2));
-            border: 1px solid rgba(59, 130, 246, 0.3);
-        }
-
-        /* Advantages Section Styles */
-        .advantage-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
-            padding: 30px;
-            transition: all 0.3s ease;
-            height: 100%;
+        .developer-info {
             display: flex;
             flex-direction: column;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
         }
 
-        .advantage-card:hover {
-            transform: translateY(-10px);
-            background: rgba(255, 255, 255, 0.08);
-            box-shadow: 0 20px 40px rgba(79, 70, 229, 0.2);
+        .developer-info-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            color: rgba(255, 255, 255, 0.7);
         }
 
-        .advantage-icon {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            background: linear-gradient(135deg, #4F46E5, #7C3AED);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        /* Footer */
+        .footer {
+            padding: 3rem 0 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .hero {
+                padding: 6rem 0 3rem;
+            }
+
+            .section {
+                padding: 3rem 0;
+            }
         }
     </style>
 </head>
-
 <body>
+    <!-- Animated Background -->
+    <div class="animated-bg"></div>
+
     <!-- Navigation -->
-    <nav class="fixed top-0 w-full z-50 bg-black bg-opacity-80 backdrop-blur-md border-b border-gray-800">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+    <nav class="navbar" id="navbar">
+        <div class="container mx-auto px-6 flex justify-between items-center">
             <div class="flex items-center gap-3">
                 <img src="https://raw.githubusercontent.com/celalaygar/main/refs/heads/main/project/language-box/Language-Box-Logo.png"
                     alt="Language Box Logo" class="h-10">
@@ -440,126 +716,104 @@
     </nav>
 
     <!-- Hero Section -->
-    <section class="pt-32 pb-20 px-6">
-        <div class="container mx-auto">
+    <section class="hero">
+        <div class="hero-bg-shape"></div>
+        <div class="hero-bg-shape-2"></div>
+        <div class="container mx-auto px-6">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                <!-- Left Content -->
-                <div class="text-center lg:text-left order-2 lg:order-1">
-                    <div class="mb-6">
-                        <span class="feature-badge purple">
-                            <i class="fas fa-star"></i>
-                            <span data-i18n="hero_badge">Language Learning App</span>
-                        </span>
+                <div class="hero-content">
+                    <div class="hero-badge">
+                        <i class="fas fa-star"></i>
+                        <span data-i18n="hero_badge">#1 Language Learning App</span>
                     </div>
-                    <h1 class="text-5xl md:text-6xl font-bold mb-6 leading-tight">
+                    <h1 class="hero-title">
                         <span class="gradient-text" data-i18n="hero_h1_1">Learn Languages</span><br>
-                        <span class="gradient-text-purple" data-i18n="hero_h1_2">Through</span><br>
-                        <span class="gradient-text-pink" data-i18n="hero_h1_3">Interactive Games</span>
+                        <span class="gradient-text-2" data-i18n="hero_h1_2">Through</span><br>
+                        <span class="gradient-text-3" data-i18n="hero_h1_3">Interactive Games</span>
                     </h1>
-                    <p class="text-xl text-gray-300 mb-8 max-w-2xl" data-i18n="hero_desc">
-                        Master new languages with our engaging collection of interactive games designed to make learning
-                        fun and effective.
+                    <p class="hero-description" data-i18n="hero_desc">
+                        Master new languages with our engaging collection of interactive games designed to make learning fun and effective.
                     </p>
-                    <div class="flex justify-center lg:justify-start gap-4 flex-wrap mb-8">
-                        <a href="" target="_blank" class="download-button">
-                            <i class="fab fa-apple text-xl"></i>
+                    <div class="hero-buttons">
+                        <a href="" target="_blank" class="btn btn-primary">
+                            <i class="fab fa-apple"></i>
                             <span data-i18n="btn_apple">Download on App Store</span>
                         </a>
-                        <a href="" target="_blank" class="download-button">
-                            <i class="fab fa-google-play text-xl"></i>
+                        <a href="" target="_blank" class="btn btn-primary">
+                            <i class="fab fa-google-play"></i>
                             <span data-i18n="btn_google">Get it on Google Play</span>
                         </a>
                     </div>
-
-                    <!-- Feature Pills -->
-                    <div class="flex flex-wrap gap-3 justify-center lg:justify-start">
-                        <span class="feature-badge blue">
+                    <div class="feature-pills">
+                        <div class="feature-pill">
                             <i class="fas fa-gamepad"></i>
                             <span data-i18n="badge_games">5 Interactive Games</span>
-                        </span>
-                        <span class="feature-badge purple">
+                        </div>
+                        <div class="feature-pill">
                             <i class="fas fa-language"></i>
                             <span data-i18n="badge_languages">Multiple Languages</span>
-                        </span>
-                        <span class="feature-badge pink">
+                        </div>
+                        <div class="feature-pill">
                             <i class="fas fa-chart-line"></i>
                             <span data-i18n="badge_tracking">Progress Tracking</span>
-                        </span>
+                        </div>
                     </div>
                 </div>
-
-                <!-- Right Content - Logo -->
-                <div class="hero-logo-container order-1 lg:order-2">
-                    <div class="hero-logo-bg"></div>
+                <div class="hero-image">
+                    <div class="hero-image-bg"></div>
                     <img src="https://raw.githubusercontent.com/celalaygar/main/refs/heads/main/project/language-box/Language-Box-Logo.png"
-                        alt="Language Box Logo" class="relative z-10 h-64 md:h-80 lg:h-96 float-animation">
+                        alt="Language Box Logo" class="relative z-10 h-64 md:h-80 lg:h-96 mx-auto">
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- App Screenshots Slider Section -->
-    <section class="py-20 px-6 bg-gray-900 bg-opacity-50">
-        <div class="container mx-auto">
-            <h2 class="text-4xl font-bold text-center mb-12 gradient-text" data-i18n="section_screenshots">App
-                Screenshots</h2>
-
+    <!-- Screenshots Section -->
+    <section class="section">
+        <div class="container mx-auto px-6">
+            <h2 class="section-title gradient-text" data-i18n="section_screenshots">App Screenshots</h2>
             <div class="slider-container">
                 <div class="slider" id="screenshotSlider">
                     <div class="slide">
-                        <img src="https://raw.githubusercontent.com/celalaygar/main/refs/heads/main/project/language-box/1-main1.png"
-                            alt="Main Screen 1">
+                        <img src="https://raw.githubusercontent.com/celalaygar/main/refs/heads/main/project/language-box/1-main1.png" alt="Main Screen 1">
                     </div>
                     <div class="slide">
-                        <img src="https://raw.githubusercontent.com/celalaygar/main/refs/heads/main/project/language-box/2-main2.png"
-                            alt="Main Screen 2">
+                        <img src="https://raw.githubusercontent.com/celalaygar/main/refs/heads/main/project/language-box/2-main2.png" alt="Main Screen 2">
                     </div>
                     <div class="slide">
-                        <img src="https://raw.githubusercontent.com/celalaygar/main/refs/heads/main/project/language-box/3-stats1.png"
-                            alt="Statistics 1">
+                        <img src="https://raw.githubusercontent.com/celalaygar/main/refs/heads/main/project/language-box/3-stats1.png" alt="Statistics 1">
                     </div>
                     <div class="slide">
-                        <img src="https://raw.githubusercontent.com/celalaygar/main/refs/heads/main/project/language-box/4-stats2.png"
-                            alt="Statistics 2">
+                        <img src="https://raw.githubusercontent.com/celalaygar/main/refs/heads/main/project/language-box/4-stats2.png" alt="Statistics 2">
                     </div>
                     <div class="slide">
-                        <img src="https://raw.githubusercontent.com/celalaygar/main/refs/heads/main/project/language-box/5-stats3.png"
-                            alt="Statistics 3">
+                        <img src="https://raw.githubusercontent.com/celalaygar/main/refs/heads/main/project/language-box/5-stats3.png" alt="Statistics 3">
                     </div>
                     <div class="slide">
-                        <img src="https://raw.githubusercontent.com/celalaygar/main/refs/heads/main/project/language-box/6-setting.png"
-                            alt="Settings">
+                        <img src="https://raw.githubusercontent.com/celalaygar/main/refs/heads/main/project/language-box/6-setting.png" alt="Settings">
                     </div>
                     <div class="slide">
-                        <img src="https://raw.githubusercontent.com/celalaygar/main/refs/heads/main/project/language-box/7-level.png"
-                            alt="Level Selection">
+                        <img src="https://raw.githubusercontent.com/celalaygar/main/refs/heads/main/project/language-box/7-level.png" alt="Level Selection">
                     </div>
                     <div class="slide">
-                        <img src="https://raw.githubusercontent.com/celalaygar/main/refs/heads/main/project/language-box/8-game.png"
-                            alt="Game Screen">
+                        <img src="https://raw.githubusercontent.com/celalaygar/main/refs/heads/main/project/language-box/8-game.png" alt="Game Screen">
                     </div>
                     <div class="slide">
-                        <img src="https://raw.githubusercontent.com/celalaygar/main/refs/heads/main/project/language-box/9-scrambledWordGame.png"
-                            alt="Scrambled Word Game">
+                        <img src="https://raw.githubusercontent.com/celalaygar/main/refs/heads/main/project/language-box/9-scrambledWordGame.png" alt="Scrambled Word Game">
                     </div>
                     <div class="slide">
-                        <img src="https://raw.githubusercontent.com/celalaygar/main/refs/heads/main/project/language-box/10-sentenceBuilderGame.png"
-                            alt="Sentence Builder Game">
+                        <img src="https://raw.githubusercontent.com/celalaygar/main/refs/heads/main/project/language-box/10-sentenceBuilderGame.png" alt="Sentence Builder Game">
                     </div>
                     <div class="slide">
-                        <img src="https://raw.githubusercontent.com/celalaygar/main/refs/heads/main/project/language-box/11-sentenceCompletionGame.png"
-                            alt="Sentence Completion Game">
+                        <img src="https://raw.githubusercontent.com/celalaygar/main/refs/heads/main/project/language-box/11-sentenceCompletionGame.png" alt="Sentence Completion Game">
                     </div>
                     <div class="slide">
-                        <img src="https://raw.githubusercontent.com/celalaygar/main/refs/heads/main/project/language-box/12-ListenWordGame.png"
-                            alt="Listen Word Game">
+                        <img src="https://raw.githubusercontent.com/celalaygar/main/refs/heads/main/project/language-box/12-ListenWordGame.png" alt="Listen Word Game">
                     </div>
                     <div class="slide">
-                        <img src="https://raw.githubusercontent.com/celalaygar/main/refs/heads/main/project/language-box/13-MatchSentenceGame.png"
-                            alt="Match Sentence Game">
+                        <img src="https://raw.githubusercontent.com/celalaygar/main/refs/heads/main/project/language-box/13-MatchSentenceGame.png" alt="Match Sentence Game">
                     </div>
                 </div>
-
                 <div class="slider-controls">
                     <button class="slider-btn" id="prevBtn">
                         <i class="fas fa-chevron-left"></i>
@@ -569,122 +823,110 @@
                     </button>
                 </div>
             </div>
-
             <div class="slider-dots" id="sliderDots"></div>
         </div>
     </section>
 
     <!-- Games Section -->
-    <section class="py-20 px-6">
-        <div class="container mx-auto">
-            <h2 class="text-4xl font-bold text-center mb-4 gradient-text" data-i18n="section_games">Interactive Language
-                Games</h2>
-            <p class="text-center text-gray-300 mb-12 max-w-2xl mx-auto" data-i18n="section_games_desc">
-                Each game targets specific language skills to help you become fluent faster
-            </p>
-
+    <section class="section" style="background: rgba(255, 255, 255, 0.02);">
+        <div class="container mx-auto px-6">
+            <h2 class="section-title gradient-text" data-i18n="section_games">Interactive Language Games</h2>
+            <p class="section-subtitle" data-i18n="section_games_desc">Each game targets specific language skills to help you become fluent faster</p>
+            
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <!-- Sentence Builder Game -->
-                <div class="game-card rounded-2xl p-8 text-center">
-                    <div class="game-icon mb-4">
+                <!-- Game Card 1 -->
+                <div class="glass-card game-card">
+                    <div class="game-icon">
                         <i class="fas fa-puzzle-piece"></i>
                     </div>
-                    <h3 class="text-2xl font-semibold mb-4" data-i18n="game1_title">Sentence Builder</h3>
-                    <p class="text-gray-300 mb-4" data-i18n="game1_desc">
-                        Drag and drop mixed-up words to form grammatically correct sentences. Perfect for understanding
-                        sentence structure and improving your grammar skills.
+                    <h3 class="game-title" data-i18n="game1_title">Sentence Builder</h3>
+                    <p class="game-description" data-i18n="game1_desc">
+                        Drag and drop mixed-up words to form grammatically correct sentences. Perfect for understanding sentence structure and improving your grammar skills.
                     </p>
-                    <div class="flex justify-center gap-2 text-sm text-gray-400">
-                        <span class="px-3 py-1 bg-gray-800 rounded-full" data-i18n="tag_grammar">Grammar</span>
-                        <span class="px-3 py-1 bg-gray-800 rounded-full" data-i18n="tag_structure">Structure</span>
-                        <span class="px-3 py-1 bg-gray-800 rounded-full" data-i18n="tag_beginner">Beginner</span>
+                    <div class="game-tags">
+                        <span class="game-tag" data-i18n="tag_grammar">Grammar</span>
+                        <span class="game-tag" data-i18n="tag_structure">Structure</span>
+                        <span class="game-tag" data-i18n="tag_beginner">Beginner</span>
                     </div>
                 </div>
 
-                <!-- Sentence Completion Game -->
-                <div class="game-card rounded-2xl p-8 text-center">
-                    <div class="game-icon mb-4">
+                <!-- Game Card 2 -->
+                <div class="glass-card game-card">
+                    <div class="game-icon" style="background: var(--secondary-gradient);">
                         <i class="fas fa-fill-drip"></i>
                     </div>
-                    <h3 class="text-2xl font-semibold mb-4" data-i18n="game2_title">Sentence Completion</h3>
-                    <p class="text-gray-300 mb-4" data-i18n="game2_desc">
-                        Complete sentences by unscrambling words. Enhance your vocabulary and contextual understanding
-                        while learning to form complete thoughts.
+                    <h3 class="game-title" data-i18n="game2_title">Sentence Completion</h3>
+                    <p class="game-description" data-i18n="game2_desc">
+                        Complete sentences by unscrambling words. Enhance your vocabulary and contextual understanding while learning to form complete thoughts.
                     </p>
-                    <div class="flex justify-center gap-2 text-sm text-gray-400">
-                        <span class="px-3 py-1 bg-gray-800 rounded-full" data-i18n="tag_vocab">Vocabulary</span>
-                        <span class="px-3 py-1 bg-gray-800 rounded-full" data-i18n="tag_context">Context</span>
-                        <span class="px-3 py-1 bg-gray-800 rounded-full"
-                            data-i18n="tag_intermediate">Intermediate</span>
+                    <div class="game-tags">
+                        <span class="game-tag" data-i18n="tag_vocab">Vocabulary</span>
+                        <span class="game-tag" data-i18n="tag_context">Context</span>
+                        <span class="game-tag" data-i18n="tag_intermediate">Intermediate</span>
                     </div>
                 </div>
 
-                <!-- Scrambled Word Game -->
-                <div class="game-card rounded-2xl p-8 text-center">
-                    <div class="game-icon mb-4">
+                <!-- Game Card 3 -->
+                <div class="glass-card game-card">
+                    <div class="game-icon" style="background: var(--accent-gradient);">
                         <i class="fas fa-random"></i>
                     </div>
-                    <h3 class="text-2xl font-semibold mb-4" data-i18n="game3_title">Scrambled Word</h3>
-                    <p class="text-gray-300 mb-4" data-i18n="game3_desc">
-                        Unscramble letters to form the correct word. Great for spelling practice and vocabulary building
-                        with hints available when needed.
+                    <h3 class="game-title" data-i18n="game3_title">Scrambled Word</h3>
+                    <p class="game-description" data-i18n="game3_desc">
+                        Unscramble letters to form the correct word. Great for spelling practice and vocabulary building with hints available when needed.
                     </p>
-                    <div class="flex justify-center gap-2 text-sm text-gray-400">
-                        <span class="px-3 py-1 bg-gray-800 rounded-full" data-i18n="tag_spelling">Spelling</span>
-                        <span class="px-3 py-1 bg-gray-800 rounded-full" data-i18n="tag_letters">Letters</span>
-                        <span class="px-3 py-1 bg-gray-800 rounded-full" data-i18n="tag_all_levels">All Levels</span>
+                    <div class="game-tags">
+                        <span class="game-tag" data-i18n="tag_spelling">Spelling</span>
+                        <span class="game-tag" data-i18n="tag_letters">Letters</span>
+                        <span class="game-tag" data-i18n="tag_all_levels">All Levels</span>
                     </div>
                 </div>
 
-                <!-- Match Sentence Game -->
-                <div class="game-card rounded-2xl p-8 text-center">
-                    <div class="game-icon mb-4">
+                <!-- Game Card 4 -->
+                <div class="glass-card game-card">
+                    <div class="game-icon">
                         <i class="fas fa-headphones"></i>
                     </div>
-                    <h3 class="text-2xl font-semibold mb-4" data-i18n="game4_title">Match Sentence</h3>
-                    <p class="text-gray-300 mb-4" data-i18n="game4_desc">
-                        Listen to audio clips and match them with the correct written sentences. Improve your listening
-                        comprehension and pronunciation skills.
+                    <h3 class="game-title" data-i18n="game4_title">Match Sentence</h3>
+                    <p class="game-description" data-i18n="game4_desc">
+                        Listen to audio clips and match them with the correct written sentences. Improve your listening comprehension and pronunciation skills.
                     </p>
-                    <div class="flex justify-center gap-2 text-sm text-gray-400">
-                        <span class="px-3 py-1 bg-gray-800 rounded-full" data-i18n="tag_listening">Listening</span>
-                        <span class="px-3 py-1 bg-gray-800 rounded-full" data-i18n="tag_audio">Audio</span>
-                        <span class="px-3 py-1 bg-gray-800 rounded-full" data-i18n="tag_advanced">Advanced</span>
+                    <div class="game-tags">
+                        <span class="game-tag" data-i18n="tag_listening">Listening</span>
+                        <span class="game-tag" data-i18n="tag_audio">Audio</span>
+                        <span class="game-tag" data-i18n="tag_advanced">Advanced</span>
                     </div>
                 </div>
 
-                <!-- Listen Word Game -->
-                <div class="game-card rounded-2xl p-8 text-center">
-                    <div class="game-icon mb-4">
+                <!-- Game Card 5 -->
+                <div class="glass-card game-card">
+                    <div class="game-icon" style="background: var(--secondary-gradient);">
                         <i class="fas fa-volume-up"></i>
                     </div>
-                    <h3 class="text-2xl font-semibold mb-4" data-i18n="game5_title">Listen Word</h3>
-                    <p class="text-gray-300 mb-4" data-i18n="game5_desc">
-                        Listen to sentences with missing words and spell them correctly. Perfect for auditory learners
-                        and improving dictation skills.
+                    <h3 class="game-title" data-i18n="game5_title">Listen Word</h3>
+                    <p class="game-description" data-i18n="game5_desc">
+                        Listen to sentences with missing words and spell them correctly. Perfect for auditory learners and improving dictation skills.
                     </p>
-                    <div class="flex justify-center gap-2 text-sm text-gray-400">
-                        <span class="px-3 py-1 bg-gray-800 rounded-full" data-i18n="tag_dictation">Dictation</span>
-                        <span class="px-3 py-1 bg-gray-800 rounded-full" data-i18n="tag_spelling">Spelling</span>
-                        <span class="px-3 py-1 bg-gray-800 rounded-full"
-                            data-i18n="tag_intermediate">Intermediate</span>
+                    <div class="game-tags">
+                        <span class="game-tag" data-i18n="tag_dictation">Dictation</span>
+                        <span class="game-tag" data-i18n="tag_spelling">Spelling</span>
+                        <span class="game-tag" data-i18n="tag_intermediate">Intermediate</span>
                     </div>
                 </div>
 
-                <!-- Game Settings -->
-                <div class="game-card rounded-2xl p-8 text-center">
-                    <div class="game-icon mb-4">
+                <!-- Game Card 6 -->
+                <div class="glass-card game-card">
+                    <div class="game-icon" style="background: var(--accent-gradient);">
                         <i class="fas fa-cog"></i>
                     </div>
-                    <h3 class="text-2xl font-semibold mb-4" data-i18n="game6_title">Game Settings</h3>
-                    <p class="text-gray-300 mb-4" data-i18n="game6_desc">
-                        Customize your learning experience with sound controls, language selection, and difficulty
-                        levels. Track your progress and achievements.
+                    <h3 class="game-title" data-i18n="game6_title">Game Settings</h3>
+                    <p class="game-description" data-i18n="game6_desc">
+                        Customize your learning experience with sound controls, language selection, and difficulty levels. Track your progress and achievements.
                     </p>
-                    <div class="flex justify-center gap-2 text-sm text-gray-400">
-                        <span class="px-3 py-1 bg-gray-800 rounded-full" data-i18n="tag_settings">Settings</span>
-                        <span class="px-3 py-1 bg-gray-800 rounded-full" data-i18n="tag_progress">Progress</span>
-                        <span class="px-3 py-1 bg-gray-800 rounded-full" data-i18n="tag_profile">Profile</span>
+                    <div class="game-tags">
+                        <span class="game-tag" data-i18n="tag_settings">Settings</span>
+                        <span class="game-tag" data-i18n="tag_progress">Progress</span>
+                        <span class="game-tag" data-i18n="tag_profile">Profile</span>
                     </div>
                 </div>
             </div>
@@ -692,161 +934,138 @@
     </section>
 
     <!-- Features Section -->
-    <section class="py-20 px-6 bg-gray-900 bg-opacity-50">
-        <div class="container mx-auto">
-            <h2 class="text-4xl font-bold text-center mb-4 gradient-text" data-i18n="section_features">Key Features</h2>
-            <p class="text-center text-gray-300 mb-12 max-w-2xl mx-auto" data-i18n="section_features_desc">
-                Advanced features designed to enhance your language learning journey
-            </p>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="flex gap-4">
-                    <div class="feature-icon flex-shrink-0">
-                        <i class="fas fa-chart-line text-2xl"></i>
+    <section class="section">
+        <div class="container mx-auto px-6">
+            <h2 class="section-title gradient-text" data-i18n="section_features">Key Features</h2>
+            <p class="section-subtitle" data-i18n="section_features_desc">Advanced features designed to enhance your language learning journey</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="glass-card feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
                     </div>
-                    <div>
-                        <h3 class="text-xl font-semibold mb-2" data-i18n="feat1_title">Progress Tracking</h3>
-                        <p class="text-gray-300" data-i18n="feat1_desc">
-                            Track your learning progress with detailed statistics and skill levels for each language.
-                        </p>
+                    <div class="feature-content">
+                        <h3 data-i18n="feat1_title">Progress Tracking</h3>
+                        <p data-i18n="feat1_desc">Track your learning progress with detailed statistics and skill levels for each language.</p>
                     </div>
                 </div>
 
-                <div class="flex gap-4">
-                    <div class="feature-icon flex-shrink-0">
-                        <i class="fas fa-save text-2xl"></i>
+                <div class="glass-card feature-card">
+                    <div class="feature-icon" style="background: var(--secondary-gradient);">
+                        <i class="fas fa-save"></i>
                     </div>
-                    <div>
-                        <h3 class="text-xl font-semibold mb-2" data-i18n="feat2_title">Smart Caching</h3>
-                        <p class="text-gray-300" data-i18n="feat2_desc">
-                            Your progress is automatically saved locally, allowing you to continue from where you left
-                            off.
-                        </p>
+                    <div class="feature-content">
+                        <h3 data-i18n="feat2_title">Smart Caching</h3>
+                        <p data-i18n="feat2_desc">Your progress is automatically saved locally, allowing you to continue from where you left off.</p>
                     </div>
                 </div>
 
-                <div class="flex gap-4">
-                    <div class="feature-icon flex-shrink-0">
-                        <i class="fas fa-redo text-2xl"></i>
+                <div class="glass-card feature-card">
+                    <div class="feature-icon" style="background: var(--accent-gradient);">
+                        <i class="fas fa-redo"></i>
                     </div>
-                    <div>
-                        <h3 class="text-xl font-semibold mb-2" data-i18n="feat3_title">Clear Cache</h3>
-                        <p class="text-gray-300" data-i18n="feat3_desc">
-                            Reset your progress at any time to start fresh with a language or difficulty level.
-                        </p>
+                    <div class="feature-content">
+                        <h3 data-i18n="feat3_title">Clear Cache</h3>
+                        <p data-i18n="feat3_desc">Reset your progress at any time to start fresh with a language or difficulty level.</p>
                     </div>
                 </div>
 
-                <div class="flex gap-4">
-                    <div class="feature-icon flex-shrink-0">
-                        <i class="fas fa-cubes text-2xl"></i>
+                <div class="glass-card feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-cubes"></i>
                     </div>
-                    <div>
-                        <h3 class="text-xl font-semibold mb-2" data-i18n="feat4_title">Modular Architecture</h3>
-                        <p class="text-gray-300" data-i18n="feat4_desc">
-                            Clean, maintainable code structure ensures smooth performance and future updates.
-                        </p>
+                    <div class="feature-content">
+                        <h3 data-i18n="feat4_title">Modular Architecture</h3>
+                        <p data-i18n="feat4_desc">Clean, maintainable code structure ensures smooth performance and future updates.</p>
                     </div>
                 </div>
 
-                <div class="flex gap-4">
-                    <div class="feature-icon flex-shrink-0">
-                        <i class="fas fa-sync-alt text-2xl"></i>
+                <div class="glass-card feature-card">
+                    <div class="feature-icon" style="background: var(--secondary-gradient);">
+                        <i class="fas fa-sync-alt"></i>
                     </div>
-                    <div>
-                        <h3 class="text-xl font-semibold mb-2" data-i18n="feat5_title">Dynamic Content</h3>
-                        <p class="text-gray-300" data-i18n="feat5_desc">
-                            Fresh content fetched from servers ensures you always have new challenges to tackle.
-                        </p>
+                    <div class="feature-content">
+                        <h3 data-i18n="feat5_title">Dynamic Content</h3>
+                        <p data-i18n="feat5_desc">Fresh content fetched from servers ensures you always have new challenges to tackle.</p>
                     </div>
                 </div>
 
-                <div class="flex gap-4">
-                    <div class="feature-icon flex-shrink-0">
-                        <i class="fas fa-magic text-2xl"></i>
+                <div class="glass-card feature-card">
+                    <div class="feature-icon" style="background: var(--accent-gradient);">
+                        <i class="fas fa-magic"></i>
                     </div>
-                    <div>
-                        <h3 class="text-xl font-semibold mb-2" data-i18n="feat6_title">Modern UX</h3>
-                        <p class="text-gray-300" data-i18n="feat6_desc">
-                            Clean, neumorphic design with TTS for pronunciation and smooth animations.
-                        </p>
+                    <div class="feature-content">
+                        <h3 data-i18n="feat6_title">Modern UX</h3>
+                        <p data-i18n="feat6_desc">Clean, neumorphic design with TTS for pronunciation and smooth animations.</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Advantages Section (replacing Stats Section) -->
-    <section class="py-20 px-6">
-        <div class="container mx-auto">
-            <h2 class="text-4xl font-bold text-center mb-12 gradient-text" data-i18n="section_advantages">Why Choose Language Box?</h2>
-            <p class="text-center text-gray-300 mb-12 max-w-2xl mx-auto" data-i18n="section_advantages_desc">
-                Discover the unique benefits that make Language Box your ideal language learning companion
-            </p>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Advantage 1: Game-Based Learning -->
-                <div class="advantage-card">
+    <!-- Advantages Section -->
+    <section class="section" style="background: rgba(255, 255, 255, 0.02);">
+        <div class="container mx-auto px-6">
+            <h2 class="section-title gradient-text" data-i18n="section_advantages">Why Choose Language Box?</h2>
+            <p class="section-subtitle" data-i18n="section_advantages_desc">Discover the unique benefits that make Language Box your ideal language learning companion</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="glass-card advantage-card">
                     <div class="advantage-icon">
                         <i class="fas fa-gamepad"></i>
                     </div>
-                    <h3 class="text-2xl font-semibold mb-4" data-i18n="advantage1_title">Engaging Game-Based Learning</h3>
-                    <p class="text-gray-300" data-i18n="advantage1_desc">
+                    <h3 class="advantage-title" data-i18n="advantage1_title">Engaging Game-Based Learning</h3>
+                    <p class="advantage-description" data-i18n="advantage1_desc">
                         Traditional language learning can be boring. Our interactive games transform vocabulary and grammar practice into an enjoyable experience, keeping you motivated and engaged.
                     </p>
                 </div>
 
-                <!-- Advantage 2: Comprehensive Skill Development -->
-                <div class="advantage-card">
-                    <div class="advantage-icon">
+                <div class="glass-card advantage-card">
+                    <div class="advantage-icon" style="background: var(--accent-gradient);">
                         <i class="fas fa-brain"></i>
                     </div>
-                    <h3 class="text-2xl font-semibold mb-4" data-i18n="advantage2_title">Comprehensive Skill Development</h3>
-                    <p class="text-gray-300" data-i18n="advantage2_desc">
+                    <h3 class="advantage-title" data-i18n="advantage2_title">Comprehensive Skill Development</h3>
+                    <p class="advantage-description" data-i18n="advantage2_desc">
                         Each game targets different language skills - from listening comprehension to sentence structure. This comprehensive approach ensures you develop well-rounded language abilities.
                     </p>
                 </div>
 
-                <!-- Advantage 3: Flexible Learning -->
-                <div class="advantage-card">
+                <div class="glass-card advantage-card">
                     <div class="advantage-icon">
                         <i class="fas fa-clock"></i>
                     </div>
-                    <h3 class="text-2xl font-semibold mb-4" data-i18n="advantage3_title">Learn Anytime, Anywhere</h3>
-                    <p class="text-gray-300" data-i18n="advantage3_desc">
+                    <h3 class="advantage-title" data-i18n="advantage3_title">Learn Anytime, Anywhere</h3>
+                    <p class="advantage-description" data-i18n="advantage3_desc">
                         With offline capability and mobile-first design, you can practice languages during your commute, on breaks, or whenever you have a few spare moments.
                     </p>
                 </div>
 
-                <!-- Advantage 4: Personalized Experience -->
-                <div class="advantage-card">
-                    <div class="advantage-icon">
+                <div class="glass-card advantage-card">
+                    <div class="advantage-icon" style="background: var(--secondary-gradient);">
                         <i class="fas fa-user-cog"></i>
                     </div>
-                    <h3 class="text-2xl font-semibold mb-4" data-i18n="advantage4_title">Personalized Learning Path</h3>
-                    <p class="text-gray-300" data-i18n="advantage4_desc">
+                    <h3 class="advantage-title" data-i18n="advantage4_title">Personalized Learning Path</h3>
+                    <p class="advantage-description" data-i18n="advantage4_desc">
                         Choose your difficulty level, focus on specific skills, and track your progress. Language Box adapts to your learning style and pace for maximum effectiveness.
                     </p>
                 </div>
 
-                <!-- Advantage 5: Multi-Language Support -->
-                <div class="advantage-card">
-                    <div class="advantage-icon">
+                <div class="glass-card advantage-card">
+                    <div class="advantage-icon" style="background: var(--accent-gradient);">
                         <i class="fas fa-globe"></i>
                     </div>
-                    <h3 class="text-2xl font-semibold mb-4" data-i18n="advantage5_title">Multiple Languages in One App</h3>
-                    <p class="text-gray-300" data-i18n="advantage5_desc">
+                    <h3 class="advantage-title" data-i18n="advantage5_title">Multiple Languages in One App</h3>
+                    <p class="advantage-description" data-i18n="advantage5_desc">
                         Instead of downloading multiple apps, access various languages in one place. Perfect for polyglots or those interested in learning more than one language simultaneously.
                     </p>
                 </div>
 
-                <!-- Advantage 6: Regular Updates -->
-                <div class="advantage-card">
+                <div class="glass-card advantage-card">
                     <div class="advantage-icon">
                         <i class="fas fa-sync"></i>
                     </div>
-                    <h3 class="text-2xl font-semibold mb-4" data-i18n="advantage6_title">Always Fresh Content</h3>
-                    <p class="text-gray-300" data-i18n="advantage6_desc">
+                    <h3 class="advantage-title" data-i18n="advantage6_title">Always Fresh Content</h3>
+                    <p class="advantage-description" data-i18n="advantage6_desc">
                         We regularly add new games, levels, and challenges to keep your learning experience fresh and exciting. No more repetitive exercises that lead to learning plateaus.
                     </p>
                 </div>
@@ -855,78 +1074,67 @@
     </section>
 
     <!-- FAQ Section -->
-    <section class="py-20 px-6 bg-gray-900 bg-opacity-50">
-        <div class="container mx-auto max-w-4xl">
-            <h2 class="text-4xl font-bold text-center mb-12 gradient-text" data-i18n="section_faq">Frequently Asked
-                Questions</h2>
-
+    <section class="section">
+        <div class="container mx-auto px-6 max-w-4xl">
+            <h2 class="section-title gradient-text" data-i18n="section_faq">Frequently Asked Questions</h2>
+            
             <div class="faq-list">
-                <div class="faq-item">
+                <div class="glass-card faq-item">
                     <div class="faq-question">
                         <span data-i18n="faq1_q">How does Language Box help me learn a new language?</span>
-                        <i class="fas fa-chevron-down"></i>
+                        <i class="fas fa-chevron-down faq-icon"></i>
                     </div>
                     <div class="faq-answer">
                         <p data-i18n="faq1_a">
-                            Language Box uses game-based learning to make language acquisition fun and engaging. Each of
-                            our five games targets different language skills - from sentence construction to listening
-                            comprehension - ensuring a well-rounded learning experience.
+                            Language Box uses game-based learning to make language acquisition fun and engaging. Each of our five games targets different language skills - from sentence construction to listening comprehension - ensuring a well-rounded learning experience.
                         </p>
                     </div>
                 </div>
 
-                <div class="faq-item">
+                <div class="glass-card faq-item">
                     <div class="faq-question">
                         <span data-i18n="faq2_q">Can I track my progress across different languages?</span>
-                        <i class="fas fa-chevron-down"></i>
+                        <i class="fas fa-chevron-down faq-icon"></i>
                     </div>
                     <div class="faq-answer">
                         <p data-i18n="faq2_a">
-                            Yes! Language Box saves your progress for each language separately. You can view detailed
-                            statistics showing your skill level in each language and game type, allowing you to focus on
-                            areas that need improvement.
+                            Yes! Language Box saves your progress for each language separately. You can view detailed statistics showing your skill level in each language and game type, allowing you to focus on areas that need improvement.
                         </p>
                     </div>
                 </div>
 
-                <div class="faq-item">
+                <div class="glass-card faq-item">
                     <div class="faq-question">
                         <span data-i18n="faq3_q">Is my progress saved if I close the app?</span>
-                        <i class="fas fa-chevron-down"></i>
+                        <i class="fas fa-chevron-down faq-icon"></i>
                     </div>
                     <div class="faq-answer">
                         <p data-i18n="faq3_a">
-                            Absolutely. Language Box uses intelligent caching to save your progress locally on your
-                            device. When you reopen the app, you'll continue exactly where you left off, even if you
-                            were in the middle of a game.
+                            Absolutely. Language Box uses intelligent caching to save your progress locally on your device. When you reopen the app, you'll continue exactly where you left off, even if you were in the middle of a game.
                         </p>
                     </div>
                 </div>
 
-                <div class="faq-item">
+                <div class="glass-card faq-item">
                     <div class="faq-question">
                         <span data-i18n="faq4_q">How can I reset my progress for a specific language?</span>
-                        <i class="fas fa-chevron-down"></i>
+                        <i class="fas fa-chevron-down faq-icon"></i>
                     </div>
                     <div class="faq-answer">
                         <p data-i18n="faq4_a">
-                            You can use the "Clear Cache" feature in the settings to reset your progress for the current
-                            language and level. This allows you to start fresh whenever you want to review fundamentals
-                            or try a different approach.
+                            You can use the "Clear Cache" feature in the settings to reset your progress for the current language and level. This allows you to start fresh whenever you want to review fundamentals or try a different approach.
                         </p>
                     </div>
                 </div>
 
-                <div class="faq-item">
+                <div class="glass-card faq-item">
                     <div class="faq-question">
                         <span data-i18n="faq5_q">Does the app work offline?</span>
-                        <i class="fas fa-chevron-down"></i>
+                        <i class="fas fa-chevron-down faq-icon"></i>
                     </div>
                     <div class="faq-answer">
                         <p data-i18n="faq5_a">
-                            While an internet connection is required to initially download content and sync progress,
-                            Language Box caches content locally, allowing you to continue learning even when you're
-                            offline. Your progress will sync when you reconnect.
+                            While an internet connection is required to initially download content and sync progress, Language Box caches content locally, allowing you to continue learning even when you're offline. Your progress will sync when you reconnect.
                         </p>
                     </div>
                 </div>
@@ -935,27 +1143,25 @@
     </section>
 
     <!-- Developer Section -->
-    <section class="py-20 px-6">
-        <div class="container mx-auto text-center">
-            <h2 class="text-4xl font-bold mb-6 gradient-text" data-i18n="section_dev">Developer</h2>
-            <div class="max-w-2xl mx-auto bg-gray-900 bg-opacity-50 rounded-2xl p-8">
-                <div class="flex justify-center mb-6">
-                    <div
-                        class="w-32 h-32 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
-                        <i class="fas fa-user text-5xl"></i>
-                    </div>
+    <section class="section" style="background: rgba(255, 255, 255, 0.02);">
+        <div class="container mx-auto px-6">
+            <h2 class="section-title gradient-text" data-i18n="section_dev">Developer</h2>
+            
+            <div class="glass-card developer-card">
+                <div class="developer-avatar">
+                    <i class="fas fa-user"></i>
                 </div>
-                <h3 class="text-2xl font-semibold mb-4">Hacı Celal Aygar</h3>
-                <div class="flex flex-col gap-3 text-gray-300">
-                    <div class="flex items-center justify-center gap-3">
+                <h3 class="developer-name">Hacı Celal Aygar</h3>
+                <div class="developer-info">
+                    <div class="developer-info-item">
                         <i class="fas fa-envelope"></i>
                         <span>aygarcelalx@gmail.com</span>
                     </div>
-                    <div class="flex items-center justify-center gap-3">
+                    <div class="developer-info-item">
                         <i class="fas fa-phone"></i>
                         <span>+90 544 835 84 01</span>
                     </div>
-                    <div class="flex items-center justify-center gap-3">
+                    <div class="developer-info-item">
                         <i class="fas fa-map-marker-alt"></i>
                         <span>Ankara, Yenimahalle, Turkey</span>
                     </div>
@@ -965,23 +1171,21 @@
     </section>
 
     <!-- Footer -->
-    <footer class="py-8 px-6 bg-gray-900 bg-opacity-70 border-t border-gray-800">
-        <div class="container mx-auto text-center">
-            <p class="text-gray-400" data-i18n="footer_rights">
-                © 2026 Language Box. All rights reserved.
-            </p>
-            <div class="flex justify-center gap-6 mt-4">
-                <a href="#" class="text-gray-400 hover:text-white transition">
-                    <i class="fab fa-twitter text-xl"></i>
+    <footer class="footer">
+        <div class="container mx-auto px-6 text-center">
+            <p data-i18n="footer_rights">© 2026 Language Box. All rights reserved.</p>
+            <div class="social-links">
+                <a href="#" class="social-link">
+                    <i class="fab fa-twitter"></i>
                 </a>
-                <a href="#" class="text-gray-400 hover:text-white transition">
-                    <i class="fab fa-facebook text-xl"></i>
+                <a href="#" class="social-link">
+                    <i class="fab fa-facebook"></i>
                 </a>
-                <a href="#" class="text-gray-400 hover:text-white transition">
-                    <i class="fab fa-instagram text-xl"></i>
+                <a href="#" class="social-link">
+                    <i class="fab fa-instagram"></i>
                 </a>
-                <a href="#" class="text-gray-400 hover:text-white transition">
-                    <i class="fab fa-linkedin text-xl"></i>
+                <a href="#" class="social-link">
+                    <i class="fab fa-linkedin"></i>
                 </a>
             </div>
         </div>
@@ -1269,7 +1473,7 @@
                 game4_title: "Abbina le frasi",
                 game4_desc: "Ascolta clip audio e abbinali alle frasi scritte corrette. Migliora la tua comprensione orale e le tue capacità di pronuncia.",
                 game5_title: "Ascolta la parola",
-                game5_desc: "Ascolta frasi con parole mancanti e scrivile correttamente. Perfetto per chi apprende mediante l'ascolto e per migliorare le abilità di dettatura.",
+                game5_desc: "Ascolta frasi con parole mancanti e scrivile correttamente. Perfetto per chi apprende mediante l'ascolto e per migliorare le abilità di dettato.",
                 game6_title: "Impostazioni di gioco",
                 game6_desc: "Personalizza la tua esperienza di apprendimento con controlli del suono, selezione della lingua e livelli di difficoltà. Tieni traccia dei tuoi progressi e traguardi.",
                 tag_grammar: "Grammatica",
@@ -1313,7 +1517,7 @@
                 advantage4_title: "Percorso di apprendimento personalizzato",
                 advantage4_desc: "Scegli il tuo livello di difficoltà, concentrati su abilità specifiche e traccia i tuoi progressi. Language Box si adatta al tuo stile di apprendimento e al tuo ritmo per massima efficacia.",
                 advantage5_title: "Più lingue in una sola app",
-                advantage5_desc: "Invece di scaricare più app, accedi a varie lingue in un unico posto. Perfetto per poliglotti o per chi è interessato ad imparare più lingue contemporaneamente.",
+                advantage5_desc: "Invece di scaricare più app, accedi a varie lingue in un unico posto. Perfetto per poliglotti o per chi è interessato a imparare più lingue contemporaneamente.",
                 advantage6_title: "Contenuti sempre freschi",
                 advantage6_desc: "Aggiungiamo regolarmente nuovi giochi, livelli e sfide per mantenere la tua esperienza di apprendimento fresca ed eccitante. Niente più esercizi ripetitivi che portano a plateau di apprendimento.",
                 section_faq: "Domande frequenti",
@@ -1382,7 +1586,7 @@
                 feat3_title: "Limpar Cache",
                 feat3_desc: "Redefina seu progresso a qualquer momento para começar do zero com um idioma ou nível de dificuldade.",
                 feat4_title: "Arquitetura Modular",
-                feat4_desc: "Estrutura de código limpa e mantenível garante performance suave e futuras atualizações.",
+                feat4_desc: "Estrutura de código limpa e manutenível garante performance suave e futuras atualizações.",
                 feat5_title: "Conteúdo Dinâmico",
                 feat5_desc: "Conteúdo novo buscado dos servidores garante que você sempre tenha novos desafios para enfrentar.",
                 feat6_title: "UX Moderno",
@@ -1439,7 +1643,7 @@
                 game4_title: "Asociar Oración",
                 game4_desc: "Escucha clips de audio y asícialos con las oraciones escritas correctas. Mejora tu comprensión auditiva y habilidades de pronunciación.",
                 game5_title: "Escuchar Palabra",
-                game5_desc: "Escucha oraciones con palabras faltantes y escríbelas correctamente. Perfecto para aprendices auditivos y para mejorar las habilidades de dictado.",
+                game5_desc: "Escucha oraciones con palabras faltando y escríbelas correctamente. Perfecto para aprendices auditivos y para mejorar las habilidades de dictado.",
                 game6_title: "Configuración del Juego",
                 game6_desc: "Personaliza tu experiencia de aprendizaje con controles de sonido, selección de idioma y niveles de dificultad. Rastrea tu progreso y logros.",
                 tag_grammar: "Gramática",
@@ -1601,7 +1805,7 @@
                 section_games: "Lojëra Interaktive të Gjuhës",
                 section_games_desc: "Çdo lojë synon aftësi specifike të gjuhës për të ndihmuar ju të bëheni më shpejt i rrjedhshëm",
                 game1_title: "Ndërtuesi i Fjalive",
-                game1_desc: "Zvarritni dhe lëshoni fjalët e përzier për të formuar fjalitë gramatikalisht të sakta. Perfekt për të kuptuar strukturën e fjalive dhe për të përmirësuar aftësitë tuaja të gramatikës.",
+                game1_desc: "Zvarriteni dhe lëshoni fjalët e përzuara për të formuar fjalitë gramatikalisht të sakta. Perfekt për të kuptuar strukturën e fjalive dhe për të përmirësuar aftësitë tuaja të gramatikës.",
                 game2_title: "Plotësimi i Fjalive",
                 game2_desc: "Plotësoni fjalitë duke zbritur fjalët. Përmirësoni fjalorin tuaj dhe kuptimin kontekstual ndërsa mësoni të formoni mendime të plota.",
                 game3_title: "Fjalë e Ngjeshur",
@@ -1609,9 +1813,9 @@
                 game4_title: "Përputhni Fjalinë",
                 game4_desc: "Dëgjoni copëzat audio dhe përputhni ato me fjalitë e shkruara të sakta. Përmirësoni kuptimin dëgjimor dhe aftësitë e shqiptimit.",
                 game5_title: "Dëgjoni Fjalën",
-                game5_desc: "Dëgjoni fjalitë me fjalët që mungojnë dhe shkruajni ato saktësisht. Perfekt për nxënësit auditivë dhe për përmirësimin e aftësive të diktimit.",
+                game5_desc: "Dëgjoni fjalitë me fjalët që mungojnë dhe shkruani ato saktësisht. Perfekt për nxënësit auditivë dhe për përmirësimin e aftësive të diktimit.",
                 game6_title: "Cilësimet e Lojës",
-                game6_desc: "Përshtatni përvojën tuaj të mësimit me kontrole tingulli, përzgjedhje gjuhe dhe nivele vështirësie. Ndjekni progresin dhe arritjet tuaja.",
+                game6_desc: "Përshtatni përvojën tuaj të mësimit me kontrole tingulli, përzgjedhje gjuhe dhe nivele vështirësie. Ndjekni progresin tuaj dhe arritjet tuaja.",
                 tag_grammar: "Gramatikë",
                 tag_structure: "Struktura",
                 tag_beginner: "Fillestar",
@@ -1647,18 +1851,18 @@
                 advantage1_title: "Mësim Bazuar në Lojra Angazhuese",
                 advantage1_desc: "Mësimi tradicional i gjuhëve mund të jetë i mërzitshëm. Lojërat tona interaktive transformojnë praktikën e fjalorit dhe gramatikës në një përvojë të këndshme, duke ju mbajtur motivuar dhe të angazhuar.",
                 advantage2_title: "Zhvillim i Plotë i Aftësive",
-                advantage2_desc: "Çdo lojë përqendrohet në aftësi të ndryshme të gjuhës - nga kuptimi dëgjimor në strukturën e fjalive. Ky qasje e plotë siguron që ju të zhvilloni aftësi të balancuara të gjuhës.",
+                advantage2_desc: "Çdo lojë përqendrohet në aftësi të ndryshme të gjuhës - nga kuptimi dëgjimor në strukturën e fjalive. Ky qasje i plotë siguron që ju të zhvilloni aftësi të balancuara të gjuhës.",
                 advantage3_title: "Mësoni në Çdo Kohë, Kudo",
                 advantage3_desc: "Me aftësinë offline dhe dizajnin mobile-first, ju mund të praktikoni gjuhët gjatë udhëtimit, në pushime ose kur keni disa momente të lira.",
                 advantage4_title: "Shteg Mësimi i Personalizuar",
                 advantage4_desc: "Zgjidhni nivelin tuaj të vështirësisë, përqendrohuni në aftësi specifike dhe ndiqni progresin tuaj. Kutia e Gjuhëve përshtatet me stilin dhe ritmin tuaj të mësimit për efektivitet maksimal.",
                 advantage5_title: "Shumë Gjuhë në Një Aplikacion",
-                advantage5_desc: "Në vend të shkarkoni aplikacione të shumta, qasni në gjuhë të ndryshme në një vend. Perfekt për poliglotët ose ata që janë të interesuar të mësojnë më shumë se një gjuhë njëkohësisht.",
+                advantage5_desc: "Në vend të shkarkuar aplikacione të shumta, qasni në gjuhë të ndryshme në një vend. Perfekt për poliglotët ose ata që janë të interesuar të mësojnë më shumë se një gjuhë njëkohësisht.",
                 advantage6_title: "Përmbajtje Gjithmonë e Freskët",
                 advantage6_desc: "Ne shtojmë rregullisht lojra të reja, nivele dhe sfida për të mbajtur përvojën tuaj të mësimit të freskët dhe emocionuese. Jo më shumë ushtrime të përsëritura që çojnë në platotë mësimi.",
                 section_faq: "Pyetje të Shpeshta",
                 faq1_q: "Si më ndihmon Kutia e Gjuhëve të msoj një gjuhë të re?",
-                faq1_a: "Kutia e Gjuhëve përdor mësimin e bazuar në lojëra për të bërë marrjen e gjuhës argëtuese dhe angazhuese. Secila nga pesë lojërat tona synon aftësi të ndryshme të gjuhës - nga ndërtimi i fjalive në kuptimin dëgjimor - duke siguruar një përvojë mësimi të plotë.",
+                faq1_a: "Kutia e Gjuhëve përdor mësimin e bazuar në lojra për të bërë marrjen e gjuhës argëtuese dhe angazhuese. Secila nga pesë lojërat tona synon aftësi të ndryshme të gjuhës - nga ndërtimi i fjalive në kuptimin dëgjimor - duke siguruar një përvojë mësimi të plotë.",
                 faq2_q: "A mund të ndjek progresin tim në gjuhë të ndryshme?",
                 faq2_a: "Po! Kutia e Gjuhëve ruan progresin tuaj për çdo gjuhë veçmas. Mund të shihni statistika të hollësishme që tregojnë nivelin tuaj të aftësive në çdo gjuhë dhe lloj loje, duke ju lejuar të përqendroheni në fushat që kanë nevojë për përmirësim.",
                 faq3_q: "A ruhet progresi im nëse mbyll aplikacionin?",
@@ -1867,10 +2071,17 @@
         // Varsayılan olarak İngilizce ile başlat (veya tarayıcı diline göre yapılabilir)
         // changeLanguage('en'); 
 
+        // === NAVBAR SCROLL EFFECT ===
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
 
-        // === DİĞER JS FONKSİYONLARI (SLIDER VE FAQ) ===
-
-        // FAQ accordion functionality
+        // === FAQ ACCORDION ===
         document.querySelectorAll('.faq-question').forEach(question => {
             question.addEventListener('click', () => {
                 const faqItem = question.parentElement;
@@ -1888,7 +2099,7 @@
             });
         });
 
-        // Slider functionality
+        // === SLIDER FUNCTIONALITY ===
         const slider = document.getElementById('screenshotSlider');
         const slides = slider.querySelectorAll('.slide');
         const prevBtn = document.getElementById('prevBtn');
@@ -1956,5 +2167,4 @@
         });
     </script>
 </body>
-
 </html>
