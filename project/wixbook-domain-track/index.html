@@ -7,135 +7,341 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #000;
-            color: #fff;
-            overflow-x: hidden;
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --dark-bg: #000000;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --blue-theme: #1a365d;
+            --green-theme: #22543d;
+            --brown-theme: #5d4037;
+            --purple-theme: #4a148c;
         }
 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--dark-bg);
+            color: #ffffff;
+            overflow-x: hidden;
+            line-height: 1.6;
+            max-width: 100vw;
+        }
+
+        /* Container width constraints for narrower layout */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Different background colors for each section */
+        .section-hero {
+            background: #000000;
+        }
+
+        .section-screenshots {
+            background: #0a0a0a;
+        }
+
+        .section-features {
+            background: #111111;
+        }
+
+        .section-help {
+            background: #0d0d0d;
+        }
+
+        .section-benefits {
+            background: #141414;
+        }
+
+        .section-faq {
+            background: #0a0a0a;
+        }
+
+        .section-developer {
+            background: #111111;
+        }
+
+        .section-footer {
+            background: #000000;
+        }
+
+        /* Updated Glassmorphism Card with Language Box style */
+        .glass-card {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Modern hover effect with different colors */
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Theme-specific hover effects */
+        .blue-theme:hover {
+            border: 1px solid #4a90e2;
+            background: rgba(26, 54, 93, 0.8);
+        }
+
+        .green-theme:hover {
+            border: 1px solid #2ecc71;
+            background: rgba(34, 84, 61, 0.8);
+        }
+
+        .brown-theme:hover {
+            border: 1px solid #d35400;
+            background: rgba(93, 64, 55, 0.8);
+        }
+
+        .purple-theme:hover {
+            border: 1px solid #9b59b6;
+            background: rgba(74, 20, 140, 0.8);
+        }
+
+        /* Adding line animation on hover */
+        .glass-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 3px;
+            transition: width 0.3s ease;
+        }
+
+        .blue-theme::after {
+            background: #4a90e2;
+        }
+
+        .green-theme::after {
+            background: #2ecc71;
+        }
+
+        .brown-theme::after {
+            background: #d35400;
+        }
+
+        .purple-theme::after {
+            background: #9b59b6;
+        }
+
+        .glass-card:hover::after {
+            width: 100%;
+        }
+
+        /* Feature card styling */
+        .feature-card {
+            padding: 2rem;
+            text-align: center;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .feature-card:hover::before {
+            left: 100%;
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 20px;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+            background: var(--primary-gradient);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover .feature-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .feature-description {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 1rem;
+            flex-grow: 1;
+        }
+
+        /* Feature Tags */
+        .feature-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .feature-tag {
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            background: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Gradient Text */
         .gradient-text {
-            background: linear-gradient(90deg, #4F46E5, #7C3AED, #EC4899);
+            background: var(--primary-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
 
         .gradient-text-purple {
-            background: linear-gradient(90deg, #A855F7, #7C3AED);
+            background: var(--secondary-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
 
         .gradient-text-pink {
-            background: linear-gradient(90deg, #EC4899, #F97316);
+            background: var(--accent-gradient);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
 
-        .hero-gradient {
-            background: linear-gradient(135deg, rgba(79, 70, 229, 0.1), rgba(124, 58, 237, 0.1), rgba(236, 72, 153, 0.1));
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 1rem 0;
+            background: rgba(0, 0, 0, 0.8);
             backdrop-filter: blur(10px);
-        }
-
-        .feature-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 4px 15px rgba(186, 166, 166, 0.1);
             transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
         }
 
-        .feature-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(79, 70, 229, 0.3);
-            border-color: rgba(79, 70, 229, 0.5);
-            background: rgba(255, 255, 255, 0.08);
+        .navbar.scrolled {
+            padding: 0.5rem 0;
+            background: rgba(0, 0, 0, 0.95);
         }
 
-        .feature-icon {
-            font-size: 2.5rem;
-            background: linear-gradient(135deg, #4F46E5, #7C3AED, #EC4899);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
+        /* Language Selector */
         .language-selector {
             appearance: none;
-            background-color: rgba(30, 41, 59, 0.9);
+            background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            padding: 10px 36px 10px 16px;
-            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 0.5rem 2.5rem 0.5rem 1rem;
+            border-radius: 12px;
             color: white;
             font-weight: 500;
             cursor: pointer;
             transition: all 0.3s ease;
             background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
             background-repeat: no-repeat;
-            background-position: right 10px center;
-            background-size: 16px;
+            background-position: right 0.7rem center;
+            background-size: 1rem;
         }
 
         .language-selector:hover {
-            background-color: rgba(51, 65, 85, 0.95);
-            border-color: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
         }
 
         .language-selector:focus {
             outline: none;
-            border-color: #818cf8;
-            box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.3);
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
         }
 
         .language-selector option {
-            background-color: #1e293b;
+            background: #1a1a3e;
             color: white;
-            padding: 10px;
         }
 
-        .screenshot {
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            transition: all 0.3s ease;
+        /* Hero Section */
+        .hero {
+            padding: 10rem 0 4rem;
+            position: relative;
+            overflow: hidden;
         }
 
-        .screenshot:hover {
-            transform: scale(1.02);
-            box-shadow: 0 15px 40px rgba(79, 70, 229, 0.4);
+        .hero-bg-shape {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: var(--primary-gradient);
+            opacity: 0.1;
+            filter: blur(100px);
+            top: -200px;
+            right: -200px;
         }
 
-        .download-button {
-            background: linear-gradient(90deg, #4F46E5, #7C3AED);
-            padding: 12px 30px;
-            border-radius: 50px;
-            font-weight: 600;
+        .hero-bg-shape-2 {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: var(--secondary-gradient);
+            opacity: 0.1;
+            filter: blur(80px);
+            bottom: -150px;
+            left: -150px;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-badge {
             display: inline-flex;
             align-items: center;
-            gap: 10px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4);
-            text-decoration: none;
-            color: white;
-        }
-
-        .download-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(79, 70, 229, 0.6);
-            text-decoration: none;
-            color: white;
-        }
-
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-            100% { transform: translateY(0px); }
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            background: rgba(102, 126, 234, 0.2);
+            border: 1px solid rgba(102, 126, 234, 0.3);
+            animation: pulse 2s infinite;
         }
 
         @keyframes pulse {
@@ -144,17 +350,133 @@
             100% { transform: scale(1); }
         }
 
-        .float-animation {
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-description {
+            font-size: 1.25rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 2rem;
+            max-width: 600px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background: var(--primary-gradient);
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(102, 126, 234, 0.5);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-3px);
+        }
+
+        .hero-image {
+            position: relative;
             animation: float 6s ease-in-out infinite;
         }
 
-        .pulse-animation {
-            animation: pulse 2s ease-in-out infinite;
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
         }
 
+        .hero-image-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: var(--primary-gradient);
+            opacity: 0.1;
+            filter: blur(40px);
+            border-radius: 50%;
+            z-index: -1;
+        }
+
+        /* Feature Pills */
+        .feature-pills {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .feature-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .feature-pill:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        /* Section Styles */
+        .section {
+            padding: 5rem 0;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 700px;
+            margin: 0 auto 3rem;
+        }
+
+        /* Slider */
         .slider-container {
             position: relative;
-            max-width: 800px;
+            max-width: 1000px;
             margin: 0 auto;
             overflow: hidden;
             border-radius: 20px;
@@ -175,7 +497,7 @@
             max-width: 100%;
             max-height: 600px;
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
 
         .slider-controls {
@@ -185,35 +507,35 @@
             display: flex;
             justify-content: space-between;
             transform: translateY(-50%);
+            padding: 0 1rem;
         }
 
         .slider-btn {
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            border: none;
-            color: white;
-            font-size: 20px;
             width: 50px;
             height: 50px;
             border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            font-size: 1.2rem;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            margin: 0 20px;
             transition: all 0.3s ease;
-            z-index: 10;
         }
 
         .slider-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.2);
             transform: scale(1.1);
         }
 
         .slider-dots {
             display: flex;
             justify-content: center;
-            margin-top: 20px;
+            margin-top: 1.5rem;
+            gap: 0.5rem;
         }
 
         .dot {
@@ -221,70 +543,180 @@
             height: 12px;
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.3);
-            margin: 0 5px;
             cursor: pointer;
             transition: all 0.3s ease;
         }
 
         .dot.active {
-            background: #4F46E5;
+            background: #667eea;
             transform: scale(1.2);
         }
 
-        .hero-logo-container {
-            position: relative;
+        /* FAQ */
+        .faq-item {
+            margin-bottom: 1rem;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
-        }
-
-        .hero-logo-bg {
-            position: absolute;
-            width: 400px;
-            height: 400px;
-            background: linear-gradient(135deg, rgba(79, 70, 229, 0.3), rgba(124, 58, 237, 0.3), rgba(236, 72, 153, 0.3));
-            border-radius: 50%;
-            filter: blur(60px);
-            animation: pulse 4s ease-in-out infinite;
-        }
-
-        .feature-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 16px;
-            border-radius: 50px;
-            font-size: 14px;
-            font-weight: 500;
+            font-weight: 600;
             transition: all 0.3s ease;
         }
 
-        .feature-badge:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        .faq-question:hover {
+            background: rgba(255, 255, 255, 0.05);
         }
 
-        .feature-badge.purple {
-            background: linear-gradient(135deg, rgba(168, 85, 247, 0.2), rgba(124, 58, 237, 0.2));
-            border: 1px solid rgba(168, 85, 247, 0.3);
+        .faq-answer {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
         }
 
-        .feature-badge.pink {
-            background: linear-gradient(135deg, rgba(236, 72, 153, 0.2), rgba(249, 115, 22, 0.2));
-            border: 1px solid rgba(236, 72, 153, 0.3);
+        .faq-item.active .faq-answer {
+            padding: 0 1.5rem 1.5rem;
+            max-height: 500px;
         }
 
-        .feature-badge.blue {
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(79, 70, 229, 0.2));
-            border: 1px solid rgba(59, 130, 246, 0.3);
+        .faq-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+        }
+
+        /* Developer Section */
+        .developer-card {
+            max-width: 500px;
+            margin: 0 auto;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .developer-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            background: var(--primary-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+
+        .developer-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .developer-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+        }
+
+        .developer-info-item {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Footer */
+        .footer {
+            padding: 3rem 0 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+
+        /* Responsive design for mobile */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem;
+            }
+            
+            .hero {
+                padding: 8rem 0 3rem;
+            }
+
+            .hero-content {
+                order: 2;
+            }
+
+            .hero-image {
+                order: 1;
+                margin-bottom: 2rem;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .feature-card {
+                padding: 1.5rem;
+            }
+
+            .feature-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+            }
+
+            .feature-title {
+                font-size: 1.25rem;
+            }
+
+            .feature-description {
+                font-size: 0.9rem;
+            }
         }
     </style>
 </head>
 
 <body>
     <!-- Navigation -->
-    <nav class="fixed top-0 w-full z-50 bg-black bg-opacity-80 backdrop-blur-md border-b border-gray-800">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+    <nav class="navbar" id="navbar">
+        <div class="container mx-auto px-6 flex justify-between items-center">
             <div class="flex items-center gap-3">
                 <img src="https://raw.githubusercontent.com/celalaygar/main/refs/heads/main/project/wixbook-domain-track/0-logo.png"
                     alt="WixBook Domain Track Logo" class="h-10">
@@ -308,68 +740,65 @@
     </nav>
 
     <!-- Hero Section -->
-    <section class="pt-32 pb-20 px-6">
-        <div class="container mx-auto">
+    <section class="hero section-hero">
+        <div class="hero-bg-shape"></div>
+        <div class="hero-bg-shape-2"></div>
+        <div class="container mx-auto px-6">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                 <!-- Left Content -->
-                <div class="text-center lg:text-left order-2 lg:order-1">
-                    <div class="mb-6">
-                        <span class="feature-badge purple">
-                            <i class="fas fa-globe"></i>
-                            <span data-i18n="hero_badge">Domain Management Tool</span>
-                        </span>
+                <div class="hero-content">
+                    <div class="hero-badge">
+                        <i class="fas fa-globe"></i>
+                        <span data-i18n="hero_badge">Domain Management Tool</span>
                     </div>
-                    <h1 class="text-5xl md:text-6xl font-bold mb-6 leading-tight">
+                    <h1 class="hero-title">
                         <span class="gradient-text" data-i18n="hero_h1_1">Find Your Perfect</span><br>
                         <span class="gradient-text-purple" data-i18n="hero_h1_2">Domain</span><br>
                         <span class="gradient-text-pink" data-i18n="hero_h1_3">With Ease</span>
                     </h1>
-                    <p class="text-xl text-gray-300 mb-8 max-w-2xl" data-i18n="hero_desc">
+                    <p class="hero-description" data-i18n="hero_desc">
                         Search, track, and manage domains across multiple extensions. Keep your favorite domains organized and never miss an opportunity.
                     </p>
-                    <div class="flex justify-center lg:justify-start gap-4 flex-wrap mb-8">
-                        <a href="" target="_blank" class="download-button">
-                            <i class="fab fa-apple text-xl"></i>
+                    <div class="hero-buttons">
+                        <a href="" target="_blank" class="btn btn-primary">
+                            <i class="fab fa-apple"></i>
                             <span data-i18n="btn_apple">Download on App Store</span>
                         </a>
-                        <a href="" target="_blank" class="download-button">
-                            <i class="fab fa-google-play text-xl"></i>
+                        <a href="" target="_blank" class="btn btn-primary">
+                            <i class="fab fa-google-play"></i>
                             <span data-i18n="btn_google">Get it on Google Play</span>
                         </a>
                     </div>
-
-                    <!-- Feature Pills -->
-                    <div class="flex flex-wrap gap-3 justify-center lg:justify-start">
-                        <span class="feature-badge blue">
+                    <div class="feature-pills">
+                        <div class="feature-pill">
                             <i class="fas fa-search"></i>
                             <span data-i18n="badge_search">Multi-Extension Search</span>
-                        </span>
-                        <span class="feature-badge purple">
+                        </div>
+                        <div class="feature-pill">
                             <i class="fas fa-history"></i>
                             <span data-i18n="badge_history">Search History</span>
-                        </span>
-                        <span class="feature-badge pink">
+                        </div>
+                        <div class="feature-pill">
                             <i class="fas fa-star"></i>
                             <span data-i18n="badge_favorites">Favorites List</span>
-                        </span>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Right Content - Logo -->
-                <div class="hero-logo-container order-1 lg:order-2">
-                    <div class="hero-logo-bg"></div>
+                <div class="hero-image">
+                    <div class="hero-image-bg"></div>
                     <img src="https://raw.githubusercontent.com/celalaygar/main/refs/heads/main/project/wixbook-domain-track/0-logo.png"
-                        alt="WixBook Domain Track Logo" class="relative z-10 h-64 md:h-80 lg:h-96 float-animation">
+                        alt="WixBook Domain Track Logo" class="relative z-10 h-64 md:h-80 lg:h-96 mx-auto">
                 </div>
             </div>
         </div>
     </section>
 
     <!-- App Screenshots Slider Section -->
-    <section class="py-20 px-6 bg-gray-900 bg-opacity-50">
-        <div class="container mx-auto">
-            <h2 class="text-4xl font-bold text-center mb-12 gradient-text" data-i18n="section_screenshots">App Screenshots</h2>
-
+    <section class="section section-screenshots">
+        <div class="container mx-auto px-6">
+            <h2 class="section-title gradient-text" data-i18n="section_screenshots">App Screenshots</h2>
             <div class="slider-container">
                 <div class="slider" id="screenshotSlider">
                     <div class="slide">
@@ -422,113 +851,112 @@
                     </button>
                 </div>
             </div>
-
             <div class="slider-dots" id="sliderDots"></div>
         </div>
     </section>
 
     <!-- Features Section -->
-    <section class="py-20 px-6">
-        <div class="container mx-auto">
-            <h2 class="text-4xl font-bold text-center mb-4 gradient-text" data-i18n="section_features">Key Features</h2>
-            <p class="text-center text-gray-300 mb-12 max-w-2xl mx-auto" data-i18n="section_features_desc">
+    <section class="section section-features">
+        <div class="container mx-auto px-6">
+            <h2 class="section-title gradient-text" data-i18n="section_features">Key Features</h2>
+            <p class="section-subtitle" data-i18n="section_features_desc">
                 Powerful tools designed to streamline your domain management workflow
             </p>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 <!-- Domain Search -->
-                <div class="feature-card rounded-2xl p-8 text-center">
-                    <div class="feature-icon mb-4">
+                <div class="glass-card feature-card blue-theme">
+                    <div class="feature-icon">
                         <i class="fas fa-search"></i>
                     </div>
-                    <h3 class="text-2xl font-semibold mb-4" data-i18n="feature1_title">Domain Search</h3>
-                    <p class="text-gray-300 mb-4" data-i18n="feature1_desc">
+                    <h3 class="feature-title" data-i18n="feature1_title">Domain Search</h3>
+                    <p class="feature-description" data-i18n="feature1_desc">
                         Check the availability of domains across multiple extensions. Find the perfect domain for your project in seconds.
                     </p>
-                    <div class="flex justify-center gap-2 text-sm text-gray-400">
-                        <span class="px-3 py-1 bg-gray-800 rounded-full" data-i18n="tag_search">Search</span>
-                        <span class="px-3 py-1 bg-gray-800 rounded-full" data-i18n="tag_extensions">Extensions</span>
-                        <span class="px-3 py-1 bg-gray-800 rounded-full" data-i18n="tag_availability">Availability</span>
+                    <div class="feature-tags">
+                        <span class="feature-tag" data-i18n="tag_search">Search</span>
+                        <span class="feature-tag" data-i18n="tag_extensions">Extensions</span>
+                        <span class="feature-tag" data-i18n="tag_availability">Availability</span>
                     </div>
                 </div>
 
                 <!-- History Panel -->
-                <div class="feature-card rounded-2xl p-8 text-center">
-                    <div class="feature-icon mb-4">
+                <div class="glass-card feature-card green-theme">
+                    <div class="feature-icon" style="background: var(--secondary-gradient);">
                         <i class="fas fa-history"></i>
                     </div>
-                    <h3 class="text-2xl font-semibold mb-4" data-i18n="feature2_title">History Panel</h3>
-                    <p class="text-gray-300 mb-4" data-i18n="feature2_desc">
+                    <h3 class="feature-title" data-i18n="feature2_title">History Panel</h3>
+                    <p class="feature-description" data-i18n="feature2_desc">
                         Keep track of your previous domain searches. Never lose track of domains you've researched in the past.
                     </p>
-                    <div class="flex justify-center gap-2 text-sm text-gray-400">
-                        <span class="px-3 py-1 bg-gray-800 rounded-full" data-i18n="tag_tracking">Tracking</span>
-                        <span class="px-3 py-1 bg-gray-800 rounded-full" data-i18n="tag_records">Records</span>
-                        <span class="px-3 py-1 bg-gray-800 rounded-full" data-i18n="tag_history">History</span>
+                    <div class="feature-tags">
+                        <span class="feature-tag" data-i18n="tag_tracking">Tracking</span>
+                        <span class="feature-tag" data-i18n="tag_records">Records</span>
+                        <span class="feature-tag" data-i18n="tag_history">History</span>
                     </div>
                 </div>
 
                 <!-- Favorites Panel -->
-                <div class="feature-card rounded-2xl p-8 text-center">
-                    <div class="feature-icon mb-4">
+                <div class="glass-card feature-card brown-theme">
+                    <div class="feature-icon" style="background: var(--accent-gradient);">
                         <i class="fas fa-star"></i>
                     </div>
-                    <h3 class="text-2xl font-semibold mb-4" data-i18n="feature3_title">Favorites Panel</h3>
-                    <p class="text-gray-300 mb-4" data-i18n="feature3_desc">
+                    <h3 class="feature-title" data-i18n="feature3_title">Favorites Panel</h3>
+                    <p class="feature-description" data-i18n="feature3_desc">
                         Save your favorite domains for quick access. Create a curated list of domains you're interested in.
                     </p>
-                    <div class="flex justify-center gap-2 text-sm text-gray-400">
-                        <span class="px-3 py-1 bg-gray-800 rounded-full" data-i18n="tag_bookmarks">Bookmarks</span>
-                        <span class="px-3 py-1 bg-gray-800 rounded-full" data-i18n="tag_quick_access">Quick Access</span>
-                        <span class="px-3 py-1 bg-gray-800 rounded-full" data-i18n="tag_saving">Saving</span>
+                    <div class="feature-tags">
+                        <span class="feature-tag" data-i18n="tag_bookmarks">Bookmarks</span>
+                        <span class="feature-tag" data-i18n="tag_quick_access">Quick Access</span>
+                        <span class="feature-tag" data-i18n="tag_saving">Saving</span>
                     </div>
                 </div>
 
                 <!-- Settings Panel -->
-                <div class="feature-card rounded-2xl p-8 text-center">
-                    <div class="feature-icon mb-4">
+                <div class="glass-card feature-card purple-theme">
+                    <div class="feature-icon">
                         <i class="fas fa-cog"></i>
                     </div>
-                    <h3 class="text-2xl font-semibold mb-4" data-i18n="feature4_title">Settings Panel</h3>
-                    <p class="text-gray-300 mb-4" data-i18n="feature4_desc">
+                    <h3 class="feature-title" data-i18n="feature4_title">Settings Panel</h3>
+                    <p class="feature-description" data-i18n="feature4_desc">
                         Customize your experience with language settings, view app information, and get help when needed.
                     </p>
-                    <div class="flex justify-center gap-2 text-sm text-gray-400">
-                        <span class="px-3 py-1 bg-gray-800 rounded-full" data-i18n="tag_customization">Customization</span>
-                        <span class="px-3 py-1 bg-gray-800 rounded-full" data-i18n="tag_languages">Languages</span>
-                        <span class="px-3 py-1 bg-gray-800 rounded-full" data-i18n="tag_preferences">Preferences</span>
+                    <div class="feature-tags">
+                        <span class="feature-tag" data-i18n="tag_customization">Customization</span>
+                        <span class="feature-tag" data-i18n="tag_languages">Languages</span>
+                        <span class="feature-tag" data-i18n="tag_preferences">Preferences</span>
                     </div>
                 </div>
 
                 <!-- Multi-Language Support -->
-                <div class="feature-card rounded-2xl p-8 text-center">
-                    <div class="feature-icon mb-4">
+                <div class="glass-card feature-card blue-theme">
+                    <div class="feature-icon" style="background: var(--secondary-gradient);">
                         <i class="fas fa-globe-americas"></i>
                     </div>
-                    <h3 class="text-2xl font-semibold mb-4" data-i18n="feature5_title">Multi-Language Support</h3>
-                    <p class="text-gray-300 mb-4" data-i18n="feature5_desc">
+                    <h3 class="feature-title" data-i18n="feature5_title">Multi-Language Support</h3>
+                    <p class="feature-description" data-i18n="feature5_desc">
                         Available in 10 languages including English, Turkish, French, German, Italian, Spanish, Portuguese, Russian, Chinese, and Korean.
                     </p>
-                    <div class="flex justify-center gap-2 text-sm text-gray-400">
-                        <span class="px-3 py-1 bg-gray-800 rounded-full" data-i18n="tag_i18n">i18n</span>
-                        <span class="px-3 py-1 bg-gray-800 rounded-full" data-i18n="tag_localization">Localization</span>
-                        <span class="px-3 py-1 bg-gray-800 rounded-full" data-i18n="tag_global">Global</span>
+                    <div class="feature-tags">
+                        <span class="feature-tag" data-i18n="tag_i18n">i18n</span>
+                        <span class="feature-tag" data-i18n="tag_localization">Localization</span>
+                        <span class="feature-tag" data-i18n="tag_global">Global</span>
                     </div>
                 </div>
 
                 <!-- Clean Interface -->
-                <div class="feature-card rounded-2xl p-8 text-center">
-                    <div class="feature-icon mb-4">
+                <div class="glass-card feature-card green-theme">
+                    <div class="feature-icon" style="background: var(--accent-gradient);">
                         <i class="fas fa-palette"></i>
                     </div>
-                    <h3 class="text-2xl font-semibold mb-4" data-i18n="feature6_title">Clean Interface</h3>
-                    <p class="text-gray-300 mb-4" data-i18n="feature6_desc">
+                    <h3 class="feature-title" data-i18n="feature6_title">Clean Interface</h3>
+                    <p class="feature-description" data-i18n="feature6_desc">
                         Modern, intuitive design with smooth animations and a focus on usability. Makes domain management a breeze.
                     </p>
-                    <div class="flex justify-center gap-2 text-sm text-gray-400">
-                        <span class="px-3 py-1 bg-gray-800 rounded-full" data-i18n="tag_design">Design</span>
-                        <span class="px-3 py-1 bg-gray-800 rounded-full" data-i18n="tag_usability">Usability</span>
-                        <span class="px-3 py-1 bg-gray-800 rounded-full" data-i18n="tag_modern">Modern</span>
+                    <div class="feature-tags">
+                        <span class="feature-tag" data-i18n="tag_design">Design</span>
+                        <span class="feature-tag" data-i18n="tag_usability">Usability</span>
+                        <span class="feature-tag" data-i18n="tag_modern">Modern</span>
                     </div>
                 </div>
             </div>
@@ -536,54 +964,54 @@
     </section>
 
     <!-- Help Section -->
-    <section class="py-20 px-6 bg-gray-900 bg-opacity-50">
-        <div class="container mx-auto">
-            <h2 class="text-4xl font-bold text-center mb-4 gradient-text" data-i18n="help_title">How to Use</h2>
-            <p class="text-center text-gray-300 mb-12 max-w-2xl mx-auto" data-i18n="help_subtitle">
+    <section class="section section-help">
+        <div class="container mx-auto px-6">
+            <h2 class="section-title gradient-text" data-i18n="help_title">How to Use</h2>
+            <p class="section-subtitle" data-i18n="help_subtitle">
                 Learn how to make the most of WixBook Domain Track
             </p>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <!-- How to Search for Domains -->
-                <div class="feature-card rounded-2xl p-8">
-                    <div class="feature-icon mb-4">
+                <div class="glass-card feature-card blue-theme">
+                    <div class="feature-icon">
                         <i class="fas fa-search"></i>
                     </div>
-                    <h3 class="text-2xl font-semibold mb-4" data-i18n="help_search_title">How to Search for Domains</h3>
-                    <p class="text-gray-300" data-i18n="help_search_content">
+                    <h3 class="feature-title" data-i18n="help_search_title">How to Search for Domains</h3>
+                    <p class="feature-description" data-i18n="help_search_content">
                         Simply enter your desired domain name in the search field and select the extensions you want to check. Tap the search button to see availability across all selected extensions.
                     </p>
                 </div>
 
                 <!-- Using the History Panel -->
-                <div class="feature-card rounded-2xl p-8">
-                    <div class="feature-icon mb-4">
+                <div class="glass-card feature-card green-theme">
+                    <div class="feature-icon" style="background: var(--secondary-gradient);">
                         <i class="fas fa-history"></i>
                     </div>
-                    <h3 class="text-2xl font-semibold mb-4" data-i18n="help_history_title">Using the History Panel</h3>
-                    <p class="text-gray-300" data-i18n="help_history_content">
+                    <h3 class="feature-title" data-i18n="help_history_title">Using the History Panel</h3>
+                    <p class="feature-description" data-i18n="help_history_content">
                         The History Panel automatically saves all your domain searches. Tap on any item in the history to perform the same search again. You can also clear your history using the clear button.
                     </p>
                 </div>
 
                 <!-- Managing Favorites -->
-                <div class="feature-card rounded-2xl p-8">
-                    <div class="feature-icon mb-4">
+                <div class="glass-card feature-card brown-theme">
+                    <div class="feature-icon" style="background: var(--accent-gradient);">
                         <i class="fas fa-star"></i>
                     </div>
-                    <h3 class="text-2xl font-semibold mb-4" data-i18n="help_favorites_title">Managing Favorites</h3>
-                    <p class="text-gray-300" data-i18n="help_favorites_content">
+                    <h3 class="feature-title" data-i18n="help_favorites_title">Managing Favorites</h3>
+                    <p class="feature-description" data-i18n="help_favorites_content">
                         When you find a domain you're interested in, add it to your favorites for quick access later. You can view all your favorites in the Favorites Panel and remove them as needed.
                     </p>
                 </div>
 
                 <!-- Changing Settings -->
-                <div class="feature-card rounded-2xl p-8">
-                    <div class="feature-icon mb-4">
+                <div class="glass-card feature-card purple-theme">
+                    <div class="feature-icon">
                         <i class="fas fa-cog"></i>
                     </div>
-                    <h3 class="text-2xl font-semibold mb-4" data-i18n="help_settings_title">Changing Settings</h3>
-                    <p class="text-gray-300" data-i18n="help_settings_content">
+                    <h3 class="feature-title" data-i18n="help_settings_title">Changing Settings</h3>
+                    <p class="feature-description" data-i18n="help_settings_content">
                         Access the Settings Panel to change the app language, view app information, and get help. The app supports 10 languages for your convenience.
                     </p>
                 </div>
@@ -592,59 +1020,67 @@
     </section>
 
     <!-- Benefits Section -->
-    <section class="py-20 px-6">
-        <div class="container mx-auto">
-            <h2 class="text-4xl font-bold text-center mb-4 gradient-text" data-i18n="section_benefits">Why Choose WixBook Domain Track?</h2>
-            <p class="text-center text-gray-300 mb-12 max-w-2xl mx-auto" data-i18n="section_benefits_desc">
+    <section class="section section-benefits">
+        <div class="container mx-auto px-6">
+            <h2 class="section-title gradient-text" data-i18n="section_benefits">Why Choose WixBook Domain Track?</h2>
+            <p class="section-subtitle" data-i18n="section_benefits_desc">
                 Discover the advantages that make our app the perfect choice for domain management
             </p>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                <div class="flex gap-4">
-                    <div class="feature-icon flex-shrink-0">
-                        <i class="fas fa-bolt text-2xl"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-semibold mb-2" data-i18n="benefit1_title">Time-Saving</h3>
-                        <p class="text-gray-300" data-i18n="benefit1_desc">
-                            Search across multiple domain extensions at once, saving you valuable time in finding the perfect domain.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="flex gap-4">
-                    <div class="feature-icon flex-shrink-0">
-                        <i class="fas fa-brain text-2xl"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-semibold mb-2" data-i18n="benefit2_title">Smart Organization</h3>
-                        <p class="text-gray-300" data-i18n="benefit2_desc">
-                            Keep your domain research organized with history and favorites panels for efficient workflow.
-                        </p>
+                <div class="glass-card feature-card blue-theme">
+                    <div class="flex gap-4">
+                        <div class="feature-icon flex-shrink-0">
+                            <i class="fas fa-bolt text-2xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2" data-i18n="benefit1_title">Time-Saving</h3>
+                            <p class="text-gray-300" data-i18n="benefit1_desc">
+                                Search across multiple domain extensions at once, saving you valuable time in finding the perfect domain.
+                            </p>
+                        </div>
                     </div>
                 </div>
 
-                <div class="flex gap-4">
-                    <div class="feature-icon flex-shrink-0">
-                        <i class="fas fa-mobile-alt text-2xl"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-semibold mb-2" data-i18n="benefit3_title">Mobile-First Design</h3>
-                        <p class="text-gray-300" data-i18n="benefit3_desc">
-                            Optimized for mobile devices, allowing you to manage domains on the go with a seamless experience.
-                        </p>
+                <div class="glass-card feature-card green-theme">
+                    <div class="flex gap-4">
+                        <div class="feature-icon flex-shrink-0" style="background: var(--secondary-gradient);">
+                            <i class="fas fa-brain text-2xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2" data-i18n="benefit2_title">Smart Organization</h3>
+                            <p class="text-gray-300" data-i18n="benefit2_desc">
+                                Keep your domain research organized with history and favorites panels for efficient workflow.
+                            </p>
+                        </div>
                     </div>
                 </div>
 
-                <div class="flex gap-4">
-                    <div class="feature-icon flex-shrink-0">
-                        <i class="fas fa-shield-alt text-2xl"></i>
+                <div class="glass-card feature-card brown-theme">
+                    <div class="flex gap-4">
+                        <div class="feature-icon flex-shrink-0" style="background: var(--accent-gradient);">
+                            <i class="fas fa-mobile-alt text-2xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2" data-i18n="benefit3_title">Mobile-First Design</h3>
+                            <p class="text-gray-300" data-i18n="benefit3_desc">
+                                Optimized for mobile devices, allowing you to manage domains on the go with a seamless experience.
+                            </p>
+                        </div>
                     </div>
-                    <div>
-                        <h3 class="text-xl font-semibold mb-2" data-i18n="benefit4_title">Privacy-Focused</h3>
-                        <p class="text-gray-300" data-i18n="benefit4_desc">
-                            Your search history and favorites are stored locally on your device, ensuring your privacy.
-                        </p>
+                </div>
+
+                <div class="glass-card feature-card purple-theme">
+                    <div class="flex gap-4">
+                        <div class="feature-icon flex-shrink-0">
+                            <i class="fas fa-shield-alt text-2xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-xl font-semibold mb-2" data-i18n="benefit4_title">Privacy-Focused</h3>
+                            <p class="text-gray-300" data-i18n="benefit4_desc">
+                                Your search history and favorites are stored locally on your device, ensuring your privacy.
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -652,65 +1088,65 @@
     </section>
 
     <!-- FAQ Section -->
-    <section class="py-20 px-6 bg-gray-900 bg-opacity-50">
-        <div class="container mx-auto max-w-4xl">
-            <h2 class="text-4xl font-bold text-center mb-12 gradient-text" data-i18n="section_faq">Frequently Asked Questions</h2>
+    <section class="section section-faq">
+        <div class="container mx-auto px-6 max-w-4xl">
+            <h2 class="section-title gradient-text" data-i18n="section_faq">Frequently Asked Questions</h2>
 
             <div class="faq-list">
-                <div class="faq-item feature-card rounded-xl p-6 mb-4">
-                    <div class="faq-question flex justify-between items-center cursor-pointer">
-                        <span class="text-lg font-semibold" data-i18n="faq1_q">How does WixBook Domain Track help me find domains?</span>
-                        <i class="fas fa-chevron-down"></i>
+                <div class="glass-card faq-item">
+                    <div class="faq-question">
+                        <span data-i18n="faq1_q">How does WixBook Domain Track help me find domains?</span>
+                        <i class="fas fa-chevron-down faq-icon"></i>
                     </div>
-                    <div class="faq-answer hidden mt-4 text-gray-300">
+                    <div class="faq-answer">
                         <p data-i18n="faq1_a">
                             WixBook Domain Track allows you to search for domain availability across multiple extensions simultaneously. This saves you time by checking many TLDs at once, helping you find the perfect domain for your project.
                         </p>
                     </div>
                 </div>
 
-                <div class="faq-item feature-card rounded-xl p-6 mb-4">
-                    <div class="faq-question flex justify-between items-center cursor-pointer">
-                        <span class="text-lg font-semibold" data-i18n="faq2_q">Is my search history saved?</span>
-                        <i class="fas fa-chevron-down"></i>
+                <div class="glass-card faq-item">
+                    <div class="faq-question">
+                        <span data-i18n="faq2_q">Is my search history saved?</span>
+                        <i class="fas fa-chevron-down faq-icon"></i>
                     </div>
-                    <div class="faq-answer hidden mt-4 text-gray-300">
+                    <div class="faq-answer">
                         <p data-i18n="faq2_a">
                             Yes, your search history is automatically saved in the History Panel. This allows you to easily reference domains you've previously searched for, and you can clear this history at any time if needed.
                         </p>
                     </div>
                 </div>
 
-                <div class="faq-item feature-card rounded-xl p-6 mb-4">
-                    <div class="faq-question flex justify-between items-center cursor-pointer">
-                        <span class="text-lg font-semibold" data-i18n="faq3_q">Can I save domains I'm interested in?</span>
-                        <i class="fas fa-chevron-down"></i>
+                <div class="glass-card faq-item">
+                    <div class="faq-question">
+                        <span data-i18n="faq3_q">Can I save domains I'm interested in?</span>
+                        <i class="fas fa-chevron-down faq-icon"></i>
                     </div>
-                    <div class="faq-answer hidden mt-4 text-gray-300">
+                    <div class="faq-answer">
                         <p data-i18n="faq3_a">
                             Absolutely! The Favorites Panel allows you to save domains you're interested in for quick access later. This is perfect for creating a shortlist of potential domains before making your final decision.
                         </p>
                     </div>
                 </div>
 
-                <div class="faq-item feature-card rounded-xl p-6 mb-4">
-                    <div class="faq-question flex justify-between items-center cursor-pointer">
-                        <span class="text-lg font-semibold" data-i18n="faq4_q">Is the app available in multiple languages?</span>
-                        <i class="fas fa-chevron-down"></i>
+                <div class="glass-card faq-item">
+                    <div class="faq-question">
+                        <span data-i18n="faq4_q">Is the app available in multiple languages?</span>
+                        <i class="fas fa-chevron-down faq-icon"></i>
                     </div>
-                    <div class="faq-answer hidden mt-4 text-gray-300">
+                    <div class="faq-answer">
                         <p data-i18n="faq4_a">
                             Yes, WixBook Domain Track supports 10 languages: English, Turkish, French, German, Italian, Spanish, Portuguese, Russian, Chinese, and Korean. You can easily switch between languages in the Settings Panel.
                         </p>
                     </div>
                 </div>
 
-                <div class="faq-item feature-card rounded-xl p-6 mb-4">
-                    <div class="faq-question flex justify-between items-center cursor-pointer">
-                        <span class="text-lg font-semibold" data-i18n="faq5_q">Is my data secure?</span>
-                        <i class="fas fa-chevron-down"></i>
+                <div class="glass-card faq-item">
+                    <div class="faq-question">
+                        <span data-i18n="faq5_q">Is my data secure?</span>
+                        <i class="fas fa-chevron-down faq-icon"></i>
                     </div>
-                    <div class="faq-answer hidden mt-4 text-gray-300">
+                    <div class="faq-answer">
                         <p data-i18n="faq5_a">
                             Yes, your privacy is important to us. All your search history and favorites are stored locally on your device and are not shared with any third parties.
                         </p>
@@ -721,22 +1157,21 @@
     </section>
 
     <!-- Developer Section -->
-    <section class="py-20 px-6 bg-gray-900 bg-opacity-50">
-        <div class="container mx-auto text-center">
-            <h2 class="text-4xl font-bold mb-6 gradient-text" data-i18n="section_dev">Developer</h2>
-            <div class="max-w-2xl mx-auto bg-gray-900 bg-opacity-50 rounded-2xl p-8">
-                <div class="flex justify-center mb-6">
-                    <div class="w-32 h-32 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center">
-                        <i class="fas fa-user text-5xl"></i>
-                    </div>
+    <section class="section section-developer">
+        <div class="container mx-auto px-6">
+            <h2 class="section-title gradient-text" data-i18n="section_dev">Developer</h2>
+
+            <div class="glass-card developer-card">
+                <div class="developer-avatar">
+                    <i class="fas fa-user"></i>
                 </div>
-                <h3 class="text-2xl font-semibold mb-4">Hacı Celal Aygar</h3>
-                <div class="flex flex-col gap-3 text-gray-300">
-                    <div class="flex items-center justify-center gap-3">
+                <h3 class="developer-name">Hacı Celal Aygar</h3>
+                <div class="developer-info">
+                    <div class="developer-info-item">
                         <i class="fas fa-envelope"></i>
                         <span>aygarcelalx@gmail.com</span>
                     </div>
-                    <div class="flex items-center justify-center gap-3">
+                    <div class="developer-info-item">
                         <i class="fas fa-map-marker-alt"></i>
                         <span>Ankara, Yenimahalle, Turkey</span>
                     </div>
@@ -746,23 +1181,23 @@
     </section>
 
     <!-- Footer -->
-    <footer class="py-8 px-6 bg-gray-900 bg-opacity-70 border-t border-gray-800">
-        <div class="container mx-auto text-center">
-            <p class="text-gray-400" data-i18n="footer_rights">
+    <footer class="footer section-footer">
+        <div class="container mx-auto px-6 text-center">
+            <p data-i18n="footer_rights">
                 © 2023 WixBook Domain Track. All rights reserved.
             </p>
-            <div class="flex justify-center gap-6 mt-4">
-                <a href="#" class="text-gray-400 hover:text-white transition">
-                    <i class="fab fa-twitter text-xl"></i>
+            <div class="social-links">
+                <a href="#" class="social-link">
+                    <i class="fab fa-twitter"></i>
                 </a>
-                <a href="#" class="text-gray-400 hover:text-white transition">
-                    <i class="fab fa-facebook text-xl"></i>
+                <a href="#" class="social-link">
+                    <i class="fab fa-facebook"></i>
                 </a>
-                <a href="#" class="text-gray-400 hover:text-white transition">
-                    <i class="fab fa-instagram text-xl"></i>
+                <a href="#" class="social-link">
+                    <i class="fab fa-instagram"></i>
                 </a>
-                <a href="#" class="text-gray-400 hover:text-white transition">
-                    <i class="fab fa-linkedin text-xl"></i>
+                <a href="#" class="social-link">
+                    <i class="fab fa-linkedin"></i>
                 </a>
             </div>
         </div>
@@ -912,7 +1347,7 @@
                 benefit2_title: "Akıllı Organizasyon",
                 benefit2_desc: "Alan adı araştırmanızı geçmiş ve favori panelleriyle düzenli tutarak verimli iş akışı sağlayın.",
                 benefit3_title: "Mobil Öncelikli Tasarım",
-                benefit3_desc: "Mobil cihazlar için optimize edilmiş, pürüzsüz bir deneyimle hareket halindeyken alan adları yönetmenizi sağlar.",
+                benefit3_desc: "Mobil cihazlar için optimize edilmiş, hareket halindeyken alan adları yönetmenizi sağlar.",
                 benefit4_title: "Gizlilik Odaklı",
                 benefit4_desc: "Arama geçmişiniz ve favorileriniz cihazınızda yerel olarak saklanır, bu da gizliliğinizi garanti altına alır.",
                 section_faq: "Sıkça Sorulan Sorular",
@@ -1011,7 +1446,7 @@
             de: {
                 app_title: "WixBook Domain Track",
                 hero_badge: "Domain-Verwaltungstool",
-                hero_h1_1: "Finden Sie Ihre Perfekte",
+                hero_h1_1: "Finden Sie Ihren Perfekten",
                 hero_h1_2: "Domain",
                 hero_h1_3: "Mit Leichtigkeit",
                 hero_desc: "Suchen, verfolgen und verwalten Sie Domains über mehrere Erweiterungen. Halten Sie Ihre Lieblingsdomains organisiert und verpassen Sie niemals eine Gelegenheit.",
@@ -1060,7 +1495,7 @@
                 help_history_title: "Verwendung des Verlaufs-Panels",
                 help_history_content: "Das Verlaufs-Panel speichert automatisch alle Ihre Domain-Suchen. Tippen Sie auf ein beliebiges Element im Verlauf, um dieselbe Suche erneut durchzuführen. Sie können Ihren Verlauf auch mit der Schaltfläche zum Löschen löschen.",
                 help_favorites_title: "Verwaltung von Favoriten",
-                help_favorites_content: "Wenn Sie eine Domain finden, die Sie interessiert, fügen Sie sie zu Ihren Favoriten für späteren schnellen Zugriff hinzu. Sie können alle Ihre Favoriten im Favoriten-Panel anzeigen und bei Bedarf entfernen.",
+                help_favorites_content: "Wenn Sie einen Domain finden, der Sie interessiert, fügen Sie ihn zu Ihren Favoriten für späteren schnellen Zugriff hinzu. Sie können alle Ihre Favoriten im Favoriten-Panel anzeigen und bei Bedarf entfernen.",
                 help_settings_title: "Ändern von Einstellungen",
                 help_settings_content: "Greifen Sie auf das Einstellungs-Panel zu, um die App-Sprache zu ändern, App-Informationen anzuzeigen und Hilfe zu erhalten. Die App unterstützt 10 Sprachen für Ihre Bequemlichkeit.",
                 section_benefits: "Warum WixBook Domain Track Wählen?",
@@ -1079,9 +1514,9 @@
                 faq2_q: "Wird mein Suchverlauf gespeichert?",
                 faq2_a: "Ja, Ihr Suchverlauf wird automatisch im Verlaufs-Panel gespeichert. Dies ermöglicht es Ihnen, einfach auf Domains zu verweisen, die Sie zuvor gesucht haben, und Sie können diesen Verlauf bei Bedarf jederzeit löschen.",
                 faq3_q: "Kann ich Domains speichern, an denen ich interessiert bin?",
-                faq3_a: "Absolut! Das Favoriten-Panel ermöglicht es Ihnen, Domains, an denen Sie interessiert sind, für späteren schnellen Zugriff zu speichern. Dies ist perfekt, um eine Shortlist potenzieller Domains vor Ihrer endgültigen Entscheidung zu erstellen.",
+                faq3_a: "Absolut! Das Favoriten-Panel ermöglicht es Ihnen, Domains, die Sie interessieren, für späteren schnellen Zugriff zu speichern. Dies ist perfekt, um eine Shortlist potenzieller Domains vor Ihrer endgültigen Entscheidung zu erstellen.",
                 faq4_q: "Ist die App in mehreren Sprachen verfügbar?",
-                faq4_a: "Ja, WixBook Domain Track unterstützt 10 Sprachen: Englisch, Türkisch, Französisch, Deutsch, Italienisch, Spanisch, Portugiesisch, Russisch, Chinesisch und Koreanisch. Sie können im Einstellungs-Panel einfach zwischen Sprachen wechseln.",
+                faq4_a: "Ja, WixBook Domain Track unterstützt 10 Sprachen: Englisch, Türkisch, Französisch, Deutsch, Italienisch, Spanisch, Portugiesisch, Russisch, Chinesisch und Koreanisch. Sie können einfach zwischen Sprachen im Einstellungs-Panel wechseln.",
                 faq5_q: "Sind meine Daten sicher?",
                 faq5_a: "Ja, Ihre Privatsphäre ist uns wichtig. Ihr gesamter Suchverlauf und Ihre Favoriten werden lokal auf Ihrem Gerät gespeichert und nicht an Dritte weitergegeben.",
                 section_dev: "Entwickler",
@@ -1100,17 +1535,17 @@
                 badge_history: "Cronologia Ricerche",
                 badge_favorites: "Lista Preferiti",
                 section_screenshots: "Screenshot dell'App",
-                section_features: "Caratteristiche Chiave",
+                section_features: "Caratteristiche Principali",
                 section_features_desc: "Strumenti potenti progettati per ottimizzare il tuo flusso di lavoro di gestione dei domini",
                 feature1_title: "Ricerca Dominio",
                 feature1_desc: "Verifica la disponibilità dei domini su più estensioni. Trova il dominio perfetto per il tuo progetto in pochi secondi.",
                 feature2_title: "Pannello Cronologia",
-                feature2_desc: "Tieni traccia delle tue precedenti ricerche di domini. Non perdere mai di vista i domini che hai ricercato in passato.",
+                feature2_desc: "Tieni traccia delle tue precedenti ricerche di dominio. Non perdere mai di vista i domini che hai ricercato in passato.",
                 feature3_title: "Pannello Preferiti",
                 feature3_desc: "Salva i tuoi domini preferiti per accesso rapido. Crea una lista curata di domini che ti interessano.",
                 feature4_title: "Pannello Impostazioni",
                 feature4_desc: "Personalizza la tua esperienza con le impostazioni della lingua, visualizza le informazioni dell'app e ottieni aiuto quando necessario.",
-                feature5_title: "Supporto Multilingua",
+                feature5_title: "Supporto Multi-Lingua",
                 feature5_desc: "Disponibile in 10 lingue tra cui inglese, turco, francese, tedesco, italiano, spagnolo, portoghese, russo, cinese e coreano.",
                 feature6_title: "Interfaccia Pulita",
                 feature6_desc: "Design moderno e intuitivo con animazioni fluide e focus sull'usabilità. Rende la gestione dei domini un gioco da ragazzi.",
@@ -1135,9 +1570,9 @@
                 help_title: "Come Usare",
                 help_subtitle: "Impara come sfruttare al meglio WixBook Domain Track",
                 help_search_title: "Come Cercare Domini",
-                help_search_content: "Inserisci semplicemente il nome del dominio desiderato nel campo di ricerca e seleziona le estensioni che desideri verificare. Premi il pulsante di ricerca per vedere la disponibilità su tutte le estensioni selezionate.",
+                help_search_content: "Inserisci semplicemente il nome del dominio desiderato nel campo di ricerca e seleziona le estensioni che vuoi verificare. Premi il pulsante di ricerca per vedere la disponibilità su tutte le estensioni selezionate.",
                 help_history_title: "Utilizzo del Pannello Cronologia",
-                help_history_content: "Il Pannello Cronologia salva automaticamente tutte le tue ricerche di dominio. Tocca qualsiasi elemento nella cronologia per eseguire di nuovo la stessa ricerca. Puoi anche cancellare la tua cronologia utilizzando il pulsante di cancellazione.",
+                help_history_content: "Il Pannello Cronologia salva automaticamente tutte le tue ricerche di dominio. Tocca su qualsiasi elemento nella cronologia per eseguire la stessa ricerca di nuovo. Puoi anche cancellare la tua cronologia utilizzando il pulsante di cancellazione.",
                 help_favorites_title: "Gestione dei Preferiti",
                 help_favorites_content: "Quando trovi un dominio che ti interessa, aggiungilo ai tuoi preferiti per accesso rapido in seguito. Puoi visualizzare tutti i tuoi preferiti nel Pannello Preferiti e rimuoverli secondo necessità.",
                 help_settings_title: "Modifica delle Impostazioni",
@@ -1147,7 +1582,7 @@
                 benefit1_title: "Risparmio di Tempo",
                 benefit1_desc: "Cerca su più estensioni di dominio contemporaneamente, risparmiando tempo prezioso nella ricerca del dominio perfetto.",
                 benefit2_title: "Organizzazione Intelligente",
-                benefit2_desc: "Mantieni organizzata la tua ricerca di domini con i pannelli cronologia e preferiti per un flusso di lavoro efficiente.",
+                benefit2_desc: "Mantieni la tua ricerca di dominio organizzata con i pannelli cronologia e preferiti per un flusso di lavoro efficiente.",
                 benefit3_title: "Design Mobile-First",
                 benefit3_desc: "Ottimizzato per dispositivi mobili, permettendoti di gestire domini in movimento con un'esperienza senza interruzioni.",
                 benefit4_title: "Orientato alla Privacy",
@@ -1155,7 +1590,7 @@
                 section_faq: "Domande Frequenti",
                 faq1_q: "Come mi aiuta WixBook Domain Track a trovare domini?",
                 faq1_a: "WixBook Domain Track ti permette di cercare la disponibilità dei domini su più estensioni contemporaneamente. Questo ti fa risparmiare tempo controllando molti TLD contemporaneamente, aiutandoti a trovare il dominio perfetto per il tuo progetto.",
-                faq2_q: "La mia cronologia di ricerca viene salvata?",
+                faq2_q: "La mia cronologia di ricerca è salvata?",
                 faq2_a: "Sì, la tua cronologia di ricerca viene salvata automaticamente nel Pannello Cronologia. Questo ti permette di fare facilmente riferimento ai domini che hai cercato in precedenza, e puoi cancellare questa cronologia in qualsiasi momento se necessario.",
                 faq3_q: "Posso salvare domini che mi interessano?",
                 faq3_a: "Assolutamente! Il Pannello Preferiti ti permette di salvare domini che ti interessano per accesso rapido in seguito. Questo è perfetto per creare una lista ristretta di domini potenziali prima di prendere la tua decisione finale.",
@@ -1173,7 +1608,7 @@
                 hero_h1_2: "Dominio",
                 hero_h1_3: "Con Facilidad",
                 hero_desc: "Busca, rastrea y gestiona dominios en múltiples extensiones. Mantén organizados tus dominios favoritos y nunca pierdas una oportunidad.",
-                btn_apple: "Descargar en App Store",
+                btn_apple: "Descargar en la App Store",
                 btn_google: "Disponible en Google Play",
                 badge_search: "Búsqueda Multi-Extensión",
                 badge_history: "Historial de Búsqueda",
@@ -1216,7 +1651,7 @@
                 help_search_title: "Cómo Buscar Dominios",
                 help_search_content: "Simplemente ingresa el nombre de dominio deseado en el campo de búsqueda y selecciona las extensiones que quieres verificar. Presiona el botón de búsqueda para ver la disponibilidad en todas las extensiones seleccionadas.",
                 help_history_title: "Uso del Panel de Historial",
-                help_history_content: "El Panel de Historial guarda automáticamente todas tus búsquedas de dominio. Toca cualquier elemento en el historial para realizar la misma búsqueda nuevamente. También puedes borrar tu historial usando el botón de borrar.",
+                help_history_content: "El Panel de Historial guarda automáticamente todas tus búsquedas de dominio. Toca en cualquier elemento en el historial para realizar la misma búsqueda nuevamente. También puedes borrar tu historial usando el botón de borrar.",
                 help_favorites_title: "Gestión de Favoritos",
                 help_favorites_content: "Cuando encuentres un dominio que te interese, agrégalo a tus favoritos para acceso rápido posterior. Puedes ver todos tus favoritos en el Panel de Favoritos y eliminarlos según sea necesario.",
                 help_settings_title: "Cambiando Configuración",
@@ -1228,7 +1663,7 @@
                 benefit2_title: "Organización Inteligente",
                 benefit2_desc: "Mantén tu investigación de dominios organizada con paneles de historial y favoritos para un flujo de trabajo eficiente.",
                 benefit3_title: "Diseño Mobile-First",
-                benefit3_desc: "Optimizado para dispositivos móviles, permitiéndote gestionar dominios sobre la marcha con una experiencia sin interrupciones.",
+                benefit3_desc: "Optimizado para dispositivos móviles, permitiéndote gestionar dominios en movimiento con una experiencia sin interrupciones.",
                 benefit4_title: "Enfocado en la Privacidad",
                 benefit4_desc: "Tu historial de búsqueda y favoritos se almacenan localmente en tu dispositivo, garantizando tu privacidad.",
                 section_faq: "Preguntas Frecuentes",
@@ -1238,7 +1673,7 @@
                 faq2_a: "Sí, tu historial de búsqueda se guarda automáticamente en el Panel de Historial. Esto te permite consultar fácilmente los dominios que has buscado previamente, y puedes borrar este historial en cualquier momento si es necesario.",
                 faq3_q: "¿Puedo guardar dominios que me interesan?",
                 faq3_a: "¡Absolutamente! El Panel de Favoritos te permite guardar dominios que te interesan para acceso rápido posterior. Esto es perfecto para crear una lista corta de dominios potenciales antes de tomar tu decisión final.",
-                faq4_q: "¿La app está disponible en múltiples idiomas?",
+                faq4_q: "¿La aplicación está disponible en múltiples idiomas?",
                 faq4_a: "Sí, WixBook Domain Track soporta 10 idiomas: inglés, turco, francés, alemán, italiano, español, portugués, ruso, chino y coreano. Puedes cambiar fácilmente entre idiomas en el Panel de Configuración.",
                 faq5_q: "¿Están seguros mis datos?",
                 faq5_a: "Sí, tu privacidad es importante para nosotros. Todo tu historial de búsqueda y favoritos se almacenan localmente en tu dispositivo y no se comparten con terceros.",
@@ -1263,7 +1698,7 @@
                 feature1_title: "Pesquisa de Domínio",
                 feature1_desc: "Verifique a disponibilidade de domínios em várias extensões. Encontre o domínio perfeito para seu projeto em segundos.",
                 feature2_title: "Painel de Histórico",
-                feature2_desc: "Acompanhe suas pesquisas de domínio anteriores. Nunca perca de vista os domínios que você pesquisou no passado.",
+                feature2_desc: "Mantenha o registro de suas pesquisas de domínio anteriores. Nunca perca de vista os domínios que você pesquisou no passado.",
                 feature3_title: "Painel de Favoritos",
                 feature3_desc: "Salve seus domínios favoritos para acesso rápido. Crie uma lista curada de domínios que lhe interessam.",
                 feature4_title: "Painel de Configurações",
@@ -1297,7 +1732,7 @@
                 help_history_title: "Usando o Painel de Histórico",
                 help_history_content: "O Painel de Histórico salva automaticamente todas as suas pesquisas de domínio. Toque em qualquer item no histórico para realizar a mesma pesquisa novamente. Você também pode limpar seu histórico usando o botão de limpar.",
                 help_favorites_title: "Gerenciando Favoritos",
-                help_favorites_content: "Quando encontrar um domínio que lhe interessa, adicione-o aos seus favoritos para acesso rápido posterior. Você pode visualizar todos os seus favoritos no Painel de Favoritos e removê-los conforme necessário.",
+                help_favorites_content: "Quando encontrar um domínio que lhe interessar, adicione-o aos seus favoritos para acesso rápido posterior. Você pode visualizar todos os seus favoritos no Painel de Favoritos e removê-los conforme necessário.",
                 help_settings_title: "Alterando Configurações",
                 help_settings_content: "Acesse o Painel de Configurações para alterar o idioma do app, visualizar informações do app e obter ajuda. O app suporta 10 idiomas para sua conveniência.",
                 section_benefits: "Por Que Escolher WixBook Domain Track?",
@@ -1317,10 +1752,10 @@
                 faq2_a: "Sim, seu histórico de pesquisa é salvo automaticamente no Painel de Histórico. Isso permite que você consulte facilmente os domínios que pesquisou anteriormente, e você pode limpar este histórico a qualquer momento, se necessário.",
                 faq3_q: "Posso salvar domínios que me interessam?",
                 faq3_a: "Absolutamente! O Painel de Favoritos permite que você salve domínios que lhe interessam para acesso rápido posterior. Isso é perfeito para criar uma lista curta de domínios potenciais antes de tomar sua decisão final.",
-                faq4_q: "O app está disponível em vários idiomas?",
+                faq4_q: "O aplicativo está disponível em vários idiomas?",
                 faq4_a: "Sim, o WixBook Domain Track suporta 10 idiomas: inglês, turco, francês, alemão, italiano, espanhol, português, russo, chinês e coreano. Você pode facilmente alternar entre idiomas no Painel de Configurações.",
                 faq5_q: "Meus dados estão seguros?",
-                faq5_a: "Sim, sua privacidade é importante para nós. Todo o seu histórico de pesquisa e favoritos são armazenados localmente em seu dispositivo e não são compartilhados com terceiros.",
+                faq5_a: "Sim, sua privacidade é importante para nós. Todo seu histórico de pesquisa e favoritos são armazenados localmente em seu dispositivo e não são compartilhados com terceiros.",
                 section_dev: "Desenvolvedor",
                 footer_rights: "© 2023 WixBook Domain Track. Todos os direitos reservados."
             },
@@ -1332,7 +1767,7 @@
                 hero_h1_3: "С Легкостью",
                 hero_desc: "Ищите, отслеживайте и управляйте доменами в нескольких расширениях. Держите свои избранные домены организованными и никогда не упускайте возможность.",
                 btn_apple: "Скачать в App Store",
-                btn_google: "Доступно в Google Play",
+                btn_google: "Скачать в Google Play",
                 badge_search: "Поиск по Нескольким Расширениям",
                 badge_history: "История Поиска",
                 badge_favorites: "Список Избранных",
@@ -1373,10 +1808,10 @@
                 help_subtitle: "Узнайте, как максимально использовать WixBook Domain Track",
                 help_search_title: "Как Искать Домены",
                 help_search_content: "Просто введите желаемое имя домена в поле поиска и выберите расширения, которые вы хотите проверить. Нажмите кнопку поиска, чтобы увидеть доступность во всех выбранных расширениях.",
-                help_history_title: "Использование Панели Истории",
+                help_history_title: "Использование Панеля Истории",
                 help_history_content: "Панель Истории автоматически сохраняет все ваши поиски доменов. Нажмите на любой элемент в истории, чтобы выполнить тот же поиск снова. Вы также можете очистить свою историю, используя кнопку очистки.",
                 help_favorites_title: "Управление Избранными",
-                help_favorites_content: "Когда вы найдете домен, который вас интересует, добавьте его в свои избранные для быстрого доступа позже. Вы можете просмотреть все свои избранные в Панели Избранных и удалить их по мере необходимости.",
+                help_favorites_content: "Когда вы найдете домен, который вас интересует, добавьте его в свои избранные для быстрого доступа позже. Вы можете просмотреть все свои избранные в Панеле Избранных и удалить их по мере необходимости.",
                 help_settings_title: "Изменение Настроек",
                 help_settings_content: "Доступ к Панелю Настроек, чтобы изменить язык приложения, просмотреть информацию о приложении и получить помощь. Приложение поддерживает 10 языков для вашего удобства.",
                 section_benefits: "Почему Выбрать WixBook Domain Track?",
@@ -1384,7 +1819,7 @@
                 benefit1_title: "Экономия Времени",
                 benefit1_desc: "Ищите в нескольких расширениях доменов одновременно, экономя ваше драгоценное время при поиске идеального домена.",
                 benefit2_title: "Умная Организация",
-                benefit2_desc: "Держите ваше исследование доменов организованным с помощью панелей истории и избранных для эффективного рабочего процесса.",
+                benefit2_desc: "Держите ваше исследование доменов организованным с панелями истории и избранных для эффективного рабочего процесса.",
                 benefit3_title: "Дизайн Mobile-First",
                 benefit3_desc: "Оптимизирован для мобильных устройств, позволяяя вам управлять доменами в движении с бесшовным опытом.",
                 benefit4_title: "Ориентированный на Конфиденциальность",
@@ -1392,11 +1827,11 @@
                 section_faq: "Часто Задаваемые Вопросы",
                 faq1_q: "Как WixBook Domain Track помогает мне находить домены?",
                 faq1_a: "WixBook Domain Track позволяет вам проверять доступность доменов в нескольких расширениях одновременно. Это экономит ваше время, проверяя многие TLD сразу, помогая вам найти идеальный домен для вашего проекта.",
-                faq2_q: "Моя история поиска сохраняется?",
-                faq2_a: "Да, ваша история поиска автоматически сохраняется в Панели Истории. Это позволяет вам легко ссылаться на домены, которые вы искали ранее, и вы можете очистить эту историю в любое время при необходимости.",
+                faq2_q: "Мой история поиска сохраняется?",
+                faq2_a: "Да, ваша история поиска автоматически сохраняется в Панеле Истории. Это позволяет вам легко ссылаться на домены, которые вы искали ранее, и вы можете очистить эту историю в любое время при необходимости.",
                 faq3_q: "Могу ли я сохранять домены, которые меня интересуют?",
                 faq3_a: "Абсолютно! Панель Избранных позволяет вам сохранять домены, которые вас интересуют, для быстрого доступа позже. Это идеально для создания короткого списка потенциальных доменов перед принятием окончательного решения.",
-                faq4_q: "Приложение доступно на нескольких языках?",
+                faq4_q: "Приложение доступно в нескольких языках?",
                 faq4_a: "Да, WixBook Domain Track поддерживает 10 языков: английский, турецкий, французский, немецкий, итальянский, испанский, португальский, русский, китайский и корейский. Вы можете легко переключаться между языками в Панеле Настроек.",
                 faq5_q: "Мои данные в безопасности?",
                 faq5_a: "Да, ваша конфиденциальность важна для нас. Вся ваша история поиска и избранные хранятся локально на вашем устройстве и не передаются третьим лицам.",
@@ -1423,7 +1858,7 @@
                 feature2_title: "历史面板",
                 feature2_desc: "跟踪您之前的域名搜索。永远不要忘记您过去研究过的域名。",
                 feature3_title: "收藏面板",
-                feature3_desc: "保存您喜欢的域名以便快速访问。创建您感兴趣的域名精选列表。",
+                feature3_desc: "保存您喜欢的域名以便快速访问。创建您感兴趣的域名的精选列表。",
                 feature4_title: "设置面板",
                 feature4_desc: "使用语言设置自定义您的体验，查看应用程序信息，并在需要时获得帮助。",
                 feature5_title: "多语言支持",
@@ -1502,13 +1937,13 @@
                 feature2_title: "기록 패널",
                 feature2_desc: "이전 도메인 검색을 추적하세요. 과거에 연구한 도메인을 잊지 마세요.",
                 feature3_title: "즐겨찾기 패널",
-                feature3_desc: "빠른 액세스를 위해 즐겨찾는 도메인을 저장하세요. 관심 있는 도메인의 선별된 목록을 만드세요.",
+                feature3_desc: "관심 있는 도메인을 저장하여 빠른 액세스로 저장하세요. 관심 있는 도메인의 선별된 목록을 만드세요.",
                 feature4_title: "설정 패널",
                 feature4_desc: "언어 설정으로 경험을 맞춤화하고, 앱 정보를 보고, 필요할 때 도움을 받으세요.",
                 feature5_title: "다국어 지원",
                 feature5_desc: "영어, 터키어, 프랑스어, 독일어, 이탈리아어, 스페인어, 포르투갈어, 러시아어, 중국어, 한국어를 포함한 10개 언어로 제공됩니다.",
                 feature6_title: "깨끗한 인터페이스",
-                feature6_desc: "부드러운 애니메이션과 사용성에 중점을 둔 현대적이고 직관적인 디자인. 도메인 관리를 쉽게 만듭니다.",
+                feature6_desc: "현대적이고 직관적인 디자인, 부드러운 애니메이션, 사용성에 중점을 둠. 도메인 관리를 쉽게 만듭니다.",
                 tag_search: "검색",
                 tag_extensions: "확장",
                 tag_availability: "가용성",
@@ -1532,30 +1967,30 @@
                 help_search_title: "도메인 검색 방법",
                 help_search_content: "검색 필드에 원하는 도메인 이름을 입력하고 확인하려는 확장을 선택하세요. 검색 버튼을 눌러 선택된 모든 확장에서 가용성을 보세요.",
                 help_history_title: "기록 패널 사용",
-                help_history_content: "기록 패널은 모든 도메인 검색을 자동으로 저장합니다. 기록에서 항목을 탭하여 동일한 검색을 다시 수행하세요. 지우기 버튼을 사용하여 기록을 지울 수도 있습니다.",
+                help_history_content: "기록 패널은 모든 도메인 검색을 자동으로 저장합니다. 기록에서 항목을 탭�하여 동일한 검색을 다시 수행하세요. 지우기 버튼을 사용하여 기록을 지울 수도 있습니다.",
                 help_favorites_title: "즐겨찾기 관리",
                 help_favorites_content: "관심 있는 도메인을 찾으면 나중에 빠르게 액세스할 수 있도록 즐겨찾기에 추가하세요. 즐겨찾기 패널에서 모든 즐겨찾기를 볼 수 있으며 필요에 따라 제거할 수 있습니다.",
                 help_settings_title: "설정 변경",
-                help_settings_content: "앱 언어를 변경하고, 앱 정보를 보고, 도움을 받으려면 설정 패널에 액세스하세요. 앱은 편의를 위해 10개 언어를 지원합니다.",
-                section_benefits: "WixBook 도메인 트랙을 선택해야 하는 이유?",
+                help_settings_content: "앱 언어를 변경하고, 앱 정보를 보고, 도움을 받으려면 설정 패널에 액세스하세요. 앱은 편의를 위해 10 언어를 지원합니다.",
+                section_benefits: "왜 WixBook 도메인 트랙을 선택해야 하는 이유?",
                 section_benefits_desc: "우리 앱을 도메인 관리를 위한 완벽한 선택으로 만드는 장점을 발견하세요",
                 benefit1_title: "시간 절약",
                 benefit1_desc: "여러 도메인 확장을 한 번에 검색하여 완벽한 도메인을 찾는 데 소중한 시간을 절약하세요.",
                 benefit2_title: "스마트 정리",
-                benefit2_desc: "기록 및 즐겨창기 패널로 도메인 연구를 체계적으로 유지하여 효율적인 워크플로우를 만드세요.",
+                benefit2_desc: "기록 및 즐겨찾기 패널로 도메인 연구를 체�계적으로 유지하여 효율적인 워크플로우를 만드세요.",
                 benefit3_title: "모바일 우선 디자인",
                 benefit3_desc: "모바일 기기에 최적화되어 있어, 원활한 경험으로 이동 중에도 도메인을 관리할 수 있습니다.",
                 benefit4_title: "개인 정보 보호 중심",
                 benefit4_desc: "검색 기록과 즐겨찾기가 기기에 로컬로 저장되어 개인 정보를 보장합니다.",
                 section_faq: "자주 묻는 질문",
                 faq1_q: "WixBook 도메인 트랙이 도메인을 찾는 데 어떻게 도움이 되나요?",
-                faq1_a: "WixBook 도메인 트랙을 사용하면 여러 확장에서 동시에 도메인 가용성을 검색할 수 있습니다. 이는 한 번에 많은 TLD를 확인하여 시간을 절약하고 프로젝트에 완벽한 도메인을 찾는 데 도움이 됩니다.",
+                faq1_a: "WixBook 도메인 트랙을 사용하면 여러 확장에서 동시에 도메인 사용 가능성을 검색할 수 있습니다. 이는 한 번에 많은 TLD를 확인하여 시간을 절약하고, 프로젝�트에 완벽한 도메인을 찾는 데 도움이 됩니다.",
                 faq2_q: "검색 기록이 저장되나요?",
-                faq2_a: "네, 검색 기록이 기록 패널에 자동으로 저장됩니다. 이를 통해 이전에 검색한 도메인을 쉽게 참조할 수 있으며, 필요한 경우 언제든지 이 기록을 지울 수 있습니다.",
+                faq2_a: "네, 검색 기록이 기록 패널에 자동으로 저장됩니다. 이를 통해 이전에 검색한 도메인을 쉽게 참조할 수 있으며, 필요한 경우 언제할 수 있습니다.",
                 faq3_q: "관심 있는 도메인을 저장할 수 있나요?",
-                faq3_a: "물론입니다! 즐겨찾기 패널을 사용하면 관심 있는 도메인을 나중에 빠르게 액세스할 수 있도록 저장할 수 있습니다. 이는 최종 결정을 내리기 전에 잠재적 도메인의 짧은 목록을 만드는 데 완벽합니다.",
-                faq4_q: "앱이 여러 언어로 제공되나요?",
-                faq4_a: "네, WixBook 도메인 트랙은 영어, 터키어, 프랑스어, 독일어, 이탈리아어, 스페인어, 포르투갈어, 러시아어, 중국어, 한국어를 포함한 10개 언어를 지원합니다. 설정 패널에서 언어를 쉽게 전환할 수 있습니다.",
+                faq3_a: "물론입니다! 즐겨찾기 패널은 관심 있는 도메인을 나중에 빠르게 액세스할 수 있도록 저장합니다. 이는 최종 결정을 내리기 전에 잠재적 도메인의 짧은 목록을 만드는 데 완벽합니다.",
+                faq4_q: "앱이가 여러 언어로 제공되나요?",
+                faq4_a: "네, WixBook 도메인 트랙은 10 언어를 지원합니다: 영어, 터키어, 프랑스어, 독일어, 이탈리아어, 스페인어, 포르투갈어, 러시아어, 중국어, 한국어. 설정 패널에서 언어를 쉽게 전환할 수 있습니다.",
                 faq5_q: "내 데이터가 안전한가요?",
                 faq5_a: "네, 개인 정보는 저희에게 중요합니다. 모든 검색 기록과 즐겨찾기는 기기에 로컬로 저장되며 제3자와 공유되지 않습니다.",
                 section_dev: "개발자",
@@ -1585,26 +2020,35 @@
             changeLanguage(e.target.value);
         });
 
-        // FAQ accordion functionality
+        // === NAVBAR SCROLL EFFECT ===
+        window.addEventListener('scroll', () => {
+            const navbar = document.getElementById('navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // === FAQ ACCORDION ===
         document.querySelectorAll('.faq-question').forEach(question => {
             question.addEventListener('click', () => {
                 const faqItem = question.parentElement;
-                const faqAnswer = faqItem.querySelector('.faq-answer');
-                const isActive = faqAnswer.classList.contains('hidden');
-                
+                const isActive = faqItem.classList.contains('active');
+
                 // Close all FAQ items
-                document.querySelectorAll('.faq-answer').forEach(answer => {
-                    answer.classList.add('hidden');
+                document.querySelectorAll('.faq-item').forEach(item => {
+                    item.classList.remove('active');
                 });
-                
+
                 // Open the clicked item if it wasn't active
-                if (isActive) {
-                    faqAnswer.classList.remove('hidden');
+                if (!isActive) {
+                    faqItem.classList.add('active');
                 }
             });
         });
 
-        // Slider functionality
+        // === SLIDER FUNCTIONALITY ===
         const slider = document.getElementById('screenshotSlider');
         const slides = slider.querySelectorAll('.slide');
         const prevBtn = document.getElementById('prevBtn');
