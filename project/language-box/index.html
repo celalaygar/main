@@ -14,9 +14,13 @@
       --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
       --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-      --dark-bg: #0f0f23;
+      --dark-bg: #000000; /* Changed to pure black */
       --card-bg: rgba(255, 255, 255, 0.05);
       --card-border: rgba(255, 255, 255, 0.1);
+      --blue-theme: #1a365d; /* Dark blue */
+      --green-theme: #22543d; /* Dark green */
+      --brown-theme: #5d4037; /* Dark brown */
+      --purple-theme: #4a148c; /* Dark purple */
     }
 
     * {
@@ -27,7 +31,7 @@
 
     body {
       font-family: 'Inter', sans-serif;
-      background: var(--dark-bg);
+      background: var(--dark-bg); /* Pure black background */
       color: #ffffff;
       overflow-x: hidden;
       line-height: 1.6;
@@ -41,10 +45,181 @@
       width: 100%;
       height: 100%;
       z-index: -1;
-      background-color: #111;
+      background-color: #000; /* Pure black */
       overflow: hidden;
     }
 
+    /* Updated Glassmorphism Card with smaller size and modern hover effect */
+    .glass-card {
+      background: rgba(0, 0, 0, 0.7); /* Darker card background */
+      backdrop-filter: blur(10px);
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Modern hover effect with different colors */
+    .glass-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Theme-specific hover effects */
+    .blue-theme:hover {
+      border: 1px solid #4a90e2;
+      background: rgba(26, 54, 93, 0.8); /* Dark blue background on hover */
+    }
+
+    .green-theme:hover {
+      border: 1px solid #2ecc71;
+      background: rgba(34, 84, 61, 0.8); /* Dark green background on hover */
+    }
+
+    .brown-theme:hover {
+      border: 1px solid #d35400;
+      background: rgba(93, 64, 55, 0.8); /* Dark brown background on hover */
+    }
+
+    .purple-theme:hover {
+      border: 1px solid #9b59b6;
+      background: rgba(74, 20, 140, 0.8); /* Dark purple background on hover */
+    }
+
+    /* Adding line animation on hover for game cards */
+    .game-card::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 3px;
+      transition: width 0.3s ease;
+    }
+
+    .blue-theme::after {
+      background: #4a90e2;
+    }
+
+    .green-theme::after {
+      background: #2ecc71;
+    }
+
+    .brown-theme::after {
+      background: #d35400;
+    }
+
+    .purple-theme::after {
+      background: #9b59b6;
+    }
+
+    .game-card:hover::after {
+      width: 100%;
+    }
+
+    /* Updated game card styling */
+    .game-card {
+      padding: 1.5rem; /* Reduced padding for smaller size */
+      text-align: center;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .game-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      transition: left 0.5s;
+    }
+
+    .game-card:hover::before {
+      left: 100%;
+    }
+
+    .game-icon {
+      width: 60px; /* Reduced size */
+      height: 60px; /* Reduced size */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px; /* Slightly rounded */
+      margin-bottom: 1rem;
+      font-size: 1.5rem; /* Reduced icon size */
+      background: var(--primary-gradient);
+      transition: all 0.3s ease;
+    }
+
+    .game-card:hover .game-icon {
+      transform: scale(1.1) rotate(5deg);
+    }
+
+    .game-title {
+      font-size: 1.25rem; /* Reduced title size */
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+
+    .game-description {
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 1rem;
+      flex-grow: 1;
+      font-size: 0.9rem; /* Slightly smaller text */
+    }
+
+    /* Responsive design for mobile */
+    @media (max-width: 768px) {
+      .hero {
+        padding: 6rem 0 3rem;
+      }
+
+      .hero-content {
+        order: 2; /* Place hero content below logo on mobile */
+      }
+
+      .hero-image {
+        order: 1; /* Place logo above content on mobile */
+        margin-bottom: 2rem;
+      }
+
+      .hero-title {
+        font-size: 2.5rem;
+      }
+
+      .section-title {
+        font-size: 2rem;
+      }
+
+      /* Make cards even smaller on mobile */
+      .game-card {
+        padding: 1rem;
+      }
+
+      .game-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 1.25rem;
+      }
+
+      .game-title {
+        font-size: 1.1rem;
+      }
+
+      .game-description {
+        font-size: 0.85rem;
+      }
+    }
+
+    /* Rest of the existing styles remain the same */
     .lines {
       position: absolute;
       top: 0;
@@ -189,22 +364,6 @@
       }
     }
 
-    /* Glassmorphism Card */
-    .glass-card {
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(10px);
-      border-radius: 16px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-      transition: all 0.3s ease;
-    }
-
-    .glass-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 12px 40px rgba(102, 126, 234, 0.2);
-      border-color: rgba(102, 126, 234, 0.3);
-    }
-
     /* Gradient Text */
     .gradient-text {
       background: var(--primary-gradient);
@@ -234,7 +393,7 @@
       width: 100%;
       z-index: 1000;
       padding: 1rem 0;
-      background: rgba(15, 15, 35, 0.4);
+      background: rgba(0, 0, 0, 0.8); /* Darker navbar background */
       backdrop-filter: blur(10px);
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
       box-shadow: 0 4px 15px rgba(186, 166, 166, 0.1);
@@ -243,7 +402,7 @@
 
     .navbar.scrolled {
       padding: 0.5rem 0;
-      background: rgba(15, 15, 35, 0.95);
+      background: rgba(0, 0, 0, 0.95); /* Darker scrolled navbar */
     }
 
     /* Language Selector */
@@ -475,62 +634,7 @@
       margin: 0 auto 3rem;
     }
 
-    /* Game Cards */
-    .game-card {
-      padding: 2rem;
-      text-align: center;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .game-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-      transition: left 0.5s;
-    }
-
-    .game-card:hover::before {
-      left: 100%;
-    }
-
-    .game-icon {
-      width: 80px;
-      height: 80px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 20px;
-      margin-bottom: 1.5rem;
-      font-size: 2rem;
-      background: var(--primary-gradient);
-      transition: all 0.3s ease;
-    }
-
-    .game-card:hover .game-icon {
-      transform: scale(1.1) rotate(5deg);
-    }
-
-    .game-title {
-      font-size: 1.5rem;
-      font-weight: 700;
-      margin-bottom: 1rem;
-    }
-
-    .game-description {
-      color: rgba(255, 255, 255, 0.7);
-      margin-bottom: 1.5rem;
-      flex-grow: 1;
-    }
-
+    /* Game Tags */
     .game-tags {
       display: flex;
       gap: 0.5rem;
@@ -576,7 +680,7 @@
       color: rgba(255, 255, 255, 0.7);
     }
 
-    /* Advantage Cards */
+    /* Advantage Cards with theme colors and line animation */
     .advantage-card {
       padding: 2rem;
       height: 100%;
@@ -584,6 +688,22 @@
       flex-direction: column;
       align-items: center;
       text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .advantage-card::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 3px;
+      transition: width 0.3s ease;
+    }
+
+    .advantage-card:hover::after {
+      width: 100%;
     }
 
     .advantage-icon {
@@ -800,25 +920,6 @@
       background: rgba(255, 255, 255, 0.2);
       transform: translateY(-3px);
     }
-
-    /* Responsive Design */
-    @media (max-width: 768px) {
-      .hero-title {
-        font-size: 2.5rem;
-      }
-
-      .section-title {
-        font-size: 2rem;
-      }
-
-      .hero {
-        padding: 6rem 0 3rem;
-      }
-
-      .section {
-        padding: 3rem 0;
-      }
-    }
   </style>
 </head>
 
@@ -826,6 +927,7 @@
   <!-- Animated Background with Lines -->
   <div class="animated-bg">
     <div class="lines">
+      <div class="line"></div>
       <div class="line"></div>
       <div class="line"></div>
       <div class="line"></div>
@@ -881,6 +983,7 @@
     <div class="hero-bg-shape-2"></div>
     <div class="container mx-auto px-6">
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <!-- Changed order: content first, image second -->
         <div class="hero-content">
           <div class="hero-badge">
             <i class="fas fa-star"></i>
@@ -1022,8 +1125,8 @@
         become fluent faster</p>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- Game Card 1 -->
-        <div class="glass-card game-card">
+        <!-- Game Card 1 - Blue Theme -->
+        <div class="glass-card game-card blue-theme">
           <div class="game-icon">
             <i class="fas fa-puzzle-piece"></i>
           </div>
@@ -1039,8 +1142,8 @@
           </div>
         </div>
 
-        <!-- Game Card 2 -->
-        <div class="glass-card game-card">
+        <!-- Game Card 2 - Green Theme -->
+        <div class="glass-card game-card green-theme">
           <div class="game-icon" style="background: var(--secondary-gradient);">
             <i class="fas fa-fill-drip"></i>
           </div>
@@ -1056,8 +1159,8 @@
           </div>
         </div>
 
-        <!-- Game Card 3 -->
-        <div class="glass-card game-card">
+        <!-- Game Card 3 - Brown Theme -->
+        <div class="glass-card game-card brown-theme">
           <div class="game-icon" style="background: var(--accent-gradient);">
             <i class="fas fa-random"></i>
           </div>
@@ -1073,8 +1176,8 @@
           </div>
         </div>
 
-        <!-- Game Card 4 -->
-        <div class="glass-card game-card">
+        <!-- Game Card 4 - Purple Theme -->
+        <div class="glass-card game-card purple-theme">
           <div class="game-icon">
             <i class="fas fa-headphones"></i>
           </div>
@@ -1090,8 +1193,8 @@
           </div>
         </div>
 
-        <!-- Game Card 5 -->
-        <div class="glass-card game-card">
+        <!-- Game Card 5 - Blue Theme -->
+        <div class="glass-card game-card blue-theme">
           <div class="game-icon" style="background: var(--secondary-gradient);">
             <i class="fas fa-volume-up"></i>
           </div>
@@ -1107,8 +1210,8 @@
           </div>
         </div>
 
-        <!-- Game Card 6 -->
-        <div class="glass-card game-card">
+        <!-- Game Card 6 - Green Theme -->
+        <div class="glass-card game-card green-theme">
           <div class="game-icon" style="background: var(--accent-gradient);">
             <i class="fas fa-cog"></i>
           </div>
@@ -1211,7 +1314,8 @@
         Box your ideal language learning companion</p>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div class="glass-card advantage-card">
+        <!-- Advantage Card 1 - Blue Theme -->
+        <div class="glass-card advantage-card blue-theme">
           <div class="advantage-icon">
             <i class="fas fa-gamepad"></i>
           </div>
@@ -1222,7 +1326,8 @@
           </p>
         </div>
 
-        <div class="glass-card advantage-card">
+        <!-- Advantage Card 2 - Green Theme -->
+        <div class="glass-card advantage-card green-theme">
           <div class="advantage-icon" style="background: var(--accent-gradient);">
             <i class="fas fa-brain"></i>
           </div>
@@ -1233,7 +1338,8 @@
           </p>
         </div>
 
-        <div class="glass-card advantage-card">
+        <!-- Advantage Card 3 - Brown Theme -->
+        <div class="glass-card advantage-card brown-theme">
           <div class="advantage-icon">
             <i class="fas fa-clock"></i>
           </div>
@@ -1244,7 +1350,8 @@
           </p>
         </div>
 
-        <div class="glass-card advantage-card">
+        <!-- Advantage Card 4 - Purple Theme -->
+        <div class="glass-card advantage-card purple-theme">
           <div class="advantage-icon" style="background: var(--secondary-gradient);">
             <i class="fas fa-user-cog"></i>
           </div>
@@ -1255,7 +1362,8 @@
           </p>
         </div>
 
-        <div class="glass-card advantage-card">
+        <!-- Advantage Card 5 - Blue Theme -->
+        <div class="glass-card advantage-card blue-theme">
           <div class="advantage-icon" style="background: var(--accent-gradient);">
             <i class="fas fa-globe"></i>
           </div>
@@ -1266,7 +1374,8 @@
           </p>
         </div>
 
-        <div class="glass-card advantage-card">
+        <!-- Advantage Card 6 - Green Theme -->
+        <div class="glass-card advantage-card green-theme">
           <div class="advantage-icon">
             <i class="fas fa-sync"></i>
           </div>
@@ -1822,7 +1931,7 @@
         faq1_a: "O Caixa de Idiomas usa o aprendizado baseado em jogos para tornar a aquisição de idiomas divertida e envolvente. Cada um dos nossos cinco jogos visa diferentes habilidades linguísticas - da construção de frases à compreensão auditiva - garantindo uma experiência de aprendizado completa.",
         faq2_q: "Posso acompanhar meu progresso em diferentes idiomas?",
         faq2_a: "Sim! O Caixa de Idiomas salva seu progresso para cada idioma separadamente. Você pode visualizar estatísticas detalhadas mostrando seu nível de habilidade em cada idioma e tipo de jogo, permitindo que você se concentre nas áreas que precisam de melhoria.",
-        faq3_q: "Meu progresso é salvo se eu fechar o aplicativo?",
+        faq3_q: "Meu progresso é salvo se eu fecho o aplicativo?",
         faq3_a: "Absolutamente. O Caixa de Idiomas usa cache inteligente para salvar seu progresso localmente em seu dispositivo. Quando você reabre o aplicativo, continua exatamente de onde parou, mesmo que estivesse no meio de um jogo.",
         faq4_q: "Como posso redefinir meu progresso para um idioma específico?",
         faq4_a: "Você pode usar o recurso 'Limpar Cache' nas configurações para redefinir seu progresso para o idioma e nível atuais. Isso permite que você comece do zero sempre que quiser revisar os fundamentos ou tentar uma abordagem diferente.",
@@ -1944,7 +2053,7 @@
         game6_title: "Paramètres du Jeu",
         game6_desc: "Personnalisez votre expérience d'apprentissage avec des contrôles sonores, une sélection de langue et des niveaux de difficulté. Suivez vos progrès et vos réalisations.",
         tag_grammar: "Grammaire",
-        tag_structure: "Structure",
+        tag_structure: "Struktur",
         tag_beginner: "Débutant",
         tag_vocab: "Vocabulaire",
         tag_context: "Contexte",
@@ -2114,7 +2223,7 @@
         game6_title: "Játék Beállítások",
         game6_desc: "Szabja személyre tanulási élményét a hangvezérlőkkel, a nyelvválasztással és a nehézségi szintekkel. Kövesse nyomon a haladását és eredményeit.",
         tag_grammar: "Nyelvtan",
-        tag_structure: "Struktúra",
+        tag_structure: "Struktura",
         tag_beginner: "Kezdő",
         tag_vocab: "Szókincs",
         tag_context: "Kontextus",
@@ -2136,7 +2245,7 @@
         feat2_title: "Okos Gyorsítótár",
         feat2_desc: "Haladása automatikusan helyileg kerül mentésre, lehetővé téve, hogy folytassa onnan, ahol abbahagyta.",
         feat3_title: "Gyorsítótár Törlése",
-        feat3_desc: "Bármikor visszaállíthatja a haladását, hogy egy nyelvvel vagy nehézségi szinttel frissen kezdje.",
+        feat3_desc: "Visszaállíthatja a haladását bármikor, hogy egy nyelvvel vagy nehézségi szinttel frissen kezdje.",
         feat4_title: "Moduláris Architektúra",
         feat4_desc: "A tiszta, karbantartható kódstruktúra sima teljesítményt és jövőbeli frissítéseket biztosít.",
         feat5_title: "Dinamikus Tartalom",
@@ -2148,7 +2257,7 @@
         advantage1_title: "Elbűvölő játékalapú tanulás",
         advantage1_desc: "A hagyományos nyelvtanulás unalmas lehet. Interaktív játékaink a szókincs- és nyelvtani gyakorlást élvezetessé teszik, motiváltan és lelkesen tartva.",
         advantage2_title: "Átfogó készségfejlesztés",
-        advantage2_desc: "Minden játék különböző nyelvi készségekre összpontosít - a hallási megértéstől a mondatstruktúráig. Ez a átfogó megközelítés biztosítja, hogy jól fejlett nyelvi készségeket szerezzen.",
+        advantage2_desc: "Minden játék különböző nyelvi készségekre összpontosít - a hallási megértéstől a mondatstruktúráig. Ez az átfogó megközelítés biztosítja, hogy jól fejlett nyelvi készségeket szerezzen.",
         advantage3_title: "Tanuljon bármikor, bárhol",
         advantage3_desc: "Offline képességgel és mobil-first dizájnnal a munkába járás közben, szünetekben vagy amikor csak néhány szabad perce van, gyakorolhatja a nyelveket.",
         advantage4_title: "Személyre szabott tanulási útvonal",
@@ -2163,8 +2272,8 @@
         faq2_q: "Követhetem a haladásomat különböző nyelveken?",
         faq2_a: "Igen! A Nyelvi Doboz külön menti a haladását minden nyelvre. Megtekintheti részletes statisztikáit, amelyek bemutatják készségszintjét minden nyelven és játéktípusban, lehetővé téve, hogy a javításra szoruló területekre összpontosítson.",
         faq3_q: "Mentésre kerül a haladásom, ha bezárom az alkalmazást?",
-        faq3_a: "Abszolút. A Nyelvi Doboz intelligens gyorsítótárat használ a haladás helyi mentésére az eszközén. Amikor újra megnyitja az alkalmazást, pontosan ott folytatja, ahol abbahagyta, még akkor is, ha éppen egy játék közepén volt.",
-        faq4_q: "Hogyan állíthatom vissza a haladásomat egy adott nyelvhez?",
+        faq3_a: "Abszolút. A Nyelvi Doboz intelligens gyorsítótárat használja a haladás helyi mentésére az eszközén. Amikor újra megnyitja az alkalmazást, pontosan ott folytatja, ahol abbahagyta, még akkor is, ha éppen egy játék közepén volt.",
+        faq4_q: "Hogyan állíthatam vissza a haladásomat egy adott nyelvhez?",
         faq4_a: "Használhatja a 'Gyorsítótár Törlése' funkciót a beállításokban a jelenlegi nyelv és szint haladásának visszaállításához. Ez lehetővé teszi, hogy frissen kezdje, amikor alapokat szeretne áttekinteni vagy más megközelítést próbálni.",
         faq5_q: "Az alkalmazás offline működik?",
         faq5_a: "Bár internetkapcsolat szükséges a tartalom kezdeti letöltéséhez és a haladás szinkronizálásához, a Nyelvi Doboz helyileg gyorsítótárazza a tartalmat, lehetővé téve a tanulás folytatását még akkor is, ha offline van. Haladása szinkronizálásra kerül, amikor újra csatlakozik.",
