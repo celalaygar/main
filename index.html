@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Hacı Celal Aygar - Digital Portfolio</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" />
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script>
@@ -66,6 +66,8 @@
       --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
       --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      --yellow-gradient: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+      --green-gradient: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
       --dark-bg: #0a0a0f;
     }
 
@@ -585,9 +587,46 @@
   <section id="projects" class="py-16 px-4">
     <div class="container mx-auto max-w-7xl">
       <h2 class="text-3xl font-bold mb-12 text-center text-white">
-        <span id="featuredProjectsTitle" class="gradient-text" data-i18n="featuredProjectsTitle">Öne Çıkan Projelerim</span>
+        <span id="featuredProjectsTitle" class="gradient-text" data-i18n="featuredProjectsTitle">Öne Çıkan
+          Projelerim</span>
       </h2>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+
+
+        <!-- WixBook: Language Box -->
+        <div class="glass-card p-6 project-card" data-aos="fade-up" data-aos-delay="200">
+          <div class="project-icon" style="background: var(--yellow-gradient);">
+            <i class="fas fa-language text-white"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-2 text-white">WixBook: Language Box</h3>
+          <p class="text-gray-400 mb-4 text-sm" data-i18n="wb_language_box_subtitle">Yakında</p>
+          <p class="text-gray-400 mb-4 text-sm" data-i18n="wb_language_box_desc">
+            Etkileşimli alıştırmalar ve testlerle dil öğrenme uygulaması.
+          </p>
+          <a href="https://celalaygar.github.io/main/project/language-box/" target="_blank"
+            class="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors">
+            <span data-i18n="view_project">Projeyi İncele</span>
+            <i class="fas fa-arrow-right ml-2"></i>
+          </a>
+        </div>
+
+
+        <!-- WixBook Domain Track -->
+        <div class="glass-card p-6 project-card" data-aos="fade-up" data-aos-delay="200">
+          <div class="project-icon" style="background: var(--green-gradient);">
+            <i class="fas fa-solid fa-earth-americas text-white"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-2 text-white">WixBook Domain Track</h3>
+          <p class="text-gray-400 mb-4 text-sm" data-i18n="wb_domain_track_subtitle">Yakında</p>
+          <p class="text-gray-400 mb-4 text-sm" data-i18n="wb_domain_track_desc">
+            Mükemmel Alan Adınızı Kolayca Bulun
+          </p>
+          <a href="https://celalaygar.github.io/main/project/wixbook-domain-track/" target="_blank"
+            class="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors">
+            <span data-i18n="view_project">Projeyi İncele</span>
+            <i class="fas fa-arrow-right ml-2"></i>
+          </a>
+        </div>
 
 
         <!-- Domain Track Project -->
@@ -600,10 +639,6 @@
           <p class="text-gray-400 mb-4 text-sm" data-i18n="domain_track_desc">
             Alan adı kullanılabilirliğini kontrol edin ve WHOIS kayıt bilgilerini görüntüleyin.
           </p>
-          <div class="flex flex-wrap gap-2 mb-4">
-            <span class="px-2 py-1 bg-cyan-500/20 text-cyan-300 rounded-full text-xs">Flutter</span>
-            <span class="px-2 py-1 bg-blue-500/20 text-blue-300 rounded-full text-xs">Python</span>
-          </div>
           <a href="https://celalaygar.github.io/main/project/domain-track/" target="_blank"
             class="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors">
             <span data-i18n="view_project">Projeyi İncele</span>
@@ -621,10 +656,6 @@
           <p class="text-gray-400 mb-4 text-sm" data-i18n="job_tracking_desc">
             Projeleri, görevleri, sprintleri ve çalışma saatlerini yönetmek için tam özellikli platform.
           </p>
-          <div class="flex flex-wrap gap-2 mb-4">
-            <span class="px-2 py-1 bg-green-500/20 text-green-300 rounded-full text-xs">Java 21</span>
-            <span class="px-2 py-1 bg-blue-500/20 text-blue-300 rounded-full text-xs">Spring Boot</span>
-          </div>
           <a href="https://celalaygar.github.io/main/project/job-tracking-system-v2/" target="_blank"
             class="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors">
             <span data-i18n="view_project">Projeyi İncele</span>
@@ -635,17 +666,14 @@
         <!-- Lingua Bubble -->
         <div class="glass-card p-6 project-card" data-aos="fade-up" data-aos-delay="400">
           <div class="project-icon">
-            <i class="fas fa-language text-white"></i>
+            <i class="fas fa-solid fa-square-binary text-white"></i>
           </div>
           <h3 class="text-xl font-bold mb-2 text-white">Lingua Bubble</h3>
-          <p class="text-gray-400 mb-4 text-sm" data-i18n="lingua_bubble_subtitle">Dil Öğrenmeyi Eğlenceli Hale Getir</p>
+          <p class="text-gray-400 mb-4 text-sm" data-i18n="lingua_bubble_subtitle">Dil Öğrenmeyi Eğlenceli Hale Getir
+          </p>
           <p class="text-gray-400 mb-4 text-sm" data-i18n="lingua_bubble_desc">
             Lingua Bubble ile 9 farklı dilde, kendi seviyende oyunlar oynayarak dil öğrenin.
           </p>
-          <div class="flex flex-wrap gap-2 mb-4">
-            <span class="px-2 py-1 bg-purple-500/20 text-purple-300 rounded-full text-xs">Flutter</span>
-            <span class="px-2 py-1 bg-yellow-500/20 text-yellow-300 rounded-full text-xs">MongoDB</span>
-          </div>
           <a href="https://celalaygar.github.io/main/project/lingua-bubble/" target="_blank"
             class="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors">
             <span data-i18n="view_project">Projeyi İncele</span>
@@ -976,7 +1004,8 @@
   <section id="interview" class="py-16 px-4">
     <div class="container mx-auto max-w-7xl">
       <h2 class="text-3xl font-bold mb-12 text-center text-white">
-        <span id="interviewQuestionsTitle" class="gradient-text" data-i18n="interviewQuestionsTitle">Mülakat Soruları</span>
+        <span id="interviewQuestionsTitle" class="gradient-text" data-i18n="interviewQuestionsTitle">Mülakat
+          Soruları</span>
       </h2>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <!-- Interview Questions 1 -->
@@ -1027,7 +1056,8 @@
             <i class="fas fa-leaf text-white"></i>
           </div>
           <h3 class="text-xl font-bold mb-2 text-white">Spring & Microservices</h3>
-          <p class="text-gray-400 mb-4 text-sm" data-i18n="interview_3_subtitle">Spring & Mikroservis Mülakat Soruları</p>
+          <p class="text-gray-400 mb-4 text-sm" data-i18n="interview_3_subtitle">Spring & Mikroservis Mülakat Soruları
+          </p>
           <p class="text-gray-400 mb-4 text-sm" data-i18n="interview_3_desc">
             Spring framework ve mikroservis mimarisi için mülakat soruları.
           </p>
@@ -1090,7 +1120,8 @@
             <i class="fas fa-dharmachakra text-white"></i>
           </div>
           <h3 class="text-xl font-bold mb-2 text-white">Senior Level Kubernetes</h3>
-          <p class="text-gray-400 mb-4 text-sm" data-i18n="interview_6_subtitle">Senior Seviye Kubernetes Mülakat Soruları</p>
+          <p class="text-gray-400 mb-4 text-sm" data-i18n="interview_6_subtitle">Senior Seviye Kubernetes Mülakat
+            Soruları</p>
           <p class="text-gray-400 mb-4 text-sm" data-i18n="interview_6_desc">
             Senior Kubernetes mühendisleri için ileri düzey mülakat soruları.
           </p>
@@ -1111,7 +1142,8 @@
             <i class="fas fa-database text-white"></i>
           </div>
           <h3 class="text-xl font-bold mb-2 text-white">Redis Senior Level</h3>
-          <p class="text-gray-400 mb-4 text-sm" data-i18n="interview_7_subtitle">Redis ile Senior Seviye Mülakat Soruları</p>
+          <p class="text-gray-400 mb-4 text-sm" data-i18n="interview_7_subtitle">Redis ile Senior Seviye Mülakat
+            Soruları</p>
           <p class="text-gray-400 mb-4 text-sm" data-i18n="interview_7_desc">
             Redis veritabanı yöneticileri için ileri düzey mülakat soruları.
           </p>
@@ -1421,15 +1453,20 @@
         menu_interview: "Interview Questions",
         menu_about: "About",
         menu_contact: "Contact",
-        
+
+
         // Project descriptions
+        wb_domain_track_subtitle: "Coming Soon",
+        wb_domain_track_desc: "Find Your Perfect Domain With Ease",
+        wb_language_box_subtitle: "Coming Soon",
+        wb_language_box_desc: "A language learning app with interactive exercises and quizzes.",
         domain_track_subtitle: "Domain Intelligence Tool",
         domain_track_desc: "Check domain availability and view WHOIS registration information.",
         job_tracking_subtitle: "Job Tracking System",
         job_tracking_desc: "Full-stack platform for managing projects, tasks, sprints, and work hours.",
         lingua_bubble_subtitle: "Make Language Learning Fun",
         lingua_bubble_desc: "Learn languages by playing games at your own level in 9 different languages with Lingua Bubble.",
-        
+
         // Game descriptions
         snake_game_subtitle: "Snake Game",
         snake_game_desc: "Classic snake game with modern graphics and smooth controls.",
@@ -1467,7 +1504,7 @@
         tower_blocks_desc: "Build the highest tower by stacking blocks.",
         word_search_subtitle: "Word Search Game",
         word_search_desc: "Find hidden words in the letter grid.",
-        
+
         // Interview questions
         interview_1_subtitle: "Interview Questions",
         interview_1_desc: "General interview questions for software developers.",
@@ -1516,15 +1553,19 @@
         menu_interview: "Mülakat Soruları",
         menu_about: "Hakkımda",
         menu_contact: "İletişim",
-        
+
         // Project descriptions
+        wb_domain_track_subtitle: "Yakında",
+        wb_domain_track_desc: "Mükemmel Alan Adınızı Kolayca Bulun",
+        wb_language_box_subtitle: "Yakında",
+        wb_language_box_desc: "Etkileşimli alıştırmalar ve testlerle dil öğrenme uygulaması.",
         domain_track_subtitle: "Alan Adı İstihbarat Aracı",
         domain_track_desc: "Alan adı kullanılabilirliğini kontrol edin ve WHOIS kayıt bilgilerini görüntüleyin.",
         job_tracking_subtitle: "İş Takip Sistemi",
         job_tracking_desc: "Projeleri, görevleri, sprintleri ve çalışma saatlerini yönetmek için tam özellikli platform.",
         lingua_bubble_subtitle: "Dil Öğrenmeyi Eğlenceli Hale Getir",
         lingua_bubble_desc: "Lingua Bubble ile 9 farklı dilde, kendi seviyende oyunlar oynayarak dil öğrenin.",
-        
+
         // Game descriptions
         snake_game_subtitle: "Yılan Oyunu",
         snake_game_desc: "Modern grafikler ve akıcı kontrollerle klasik yılan oyunu.",
@@ -1562,7 +1603,7 @@
         tower_blocks_desc: "Blokları üst üste koyarak en yüksek kuleyi inşa edin.",
         word_search_subtitle: "Kelime Araştırma Oyunu",
         word_search_desc: "Harf haritasında gizlenmiş kelimeleri bulun.",
-        
+
         // Interview questions
         interview_1_subtitle: "Mülakat Soruları",
         interview_1_desc: "Yazılım geliştiriciler için genel mülakat soruları.",
