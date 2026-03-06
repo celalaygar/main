@@ -2,763 +2,1560 @@
 <html lang="tr">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Hacı Celal Aygar - Oyunlar & Özgeçmiş</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        primary: {
-                            50: '#f0f9ff',
-                            100: '#e0f2fe',
-                            200: '#bae6fd',
-                            300: '#7dd3fc',
-                            400: '#38bdf8',
-                            500: '#0ea5e9',
-                            600: '#0284c7',
-                            700: '#0369a1',
-                            800: '#075985',
-                            900: '#0c4a6e',
-                        },
-                        accent: {
-                            50: '#fdf2f8',
-                            100: '#fce7f3',
-                            200: '#fbcfe8',
-                            300: '#f9a8d4',
-                            400: '#f472b6',
-                            500: '#ec4899',
-                            600: '#db2777',
-                            700: '#be185d',
-                            800: '#9d174d',
-                            900: '#831843',
-                        }
-                    },
-                    animation: {
-                        'fade-in': 'fadeIn 0.5s ease-in-out',
-                        'slide-up': 'slideUp 0.5s ease-out',
-                        'pulse-slow': 'pulse 3s infinite',
-                    },
-                    keyframes: {
-                        fadeIn: {
-                            '0%': { opacity: '0' },
-                            '100%': { opacity: '1' },
-                        },
-                        slideUp: {
-                            '0%': { transform: 'translateY(20px)', opacity: '0' },
-                            '100%': { transform: 'translateY(0)', opacity: '1' },
-                        }
-                    }
-                }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hacı Celal Aygar - Digital Portfolio</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: {
+              50: '#f0f9ff',
+              100: '#e0f2fe',
+              200: '#bae6fd',
+              300: '#7dd3fc',
+              400: '#38bdf8',
+              500: '#0ea5e9',
+              600: '#0284c7',
+              700: '#0369a1',
+              800: '#075985',
+              900: '#0c4a6e',
+            },
+            accent: {
+              50: '#fdf2f8',
+              100: '#fce7f3',
+              200: '#fbcfe8',
+              300: '#f9a8d4',
+              400: '#f472b6',
+              500: '#ec4899',
+              600: '#db2777',
+              700: '#be185d',
+              800: '#9d174d',
+              900: '#831843',
             }
-        }
-    </script>
-    <style>
-        .gradient-text {
-            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .card-hover {
-            transition: all 0.3s ease;
-        }
-
-        .card-hover:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-        }
-
-        .tech-pattern {
-            background-color: rgba(249, 250, 251, 0.8);
-            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-        }
-
-        .dark .tech-pattern {
-            background-color: rgba(17, 24, 39, 0.8);
-            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-        }
-
-        .loader {
-            border-top-color: #3b82f6;
-            animation: spinner 1.5s linear infinite;
-        }
-
-        @keyframes spinner {
-            0% {
-                transform: rotate(0deg);
+          },
+          animation: {
+            'fade-in': 'fadeIn 0.5s ease-in-out',
+            'slide-up': 'slideUp 0.5s ease-out',
+            'pulse-slow': 'pulse 3s infinite',
+          },
+          keyframes: {
+            fadeIn: {
+              '0%': { opacity: '0' },
+              '100%': { opacity: '1' },
+            },
+            slideUp: {
+              '0%': { transform: 'translateY(20px)', opacity: '0' },
+              '100%': { transform: 'translateY(0)', opacity: '1' },
             }
-
-            100% {
-                transform: rotate(360deg);
-            }
+          }
         }
+      }
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
 
-        .social-icon {
-            transition: all 0.3s ease;
-        }
+    :root {
+      --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      --accent-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      --dark-bg: #0a0a0f;
+    }
 
-        .social-icon:hover {
-            transform: translateY(-5px);
-        }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        .code-bg {
-            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-        }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--dark-bg);
+      color: #ffffff;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
 
-        .dark .code-bg {
-            background: linear-gradient(135deg, #0f172a 0%, #020617 100%);
-        }
-    </style>
+    /* Animated Background */
+    .animated-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      background: linear-gradient(180deg, #0a0a0f 0%, #1a1a2e 50%, #16213e 100%);
+      overflow: hidden;
+    }
+
+    .animated-lines {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 100%;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 2rem;
+      opacity: 0.1;
+    }
+
+    .animated-line {
+      width: 2px;
+      height: 100%;
+      background: linear-gradient(to bottom, transparent, #4facfe, transparent);
+      animation: flow 8s linear infinite;
+    }
+
+    @keyframes flow {
+      0% {
+        transform: translateY(-100%);
+      }
+
+      100% {
+        transform: translateY(100%);
+      }
+    }
+
+    /* Glassmorphism Cards */
+    .glass-card {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease;
+      overflow: hidden;
+    }
+
+    .glass-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 40px rgba(102, 126, 234, 0.2);
+      border: 1px solid rgba(102, 126, 234, 0.3);
+    }
+
+    /* Gradient Text */
+    .gradient-text {
+      background: var(--primary-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .gradient-text-2 {
+      background: var(--secondary-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .gradient-text-3 {
+      background: var(--accent-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Navigation */
+    .navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      padding: 1rem 0;
+      background: rgba(10, 10, 15, 0.8);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .navbar.scrolled {
+      padding: 0.5rem 0;
+      background: rgba(10, 10, 15, 0.95);
+    }
+
+    /* Navigation Menu */
+    .nav-menu {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .nav-link {
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .nav-link:hover {
+      color: #667eea;
+    }
+
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--primary-gradient);
+      transition: width 0.3s ease;
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    /* Language Selector - Tailwind Combobox */
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropdown-button {
+      appearance: none;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 0.5rem 2.5rem 0.5rem 1rem;
+      border-radius: 12px;
+      color: white;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 0.7rem center;
+      background-size: 1rem;
+      display: flex;
+      align-items: center;
+      min-width: 120px;
+    }
+
+    .dropdown-button:hover {
+      background: rgba(255, 255, 255, 0.15);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: rgba(26, 26, 46, 0.95);
+      backdrop-filter: blur(10px);
+      min-width: 120px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      z-index: 1001;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      overflow: hidden;
+      margin-top: 8px;
+    }
+
+    .dropdown-content.show {
+      display: block;
+    }
+
+    .dropdown-item {
+      color: white;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      transition: all 0.3s ease;
+    }
+
+    .dropdown-item:hover {
+      background-color: rgba(102, 126, 234, 0.3);
+      color: white;
+    }
+
+    /* Project Cards */
+    .project-card {
+      position: relative;
+      overflow: hidden;
+      height: 100%;
+    }
+
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+      transition: left 0.5s;
+    }
+
+    .project-card:hover::before {
+      left: 100%;
+    }
+
+    .project-icon {
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+      margin-bottom: 1rem;
+      font-size: 1.5rem;
+      background: var(--primary-gradient);
+      transition: all 0.3s ease;
+    }
+
+    .project-card:hover .project-icon {
+      transform: scale(1.1) rotate(5deg);
+    }
+
+    /* Social Links */
+    .social-link {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.2rem;
+      transition: all 0.3s ease;
+    }
+
+    .social-link:hover {
+      transform: translateY(-5px);
+    }
+
+    /* Social Media Platform Specific Styles */
+    .social-youtube {
+      background: linear-gradient(45deg, #FF0000, #CC0000);
+    }
+
+    .social-tiktok {
+      background: #000000;
+    }
+
+    .social-github {
+      background: linear-gradient(45deg, #333333, #24292e);
+    }
+
+    .social-linkedin {
+      background: linear-gradient(45deg, #0077B5, #005885);
+    }
+
+    .social-stackoverflow {
+      background: linear-gradient(45deg, #F48024, #D26B1E);
+    }
+
+    .social-medium {
+      background: linear-gradient(45deg, #12100E, #292929);
+    }
+
+    /* TikTok Badge */
+    .tiktok-badge {
+      color: white;
+      font-weight: bold;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-size: 1.5rem;
+      display: inline-block;
+      margin-top: 0.5rem;
+    }
+
+    /* TikTok Stats Animation */
+    @keyframes countUp {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .tiktok-stats {
+      animation: countUp 1s ease-out;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 0.5rem;
+    }
+
+    .tiktok-stats i {
+      margin-right: 0.5rem;
+      font-size: 1.2rem;
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+      .hero {
+        padding: 6rem 0 3rem;
+      }
+
+      .hero-title {
+        font-size: 2.5rem;
+      }
+
+      .project-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-menu {
+        display: none;
+      }
+
+      .mobile-menu {
+        display: block;
+      }
+    }
+
+    /* Mobile Menu */
+    .mobile-menu {
+      display: none;
+    }
+
+    .mobile-menu.active {
+      display: block;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: rgba(10, 10, 15, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .mobile-menu-item {
+      display: block;
+      padding: 1rem 2rem;
+      color: white;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .mobile-menu-item:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: rgba(102, 126, 234, 0.5);
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(102, 126, 234, 0.7);
+    }
+  </style>
 </head>
 
-<body class="bg-gray-50 dark:bg-gray-900 transition-colors duration-300">
-    <!-- Loading Screen -->
-    <div id="loadingScreen"
-        class="fixed inset-0 flex items-center justify-center bg-white dark:bg-gray-900 z-50 transition-opacity duration-500">
-        <div class="text-center">
-            <div class="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-16 w-16 mb-4"></div>
-            <p class="text-gray-700 dark:text-gray-300 font-medium">Yükleniyor...</p>
-        </div>
+<body>
+  <!-- Animated Background -->
+  <div class="animated-bg">
+    <div class="animated-lines">
+      <div class="animated-line" style="animation-delay: 0s;"></div>
+      <div class="animated-line" style="animation-delay: 0.5s;"></div>
+      <div class="animated-line" style="animation-delay: 1s;"></div>
+      <div class="animated-line" style="animation-delay: 1.5s;"></div>
+      <div class="animated-line" style="animation-delay: 2s;"></div>
+      <div class="animated-line" style="animation-delay: 2.5s;"></div>
+      <div class="animated-line" style="animation-delay: 3s;"></div>
+      <div class="animated-line" style="animation-delay: 3.5s;"></div>
     </div>
-    <!-- Top Menu -->
-    <header class="bg-white dark:bg-gray-800 shadow-lg fixed top-0 left-0 w-full z-50 transition-colors duration-300">
-        <div class="max-w-7xl mx-auto flex justify-between items-center px-4 py-3">
-            <div class="flex items-center space-x-2">
-                <div
-                    class="w-10 h-10 rounded-lg bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center">
-                    <i class="fas fa-code text-white"></i>
-                </div>
-                <a href="#" class="text-2xl font-bold gradient-text select-none">celalaygar</a>
-            </div>
-            <div class="flex items-center space-x-4">
-                <button id="searchToggle"
-                    class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-                    <i class="fas fa-search text-gray-600 dark:text-gray-300"></i>
-                </button>
-                <button id="themeToggle"
-                    class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-                    <i class="fas fa-moon text-gray-600 dark:text-gray-300 dark:hidden"></i>
-                    <i class="fas fa-sun text-yellow-400 hidden dark:inline"></i>
-                </button>
-                <select id="languageSelect"
-                    class="border border-gray-300 dark:border-gray-600 rounded-lg p-2 text-sm bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                    <option value="en">English</option>
-                    <option value="tr" selected>Türkçe</option>
-                </select>
-            </div>
-        </div>
-        <!-- Search Bar (Hidden by default) -->
-        <div id="searchBar" class="hidden max-w-7xl mx-auto px-4 pb-3">
-            <div class="relative">
-                <input type="text" id="searchInput" placeholder="Oyun ara..."
-                    class="w-full py-2 px-4 pr-10 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-700 dark:text-gray-300 focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                <button id="searchClose" class="absolute right-3 top-2.5 text-gray-500 dark:text-gray-400">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-        </div>
-    </header>
-    <!-- Hero Section -->
-    <section class="pt-24 pb-12 px-4 max-w-7xl mx-auto">
-        <div class="text-center mb-12 animate-fade-in">
-            <h1 class="text-4xl md:text-5xl font-bold mb-4 text-gray-800 dark:text-white">
-                <span id="heroTitle" class="gradient-text">Yazılım Projelerim & Oyunlarım</span>
-            </h1>
-            <p id="heroSubtitle" class="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
-                Full Stack Developer olarak geliştirdiğim projeler ve oyunlar
-            </p>
-        </div>
-        <!-- Category Filter -->
-        <div class="flex flex-wrap justify-center gap-3 mb-8 animate-slide-up">
-            <button
-                class="category-filter active px-4 py-2 rounded-full bg-blue-500 text-white font-medium hover:bg-blue-600 transition-colors"
-                data-category="all">
-                <i class="fas fa-th mr-2"></i><span id="allCategory">Tümü</span>
-            </button>
-            <button
-                class="category-filter px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
-                data-category="game">
-                <i class="fas fa-gamepad mr-2"></i><span id="gameCategory">Oyunlar</span>
-            </button>
-            <button
-                class="category-filter px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
-                data-category="Resume">
-                <i class="fas fa-briefcase mr-2"></i><span id="ResumeCategory">Özgeçmiş</span>
-            </button>
-            <button
-                class="category-filter px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
-                data-category="project">
-                <i class="fas fa-project-diagram mr-2"></i><span id="projectCategory">Projeler</span>
-            </button>
-            <button
-                class="category-filter px-4 py-2 rounded-full bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
-                data-category="general">
-                <i class="fas fa-folder mr-2"></i><span id="generalCategory">Genel</span>
-            </button>
-        </div>
-    </section>
-    <!-- Games Grid -->
-    <main class="px-4 max-w-7xl mx-auto pb-16">
-        <div id="gameCards" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            <!-- Kartlar JS ile doldurulacak -->
-        </div>
-        <!-- No Results Message -->
-        <div id="noResults" class="hidden text-center py-12">
-            <i class="fas fa-search text-4xl text-gray-400 dark:text-gray-500 mb-4"></i>
-            <p class="text-xl text-gray-600 dark:text-gray-400">Aramanızla eşleşen sonuç bulunamadı.</p>
-        </div>
-    </main>
-    <!-- Featured Projects Section -->
-    <section class="py-16 px-4 bg-gray-100 dark:bg-gray-800">
-        <div class="max-w-7xl mx-auto">
-            <h2 class="text-3xl font-bold mb-12 text-center text-gray-800 dark:text-white">
-                <span id="featuredProjectsTitle" class="gradient-text">Öne Çıkan Projelerim</span>
-            </h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <!-- Profile Track Project -->
-                <div class="bg-white dark:bg-gray-700 rounded-xl shadow-lg overflow-hidden card-hover">
-                    <div class="p-6">
-                        <div class="flex items-center mb-4">
-                            <div
-                                class="w-12 h-12 rounded-lg bg-gradient-to-r from-purple-500 to-indigo-600 flex items-center justify-center mr-4">
-                                <i class="fas fa-search text-white text-xl"></i>
-                            </div>
-                            <div>
-                                <h3 class="text-xl font-bold text-gray-800 dark:text-white">Profile Track</h3>
-                                <p class="text-gray-600 dark:text-gray-300 text-sm">Dijital İz Keşif Aracı</p>
-                            </div>
-                        </div>
-                        <p class="text-gray-600 dark:text-gray-300 mb-4">
-                            Explore the websites and platforms where your email address or username may be registered.
-                            See where your digital footprint appears.
-                        </p>
-                        <div class="flex flex-wrap gap-2 mb-4">
-                            <span
-                                class="px-2 py-1 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-xs">Flutter</span>
-                            <span
-                                class="px-2 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-xs">Spring
-                                Boot</span>
-                            <span
-                                class="px-2 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-xs">Sherlock</span>
-                        </div>
-                        <a href="https://celalaygar.github.io/main/project/profile-track/" target="_blank"
-                            class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-medium rounded-lg hover:opacity-90 transition-opacity">
-                            <span id="viewProfileTrack">Projeyi İncele</span>
-                            <i class="fas fa-arrow-right ml-2"></i>
-                        </a>
-                    </div>
-                </div>
+  </div>
 
-                <!-- Domain Track Project -->
-                <div class="bg-white dark:bg-gray-700 rounded-xl shadow-lg overflow-hidden card-hover">
-                    <div class="p-6">
-                        <div class="flex items-center mb-4">
-                            <div
-                                class="w-12 h-12 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 flex items-center justify-center mr-4">
-                                <i class="fas fa-globe text-white text-xl"></i>
-                            </div>
-                            <div>
-                                <h3 class="text-xl font-bold text-gray-800 dark:text-white">Domain Track</h3>
-                                <p class="text-gray-600 dark:text-gray-300 text-sm">Alan Adı İstihbarat Aracı</p>
-                            </div>
-                        </div>
-                        <p class="text-gray-600 dark:text-gray-300 mb-4">
-                            Check domain availability and view WHOIS registration information. A modern solution for
-                            domain intelligence.
-                        </p>
-                        <div class="flex flex-wrap gap-2 mb-4">
-                            <span
-                                class="px-2 py-1 bg-cyan-100 dark:bg-cyan-900 text-cyan-800 dark:text-cyan-200 rounded-full text-xs">Flutter</span>
-                            <span
-                                class="px-2 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-xs">Python</span>
-                            <span
-                                class="px-2 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-xs">Flask</span>
-                        </div>
-                        <a href="https://celalaygar.github.io/main/project/domain-track/" target="_blank"
-                            class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-medium rounded-lg hover:opacity-90 transition-opacity">
-                            <span id="viewDomainTrack">Projeyi İncele</span>
-                            <i class="fas fa-arrow-right ml-2"></i>
-                        </a>
-                    </div>
-                </div>
+  <!-- Navigation -->
+  <nav class="navbar" id="navbar">
+    <div class="container mx-auto px-6 flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-lg bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center">
+          <i class="fas fa-code text-white"></i>
+        </div>
+        <span class="text-xl font-bold gradient-text" data-i18n="logo">celalaygar</span>
+      </div>
 
-                <!-- Job Tracking System V2 Project -->
-                <div class="bg-white dark:bg-gray-700 rounded-xl shadow-lg overflow-hidden card-hover">
-                    <div class="p-6">
-                        <div class="flex items-center mb-4">
-                            <div
-                                class="w-12 h-12 rounded-lg bg-gradient-to-r from-green-500 to-teal-600 flex items-center justify-center mr-4">
-                                <i class="fas fa-briefcase text-white text-xl"></i>
-                            </div>
-                            <div>
-                                <h3 class="text-xl font-bold text-gray-800 dark:text-white">Job Tracking System V2</h3>
-                                <p class="text-gray-600 dark:text-gray-300 text-sm">İş Takip Sistemi</p>
-                            </div>
-                        </div>
-                        <p class="text-gray-600 dark:text-gray-300 mb-4">
-                            Job Tracking System V2 is a full-stack platform for managing projects, tasks, sprints, and
-                            weekly work hours.
-                            It enables teams to collaborate efficiently with features like Kanban boards, backlog
-                            handling, and agile workflows.
-                            Users can invite members via email, assign roles, and securely manage files, all within a
-                            scalable and reactive architecture.
-                        </p>
-                        <div class="flex flex-wrap gap-2 mb-4">
-                            <span
-                                class="px-2 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-xs">Java
-                                21</span>
-                            <span
-                                class="px-2 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-xs">Spring
-                                Boot</span>
-                            <span
-                                class="px-2 py-1 bg-orange-100 dark:bg-orange-800 text-orange-700 dark:text-orange-300 rounded-full text-xs">Spring
-                                Mvc</span>
-                            <span
-                                class="px-2 py-1 bg-blue-200 dark:bg-orange-800 text-orange-700 dark:text-orange-300 rounded-full text-xs">JPA</span>
-                            <span
-                                class="px-2 py-1 bg-cyan-200 dark:bg-cyan-800 text-cyan-700 dark:text-cyan-300 rounded-full text-xs">Hibernate</span>
-                            <span
-                                class="px-2 py-1 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-xs">Next.js</span>
-                            <span
-                                class="px-2 py-1 bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 rounded-full text-xs">MongoDB</span>
-                        </div>
-                        <a href="https://celalaygar.github.io/main/project/job-tracking-system-v2/" target="_blank"
-                            class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-green-500 to-teal-600 text-white font-medium rounded-lg hover:opacity-90 transition-opacity">
-                            <span id="viewJobTracking">Projeyi İncele</span>
-                            <i class="fas fa-arrow-right ml-2"></i>
-                        </a>
-                    </div>
-                </div>
-                <!-- Lingua Bubble -->
-                <div class="bg-white dark:bg-gray-700 rounded-xl shadow-lg overflow-hidden card-hover">
-                    <div class="p-6">
-                        <div class="flex items-center mb-4">
-                            <div
-                                class="w-12 h-12 rounded-lg bg-gradient-to-r from-green-500 to-teal-600 flex items-center justify-center mr-4">
-                                <i class="fas fa-briefcase text-white text-xl"></i>
-                            </div>
-                            <div>
-                                <h3 class="text-xl font-bold text-gray-800 dark:text-white">Lingua Bubble</h3>
-                                <p class="text-gray-600 dark:text-gray-300 text-sm">Dil Öğrenmeyi Eğlenceli Hale Getir
-                                </p>
-                            </div>
-                        </div>
-                        <p class="text-gray-600 dark:text-gray-300 mb-4">
-                            Lingua Bubble ile 9 farklı dilde, kendi seviyende oyunlar oynayarak dil öğrenin.
-                        </p>
-                        <div class="flex flex-wrap gap-2 mb-4">
-                            <span
-                                class="px-2 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-xs">Java
-                                21</span>
-                            <span
-                                class="px-2 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-xs">Spring
-                                Boot</span>
-                            <span
-                                class="px-2 py-1 bg-orange-200 dark:bg-orange-800 text-orange-700 dark:text-orange-300 rounded-full text-xs">Spring
-                                Mvc</span>
-                            <span
-                                class="px-2 py-1 bg-blue-200 dark:bg-orange-800 text-orange-700 dark:text-orange-300 rounded-full text-xs">JPA</span>
-                            <span
-                                class="px-2 py-1 bg-cyan-200 dark:bg-cyan-800 text-cyan-700 dark:text-cyan-300 rounded-full text-xs">Hibernate</span>
-                            <span
-                                class="px-2 py-1 bg-yellow-200 dark:bg-yellow-800 text-yellow-700 dark:text-yellow-300 rounded-full text-xs">Nginx</span>
-                            <span
-                                class="px-2 py-1 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-xs">Flutter</span>
-                            <span
-                                class="px-2 py-1 bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 rounded-full text-xs">MongoDB</span>
-                        </div>
-                        <a href="https://celalaygar.github.io/main/project/lingua-bubble/" target="_blank"
-                            class="inline-flex items-center px-4 py-2 bg-gradient-to-r from-green-500 to-teal-600 text-white font-medium rounded-lg hover:opacity-90 transition-opacity">
-                            <span id="viewJobTracking">Projeyi İncele</span>
-                            <i class="fas fa-arrow-right ml-2"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- About Section -->
-    <section id="about" class="tech-pattern py-16 px-4">
-        <div
-            class="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-8 md:p-12 transition-colors duration-300">
-            <div class="flex flex-col md:flex-row gap-8 items-center">
-                <div class="md:w-1/3 flex justify-center">
-                    <div class="relative">
-                        <div
-                            class="w-48 h-48 rounded-full overflow-hidden border-4 border-white dark:border-gray-700 shadow-lg">
-                            <img src="https://avatars.githubusercontent.com/u/11775341?v=4" alt="Hacı Celal Aygar"
-                                class="w-full h-full object-cover">
-                        </div>
-                        <div
-                            class="absolute -bottom-2 -right-2 w-16 h-16 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold text-lg">
-                            <i class="fas fa-code"></i>
-                        </div>
-                    </div>
-                </div>
-                <div class="md:w-2/3">
-                    <h2 id="aboutTitle" class="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Hakkımda</h2>
-                    <div class="mb-6">
-                        <p id="aboutText" class="text-gray-700 dark:text-gray-300 whitespace-pre-line text-lg">
-                            Ben bir Full Stack Developer'ım.
-                            Ben Hacı Celal Aygar. Karabük Üniversitesi Bilgisayar Mühendisliği bölümünden mezun oldum.
-                            Yaklaşık 5
-                            yıldır Full Stack developer ve Java developer olarak çalışmaktayım.
-                            Amacım, bilgisayar mühendisliği alanlarında teknolojiler kullanan şirketlerde çalışmak ve
-                            kendimi
-                            geliştirmeye devam etmektir. Ayrıca birçok örnek çalışmamı Github hesabımda paylaşmaya devam
-                            ediyorum.
-                            Bunun yanında hayatı kolaylaştırmak için sürekli çalışıyor ve insanların ortak problemlerine
-                            çözümler
-                            bulmaya çalışıyorum. Şu anda özellikle Github ve Stackoverflow kullanarak istemci tarafı
-                            teknolojilerini
-                            öğreniyorum.
-                        </p>
-                    </div>
-                    <!-- Skills -->
-                    <div class="mb-6">
-                        <h3 id="skillsTitle" class="text-lg font-semibold mb-2 text-gray-900 dark:text-white">Yetenekler
-                        </h3>
-                        <div class="flex flex-wrap gap-2">
-                            <span
-                                class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm">Java</span>
-                            <span
-                                class="px-3 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-sm">Spring
-                                Boot</span>
-                            <span
-                                class="px-3 py-1 bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 rounded-full text-sm">JavaScript</span>
-                            <span
-                                class="px-3 py-1 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 rounded-full text-sm">React</span>
-                            <span
-                                class="px-3 py-1 bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 rounded-full text-sm">HTML/CSS</span>
-                            <span
-                                class="px-3 py-1 bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-200 rounded-full text-sm">SQL</span>
-                        </div>
-                    </div>
-                    <!-- CTA Button -->
-                    <a href="https://celalaygar.github.io/" target="_blank"
-                        class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-medium rounded-lg hover:opacity-90 transition-opacity">
-                        <span id="ResumeButton">Özgeçmişümü Görüntüle</span>
-                        <i class="fas fa-arrow-right ml-2"></i>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- Social Links -->
-    <section class="py-16 px-4 bg-gray-100 dark:bg-gray-800">
-        <div class="max-w-4xl mx-auto text-center">
-            <h2 id="socialTitle" class="text-3xl font-bold mb-8 text-gray-900 dark:text-white">Sosyal Medya &
-                Bağlantılar</h2>
-            <div class="flex justify-center flex-wrap gap-6">
-                <a href="https://www.youtube.com/@celalaygar" target="_blank" aria-label="YouTube"
-                    class="social-icon flex flex-col items-center">
-                    <div class="w-16 h-16 rounded-full bg-red-500 flex items-center justify-center text-white mb-2">
-                        <i class="fab fa-youtube text-xl"></i>
-                    </div>
-                    <span class="text-gray-700 dark:text-gray-300">YouTube</span>
-                </a>
-                <a href="https://www.linkedin.com/in/celalaygar/" target="_blank" aria-label="LinkedIn"
-                    class="social-icon flex flex-col items-center">
-                    <div class="w-16 h-16 rounded-full bg-blue-600 flex items-center justify-center text-white mb-2">
-                        <i class="fab fa-linkedin text-xl"></i>
-                    </div>
-                    <span class="text-gray-700 dark:text-gray-300">LinkedIn</span>
-                </a>
-                <a href="https://stackoverflow.com/users/12014524/hac%c4%b1-celal-aygar" target="_blank"
-                    aria-label="Stack Overflow" class="social-icon flex flex-col items-center">
-                    <div class="w-16 h-16 rounded-full bg-orange-500 flex items-center justify-center text-white mb-2">
-                        <i class="fab fa-stack-overflow text-xl"></i>
-                    </div>
-                    <span class="text-gray-700 dark:text-gray-300">Stack Overflow</span>
-                </a>
-                <a href="https://medium.com/@celalaygar" target="_blank" aria-label="Medium"
-                    class="social-icon flex flex-col items-center">
-                    <div class="w-16 h-16 rounded-full bg-gray-800 flex items-center justify-center text-white mb-2">
-                        <i class="fab fa-medium text-xl"></i>
-                    </div>
-                    <span class="text-gray-700 dark:text-gray-300">Medium</span>
-                </a>
-                <a href="https://github.com/celalaygar" target="_blank" aria-label="Github"
-                    class="social-icon flex flex-col items-center">
-                    <div class="w-16 h-16 rounded-full bg-gray-900 flex items-center justify-center text-white mb-2">
-                        <i class="fab fa-github text-xl"></i>
-                    </div>
-                    <span class="text-gray-700 dark:text-gray-300">GitHub</span>
-                </a>
-                <a href="https://celalaygar.github.io/" target="_blank" aria-label="Website"
-                    class="social-icon flex flex-col items-center">
-                    <div class="w-16 h-16 rounded-full bg-indigo-600 flex items-center justify-center text-white mb-2">
-                        <i class="fa-solid fa-globe text-xl"></i>
-                    </div>
-                    <span class="text-gray-700 dark:text-gray-300">Web Sitesi</span>
-                </a>
-            </div>
-        </div>
-    </section>
-    <!-- Footer -->
-    <footer class="code-bg py-8 px-4 text-white">
-        <div class="max-w-7xl mx-auto">
-            <div class="flex flex-col md:flex-row justify-between items-center">
-                <div class="mb-4 md:mb-0">
-                    <div class="flex items-center space-x-2">
-                        <div
-                            class="w-8 h-8 rounded-lg bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center">
-                            <i class="fas fa-code text-white text-sm"></i>
-                        </div>
-                        <span class="text-xl font-bold">celalaygar</span>
-                    </div>
-                    <p class="mt-2 text-gray-300 text-sm">© 2023 Tüm hakları saklıdır.</p>
-                </div>
-                <div class="text-sm text-gray-300">
-                    <p id="footerText">Full Stack Developer & Java Geliştirici</p>
-                </div>
-            </div>
-        </div>
-    </footer>
-    <!-- JS -->
-    <script>
-        // Game data with categories
-        const games = [
-            { en: "Resume", tr: "Özgeçmiş", url: "https://celalaygar.github.io/", color: "from-indigo-500 to-purple-500", category: "Resume" },
-            { en: "Profile Track", tr: "Profile Track", url: "https://celalaygar.github.io/main/project/profile-track/", color: "from-purple-200 to-indigo-600", category: "project" },
-            { en: "Domain Track", tr: "Domain Track", url: "https://celalaygar.github.io/main/project/domain-track/", color: "from-orange-500 to-yellow-300", category: "project" },
-            { en: "Job Tracking System V2", tr: "İş Takip Sistemi V2", url: "https://celalaygar.github.io/main/project/job-tracking-system-v2/", color: "from-green-500 to-teal-600", category: "project" },
-            { en: "Lingua Bubble", tr: "Lingua Bubble", url: "https://celalaygar.github.io/main/project/lingua-bubble/", color: "from-yellow-300 to-blue-400", category: "project" },
-            { en: "Interview Questions", tr: "Mülakat Soruları", url: "https://celalaygar.github.io/main/interview_q-1/", color: "from-yellow-500 to-orange-600", category: "general" },
-            { en: "ELK, Docker and K8S Interview Questions", tr: "ELK, Docker ve K8S Mülakat Soruları", url: "https://celalaygar.github.io/main/interview_q-2/", color: "from-blue-600 to-yellow-400", category: "general" },
-            { en: "Spring & Microservices Interview Questions", tr: "Spring & Mikroservis Mülakat Soruları", url: "https://celalaygar.github.io/main/interview_q-3/", color: "from-yellow-600 to-indigo-500", category: "general" },
-            { en: "Kafka and RabbitMQ Interview Questions", tr: "Kafka ve RabbitMQ Mülakat Soruları", url: "https://celalaygar.github.io/main/interview_q-4/", color: "from-purple-700 to-green-500", category: "general" },
-            { en: "ELK Stack Interview Questions", tr: "ELK Stack Mülakat Soruları", url: "https://celalaygar.github.io/main/interview_q-5/", color: "from-indigo-200 to-blue-700", category: "general" },
-            { en: "Senior Level Kubernetes Interview Questions", tr: "Senior Seviye Kubernetes Mülakat Soruları", url: "https://celalaygar.github.io/main/interview_q-6/", color: "from-orange-400 to-red-500", category: "general" },
-            { en: "Redis Senior Level Interview Questions", tr: "Redis ile Senior Seviye Mülakat Soruları", url: "https://celalaygar.github.io/main/interview_q-7/", color: "from-cyan-400 to-orange-500", category: "general" },
-            { en: "Snake Game", tr: "Yılan Oyunu", url: "https://celalaygar.github.io/main/game/snake-game/", color: "from-green-400 to-blue-600", category: "game" },
-            { en: "Flappy Bird", tr: "Flappy Bird", url: "https://celalaygar.github.io/main/game/flappy-bird-game/", color: "from-yellow-400 to-red-500", category: "game" },
-            { en: "Tetris", tr: "Tetris", url: "https://celalaygar.github.io/main/game/tetris-game/", color: "from-pink-500 to-orange-400", category: "game" },
-            { en: "Pac Man", tr: "Pac Man", url: "https://celalaygar.github.io/main/game/pac-man/", color: "from-purple-700 to-pink-500", category: "game" },
-            { en: "Break Out", tr: "Break Out", url: "https://celalaygar.github.io/main/game/breakout-game/", color: "from-blue-700 to-cyan-400", category: "game" },
-            { en: "Scrambled Word Game", tr: "Karıştırılmış Kelime Oyunu", url: "https://celalaygar.github.io/main/game/scrambled-word-game/", color: "from-gray-600 to-orange-300", category: "game" },
-            { en: "2048 Game", tr: "2048 Oyunu", url: "https://celalaygar.github.io/main/game/2048-game/", color: "from-purple-500 to-green-400", category: "game" },
-            { en: "Simon Says", tr: "Simon Says", url: "https://celalaygar.github.io/main/game/simon-says-game/", color: "from-orange-400 to-pink-400", category: "game" },
-            { en: "Endless Runner", tr: "Sonsuz Koşucu", url: "https://celalaygar.github.io/main/game/endless-runne-game/", color: "from-pink-600 to-yellow-400", category: "game" },
-            { en: "Missing Word Game in Sentence", tr: "Cümledeki Eksik Kelime Oyunu", url: "https://celalaygar.github.io/main/game/missing-word-game-in-sentence/", color: "from-pink-100 to-purple-500", category: "game" },
-            { en: "Sentence Builder Game", tr: "Cümle Oluşturma Oyunu", url: "https://celalaygar.github.io/main/game/sentence-builder-game/", color: "from-green-300 to-orange-400", category: "game" },
-            { en: "Tic Tac Toe", tr: "X-O Oyunu", url: "https://celalaygar.github.io/main/game/tic-tac-toe-game/", color: "from-green-400 to-red-500", category: "game" },
-            { en: "Asteroids", tr: "Asteroids", url: "https://celalaygar.github.io/main/game/asteroids-game/", color: "from-pink-400 to-blue-500", category: "game" },
-            { en: "Space Invaders", tr: "Uzay Saldırganları", url: "https://celalaygar.github.io/main/game/space-invaders-game/", color: "from-blue-600 to-purple-400", category: "game" },
-            { en: "Helicopter", tr: "Helikopter Oyunu", url: "https://celalaygar.github.io/main/game/helicopter-game/", color: "from-orange-300 to-blue-600", category: "game" },
-            { en: "Platform Jumper Game", tr: "Platform Jumper Oyunu", url: "https://celalaygar.github.io/main/game/platform-jumper-game/", color: "from-purple-300 to-orange-600", category: "game" },
-            { en: "Tower Blocks Game", tr: "Tower Blocks Oyunu", url: "https://celalaygar.github.io/main/game/tower-blocks-game/", color: "from-pink-300 to-blue-600", category: "game" },
-            { en: "Word Search Game", tr: "Kelime Araştırma Oyunu", url: "https://celalaygar.github.io/main/game/word-search-game/", color: "from-orange-300 to-yellow-600", category: "game" }
-        ];
-        // DOM Elements
-        const gameCards = document.getElementById("gameCards");
-        const languageSelect = document.getElementById("languageSelect");
-        const aboutTitle = document.getElementById("aboutTitle");
-        const aboutText = document.getElementById("aboutText");
-        const heroTitle = document.getElementById("heroTitle");
-        const heroSubtitle = document.getElementById("heroSubtitle");
-        const skillsTitle = document.getElementById("skillsTitle");
-        const ResumeButton = document.getElementById("ResumeButton");
-        const socialTitle = document.getElementById("socialTitle");
-        const footerText = document.getElementById("footerText");
-        const allCategory = document.getElementById("allCategory");
-        const gameCategory = document.getElementById("gameCategory");
-        const ResumeCategory = document.getElementById("ResumeCategory");
-        const projectCategory = document.getElementById("projectCategory");
-        const generalCategory = document.getElementById("generalCategory");
-        const featuredProjectsTitle = document.getElementById("featuredProjectsTitle");
-        const viewProfileTrack = document.getElementById("viewProfileTrack");
-        const viewDomainTrack = document.getElementById("viewDomainTrack");
-        const viewJobTracking = document.getElementById("viewJobTracking");
-        const themeToggle = document.getElementById("themeToggle");
-        const searchToggle = document.getElementById("searchToggle");
-        const searchBar = document.getElementById("searchBar");
-        const searchInput = document.getElementById("searchInput");
-        const searchClose = document.getElementById("searchClose");
-        const noResults = document.getElementById("noResults");
-        const loadingScreen = document.getElementById("loadingScreen");
-        // Translations
-        const translations = {
-            en: {
-                aboutTitle: "About Me",
-                aboutText: `I'm a Full Stack Developer.
-I'm Hacı Celal Aygar. I graduated from Karabük University, Department of Computer Engineering. I have been working as a Full Stack developer and Java developer around 5 years.
-My goal is to work in companies that produce projects using technologies in the fields of computer engineering and to continue to improve myself. I also continue to share many of my sample works on my Github account.
-Also I am constantly working to make life easier and trying to find solutions to the common problems of people. I'm currently learning client side technologies by using especially Github and Stackoverflow.`,
-                heroTitle: "My Software Projects & Games",
-                heroSubtitle: "Projects and games developed as a Full Stack Developer",
-                skillsTitle: "Skills",
-                ResumeButton: "View My Resume",
-                socialTitle: "Social Media & Connections",
-                footerText: "Full Stack Developer & Java Developer",
-                allCategory: "All",
-                gameCategory: "Games",
-                ResumeCategory: "Resume",
-                projectCategory: "Projects",
-                generalCategory: "General",
-                featuredProjectsTitle: "My Featured Projects",
-                viewProfileTrack: "View Project",
-                viewDomainTrack: "View Project",
-                viewJobTracking: "View Project",
-                searchPlaceholder: "Search games..."
-            },
-            tr: {
-                aboutTitle: "Hakkımda",
-                aboutText: `Ben bir Full Stack Developer'ım.
-Ben Hacı Celal Aygar. Karabük Üniversitesi Bilgisayar Mühendisliği bölümünden mezun oldum. Yaklaşık 5 yıldır Full Stack developer ve Java developer olarak çalışmaktayım.
-Amacım, bilgisayar mühendisliği alanlarında teknolojiler kullanan şirketlerde çalışmak ve kendimi geliştirmeye devam etmektir. Ayrıca birçok örnek çalışmamı Github hesabımda paylaşmaya devam ediyorum.
-Bunun yanında hayatı kolaylaştırmak için sürekli çalışıyor ve insanların ortak problemlerine çözümler bulmaya çalışıyorum. Şu anda özellikle Github ve Stackoverflow kullanarak istemci tarafı teknolojilerini öğreniyorum.`,
-                heroTitle: "Yazılım Projelerim & Oyunlarım",
-                heroSubtitle: "Full Stack Developer olarak geliştirdiğim projeler ve oyunlar",
-                skillsTitle: "Yetenekler",
-                ResumeButton: "Özgeçmişümü Görüntüle",
-                socialTitle: "Sosyal Medya & Bağlantılar",
-                footerText: "Full Stack Developer & Java Geliştirici",
-                allCategory: "Tümü",
-                gameCategory: "Oyunlar",
-                ResumeCategory: "Özgeçmiş",
-                projectCategory: "Projeler",
-                generalCategory: "Genel",
-                featuredProjectsTitle: "Öne Çıkan Projelerim",
-                viewProfileTrack: "Projeyi İncele",
-                viewDomainTrack: "Projeyi İncele",
-                viewJobTracking: "Projeyi İncele",
-                searchPlaceholder: "Oyun ara..."
-            }
-        };
-        // Current language and filter
-        let currentLang = "tr";
-        let currentFilter = "all";
-        // Theme toggle
-        themeToggle.addEventListener("click", () => {
-            document.documentElement.classList.toggle("dark");
-            localStorage.setItem("theme", document.documentElement.classList.contains("dark") ? "dark" : "light");
-        });
-        // Check for saved theme preference
-        if (localStorage.getItem("theme") === "dark" || (!localStorage.getItem("theme") && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
-            document.documentElement.classList.add("dark");
-        }
-        // Search toggle
-        searchToggle.addEventListener("click", () => {
-            searchBar.classList.toggle("hidden");
-            if (!searchBar.classList.contains("hidden")) {
-                searchInput.focus();
-            }
-        });
-        searchClose.addEventListener("click", () => {
-            searchBar.classList.add("hidden");
-            searchInput.value = "";
-            filterGames();
-        });
-        // Search functionality
-        searchInput.addEventListener("input", filterGames);
-        // Category filter
-        document.querySelectorAll(".category-filter").forEach(button => {
-            button.addEventListener("click", () => {
-                // Update active state
-                document.querySelectorAll(".category-filter").forEach(btn => {
-                    btn.classList.remove("active", "bg-blue-500", "text-white");
-                    btn.classList.add("bg-gray-200", "dark:bg-gray-700", "text-gray-700", "dark:text-gray-300");
-                });
-                button.classList.add("active", "bg-blue-500", "text-white");
-                button.classList.remove("bg-gray-200", "dark:bg-gray-700", "text-gray-700", "dark:text-gray-300");
-                // Update current filter
-                currentFilter = button.dataset.category;
-                filterGames();
-            });
-        });
-        // Filter games based on category and search
-        function filterGames() {
-            const searchTerm = searchInput.value.toLowerCase();
-            const filteredGames = games.filter(game => {
-                const matchesCategory = currentFilter === "all" || game.category === currentFilter;
-                const matchesSearch = game[currentLang].toLowerCase().includes(searchTerm);
-                return matchesCategory && matchesSearch;
-            });
-            renderGames(filteredGames);
-            // Show/hide no results message
-            if (filteredGames.length === 0) {
-                noResults.classList.remove("hidden");
-            } else {
-                noResults.classList.add("hidden");
-            }
-        }
-        // Render games
-        function renderGames(gamesToRender = games) {
-            gameCards.innerHTML = "";
-            gamesToRender.forEach((game, index) => {
-                const card = document.createElement("a");
-                card.href = game.url;
-                card.target = "_blank";
-                card.className = `card-hover p-6 rounded-xl shadow-lg text-white font-bold text-xl flex items-center justify-center text-center bg-gradient-to-br ${game.color} min-h-[150px] animate-fade-in`;
-                card.style.animationDelay = `${index * 0.05}s`;
+      <!-- Desktop Menu -->
+      <div class="nav-menu">
+        <a href="#projects" class="nav-link" data-i18n="menu_projects">Projeler</a>
+        <a href="#games" class="nav-link" data-i18n="menu_games">Oyunlar</a>
+        <a href="#interview" class="nav-link" data-i18n="menu_interview">Mülakat Soruları</a>
+        <a href="#about" class="nav-link" data-i18n="menu_about">Hakkımda</a>
+        <a href="#contact" class="nav-link" data-i18n="menu_contact">İletişim</a>
+      </div>
 
-                // Set icon based on category
-                let icon = "fa-gamepad";
-                if (game.category === "Resume") {
-                    icon = "fa-briefcase";
-                } else if (game.category === "project") {
-                    icon = "fa-project-diagram";
-                } else if (game.category === "general") {
-                    icon = "fa-folder";
-                }
-
-                card.innerHTML = `
-          <div>
-            <div class="mb-2">
-              <i class="fas ${icon} text-2xl"></i>
-            </div>
-            <span>${game[currentLang]}</span>
+      <div class="flex items-center gap-4">
+        <!-- Tailwind Dropdown for Language Selector -->
+        <div class="dropdown">
+          <button id="languageDropdown" class="dropdown-button">
+            <span id="currentLang">Türkçe</span>
+          </button>
+          <div id="languageDropdownContent" class="dropdown-content">
+            <a href="#" class="dropdown-item" data-lang="en">English</a>
+            <a href="#" class="dropdown-item" data-lang="tr" selected>Türkçe</a>
           </div>
-        `;
-                gameCards.appendChild(card);
-            });
+        </div>
+
+        <!-- Mobile Menu Toggle -->
+        <button id="mobileMenuToggle"
+          class="mobile-menu-toggle md:hidden p-2 rounded-lg hover:bg-white/10 transition-colors">
+          <i class="fas fa-bars text-white"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="mobile-menu">
+      <a href="#projects" class="mobile-menu-item" data-i18n="menu_projects">Projeler</a>
+      <a href="#games" class="mobile-menu-item" data-i18n="menu_games">Oyunlar</a>
+      <a href="#interview" class="mobile-menu-item" data-i18n="menu_interview">Mülakat Soruları</a>
+      <a href="#about" class="mobile-menu-item" data-i18n="menu_about">Hakkımda</a>
+      <a href="#contact" class="mobile-menu-item" data-i18n="menu_contact">İletişim</a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero pt-24 pb-12 px-4">
+    <div class="container mx-auto max-w-7xl">
+      <div class="text-center mb-12 animate-fade-in">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4 text-white">
+          <span id="heroTitle" class="gradient-text">Yazılım Projelerim & Oyunlarım</span>
+        </h1>
+        <p id="heroSubtitle" class="text-xl text-gray-300 max-w-3xl mx-auto">
+          Full Stack Developer olarak geliştirdiğim projeler ve oyunlar
+        </p>
+      </div>
+
+      <!-- Social Media Buttons -->
+      <div class="flex justify-center flex-wrap gap-4 mb-12">
+        <a href="https://celalaygar.github.io/" target="_blank"
+          class="px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-medium rounded-full hover:opacity-90 transition-opacity flex items-center">
+          <i class="fas fa-user mr-2"></i>
+          <span data-i18n="btn_resume">Özgeçmişümü Görüntüle</span>
+        </a>
+        <a href="https://github.com/celalaygar" target="_blank"
+          class="social-github text-white font-medium rounded-full hover:opacity-90 transition-all px-6 py-3 flex items-center">
+          <i class="fab fa-github mr-2"></i>
+          <span data-i18n="btn_github">GitHub</span>
+        </a>
+        <a href="https://www.youtube.com/@celalaygar" target="_blank"
+          class="social-youtube text-white font-medium rounded-full hover:opacity-90 transition-all px-6 py-3 flex items-center">
+          <i class="fab fa-youtube mr-2"></i>
+          <span data-i18n="btn_youtube">YouTube</span>
+        </a>
+        <a href="https://www.tiktok.com/@openick.io" target="_blank"
+          class="social-tiktok text-white font-medium rounded-full hover:opacity-90 transition-all px-6 py-3 flex items-center">
+          <i class="fab fa-tiktok mr-2"></i>
+          <span data-i18n="btn_tiktok">TikTok</span>
+        </a>
+      </div>
+
+      <!-- TikTok Stats with Logo and Animation -->
+      <div class="flex justify-center">
+        <div class="tiktok-stats">
+          <i class="fab fa-tiktok" style="font-size: 1.5rem; color: #FE2C55;"></i>
+          <span class="tiktok-badge">
+            <span id="followersCount">0</span> Followers • <span id="likesCount">0</span> Likes
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Projects Section -->
+  <section id="projects" class="py-16 px-4">
+    <div class="container mx-auto max-w-7xl">
+      <h2 class="text-3xl font-bold mb-12 text-center text-white">
+        <span id="featuredProjectsTitle" class="gradient-text">Öne Çıkan Projelerim</span>
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Profile Track Project -->
+        <div class="glass-card p-6 project-card" data-aos="fade-up" data-aos-delay="100">
+          <div class="project-icon">
+            <i class="fas fa-search text-white"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-2 text-white">Profile Track</h3>
+          <p class="text-gray-400 mb-4 text-sm">Dijital İz Keşif Aracı</p>
+          <p class="text-gray-400 mb-4 text-sm">
+            Explore the websites and platforms where your email address or username may be registered.
+          </p>
+          <div class="flex flex-wrap gap-2 mb-4">
+            <span class="px-2 py-1 bg-purple-500/20 text-purple-300 rounded-full text-xs">Flutter</span>
+            <span class="px-2 py-1 bg-blue-500/20 text-blue-300 rounded-full text-xs">Spring Boot</span>
+          </div>
+          <a href="https://celalaygar.github.io/main/project/profile-track/" target="_blank"
+            class="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors">
+            <span data-i18n="view_project">Projeyi İncele</span>
+            <i class="fas fa-arrow-right ml-2"></i>
+          </a>
+        </div>
+
+        <!-- Domain Track Project -->
+        <div class="glass-card p-6 project-card" data-aos="fade-up" data-aos-delay="200">
+          <div class="project-icon" style="background: var(--secondary-gradient);">
+            <i class="fas fa-globe text-white"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-2 text-white">Domain Track</h3>
+          <p class="text-gray-400 mb-4 text-sm">Alan Adı İstihbarat Aracı</p>
+          <p class="text-gray-400 mb-4 text-sm">
+            Check domain availability and view WHOIS registration information.
+          </p>
+          <div class="flex flex-wrap gap-2 mb-4">
+            <span class="px-2 py-1 bg-cyan-500/20 text-cyan-300 rounded-full text-xs">Flutter</span>
+            <span class="px-2 py-1 bg-blue-500/20 text-blue-300 rounded-full text-xs">Python</span>
+          </div>
+          <a href="https://celalaygar.github.io/main/project/domain-track/" target="_blank"
+            class="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors">
+            <span data-i18n="view_project">Projeyi İncele</span>
+            <i class="fas fa-arrow-right ml-2"></i>
+          </a>
+        </div>
+
+        <!-- Job Tracking System V2 Project -->
+        <div class="glass-card p-6 project-card" data-aos="fade-up" data-aos-delay="300">
+          <div class="project-icon" style="background: var(--accent-gradient);">
+            <i class="fas fa-briefcase text-white"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-2 text-white">Job Tracking System V2</h3>
+          <p class="text-gray-400 mb-4 text-sm">İş Takip Sistemi</p>
+          <p class="text-gray-400 mb-4 text-sm">
+            Full-stack platform for managing projects, tasks, sprints, and work hours.
+          </p>
+          <div class="flex flex-wrap gap-2 mb-4">
+            <span class="px-2 py-1 bg-green-500/20 text-green-300 rounded-full text-xs">Java 21</span>
+            <span class="px-2 py-1 bg-blue-500/20 text-blue-300 rounded-full text-xs">Spring Boot</span>
+          </div>
+          <a href="https://celalaygar.github.io/main/project/job-tracking-system-v2/" target="_blank"
+            class="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors">
+            <span data-i18n="view_project">Projeyi İncele</span>
+            <i class="fas fa-arrow-right ml-2"></i>
+          </a>
+        </div>
+
+        <!-- Lingua Bubble -->
+        <div class="glass-card p-6 project-card" data-aos="fade-up" data-aos-delay="400">
+          <div class="project-icon">
+            <i class="fas fa-language text-white"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-2 text-white">Lingua Bubble</h3>
+          <p class="text-gray-400 mb-4 text-sm">Dil Öğrenmeyi Eğlenceli Hale Getir</p>
+          <p class="text-gray-400 mb-4 text-sm">
+            Lingua Bubble ile 9 farklı dilde, kendi seviyende oyunlar oynayarak dil öğrenin.
+          </p>
+          <div class="flex flex-wrap gap-2 mb-4">
+            <span class="px-2 py-1 bg-purple-500/20 text-purple-300 rounded-full text-xs">Flutter</span>
+            <span class="px-2 py-1 bg-yellow-500/20 text-yellow-300 rounded-full text-xs">MongoDB</span>
+          </div>
+          <a href="https://celalaygar.github.io/main/project/lingua-bubble/" target="_blank"
+            class="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors">
+            <span data-i18n="view_project">Projeyi İncele</span>
+            <i class="fas fa-arrow-right ml-2"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- All Games Section -->
+  <section id="games" class="py-16 px-4 bg-gradient-to-b from-transparent to-blue-900/10">
+    <div class="container mx-auto max-w-7xl">
+      <h2 class="text-3xl font-bold mb-12 text-center text-white">
+        <span id="allGamesTitle" class="gradient-text">Öne Çıkan Oyunlar</span>
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Snake Game -->
+        <div class="glass-card p-6 project-card" data-aos="fade-up" data-aos-delay="100">
+          <div class="project-icon" style="background: var(--secondary-gradient);">
+            <i class="fas fa-gamepad text-white"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-2 text-white">Snake Game</h3>
+          <p class="text-gray-400 mb-4 text-sm">Yılan Oyunu</p>
+          <p class="text-gray-400 mb-4 text-sm">
+            Classic snake game with modern graphics and smooth controls.
+          </p>
+          <a href="https://celalaygar.github.io/main/game/snake-game/" target="_blank"
+            class="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors">
+            <span data-i18n="play_game">Oyunu Oyna</span>
+            <i class="fas fa-play ml-2"></i>
+          </a>
+        </div>
+
+        <!-- Flappy Bird -->
+        <div class="glass-card p-6 project-card" data-aos="fade-up" data-aos-delay="200">
+          <div class="project-icon" style="background: var(--accent-gradient);">
+            <i class="fas fa-dove text-white"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-2 text-white">Flappy Bird</h3>
+          <p class="text-gray-400 mb-4 text-sm">Flappy Bird</p>
+          <p class="text-gray-400 mb-4 text-sm">
+            Navigate through obstacles in this addictive flying game.
+          </p>
+          <a href="https://celalaygar.github.io/main/game/flappy-bird-game/" target="_blank"
+            class="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors">
+            <span data-i18n="play_game">Oyunu Oyna</span>
+            <i class="fas fa-play ml-2"></i>
+          </a>
+        </div>
+
+        <!-- Tetris -->
+        <div class="glass-card p-6 project-card" data-aos="fade-up" data-aos-delay="300">
+          <div class="project-icon">
+            <i class="fas fa-cube text-white"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-2 text-white">Tetris</h3>
+          <p class="text-gray-400 mb-4 text-sm">Tetris</p>
+          <p class="text-gray-400 mb-4 text-sm">
+            Classic block-stacking puzzle game with modern twist.
+          </p>
+          <a href="https://celalaygar.github.io/main/game/tetris-game/" target="_blank"
+            class="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors">
+            <span data-i18n="play_game">Oyunu Oyna</span>
+            <i class="fas fa-play ml-2"></i>
+          </a>
+        </div>
+
+        <!-- Pac Man -->
+        <div class="glass-card p-6 project-card" data-aos="fade-up" data-aos-delay="400">
+          <div class="project-icon" style="background: var(--secondary-gradient);">
+            <i class="fas fa-ghost text-white"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-2 text-white">Pac Man</h3>
+          <p class="text-gray-400 mb-4 text-sm">Pac Man</p>
+          <p class="text-gray-400 mb-4 text-sm">
+            Navigate the maze, eat dots, and avoid ghosts in this classic.
+          </p>
+          <a href="https://celalaygar.github.io/main/game/pac-man/" target="_blank"
+            class="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors">
+            <span data-i18n="play_game">Oyunu Oyna</span>
+            <i class="fas fa-play ml-2"></i>
+          </a>
+        </div>
+
+        <!-- Break Out -->
+        <div class="glass-card p-6 project-card" data-aos="fade-up" data-aos-delay="500">
+          <div class="project-icon" style="background: var(--accent-gradient);">
+            <i class="fas fa-square text-white"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-2 text-white">Break Out</h3>
+          <p class="text-gray-400 mb-4 text-sm">Break Out</p>
+          <a href="https://celalaygar.github.io/main/game/breakout-game/" target="_blank"
+            class="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors">
+            <span data-i18n="play_game">Oyunu Oyna</span>
+            <i class="fas fa-play ml-2"></i>
+          </a>
+        </div>
+
+        <!-- Scrambled Word Game -->
+        <div class="glass-card p-6 project-card" data-aos="fade-up" data-aos-delay="600">
+          <div class="project-icon">
+            <i class="fas fa-spell-check text-white"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-2 text-white">Scrambled Word Game</h3>
+          <p class="text-gray-400 mb-4 text-sm">Karıştırılmış Kelime Oyunu</p>
+          <a href="https://celalaygar.github.io/main/game/scrambled-word-game/" target="_blank"
+            class="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors">
+            <span data-i18n="play_game">Oyunu Oyna</span>
+            <i class="fas fa-play ml-2"></i>
+          </a>
+        </div>
+
+        <!-- 2048 Game -->
+        <div class="glass-card p-6 project-card" data-aos="fade-up" data-aos-delay="700">
+          <div class="project-icon" style="background: var(--secondary-gradient);">
+            <i class="fas fa-th text-white"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-2 text-white">2048 Game</h3>
+          <p class="text-gray-400 mb-4 text-sm">2048 Oyunu</p>
+          <a href="https://celalaygar.github.io/main/game/2048-game/" target="_blank"
+            class="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors">
+            <span data-i18n="play_game">Oyunu Oyna</span>
+            <i class="fas fa-play ml-2"></i>
+          </a>
+        </div>
+
+        <!-- Simon Says -->
+        <div class="glass-card p-6 project-card" data-aos="fade-up" data-aos-delay="800">
+          <div class="project-icon" style="background: var(--accent-gradient);">
+            <i class="fas fa-brain text-white"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-2 text-white">Simon Says</h3>
+          <p class="text-gray-400 mb-4 text-sm">Simon Says</p>
+          <a href="https://celalaygar.github.io/main/game/simon-says-game/" target="_blank"
+            class="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors">
+            <span data-i18n="play_game">Oyunu Oyna</span>
+            <i class="fas fa-play ml-2"></i>
+          </a>
+        </div>
+
+        <!-- Endless Runner -->
+        <div class="glass-card p-6 project-card" data-aos="fade-up" data-aos-delay="900">
+          <div class="project-icon">
+            <i class="fas fa-running text-white"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-2 text-white">Endless Runner</h3>
+          <p class="text-gray-400 mb-4 text-sm">Sonsuz Koşucu</p>
+          <a href="https://celalaygar.github.io/main/game/endless-runne-game/" target="_blank"
+            class="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors">
+            <span data-i18n="play_game">Oyunu Oyna</span>
+            <i class="fas fa-play ml-2"></i>
+          </a>
+        </div>
+
+        <!-- Missing Word Game in Sentence -->
+        <div class="glass-card p-6 project-card" data-aos="fade-up" data-aos-delay="1000">
+          <div class="project-icon" style="background: var(--secondary-gradient);">
+            <i class="fas fa-font text-white"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-2 text-white">Missing Word Game in Sentence</h3>
+          <p class="text-gray-400 mb-4 text-sm">Cümledeki Eksik Kelime Oyunu</p>
+          <a href="https://celalaygar.github.io/main/game/missing-word-game-in-sentence/" target="_blank"
+            class="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors">
+            <span data-i18n="play_game">Oyunu Oyna</span>
+            <i class="fas fa-play ml-2"></i>
+          </a>
+        </div>
+
+        <!-- Sentence Builder Game -->
+        <div class="glass-card p-6 project-card" data-aos="fade-up" data-aos-delay="1100">
+          <div class="project-icon" style="background: var(--accent-gradient);">
+            <i class="fas fa-align-left text-white"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-2 text-white">Sentence Builder Game</h3>
+          <p class="text-gray-400 mb-4 text-sm">Cümle Oluşturma Oyunu</p>
+          <a href="https://celalaygar.github.io/main/game/sentence-builder-game/" target="_blank"
+            class="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors">
+            <span data-i18n="play_game">Oyunu Oyna</span>
+            <i class="fas fa-play ml-2"></i>
+          </a>
+        </div>
+
+        <!-- Tic Tac Toe -->
+        <div class="glass-card p-6 project-card" data-aos="fade-up" data-aos-delay="1200">
+          <div class="project-icon">
+            <i class="fas fa-hashtag text-white"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-2 text-white">Tic Tac Toe</h3>
+          <p class="text-gray-400 mb-4 text-sm">X-O Oyunu</p>
+          <a href="https://celalaygar.github.io/main/game/tic-tac-toe-game/" target="_blank"
+            class="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors">
+            <span data-i18n="play_game">Oyunu Oyna</span>
+            <i class="fas fa-play ml-2"></i>
+          </a>
+        </div>
+
+        <!-- Asteroids -->
+        <div class="glass-card p-6 project-card" data-aos="fade-up" data-aos-delay="1300">
+          <div class="project-icon" style="background: var(--secondary-gradient);">
+            <i class="fas fa-meteor text-white"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-2 text-white">Asteroids</h3>
+          <p class="text-gray-400 mb-4 text-sm">Asteroids</p>
+          <a href="https://celalaygar.github.io/main/game/asteroids-game/" target="_blank"
+            class="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors">
+            <span data-i18n="play_game">Oyunu Oyna</span>
+            <i class="fas fa-play ml-2"></i>
+          </a>
+        </div>
+
+        <!-- Space Invaders -->
+        <div class="glass-card p-6 project-card" data-aos="fade-up" data-aos-delay="1400">
+          <div class="project-icon" style="background: var(--accent-gradient);">
+            <i class="fas fa-rocket text-white"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-2 text-white">Space Invaders</h3>
+          <p class="text-gray-400 mb-4 text-sm">Uzay Saldırganları</p>
+          <a href="https://celalaygar.github.io/main/game/space-invaders-game/" target="_blank"
+            class="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors">
+            <span data-i18n="play_game">Oyunu Oyna</span>
+            <i class="fas fa-play ml-2"></i>
+          </a>
+        </div>
+
+        <!-- Helicopter -->
+        <div class="glass-card p-6 project-card" data-aos="fade-up" data-aos-delay="1500">
+          <div class="project-icon">
+            <i class="fas fa-helicopter text-white"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-2 text-white">Helicopter</h3>
+          <p class="text-gray-400 mb-4 text-sm">Helikopter Oyunu</p>
+          <a href="https://celalaygar.github.io/main/game/helicopter-game/" target="_blank"
+            class="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors">
+            <span data-i18n="play_game">Oyunu Oyna</span>
+            <i class="fas fa-play ml-2"></i>
+          </a>
+        </div>
+
+        <!-- Platform Jumper Game -->
+        <div class="glass-card p-6 project-card" data-aos="fade-up" data-aos-delay="1600">
+          <div class="project-icon" style="background: var(--secondary-gradient);">
+            <i class="fas fa-layer-group text-white"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-2 text-white">Platform Jumper Game</h3>
+          <p class="text-gray-400 mb-4 text-sm">Platform Jumper Oyunu</p>
+          <a href="https://celalaygar.github.io/main/game/platform-jumper-game/" target="_blank"
+            class="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors">
+            <span data-i18n="play_game">Oyunu Oyna</span>
+            <i class="fas fa-play ml-2"></i>
+          </a>
+        </div>
+
+        <!-- Tower Blocks Game -->
+        <div class="glass-card p-6 project-card" data-aos="fade-up" data-aos-delay="1700">
+          <div class="project-icon" style="background: var(--accent-gradient);">
+            <i class="fas fa-building text-white"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-2 text-white">Tower Blocks Game</h3>
+          <p class="text-gray-400 mb-4 text-sm">Tower Blocks Oyunu</p>
+          <a href="https://celalaygar.github.io/main/game/tower-blocks-game/" target="_blank"
+            class="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors">
+            <span data-i18n="play_game">Oyunu Oyna</span>
+            <i class="fas fa-play ml-2"></i>
+          </a>
+        </div>
+
+        <!-- Word Search Game -->
+        <div class="glass-card p-6 project-card" data-aos="fade-up" data-aos-delay="1800">
+          <div class="project-icon">
+            <i class="fas fa-search text-white"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-2 text-white">Word Search Game</h3>
+          <p class="text-gray-400 mb-4 text-sm">Kelime Araştırma Oyunu</p>
+          <a href="https://celalaygar.github.io/main/game/word-search-game/" target="_blank"
+            class="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors">
+            <span data-i18n="play_game">Oyunu Oyna</span>
+            <i class="fas fa-play ml-2"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interview Questions Section -->
+  <section id="interview" class="py-16 px-4">
+    <div class="container mx-auto max-w-7xl">
+      <h2 class="text-3xl font-bold mb-12 text-center text-white">
+        <span id="interviewQuestionsTitle" class="gradient-text">Mülakat Soruları</span>
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Interview Questions 1 -->
+        <div class="glass-card p-6 project-card" data-aos="fade-up" data-aos-delay="100">
+          <div class="project-icon" style="background: var(--accent-gradient);">
+            <i class="fas fa-question-circle text-white"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-2 text-white">Interview Questions</h3>
+          <p class="text-gray-400 mb-4 text-sm">Mülakat Soruları</p>
+          <p class="text-gray-400 mb-4 text-sm">
+            General interview questions for software developers.
+          </p>
+          <div class="flex flex-wrap gap-2 mb-4">
+            <span class="px-2 py-1 bg-yellow-500/20 text-yellow-300 rounded-full text-xs">Java</span>
+            <span class="px-2 py-1 bg-blue-500/20 text-blue-300 rounded-full text-xs">JavaScript</span>
+          </div>
+          <a href="https://celalaygar.github.io/main/interview_q-1/" target="_blank"
+            class="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors">
+            <span data-i18n="view_questions">Soruları Gör</span>
+            <i class="fas fa-arrow-right ml-2"></i>
+          </a>
+        </div>
+
+        <!-- ELK, Docker and K8S Interview Questions -->
+        <div class="glass-card p-6 project-card" data-aos="fade-up" data-aos-delay="200">
+          <div class="project-icon">
+            <i class="fas fa-docker text-white"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-2 text-white">ELK, Docker and K8S</h3>
+          <p class="text-gray-400 mb-4 text-sm">ELK, Docker ve K8S Mülakat Soruları</p>
+          <p class="text-gray-400 mb-4 text-sm">
+            Interview questions for containerization and logging technologies.
+          </p>
+          <div class="flex flex-wrap gap-2 mb-4">
+            <span class="px-2 py-1 bg-blue-500/20 text-blue-300 rounded-full text-xs">Docker</span>
+            <span class="px-2 py-1 bg-cyan-500/20 text-cyan-300 rounded-full text-xs">Kubernetes</span>
+          </div>
+          <a href="https://celalaygar.github.io/main/interview_q-2/" target="_blank"
+            class="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors">
+            <span data-i18n="view_questions">Soruları Gör</span>
+            <i class="fas fa-arrow-right ml-2"></i>
+          </a>
+        </div>
+
+        <!-- Spring & Microservices Interview Questions -->
+        <div class="glass-card p-6 project-card" data-aos="fade-up" data-aos-delay="300">
+          <div class="project-icon" style="background: var(--secondary-gradient);">
+            <i class="fas fa-leaf text-white"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-2 text-white">Spring & Microservices</h3>
+          <p class="text-gray-400 mb-4 text-sm">Spring & Mikroservis Mülakat Soruları</p>
+          <p class="text-gray-400 mb-4 text-sm">
+            Interview questions for Spring framework and microservices architecture.
+          </p>
+          <div class="flex flex-wrap gap-2 mb-4">
+            <span class="px-2 py-1 bg-green-500/20 text-green-300 rounded-full text-xs">Spring Boot</span>
+            <span class="px-2 py-1 bg-blue-500/20 text-blue-300 rounded-full text-xs">Microservices</span>
+          </div>
+          <a href="https://celalaygar.github.io/main/interview_q-3/" target="_blank"
+            class="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors">
+            <span data-i18n="view_questions">Soruları Gör</span>
+            <i class="fas fa-arrow-right ml-2"></i>
+          </a>
+        </div>
+
+        <!-- Kafka and RabbitMQ Interview Questions -->
+        <div class="glass-card p-6 project-card" data-aos="fade-up" data-aos-delay="400">
+          <div class="project-icon" style="background: var(--accent-gradient);">
+            <i class="fas fa-stream text-white"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-2 text-white">Kafka and RabbitMQ</h3>
+          <p class="text-gray-400 mb-4 text-sm">Kafka ve RabbitMQ Mülakat Soruları</p>
+          <p class="text-gray-400 mb-4 text-sm">
+            Interview questions for message brokers and event streaming.
+          </p>
+          <div class="flex flex-wrap gap-2 mb-4">
+            <span class="px-2 py-1 bg-purple-500/20 text-purple-300 rounded-full text-xs">Kafka</span>
+            <span class="px-2 py-1 bg-orange-500/20 text-orange-300 rounded-full text-xs">RabbitMQ</span>
+          </div>
+          <a href="https://celalaygar.github.io/main/interview_q-4/" target="_blank"
+            class="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors">
+            <span data-i18n="view_questions">Soruları Gör</span>
+            <i class="fas fa-arrow-right ml-2"></i>
+          </a>
+        </div>
+
+        <!-- ELK Stack Interview Questions -->
+        <div class="glass-card p-6 project-card" data-aos="fade-up" data-aos-delay="500">
+          <div class="project-icon">
+            <i class="fas fa-search text-white"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-2 text-white">ELK Stack</h3>
+          <p class="text-gray-400 mb-4 text-sm">ELK Stack Mülakat Soruları</p>
+          <p class="text-gray-400 mb-4 text-sm">
+            Interview questions for Elasticsearch, Logstash, and Kibana.
+          </p>
+          <div class="flex flex-wrap gap-2 mb-4">
+            <span class="px-2 py-1 bg-yellow-500/20 text-yellow-300 rounded-full text-xs">Elasticsearch</span>
+            <span class="px-2 py-1 bg-blue-500/20 text-blue-300 rounded-full text-xs">Logstash</span>
+          </div>
+          <a href="https://celalaygar.github.io/main/interview_q-5/" target="_blank"
+            class="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors">
+            <span data-i18n="view_questions">Soruları Gör</span>
+            <i class="fas fa-arrow-right ml-2"></i>
+          </a>
+        </div>
+
+        <!-- Senior Level Kubernetes Interview Questions -->
+        <div class="glass-card p-6 project-card" data-aos="fade-up" data-aos-delay="600">
+          <div class="project-icon" style="background: var(--secondary-gradient);">
+            <i class="fas fa-dharmachakra text-white"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-2 text-white">Senior Level Kubernetes</h3>
+          <p class="text-gray-400 mb-4 text-sm">Senior Seviye Kubernetes Mülakat Soruları</p>
+          <p class="text-gray-400 mb-4 text-sm">
+            Advanced interview questions for senior Kubernetes engineers.
+          </p>
+          <div class="flex flex-wrap gap-2 mb-4">
+            <span class="px-2 py-1 bg-blue-500/20 text-blue-300 rounded-full text-xs">Kubernetes</span>
+            <span class="px-2 py-1 bg-cyan-500/20 text-cyan-300 rounded-full text-xs">Senior Level</span>
+          </div>
+          <a href="https://celalaygar.github.io/main/interview_q-6/" target="_blank"
+            class="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors">
+            <span data-i18n="view_questions">Soruları Gör</span>
+            <i class="fas fa-arrow-right ml-2"></i>
+          </a>
+        </div>
+
+        <!-- Redis Senior Level Interview Questions -->
+        <div class="glass-card p-6 project-card" data-aos="fade-up" data-aos-delay="700">
+          <div class="project-icon" style="background: var(--accent-gradient);">
+            <i class="fas fa-database text-white"></i>
+          </div>
+          <h3 class="text-xl font-bold mb-2 text-white">Redis Senior Level</h3>
+          <p class="text-gray-400 mb-4 text-sm">Redis ile Senior Seviye Mülakat Soruları</p>
+          <p class="text-gray-400 mb-4 text-sm">
+            Advanced interview questions for Redis database administrators.
+          </p>
+          <div class="flex flex-wrap gap-2 mb-4">
+            <span class="px-2 py-1 bg-red-500/20 text-red-300 rounded-full text-xs">Redis</span>
+            <span class="px-2 py-1 bg-orange-500/20 text-orange-300 rounded-full text-xs">Senior Level</span>
+          </div>
+          <a href="https://celalaygar.github.io/main/interview_q-7/" target="_blank"
+            class="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors">
+            <span data-i18n="view_questions">Soruları Gör</span>
+            <i class="fas fa-arrow-right ml-2"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="py-16 px-4 bg-gradient-to-b from-transparent to-blue-900/10">
+    <div class="container mx-auto max-w-4xl">
+      <h2 class="text-3xl font-bold mb-12 text-center text-white">
+        <span id="aboutTitle" class="gradient-text">Hakkımda</span>
+      </h2>
+      <div class="glass-card p-8 md:p-12" data-aos="fade-up" data-aos-delay="100">
+        <div class="flex flex-col md:flex-row gap-8 items-center">
+          <div class="md:w-1/3 flex justify-center">
+            <div class="relative">
+              <div class="w-48 h-48 rounded-full overflow-hidden border-4 border-white/20">
+                <img src="https://avatars.githubusercontent.com/u/11775341?v=4" alt="Hacı Celal Aygar"
+                  class="w-full h-full object-cover">
+              </div>
+              <div
+                class="absolute -bottom-2 -right-2 w-16 h-16 rounded-full bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center text-white font-bold text-lg">
+                <i class="fas fa-code"></i>
+              </div>
+            </div>
+          </div>
+          <div class="md:w-2/3">
+            <p id="aboutText" class="text-gray-300 mb-6">
+              Ben bir Full Stack Developer'ım.
+              Ben Hacı Celal Aygar. Karabük Üniversitesi Bilgisayar Mühendisliği bölümünden mezun oldum.
+              Yaklaşık 5 yıldır Full Stack developer ve Java developer olarak çalışmaktayım.
+              Amacım, bilgisayar mühendisliği alanlarında teknolojiler kullanan şirketlerde çalışmak ve
+              kendimi geliştirmeye devam etmektir.
+            </p>
+            <div class="mb-6">
+              <h3 id="skillsTitle" class="text-lg font-semibold mb-3 text-white">Yetenekler</h3>
+              <div class="flex flex-wrap gap-2">
+                <span class="px-3 py-1 bg-blue-500/20 text-blue-300 rounded-full text-sm">Java</span>
+                <span class="px-3 py-1 bg-green-500/20 text-green-300 rounded-full text-sm">Spring Boot</span>
+                <span class="px-3 py-1 bg-yellow-500/20 text-yellow-300 rounded-full text-sm">JavaScript</span>
+                <span class="px-3 py-1 bg-purple-500/20 text-purple-300 rounded-full text-sm">React</span>
+                <span class="px-3 py-1 bg-red-500/20 text-red-300 rounded-full text-sm">HTML/CSS</span>
+                <span class="px-3 py-1 bg-indigo-500/20 text-indigo-300 rounded-full text-sm">SQL</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Social Links Section -->
+  <section class="py-16 px-4">
+    <div class="container mx-auto max-w-4xl">
+      <h2 class="text-3xl font-bold mb-12 text-center text-white">
+        <span id="socialTitle" class="gradient-text">Sosyal Medya & Bağlantılar</span>
+      </h2>
+      <div class="glass-card p-8" data-aos="fade-up" data-aos-delay="100">
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
+          <a href="https://www.youtube.com/@celalaygar" target="_blank" class="flex flex-col items-center group">
+            <div class="social-link social-youtube mb-3">
+              <i class="fab fa-youtube text-2xl"></i>
+            </div>
+            <span class="text-gray-300 group-hover:text-white transition-colors">YouTube</span>
+          </a>
+          <a href="https://www.tiktok.com/@openick.io" target="_blank" class="flex flex-col items-center group">
+            <div class="social-link social-tiktok mb-3">
+              <i class="fab fa-tiktok text-4xl"></i>
+            </div>
+            <span class="text-gray-300 group-hover:text-white transition-colors">TikTok</span>
+            <span class="text-xs text-pink-400">9785 Followers</span>
+          </a>
+          <a href="https://www.linkedin.com/in/celalaygar/" target="_blank" class="flex flex-col items-center group">
+            <div class="social-link social-linkedin mb-3">
+              <i class="fab fa-linkedin text-2xl"></i>
+            </div>
+            <span class="text-gray-300 group-hover:text-white transition-colors">LinkedIn</span>
+          </a>
+          <a href="https://stackoverflow.com/users/12014524/hac%c4%b1-celal-aygar" target="_blank"
+            class="flex flex-col items-center group">
+            <div class="social-link social-stackoverflow mb-3">
+              <i class="fab fa-stack-overflow text-2xl"></i>
+            </div>
+            <span class="text-gray-300 group-hover:text-white transition-colors">Stack Overflow</span>
+          </a>
+          <a href="https://medium.com/@celalaygar" target="_blank" class="flex flex-col items-center group">
+            <div class="social-link social-medium mb-3">
+              <i class="fab fa-medium text-2xl"></i>
+            </div>
+            <span class="text-gray-300 group-hover:text-white transition-colors">Medium</span>
+          </a>
+          <a href="https://github.com/celalaygar" target="_blank" class="flex flex-col items-center group">
+            <div class="social-link social-github mb-3">
+              <i class="fab fa-github text-2xl"></i>
+            </div>
+            <span class="text-gray-300 group-hover:text-white transition-colors">GitHub</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="py-16 px-4 bg-gradient-to-b from-transparent to-purple-900/10">
+    <div class="container mx-auto max-w-4xl">
+      <h2 class="text-3xl font-bold mb-12 text-center text-white">
+        <span id="contactTitle" class="gradient-text">İletişim</span>
+      </h2>
+      <div class="glass-card p-8" data-aos="fade-up" data-aos-delay="100">
+        <div class="text-center mb-8">
+          <h3 class="text-2xl font-bold text-white mb-2" data-i18n="contact_subtitle">Any Question? Contact us!</h3>
+          <p class="text-gray-300" data-i18n="contact_description">I'm at your service</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="flex items-center space-x-4">
+            <div class="w-12 h-12 rounded-full bg-blue-500/20 flex items-center justify-center">
+              <i class="fas fa-phone text-blue-400"></i>
+            </div>
+            <div>
+              <p class="text-gray-400 text-sm" data-i18n="contact_phone">Call us on</p>
+              <a href="tel:+905448358401" class="text-white hover:text-blue-400 transition-colors">+90 544 835 84 01</a>
+            </div>
+          </div>
+
+          <div class="flex items-center space-x-4">
+            <div class="w-12 h-12 rounded-full bg-green-500/20 flex items-center justify-center">
+              <i class="fas fa-map-marker-alt text-green-400"></i>
+            </div>
+            <div>
+              <p class="text-gray-400 text-sm" data-i18n="contact_location">City / Country</p>
+              <p class="text-white">Ankara / TURKEY</p>
+            </div>
+          </div>
+
+          <div class="flex items-center space-x-4">
+            <div class="w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center">
+              <i class="fas fa-envelope text-purple-400"></i>
+            </div>
+            <div>
+              <p class="text-gray-400 text-sm" data-i18n="contact_email">Email</p>
+              <a href="mailto:celal.aygar@gmail.com"
+                class="text-white hover:text-purple-400 transition-colors">celal.aygar@gmail.com</a>
+            </div>
+          </div>
+
+          <div class="flex items-center space-x-4">
+            <div class="w-12 h-12 rounded-full bg-indigo-500/20 flex items-center justify-center">
+              <i class="fas fa-globe text-indigo-400"></i>
+            </div>
+            <div>
+              <p class="text-gray-400 text-sm" data-i18n="contact_website">Website</p>
+              <a href="https://celalaygar.github.io/" target="_blank"
+                class="text-white hover:text-indigo-400 transition-colors">celalaygar.github.io</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-6 mt-8">
+          <a href="https://www.linkedin.com/in/celalaygar/" target="_blank" class="flex items-center space-x-3 group">
+            <div class="w-10 h-10 rounded-full bg-blue-600/20 flex items-center justify-center">
+              <i class="fab fa-linkedin text-blue-400"></i>
+            </div>
+            <div>
+              <p class="text-gray-400 text-xs">Linkedin</p>
+              <p class="text-white text-sm group-hover:text-blue-400 transition-colors">linkedin.com/in/celalaygar</p>
+            </div>
+          </a>
+
+          <a href="https://github.com/celalaygar" target="_blank" class="flex items-center space-x-3 group">
+            <div class="w-10 h-10 rounded-full bg-gray-600/20 flex items-center justify-center">
+              <i class="fab fa-github text-gray-400"></i>
+            </div>
+            <div>
+              <p class="text-gray-400 text-xs">GitHub</p>
+              <p class="text-white text-sm group-hover:text-gray-400 transition-colors">github.com/celalaygar</p>
+            </div>
+          </a>
+
+          <a href="https://medium.com/@celalaygar" target="_blank" class="flex items-center space-x-3 group">
+            <div class="w-10 h-10 rounded-full bg-gray-800/20 flex items-center justify-center">
+              <i class="fab fa-medium text-gray-400"></i>
+            </div>
+            <div>
+              <p class="text-gray-400 text-xs">Medium</p>
+              <p class="text-white text-sm group-hover:text-gray-400 transition-colors">medium.com/@celalaygar</p>
+            </div>
+          </a>
+
+          <a href="https://www.youtube.com/@celalaygar" target="_blank" class="flex items-center space-x-3 group">
+            <div class="w-10 h-10 rounded-full bg-red-600/20 flex items-center justify-center">
+              <i class="fab fa-youtube text-red-400"></i>
+            </div>
+            <div>
+              <p class="text-gray-400 text-xs">Youtube</p>
+              <p class="text-white text-sm group-hover:text-red-400 transition-colors">youtube.com/@celalaygar</p>
+            </div>
+          </a>
+
+          <a href="https://hackerrank.com/celalaygar" target="_blank" class="flex items-center space-x-3 group">
+            <div class="w-10 h-10 rounded-full bg-green-600/20 flex items-center justify-center">
+              <i class="fab fa-hackerrank text-green-400"></i>
+            </div>
+            <div>
+              <p class="text-gray-400 text-xs">HackerRank</p>
+              <p class="text-white text-sm group-hover:text-green-400 transition-colors">hackerrank.com/celalaygar</p>
+            </div>
+          </a>
+
+          <a href="https://stackoverflow.com/users/12014524" target="_blank" class="flex items-center space-x-3 group">
+            <div class="w-10 h-10 rounded-full bg-orange-600/20 flex items-center justify-center">
+              <i class="fab fa-stack-overflow text-orange-400"></i>
+            </div>
+            <div>
+              <p class="text-gray-400 text-xs">StackOverflow</p>
+              <p class="text-white text-sm group-hover:text-orange-400 transition-colors">
+                stackoverflow.com/users/12014524</p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-8 px-4 border-t border-white/10">
+    <div class="container mx-auto max-w-7xl">
+      <div class="flex flex-col md:flex-row justify-between items-center">
+        <div class="mb-4 md:mb-0">
+          <div class="flex items-center space-x-2">
+            <div
+              class="w-8 h-8 rounded-lg bg-gradient-to-r from-blue-500 to-purple-600 flex items-center justify-center">
+              <i class="fas fa-code text-white text-sm"></i>
+            </div>
+            <span class="text-xl font-bold gradient-text">celalaygar</span>
+          </div>
+          <p class="mt-2 text-gray-400 text-sm" data-i18n="footer_text">© 2023 Full Stack Developer & Java Geliştirici
+          </p>
+        </div>
+        <div class="text-sm text-gray-400">
+          <p data-i18n="location">Ankara, Yenimahalle, Turkey</p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Initialize AOS
+    AOS.init({
+      duration: 800,
+      once: true,
+      offset: 100
+    });
+
+    // Translation data
+    const translations = {
+      en: {
+        logo: "celalaygar",
+        heroTitle: "My Software Projects & Games",
+        heroSubtitle: "Projects and games developed as a Full Stack Developer",
+        btn_resume: "View My Resume",
+        btn_github: "GitHub",
+        btn_youtube: "YouTube",
+        btn_tiktok: "TikTok",
+        featuredProjectsTitle: "My Featured Projects",
+        allGamesTitle: "Featured Games",
+        interviewQuestionsTitle: "Interview Questions",
+        aboutTitle: "About Me",
+        aboutText: "I'm a Full Stack Developer. I'm Hacı Celal Aygar. I graduated from Karabük University, Department of Computer Engineering. I have been working as a Full Stack developer and Java developer around 5 years. My goal is to work in companies that produce projects using technologies in the fields of computer engineering and to continue to improve myself.",
+        skillsTitle: "Skills",
+        socialTitle: "Social Media & Connections",
+        contactTitle: "Contact",
+        contact_subtitle: "Any Question? Contact us!",
+        contact_description: "I'm at your service",
+        contact_phone: "Call us on",
+        contact_location: "City / Country",
+        contact_email: "Email",
+        contact_website: "Website",
+        footer_text: "© 2023 Full Stack Developer & Java Developer",
+        location: "Ankara, Yenimahalle, Turkey",
+        view_project: "View Project",
+        play_game: "Play Game",
+        view_questions: "View Questions",
+        menu_projects: "Projects",
+        menu_games: "Games",
+        menu_interview: "Interview Questions",
+        menu_about: "About",
+        menu_contact: "Contact"
+      },
+      tr: {
+        logo: "celalaygar",
+        heroTitle: "Yazılım Projelerim & Oyunlarım",
+        heroSubtitle: "Full Stack Developer olarak geliştirdiğim projeler ve oyunlar",
+        btn_resume: "Özgeçmişümü Görüntüle",
+        btn_github: "GitHub",
+        btn_youtube: "YouTube",
+        btn_tiktok: "TikTok",
+        featuredProjectsTitle: "Öne Çıkan Projelerim",
+        allGamesTitle: "Öne Çıkan Oyunlar",
+        interviewQuestionsTitle: "Mülakat Soruları",
+        aboutTitle: "Hakkımda",
+        aboutText: "Ben bir Full Stack Developer'ım. Ben Hacı Celal Aygar. Karabük Üniversitesi Bilgisayar Mühendisliği bölümünden mezun oldum. Yaklaşık 5 yıldır Full Stack developer ve Java developer olarak çalışmaktayım. Amacım, bilgisayar mühendisliği alanlarında teknolojiler kullanan şirketlerde çalışmak ve kendimi geliştirmeye devam etmektir.",
+        skillsTitle: "Yetenekler",
+        socialTitle: "Sosyal Medya & Bağlantılar",
+        contactTitle: "İletişim",
+        contact_subtitle: "Soru mu var? Bize ulaşın!",
+        contact_description: "Hizmetinizdeyim",
+        contact_phone: "Bizi arayın",
+        contact_location: "Şehir / Ülke",
+        contact_email: "E-posta",
+        contact_website: "Web Sitesi",
+        footer_text: "© 2023 Full Stack Developer & Java Geliştirici",
+        location: "Ankara, Yenimahalle, Turkey",
+        view_project: "Projeyi İncele",
+        play_game: "Oyunu Oyna",
+        view_questions: "Soruları Gör",
+        menu_projects: "Projeler",
+        menu_games: "Oyunlar",
+        menu_interview: "Mülakat Soruları",
+        menu_about: "Hakkımda",
+        menu_contact: "İletişim"
+      }
+    };
+
+    // Language switching functionality
+    let currentLang = 'tr';
+
+    function changeLanguage(lang) {
+      currentLang = lang;
+      const elements = document.querySelectorAll('[data-i18n]');
+
+      elements.forEach(element => {
+        const key = element.getAttribute('data-i18n');
+        if (translations[lang] && translations[lang][key]) {
+          element.textContent = translations[lang][key];
         }
-        // Update language
-        function updateLanguage(lang) {
-            currentLang = lang;
-            aboutTitle.textContent = translations[lang].aboutTitle;
-            aboutText.textContent = translations[lang].aboutText;
-            heroTitle.textContent = translations[lang].heroTitle;
-            heroSubtitle.textContent = translations[lang].heroSubtitle;
-            skillsTitle.textContent = translations[lang].skillsTitle;
-            ResumeButton.textContent = translations[lang].ResumeButton;
-            socialTitle.textContent = translations[lang].socialTitle;
-            footerText.textContent = translations[lang].footerText;
-            allCategory.textContent = translations[lang].allCategory;
-            gameCategory.textContent = translations[lang].gameCategory;
-            ResumeCategory.textContent = translations[lang].ResumeCategory;
-            projectCategory.textContent = translations[lang].projectCategory;
-            generalCategory.textContent = translations[lang].generalCategory;
-            featuredProjectsTitle.textContent = translations[lang].featuredProjectsTitle;
-            viewProfileTrack.textContent = translations[lang].viewProfileTrack;
-            viewDomainTrack.textContent = translations[lang].viewDomainTrack;
-            viewJobTracking.textContent = translations[lang].viewJobTracking;
-            searchInput.placeholder = translations[lang].searchPlaceholder;
-            filterGames();
+      });
+
+      // Update HTML lang attribute
+      document.documentElement.lang = lang;
+
+      // Update current language display
+      const currentLangDisplay = document.getElementById('currentLang');
+      if (lang === 'en') {
+        currentLangDisplay.textContent = 'English';
+      } else {
+        currentLangDisplay.textContent = 'Türkçe';
+      }
+    }
+
+    // Dropdown functionality
+    const languageDropdown = document.getElementById('languageDropdown');
+    const languageDropdownContent = document.getElementById('languageDropdownContent');
+
+    languageDropdown.addEventListener('click', function (e) {
+      e.preventDefault();
+      languageDropdownContent.classList.toggle('show');
+    });
+
+    // Close dropdown when clicking outside
+    window.addEventListener('click', function (e) {
+      if (!e.target.matches('.dropdown-button')) {
+        if (languageDropdownContent.classList.contains('show')) {
+          languageDropdownContent.classList.remove('show');
         }
-        // Language change event
-        languageSelect.addEventListener("change", () => {
-            updateLanguage(languageSelect.value);
-        });
-        // Hide loading screen after page loads
-        window.addEventListener("load", () => {
-            setTimeout(() => {
-                loadingScreen.style.opacity = "0";
-                setTimeout(() => {
-                    loadingScreen.style.display = "none";
-                }, 500);
-            }, 500);
-        });
-        // Initialize
-        updateLanguage("tr");
-    </script>
+      }
+    });
+
+    // Language selection
+    document.querySelectorAll('.dropdown-item').forEach(item => {
+      item.addEventListener('click', function (e) {
+        e.preventDefault();
+        const lang = this.getAttribute('data-lang');
+        changeLanguage(lang);
+        languageDropdownContent.classList.remove('show');
+      });
+    });
+
+    // Mobile menu toggle
+    const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    mobileMenuToggle.addEventListener('click', () => {
+      mobileMenu.classList.toggle('active');
+    });
+
+    // Close mobile menu when clicking on a link
+    document.querySelectorAll('.mobile-menu-item').forEach(item => {
+      item.addEventListener('click', () => {
+        mobileMenu.classList.remove('active');
+      });
+    });
+
+    // Smooth scrolling for navigation links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+        }
+      });
+    });
+
+    // Navbar scroll effect
+    window.addEventListener('scroll', () => {
+      const navbar = document.getElementById('navbar');
+      if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    });
+
+    // TikTok stats animation on page load
+    window.addEventListener('load', () => {
+      // Animate followers count
+      const followersElement = document.getElementById('followersCount');
+      const likesElement = document.getElementById('likesCount');
+
+      const followersTarget = 9785;
+      const likesTarget = 34.7; // in K
+      const duration = 3000; // 3 seconds
+      const startTime = Date.now();
+
+      function animateNumbers() {
+        const currentTime = Date.now();
+        const elapsedTime = currentTime - startTime;
+        const progress = Math.min(elapsedTime / duration, 1);
+
+        // Easing function for smooth animation
+        const easeOutQuart = 1 - Math.pow(1 - progress, 4);
+
+        // Update followers count
+        const currentFollowers = Math.floor(easeOutQuart * followersTarget);
+        followersElement.textContent = currentFollowers.toLocaleString();
+
+        // Update likes count (with K suffix)
+        const currentLikes = easeOutQuart * likesTarget;
+        if (currentLikes < 1) {
+          likesElement.textContent = currentLikes.toFixed(1);
+        } else {
+          likesElement.textContent = currentLikes.toFixed(1) + 'K';
+        }
+
+        if (progress < 1) {
+          requestAnimationFrame(animateNumbers);
+        }
+      }
+
+      animateNumbers();
+    });
+
+    // Initialize with Turkish language
+    changeLanguage('tr');
+  </script>
 </body>
 
 </html>
