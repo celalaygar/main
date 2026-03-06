@@ -215,7 +215,7 @@
       width: 100%;
     }
 
-    /* Language Selector - Tailwind Combobox */
+    /* Language Selector - Fixed */
     .dropdown {
       position: relative;
       display: inline-block;
@@ -239,6 +239,8 @@
       display: flex;
       align-items: center;
       min-width: 120px;
+      position: relative;
+      z-index: 10;
     }
 
     .dropdown-button:hover {
@@ -258,6 +260,7 @@
       border: 1px solid rgba(255, 255, 255, 0.1);
       overflow: hidden;
       margin-top: 8px;
+      right: 0;
     }
 
     .dropdown-content.show {
@@ -501,9 +504,9 @@
       </div>
 
       <div class="flex items-center gap-4">
-        <!-- Tailwind Dropdown for Language Selector -->
+        <!-- Fixed Tailwind Dropdown for Language Selector -->
         <div class="dropdown">
-          <button id="languageDropdown" class="dropdown-button">
+          <button id="languageDropdown" class="dropdown-button" type="button">
             <span id="currentLang">Türkçe</span>
           </button>
           <div id="languageDropdownContent" class="dropdown-content">
@@ -535,9 +538,9 @@
     <div class="container mx-auto max-w-7xl">
       <div class="text-center mb-12 animate-fade-in">
         <h1 class="text-4xl md:text-5xl font-bold mb-4 text-white">
-          <span id="heroTitle" class="gradient-text">Yazılım Projelerim & Oyunlarım</span>
+          <span id="heroTitle" class="gradient-text" data-i18n="heroTitle">Yazılım Projelerim & Oyunlarım</span>
         </h1>
-        <p id="heroSubtitle" class="text-xl text-gray-300 max-w-3xl mx-auto">
+        <p id="heroSubtitle" class="text-xl text-gray-300 max-w-3xl mx-auto" data-i18n="heroSubtitle">
           Full Stack Developer olarak geliştirdiğim projeler ve oyunlar
         </p>
       </div>
@@ -582,7 +585,7 @@
   <section id="projects" class="py-16 px-4">
     <div class="container mx-auto max-w-7xl">
       <h2 class="text-3xl font-bold mb-12 text-center text-white">
-        <span id="featuredProjectsTitle" class="gradient-text">Öne Çıkan Projelerim</span>
+        <span id="featuredProjectsTitle" class="gradient-text" data-i18n="featuredProjectsTitle">Öne Çıkan Projelerim</span>
       </h2>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
 
@@ -593,9 +596,9 @@
             <i class="fas fa-globe text-white"></i>
           </div>
           <h3 class="text-xl font-bold mb-2 text-white">Domain Track</h3>
-          <p class="text-gray-400 mb-4 text-sm">Alan Adı İstihbarat Aracı</p>
-          <p class="text-gray-400 mb-4 text-sm">
-            Check domain availability and view WHOIS registration information.
+          <p class="text-gray-400 mb-4 text-sm" data-i18n="domain_track_subtitle">Alan Adı İstihbarat Aracı</p>
+          <p class="text-gray-400 mb-4 text-sm" data-i18n="domain_track_desc">
+            Alan adı kullanılabilirliğini kontrol edin ve WHOIS kayıt bilgilerini görüntüleyin.
           </p>
           <div class="flex flex-wrap gap-2 mb-4">
             <span class="px-2 py-1 bg-cyan-500/20 text-cyan-300 rounded-full text-xs">Flutter</span>
@@ -614,9 +617,9 @@
             <i class="fas fa-briefcase text-white"></i>
           </div>
           <h3 class="text-xl font-bold mb-2 text-white">Job Tracking System V2</h3>
-          <p class="text-gray-400 mb-4 text-sm">İş Takip Sistemi</p>
-          <p class="text-gray-400 mb-4 text-sm">
-            Full-stack platform for managing projects, tasks, sprints, and work hours.
+          <p class="text-gray-400 mb-4 text-sm" data-i18n="job_tracking_subtitle">İş Takip Sistemi</p>
+          <p class="text-gray-400 mb-4 text-sm" data-i18n="job_tracking_desc">
+            Projeleri, görevleri, sprintleri ve çalışma saatlerini yönetmek için tam özellikli platform.
           </p>
           <div class="flex flex-wrap gap-2 mb-4">
             <span class="px-2 py-1 bg-green-500/20 text-green-300 rounded-full text-xs">Java 21</span>
@@ -635,8 +638,8 @@
             <i class="fas fa-language text-white"></i>
           </div>
           <h3 class="text-xl font-bold mb-2 text-white">Lingua Bubble</h3>
-          <p class="text-gray-400 mb-4 text-sm">Dil Öğrenmeyi Eğlenceli Hale Getir</p>
-          <p class="text-gray-400 mb-4 text-sm">
+          <p class="text-gray-400 mb-4 text-sm" data-i18n="lingua_bubble_subtitle">Dil Öğrenmeyi Eğlenceli Hale Getir</p>
+          <p class="text-gray-400 mb-4 text-sm" data-i18n="lingua_bubble_desc">
             Lingua Bubble ile 9 farklı dilde, kendi seviyende oyunlar oynayarak dil öğrenin.
           </p>
           <div class="flex flex-wrap gap-2 mb-4">
@@ -657,7 +660,7 @@
   <section id="games" class="py-16 px-4 bg-gradient-to-b from-transparent to-blue-900/10">
     <div class="container mx-auto max-w-7xl">
       <h2 class="text-3xl font-bold mb-12 text-center text-white">
-        <span id="allGamesTitle" class="gradient-text">Öne Çıkan Oyunlar</span>
+        <span id="allGamesTitle" class="gradient-text" data-i18n="allGamesTitle">Öne Çıkan Oyunlar</span>
       </h2>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <!-- Snake Game -->
@@ -666,9 +669,9 @@
             <i class="fas fa-gamepad text-white"></i>
           </div>
           <h3 class="text-xl font-bold mb-2 text-white">Snake Game</h3>
-          <p class="text-gray-400 mb-4 text-sm">Yılan Oyunu</p>
-          <p class="text-gray-400 mb-4 text-sm">
-            Classic snake game with modern graphics and smooth controls.
+          <p class="text-gray-400 mb-4 text-sm" data-i18n="snake_game_subtitle">Yılan Oyunu</p>
+          <p class="text-gray-400 mb-4 text-sm" data-i18n="snake_game_desc">
+            Modern grafikler ve akıcı kontrollerle klasik yılan oyunu.
           </p>
           <a href="https://celalaygar.github.io/main/game/snake-game/" target="_blank"
             class="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors">
@@ -683,9 +686,9 @@
             <i class="fas fa-dove text-white"></i>
           </div>
           <h3 class="text-xl font-bold mb-2 text-white">Flappy Bird</h3>
-          <p class="text-gray-400 mb-4 text-sm">Flappy Bird</p>
-          <p class="text-gray-400 mb-4 text-sm">
-            Navigate through obstacles in this addictive flying game.
+          <p class="text-gray-400 mb-4 text-sm" data-i18n="flappy_bird_subtitle">Flappy Bird</p>
+          <p class="text-gray-400 mb-4 text-sm" data-i18n="flappy_bird_desc">
+            Bu bağımlılık yapan uçma oyununda engellerin arasında gezinin.
           </p>
           <a href="https://celalaygar.github.io/main/game/flappy-bird-game/" target="_blank"
             class="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors">
@@ -700,9 +703,9 @@
             <i class="fas fa-cube text-white"></i>
           </div>
           <h3 class="text-xl font-bold mb-2 text-white">Tetris</h3>
-          <p class="text-gray-400 mb-4 text-sm">Tetris</p>
-          <p class="text-gray-400 mb-4 text-sm">
-            Classic block-stacking puzzle game with modern twist.
+          <p class="text-gray-400 mb-4 text-sm" data-i18n="tetris_subtitle">Tetris</p>
+          <p class="text-gray-400 mb-4 text-sm" data-i18n="tetris_desc">
+            Modern dokunuşla klasik blok yerleştirme bulmaca oyunu.
           </p>
           <a href="https://celalaygar.github.io/main/game/tetris-game/" target="_blank"
             class="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors">
@@ -717,9 +720,9 @@
             <i class="fas fa-ghost text-white"></i>
           </div>
           <h3 class="text-xl font-bold mb-2 text-white">Pac Man</h3>
-          <p class="text-gray-400 mb-4 text-sm">Pac Man</p>
-          <p class="text-gray-400 mb-4 text-sm">
-            Navigate the maze, eat dots, and avoid ghosts in this classic.
+          <p class="text-gray-400 mb-4 text-sm" data-i18n="pac_man_subtitle">Pac Man</p>
+          <p class="text-gray-400 mb-4 text-sm" data-i18n="pac_man_desc">
+            Labirentte gezinin, noktaları yiyin ve bu klasikte hayaletlerden kaçının.
           </p>
           <a href="https://celalaygar.github.io/main/game/pac-man/" target="_blank"
             class="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors">
@@ -734,7 +737,10 @@
             <i class="fas fa-square text-white"></i>
           </div>
           <h3 class="text-xl font-bold mb-2 text-white">Break Out</h3>
-          <p class="text-gray-400 mb-4 text-sm">Break Out</p>
+          <p class="text-gray-400 mb-4 text-sm" data-i18n="break_out_subtitle">Break Out</p>
+          <p class="text-gray-400 mb-4 text-sm" data-i18n="break_out_desc">
+            Blokları kırarak ilerleyin ve yüksek puanlar elde edin.
+          </p>
           <a href="https://celalaygar.github.io/main/game/breakout-game/" target="_blank"
             class="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors">
             <span data-i18n="play_game">Oyunu Oyna</span>
@@ -748,7 +754,10 @@
             <i class="fas fa-spell-check text-white"></i>
           </div>
           <h3 class="text-xl font-bold mb-2 text-white">Scrambled Word Game</h3>
-          <p class="text-gray-400 mb-4 text-sm">Karıştırılmış Kelime Oyunu</p>
+          <p class="text-gray-400 mb-4 text-sm" data-i18n="scrambled_word_subtitle">Karıştırılmış Kelime Oyunu</p>
+          <p class="text-gray-400 mb-4 text-sm" data-i18n="scrambled_word_desc">
+            Karışık harflerden doğru kelimeleri oluşturun.
+          </p>
           <a href="https://celalaygar.github.io/main/game/scrambled-word-game/" target="_blank"
             class="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors">
             <span data-i18n="play_game">Oyunu Oyna</span>
@@ -762,7 +771,10 @@
             <i class="fas fa-th text-white"></i>
           </div>
           <h3 class="text-xl font-bold mb-2 text-white">2048 Game</h3>
-          <p class="text-gray-400 mb-4 text-sm">2048 Oyunu</p>
+          <p class="text-gray-400 mb-4 text-sm" data-i18n="game_2048_subtitle">2048 Oyunu</p>
+          <p class="text-gray-400 mb-4 text-sm" data-i18n="game_2048_desc">
+            Sayıları birleştirerek 2048'e ulaşmaya çalışın.
+          </p>
           <a href="https://celalaygar.github.io/main/game/2048-game/" target="_blank"
             class="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors">
             <span data-i18n="play_game">Oyunu Oyna</span>
@@ -776,7 +788,10 @@
             <i class="fas fa-brain text-white"></i>
           </div>
           <h3 class="text-xl font-bold mb-2 text-white">Simon Says</h3>
-          <p class="text-gray-400 mb-4 text-sm">Simon Says</p>
+          <p class="text-gray-400 mb-4 text-sm" data-i18n="simon_says_subtitle">Simon Says</p>
+          <p class="text-gray-400 mb-4 text-sm" data-i18n="simon_says_desc">
+            Hafızanızı test edin ve renkli diziyi tekrarlayın.
+          </p>
           <a href="https://celalaygar.github.io/main/game/simon-says-game/" target="_blank"
             class="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors">
             <span data-i18n="play_game">Oyunu Oyna</span>
@@ -790,7 +805,10 @@
             <i class="fas fa-running text-white"></i>
           </div>
           <h3 class="text-xl font-bold mb-2 text-white">Endless Runner</h3>
-          <p class="text-gray-400 mb-4 text-sm">Sonsuz Koşucu</p>
+          <p class="text-gray-400 mb-4 text-sm" data-i18n="endless_runner_subtitle">Sonsuz Koşucu</p>
+          <p class="text-gray-400 mb-4 text-sm" data-i18n="endless_runner_desc">
+            Engellerden kaçarak sonsuz koşuyu sürdürün.
+          </p>
           <a href="https://celalaygar.github.io/main/game/endless-runne-game/" target="_blank"
             class="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors">
             <span data-i18n="play_game">Oyunu Oyna</span>
@@ -804,7 +822,10 @@
             <i class="fas fa-font text-white"></i>
           </div>
           <h3 class="text-xl font-bold mb-2 text-white">Missing Word Game in Sentence</h3>
-          <p class="text-gray-400 mb-4 text-sm">Cümledeki Eksik Kelime Oyunu</p>
+          <p class="text-gray-400 mb-4 text-sm" data-i18n="missing_word_subtitle">Cümledeki Eksik Kelime Oyunu</p>
+          <p class="text-gray-400 mb-4 text-sm" data-i18n="missing_word_desc">
+            Cümledeki eksik kelimeyi bularak dil becerilerinizi geliştirin.
+          </p>
           <a href="https://celalaygar.github.io/main/game/missing-word-game-in-sentence/" target="_blank"
             class="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors">
             <span data-i18n="play_game">Oyunu Oyna</span>
@@ -818,7 +839,10 @@
             <i class="fas fa-align-left text-white"></i>
           </div>
           <h3 class="text-xl font-bold mb-2 text-white">Sentence Builder Game</h3>
-          <p class="text-gray-400 mb-4 text-sm">Cümle Oluşturma Oyunu</p>
+          <p class="text-gray-400 mb-4 text-sm" data-i18n="sentence_builder_subtitle">Cümle Oluşturma Oyunu</p>
+          <p class="text-gray-400 mb-4 text-sm" data-i18n="sentence_builder_desc">
+            Kelimeleri doğru sıraya koyarak anlamlı cümleler oluşturun.
+          </p>
           <a href="https://celalaygar.github.io/main/game/sentence-builder-game/" target="_blank"
             class="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors">
             <span data-i18n="play_game">Oyunu Oyna</span>
@@ -832,7 +856,10 @@
             <i class="fas fa-hashtag text-white"></i>
           </div>
           <h3 class="text-xl font-bold mb-2 text-white">Tic Tac Toe</h3>
-          <p class="text-gray-400 mb-4 text-sm">X-O Oyunu</p>
+          <p class="text-gray-400 mb-4 text-sm" data-i18n="tic_tac_toe_subtitle">X-O Oyunu</p>
+          <p class="text-gray-400 mb-4 text-sm" data-i18n="tic_tac_toe_desc">
+            Klasik X-O oyununda rakibinizi yenin.
+          </p>
           <a href="https://celalaygar.github.io/main/game/tic-tac-toe-game/" target="_blank"
             class="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors">
             <span data-i18n="play_game">Oyunu Oyna</span>
@@ -846,7 +873,10 @@
             <i class="fas fa-meteor text-white"></i>
           </div>
           <h3 class="text-xl font-bold mb-2 text-white">Asteroids</h3>
-          <p class="text-gray-400 mb-4 text-sm">Asteroids</p>
+          <p class="text-gray-400 mb-4 text-sm" data-i18n="asteroids_subtitle">Asteroids</p>
+          <p class="text-gray-400 mb-4 text-sm" data-i18n="asteroids_desc">
+            Uzayda asteroidleri yok ederek hayatta kalın.
+          </p>
           <a href="https://celalaygar.github.io/main/game/asteroids-game/" target="_blank"
             class="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors">
             <span data-i18n="play_game">Oyunu Oyna</span>
@@ -860,7 +890,10 @@
             <i class="fas fa-rocket text-white"></i>
           </div>
           <h3 class="text-xl font-bold mb-2 text-white">Space Invaders</h3>
-          <p class="text-gray-400 mb-4 text-sm">Uzay Saldırganları</p>
+          <p class="text-gray-400 mb-4 text-sm" data-i18n="space_invaders_subtitle">Uzay Saldırganları</p>
+          <p class="text-gray-400 mb-4 text-sm" data-i18n="space_invaders_desc">
+            Dünyayı uzaylılardan korumak için savaşın.
+          </p>
           <a href="https://celalaygar.github.io/main/game/space-invaders-game/" target="_blank"
             class="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors">
             <span data-i18n="play_game">Oyunu Oyna</span>
@@ -874,7 +907,10 @@
             <i class="fas fa-helicopter text-white"></i>
           </div>
           <h3 class="text-xl font-bold mb-2 text-white">Helicopter</h3>
-          <p class="text-gray-400 mb-4 text-sm">Helikopter Oyunu</p>
+          <p class="text-gray-400 mb-4 text-sm" data-i18n="helicopter_subtitle">Helikopter Oyunu</p>
+          <p class="text-gray-400 mb-4 text-sm" data-i18n="helicopter_desc">
+            Helikopteri kontrol ederek engellerden kaçın.
+          </p>
           <a href="https://celalaygar.github.io/main/game/helicopter-game/" target="_blank"
             class="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors">
             <span data-i18n="play_game">Oyunu Oyna</span>
@@ -888,7 +924,10 @@
             <i class="fas fa-layer-group text-white"></i>
           </div>
           <h3 class="text-xl font-bold mb-2 text-white">Platform Jumper Game</h3>
-          <p class="text-gray-400 mb-4 text-sm">Platform Jumper Oyunu</p>
+          <p class="text-gray-400 mb-4 text-sm" data-i18n="platform_jumper_subtitle">Platform Jumper Oyunu</p>
+          <p class="text-gray-400 mb-4 text-sm" data-i18n="platform_jumper_desc">
+            Platformlar arasında atlayarak yükselmeye çalışın.
+          </p>
           <a href="https://celalaygar.github.io/main/game/platform-jumper-game/" target="_blank"
             class="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors">
             <span data-i18n="play_game">Oyunu Oyna</span>
@@ -902,7 +941,10 @@
             <i class="fas fa-building text-white"></i>
           </div>
           <h3 class="text-xl font-bold mb-2 text-white">Tower Blocks Game</h3>
-          <p class="text-gray-400 mb-4 text-sm">Tower Blocks Oyunu</p>
+          <p class="text-gray-400 mb-4 text-sm" data-i18n="tower_blocks_subtitle">Tower Blocks Oyunu</p>
+          <p class="text-gray-400 mb-4 text-sm" data-i18n="tower_blocks_desc">
+            Blokları üst üste koyarak en yüksek kuleyi inşa edin.
+          </p>
           <a href="https://celalaygar.github.io/main/game/tower-blocks-game/" target="_blank"
             class="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors">
             <span data-i18n="play_game">Oyunu Oyna</span>
@@ -916,7 +958,10 @@
             <i class="fas fa-search text-white"></i>
           </div>
           <h3 class="text-xl font-bold mb-2 text-white">Word Search Game</h3>
-          <p class="text-gray-400 mb-4 text-sm">Kelime Araştırma Oyunu</p>
+          <p class="text-gray-400 mb-4 text-sm" data-i18n="word_search_subtitle">Kelime Araştırma Oyunu</p>
+          <p class="text-gray-400 mb-4 text-sm" data-i18n="word_search_desc">
+            Harf haritasında gizlenmiş kelimeleri bulun.
+          </p>
           <a href="https://celalaygar.github.io/main/game/word-search-game/" target="_blank"
             class="inline-flex items-center text-blue-400 hover:text-blue-300 transition-colors">
             <span data-i18n="play_game">Oyunu Oyna</span>
@@ -931,7 +976,7 @@
   <section id="interview" class="py-16 px-4">
     <div class="container mx-auto max-w-7xl">
       <h2 class="text-3xl font-bold mb-12 text-center text-white">
-        <span id="interviewQuestionsTitle" class="gradient-text">Mülakat Soruları</span>
+        <span id="interviewQuestionsTitle" class="gradient-text" data-i18n="interviewQuestionsTitle">Mülakat Soruları</span>
       </h2>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <!-- Interview Questions 1 -->
@@ -940,9 +985,9 @@
             <i class="fas fa-question-circle text-white"></i>
           </div>
           <h3 class="text-xl font-bold mb-2 text-white">Interview Questions</h3>
-          <p class="text-gray-400 mb-4 text-sm">Mülakat Soruları</p>
-          <p class="text-gray-400 mb-4 text-sm">
-            General interview questions for software developers.
+          <p class="text-gray-400 mb-4 text-sm" data-i18n="interview_1_subtitle">Mülakat Soruları</p>
+          <p class="text-gray-400 mb-4 text-sm" data-i18n="interview_1_desc">
+            Yazılım geliştiriciler için genel mülakat soruları.
           </p>
           <div class="flex flex-wrap gap-2 mb-4">
             <span class="px-2 py-1 bg-yellow-500/20 text-yellow-300 rounded-full text-xs">Java</span>
@@ -961,9 +1006,9 @@
             <i class="fas fa-docker text-white"></i>
           </div>
           <h3 class="text-xl font-bold mb-2 text-white">ELK, Docker and K8S</h3>
-          <p class="text-gray-400 mb-4 text-sm">ELK, Docker ve K8S Mülakat Soruları</p>
-          <p class="text-gray-400 mb-4 text-sm">
-            Interview questions for containerization and logging technologies.
+          <p class="text-gray-400 mb-4 text-sm" data-i18n="interview_2_subtitle">ELK, Docker ve K8S Mülakat Soruları</p>
+          <p class="text-gray-400 mb-4 text-sm" data-i18n="interview_2_desc">
+            Konteynerleştirme ve günlük teknolojileri için mülakat soruları.
           </p>
           <div class="flex flex-wrap gap-2 mb-4">
             <span class="px-2 py-1 bg-blue-500/20 text-blue-300 rounded-full text-xs">Docker</span>
@@ -982,9 +1027,9 @@
             <i class="fas fa-leaf text-white"></i>
           </div>
           <h3 class="text-xl font-bold mb-2 text-white">Spring & Microservices</h3>
-          <p class="text-gray-400 mb-4 text-sm">Spring & Mikroservis Mülakat Soruları</p>
-          <p class="text-gray-400 mb-4 text-sm">
-            Interview questions for Spring framework and microservices architecture.
+          <p class="text-gray-400 mb-4 text-sm" data-i18n="interview_3_subtitle">Spring & Mikroservis Mülakat Soruları</p>
+          <p class="text-gray-400 mb-4 text-sm" data-i18n="interview_3_desc">
+            Spring framework ve mikroservis mimarisi için mülakat soruları.
           </p>
           <div class="flex flex-wrap gap-2 mb-4">
             <span class="px-2 py-1 bg-green-500/20 text-green-300 rounded-full text-xs">Spring Boot</span>
@@ -1003,9 +1048,9 @@
             <i class="fas fa-stream text-white"></i>
           </div>
           <h3 class="text-xl font-bold mb-2 text-white">Kafka and RabbitMQ</h3>
-          <p class="text-gray-400 mb-4 text-sm">Kafka ve RabbitMQ Mülakat Soruları</p>
-          <p class="text-gray-400 mb-4 text-sm">
-            Interview questions for message brokers and event streaming.
+          <p class="text-gray-400 mb-4 text-sm" data-i18n="interview_4_subtitle">Kafka ve RabbitMQ Mülakat Soruları</p>
+          <p class="text-gray-400 mb-4 text-sm" data-i18n="interview_4_desc">
+            Mesaj aracı ve olay akış teknolojileri için mülakat soruları.
           </p>
           <div class="flex flex-wrap gap-2 mb-4">
             <span class="px-2 py-1 bg-purple-500/20 text-purple-300 rounded-full text-xs">Kafka</span>
@@ -1024,9 +1069,9 @@
             <i class="fas fa-search text-white"></i>
           </div>
           <h3 class="text-xl font-bold mb-2 text-white">ELK Stack</h3>
-          <p class="text-gray-400 mb-4 text-sm">ELK Stack Mülakat Soruları</p>
-          <p class="text-gray-400 mb-4 text-sm">
-            Interview questions for Elasticsearch, Logstash, and Kibana.
+          <p class="text-gray-400 mb-4 text-sm" data-i18n="interview_5_subtitle">ELK Stack Mülakat Soruları</p>
+          <p class="text-gray-400 mb-4 text-sm" data-i18n="interview_5_desc">
+            Elasticsearch, Logstash ve Kibana için mülakat soruları.
           </p>
           <div class="flex flex-wrap gap-2 mb-4">
             <span class="px-2 py-1 bg-yellow-500/20 text-yellow-300 rounded-full text-xs">Elasticsearch</span>
@@ -1045,9 +1090,9 @@
             <i class="fas fa-dharmachakra text-white"></i>
           </div>
           <h3 class="text-xl font-bold mb-2 text-white">Senior Level Kubernetes</h3>
-          <p class="text-gray-400 mb-4 text-sm">Senior Seviye Kubernetes Mülakat Soruları</p>
-          <p class="text-gray-400 mb-4 text-sm">
-            Advanced interview questions for senior Kubernetes engineers.
+          <p class="text-gray-400 mb-4 text-sm" data-i18n="interview_6_subtitle">Senior Seviye Kubernetes Mülakat Soruları</p>
+          <p class="text-gray-400 mb-4 text-sm" data-i18n="interview_6_desc">
+            Senior Kubernetes mühendisleri için ileri düzey mülakat soruları.
           </p>
           <div class="flex flex-wrap gap-2 mb-4">
             <span class="px-2 py-1 bg-blue-500/20 text-blue-300 rounded-full text-xs">Kubernetes</span>
@@ -1066,9 +1111,9 @@
             <i class="fas fa-database text-white"></i>
           </div>
           <h3 class="text-xl font-bold mb-2 text-white">Redis Senior Level</h3>
-          <p class="text-gray-400 mb-4 text-sm">Redis ile Senior Seviye Mülakat Soruları</p>
-          <p class="text-gray-400 mb-4 text-sm">
-            Advanced interview questions for Redis database administrators.
+          <p class="text-gray-400 mb-4 text-sm" data-i18n="interview_7_subtitle">Redis ile Senior Seviye Mülakat Soruları</p>
+          <p class="text-gray-400 mb-4 text-sm" data-i18n="interview_7_desc">
+            Redis veritabanı yöneticileri için ileri düzey mülakat soruları.
           </p>
           <div class="flex flex-wrap gap-2 mb-4">
             <span class="px-2 py-1 bg-red-500/20 text-red-300 rounded-full text-xs">Redis</span>
@@ -1088,7 +1133,7 @@
   <section id="about" class="py-16 px-4 bg-gradient-to-b from-transparent to-blue-900/10">
     <div class="container mx-auto max-w-4xl">
       <h2 class="text-3xl font-bold mb-12 text-center text-white">
-        <span id="aboutTitle" class="gradient-text">Hakkımda</span>
+        <span id="aboutTitle" class="gradient-text" data-i18n="aboutTitle">Hakkımda</span>
       </h2>
       <div class="glass-card p-8 md:p-12" data-aos="fade-up" data-aos-delay="100">
         <div class="flex flex-col md:flex-row gap-8 items-center">
@@ -1105,7 +1150,7 @@
             </div>
           </div>
           <div class="md:w-2/3">
-            <p id="aboutText" class="text-gray-300 mb-6">
+            <p id="aboutText" class="text-gray-300 mb-6" data-i18n="aboutText">
               Ben bir Full Stack Developer'ım.
               Ben Hacı Celal Aygar. Karabük Üniversitesi Bilgisayar Mühendisliği bölümünden mezun oldum.
               Yaklaşık 5 yıldır Full Stack developer ve Java developer olarak çalışmaktayım.
@@ -1113,7 +1158,7 @@
               kendimi geliştirmeye devam etmektir.
             </p>
             <div class="mb-6">
-              <h3 id="skillsTitle" class="text-lg font-semibold mb-3 text-white">Yetenekler</h3>
+              <h3 id="skillsTitle" class="text-lg font-semibold mb-3 text-white" data-i18n="skillsTitle">Yetenekler</h3>
               <div class="flex flex-wrap gap-2">
                 <span class="px-3 py-1 bg-blue-500/20 text-blue-300 rounded-full text-sm">Java</span>
                 <span class="px-3 py-1 bg-green-500/20 text-green-300 rounded-full text-sm">Spring Boot</span>
@@ -1133,7 +1178,7 @@
   <section class="py-16 px-4">
     <div class="container mx-auto max-w-4xl">
       <h2 class="text-3xl font-bold mb-12 text-center text-white">
-        <span id="socialTitle" class="gradient-text">Sosyal Medya & Bağlantılar</span>
+        <span id="socialTitle" class="gradient-text" data-i18n="socialTitle">Sosyal Medya & Bağlantılar</span>
       </h2>
       <div class="glass-card p-8" data-aos="fade-up" data-aos-delay="100">
         <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
@@ -1184,12 +1229,12 @@
   <section id="contact" class="py-16 px-4 bg-gradient-to-b from-transparent to-purple-900/10">
     <div class="container mx-auto max-w-4xl">
       <h2 class="text-3xl font-bold mb-12 text-center text-white">
-        <span id="contactTitle" class="gradient-text">İletişim</span>
+        <span id="contactTitle" class="gradient-text" data-i18n="contactTitle">İletişim</span>
       </h2>
       <div class="glass-card p-8" data-aos="fade-up" data-aos-delay="100">
         <div class="text-center mb-8">
-          <h3 class="text-2xl font-bold text-white mb-2" data-i18n="contact_subtitle">Any Question? Contact us!</h3>
-          <p class="text-gray-300" data-i18n="contact_description">I'm at your service</p>
+          <h3 class="text-2xl font-bold text-white mb-2" data-i18n="contact_subtitle">Soru mu var? Bize ulaşın!</h3>
+          <p class="text-gray-300" data-i18n="contact_description">Hizmetinizdeyim</p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -1198,7 +1243,7 @@
               <i class="fas fa-phone text-blue-400"></i>
             </div>
             <div>
-              <p class="text-gray-400 text-sm" data-i18n="contact_phone">Call us on</p>
+              <p class="text-gray-400 text-sm" data-i18n="contact_phone">Bizi arayın</p>
               <a href="tel:+905448358401" class="text-white hover:text-blue-400 transition-colors">+90 544 835 84 01</a>
             </div>
           </div>
@@ -1208,7 +1253,7 @@
               <i class="fas fa-map-marker-alt text-green-400"></i>
             </div>
             <div>
-              <p class="text-gray-400 text-sm" data-i18n="contact_location">City / Country</p>
+              <p class="text-gray-400 text-sm" data-i18n="contact_location">Şehir / Ülke</p>
               <p class="text-white">Ankara / TURKEY</p>
             </div>
           </div>
@@ -1218,7 +1263,7 @@
               <i class="fas fa-envelope text-purple-400"></i>
             </div>
             <div>
-              <p class="text-gray-400 text-sm" data-i18n="contact_email">Email</p>
+              <p class="text-gray-400 text-sm" data-i18n="contact_email">E-posta</p>
               <a href="mailto:celal.aygar@gmail.com"
                 class="text-white hover:text-purple-400 transition-colors">celal.aygar@gmail.com</a>
             </div>
@@ -1229,7 +1274,7 @@
               <i class="fas fa-globe text-indigo-400"></i>
             </div>
             <div>
-              <p class="text-gray-400 text-sm" data-i18n="contact_website">Website</p>
+              <p class="text-gray-400 text-sm" data-i18n="contact_website">Web Sitesi</p>
               <a href="https://celalaygar.github.io/" target="_blank"
                 class="text-white hover:text-indigo-400 transition-colors">celalaygar.github.io</a>
             </div>
@@ -1356,7 +1401,7 @@
         allGamesTitle: "Featured Games",
         interviewQuestionsTitle: "Interview Questions",
         aboutTitle: "About Me",
-        aboutText: "I'm a Full Stack Developer. I'm Hacı Celal Aygar. I graduated from Karabük University, Department of Computer Engineering. I have been working as a Full Stack developer and Java developer around 5 years. My goal is to work in companies that produce projects using technologies in the fields of computer engineering and to continue to improve myself.",
+        aboutText: "I'm Hacı Celal Aygar and Full Stack developer and Java developer. I'm a Computer Engineering graduate from Karabük University and a Full Stack & Java Developer with around 5 years of professional experience in building scalable and maintainable software systems. Software development for me is not just a profession — it's a continuous learning journey. I specialize in backend technologies such as Java, Python, Node js, Spring Boot, Spring Security, and reactive programming, while also developing rich front-end experiences using JavaScript, React, Next.js, and other modern UI technologies. My goal is to work in innovative companies where I contribute to creating impactful solutions and elevate user experiences through clean, efficient code. I actively share many sample projects on my GitHub to help others learn and to document my growth. I also engage with communities on GitHub and StackOverflow to expand my knowledge and support others. I enjoy adapting to new technologies, collaborating with dynamic teams, and working on cross-disciplinary projects. My long-term ambition is to be recognized as a software engineer who builds robust architectures and contributes meaningfully to global tech communities.",
         skillsTitle: "Skills",
         socialTitle: "Social Media & Connections",
         contactTitle: "Contact",
@@ -1375,7 +1420,69 @@
         menu_games: "Games",
         menu_interview: "Interview Questions",
         menu_about: "About",
-        menu_contact: "Contact"
+        menu_contact: "Contact",
+        
+        // Project descriptions
+        domain_track_subtitle: "Domain Intelligence Tool",
+        domain_track_desc: "Check domain availability and view WHOIS registration information.",
+        job_tracking_subtitle: "Job Tracking System",
+        job_tracking_desc: "Full-stack platform for managing projects, tasks, sprints, and work hours.",
+        lingua_bubble_subtitle: "Make Language Learning Fun",
+        lingua_bubble_desc: "Learn languages by playing games at your own level in 9 different languages with Lingua Bubble.",
+        
+        // Game descriptions
+        snake_game_subtitle: "Snake Game",
+        snake_game_desc: "Classic snake game with modern graphics and smooth controls.",
+        flappy_bird_subtitle: "Flappy Bird",
+        flappy_bird_desc: "Navigate through obstacles in this addictive flying game.",
+        tetris_subtitle: "Tetris",
+        tetris_desc: "Classic block-stacking puzzle game with modern twist.",
+        pac_man_subtitle: "Pac Man",
+        pac_man_desc: "Navigate the maze, eat dots, and avoid ghosts in this classic.",
+        break_out_subtitle: "Break Out",
+        break_out_desc: "Break blocks and score high points.",
+        scrambled_word_subtitle: "Scrambled Word Game",
+        scrambled_word_desc: "Form correct words from mixed letters.",
+        game_2048_subtitle: "2048 Game",
+        game_2048_desc: "Try to reach 2048 by combining numbers.",
+        simon_says_subtitle: "Simon Says",
+        simon_says_desc: "Test your memory and repeat the color sequence.",
+        endless_runner_subtitle: "Endless Runner",
+        endless_runner_desc: "Keep running by avoiding obstacles.",
+        missing_word_subtitle: "Missing Word Game in Sentence",
+        missing_word_desc: "Improve your language skills by finding the missing word in the sentence.",
+        sentence_builder_subtitle: "Sentence Builder Game",
+        sentence_builder_desc: "Create meaningful sentences by putting words in the correct order.",
+        tic_tac_toe_subtitle: "X-O Game",
+        tic_tac_toe_desc: "Beat your opponent in the classic X-O game.",
+        asteroids_subtitle: "Asteroids",
+        asteroids_desc: "Survive in space by destroying asteroids.",
+        space_invaders_subtitle: "Space Invaders",
+        space_invaders_desc: "Fight to protect Earth from aliens.",
+        helicopter_subtitle: "Helicopter Game",
+        helicopter_desc: "Control the helicopter and avoid obstacles.",
+        platform_jumper_subtitle: "Platform Jumper Game",
+        platform_jumper_desc: "Try to rise by jumping between platforms.",
+        tower_blocks_subtitle: "Tower Blocks Game",
+        tower_blocks_desc: "Build the highest tower by stacking blocks.",
+        word_search_subtitle: "Word Search Game",
+        word_search_desc: "Find hidden words in the letter grid.",
+        
+        // Interview questions
+        interview_1_subtitle: "Interview Questions",
+        interview_1_desc: "General interview questions for software developers.",
+        interview_2_subtitle: "ELK, Docker and K8S Interview Questions",
+        interview_2_desc: "Interview questions for containerization and logging technologies.",
+        interview_3_subtitle: "Spring & Microservices Interview Questions",
+        interview_3_desc: "Interview questions for Spring framework and microservices architecture.",
+        interview_4_subtitle: "Kafka and RabbitMQ Interview Questions",
+        interview_4_desc: "Interview questions for message brokers and event streaming.",
+        interview_5_subtitle: "ELK Stack Interview Questions",
+        interview_5_desc: "Interview questions for Elasticsearch, Logstash, and Kibana.",
+        interview_6_subtitle: "Senior Level Kubernetes Interview Questions",
+        interview_6_desc: "Advanced interview questions for senior Kubernetes engineers.",
+        interview_7_subtitle: "Redis Senior Level Interview Questions",
+        interview_7_desc: "Advanced interview questions for Redis database administrators."
       },
       tr: {
         logo: "celalaygar",
@@ -1389,7 +1496,7 @@
         allGamesTitle: "Öne Çıkan Oyunlar",
         interviewQuestionsTitle: "Mülakat Soruları",
         aboutTitle: "Hakkımda",
-        aboutText: "Ben bir Full Stack Developer'ım. Ben Hacı Celal Aygar. Karabük Üniversitesi Bilgisayar Mühendisliği bölümünden mezun oldum. Yaklaşık 5 yıldır Full Stack developer ve Java developer olarak çalışmaktayım. Amacım, bilgisayar mühendisliği alanlarında teknolojiler kullanan şirketlerde çalışmak ve kendimi geliştirmeye devam etmektir.",
+        aboutText: "Ben Hacı Celal Aygar ve Full Stack geliştiricisi ve Java geliştiricisiyim. Karabük Üniversitesi Bilgisayar Mühendisliği mezunuyum ve ölçeklenebilir ve bakımı kolay yazılım sistemleri oluşturmada yaklaşık 5 yıllık profesyonel deneyime sahip bir Full Stack ve Java Geliştiricisiyim. Benim için yazılım geliştirme sadece bir meslek değil - sürekli öğrenilen bir yolculuktur. Java, Python, Node js, Spring Boot, Spring Security ve reaktif programlama gibi arka uç teknolojilerinde uzmanlaşırken, aynı zamanda JavaScript, React, Next.js ve diğer modern UI teknolojilerini kullanarak zengin ön yüz deneyimleri geliştiriyorum. Amacım, etkili çözümler oluşturmaya katkıda bulunduğum ve temiz, verimli kod aracılığıyla kullanıcı deneyimlerini yükselttiğim yenilikçi şirketlerde çalışmaktır. Başkalarının öğrenmesine yardımcı olmak ve büyümemi belgelemek için GitHub'da birçok örnek proje paylaşıyorum. Ayrıca bilgiimi genişletmek ve başkalarına destek olmak için GitHub ve StackOverflow'daki topluluklarla etkileşimde bulunuyorum. Yeni teknolojilere uyum sağlamayı, dinamik ekiplerle işbirliği yapmayı ve disiplinler arası projelerde çalışmayı seviyorum. Uzun vadeli hedefim, sağlam mimariler inşa eden ve küresel teknoloji topluluklarına anlamlı katkılarda bulunan bir yazılım mühendisi olarak tanınmaktır.",
         skillsTitle: "Yetenekler",
         socialTitle: "Sosyal Medya & Bağlantılar",
         contactTitle: "İletişim",
@@ -1408,7 +1515,69 @@
         menu_games: "Oyunlar",
         menu_interview: "Mülakat Soruları",
         menu_about: "Hakkımda",
-        menu_contact: "İletişim"
+        menu_contact: "İletişim",
+        
+        // Project descriptions
+        domain_track_subtitle: "Alan Adı İstihbarat Aracı",
+        domain_track_desc: "Alan adı kullanılabilirliğini kontrol edin ve WHOIS kayıt bilgilerini görüntüleyin.",
+        job_tracking_subtitle: "İş Takip Sistemi",
+        job_tracking_desc: "Projeleri, görevleri, sprintleri ve çalışma saatlerini yönetmek için tam özellikli platform.",
+        lingua_bubble_subtitle: "Dil Öğrenmeyi Eğlenceli Hale Getir",
+        lingua_bubble_desc: "Lingua Bubble ile 9 farklı dilde, kendi seviyende oyunlar oynayarak dil öğrenin.",
+        
+        // Game descriptions
+        snake_game_subtitle: "Yılan Oyunu",
+        snake_game_desc: "Modern grafikler ve akıcı kontrollerle klasik yılan oyunu.",
+        flappy_bird_subtitle: "Flappy Bird",
+        flappy_bird_desc: "Bu bağımlılık yapan uçma oyununda engellerin arasında gezinin.",
+        tetris_subtitle: "Tetris",
+        tetris_desc: "Modern dokunuşla klasik blok yerleştirme bulmaca oyunu.",
+        pac_man_subtitle: "Pac Man",
+        pac_man_desc: "Labirentte gezinin, noktaları yiyin ve bu klasikte hayaletlerden kaçının.",
+        break_out_subtitle: "Break Out",
+        break_out_desc: "Blokları kırarak ilerleyin ve yüksek puanlar elde edin.",
+        scrambled_word_subtitle: "Karıştırılmış Kelime Oyunu",
+        scrambled_word_desc: "Karışık harflerden doğru kelimeleri oluşturun.",
+        game_2048_subtitle: "2048 Oyunu",
+        game_2048_desc: "Sayıları birleştirerek 2048'e ulaşmaya çalışın.",
+        simon_says_subtitle: "Simon Says",
+        simon_says_desc: "Hafızanızı test edin ve renkli diziyi tekrarlayın.",
+        endless_runner_subtitle: "Sonsuz Koşucu",
+        endless_runner_desc: "Engellerden kaçarak sonsuz koşuyu sürdürün.",
+        missing_word_subtitle: "Cümledeki Eksik Kelime Oyunu",
+        missing_word_desc: "Cümledeki eksik kelimeyi bularak dil becerilerinizi geliştirin.",
+        sentence_builder_subtitle: "Cümle Oluşturma Oyunu",
+        sentence_builder_desc: "Kelimeleri doğru sıraya koyarak anlamlı cümleler oluşturun.",
+        tic_tac_toe_subtitle: "X-O Oyunu",
+        tic_tac_toe_desc: "Klasik X-O oyununda rakibinizi yenin.",
+        asteroids_subtitle: "Asteroids",
+        asteroids_desc: "Uzayda asteroidleri yok ederek hayatta kalın.",
+        space_invaders_subtitle: "Uzay Saldırganları",
+        space_invaders_desc: "Dünyayı uzaylılardan korumak için savaşın.",
+        helicopter_subtitle: "Helikopter Oyunu",
+        helicopter_desc: "Helikopteri kontrol ederek engellerden kaçın.",
+        platform_jumper_subtitle: "Platform Jumper Oyunu",
+        platform_jumper_desc: "Platformlar arasında atlayarak yükselmeye çalışın.",
+        tower_blocks_subtitle: "Tower Blocks Oyunu",
+        tower_blocks_desc: "Blokları üst üste koyarak en yüksek kuleyi inşa edin.",
+        word_search_subtitle: "Kelime Araştırma Oyunu",
+        word_search_desc: "Harf haritasında gizlenmiş kelimeleri bulun.",
+        
+        // Interview questions
+        interview_1_subtitle: "Mülakat Soruları",
+        interview_1_desc: "Yazılım geliştiriciler için genel mülakat soruları.",
+        interview_2_subtitle: "ELK, Docker ve K8S Mülakat Soruları",
+        interview_2_desc: "Konteynerleştirme ve günlük teknolojileri için mülakat soruları.",
+        interview_3_subtitle: "Spring & Mikroservis Mülakat Soruları",
+        interview_3_desc: "Spring framework ve mikroservis mimarisi için mülakat soruları.",
+        interview_4_subtitle: "Kafka ve RabbitMQ Mülakat Soruları",
+        interview_4_desc: "Mesaj aracı ve olay akış teknolojileri için mülakat soruları.",
+        interview_5_subtitle: "ELK Stack Mülakat Soruları",
+        interview_5_desc: "Elasticsearch, Logstash ve Kibana için mülakat soruları.",
+        interview_6_subtitle: "Senior Seviye Kubernetes Mülakat Soruları",
+        interview_6_desc: "Senior Kubernetes mühendisleri için ileri düzey mülakat soruları.",
+        interview_7_subtitle: "Redis ile Senior Seviye Mülakat Soruları",
+        interview_7_desc: "Redis veritabanı yöneticileri için ileri düzey mülakat soruları."
       }
     };
 
@@ -1438,18 +1607,19 @@
       }
     }
 
-    // Dropdown functionality
+    // Dropdown functionality - Fixed
     const languageDropdown = document.getElementById('languageDropdown');
     const languageDropdownContent = document.getElementById('languageDropdownContent');
 
     languageDropdown.addEventListener('click', function (e) {
       e.preventDefault();
+      e.stopPropagation(); // Prevent event bubbling
       languageDropdownContent.classList.toggle('show');
     });
 
     // Close dropdown when clicking outside
-    window.addEventListener('click', function (e) {
-      if (!e.target.matches('.dropdown-button')) {
+    document.addEventListener('click', function (e) {
+      if (!e.target.closest('.dropdown')) {
         if (languageDropdownContent.classList.contains('show')) {
           languageDropdownContent.classList.remove('show');
         }
@@ -1460,6 +1630,7 @@
     document.querySelectorAll('.dropdown-item').forEach(item => {
       item.addEventListener('click', function (e) {
         e.preventDefault();
+        e.stopPropagation(); // Prevent event bubbling
         const lang = this.getAttribute('data-lang');
         changeLanguage(lang);
         languageDropdownContent.classList.remove('show');
