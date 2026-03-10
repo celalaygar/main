@@ -1,0 +1,51 @@
+[
+  {
+    "title": "Interview Questions",
+    "short_description": "Interview Questions",
+    "long_description": "General interview questions for software developers.",
+    "tags": ["Java", "JavaScript"],
+    "url": "https://celalaygar.github.io/main/interview_q-1/"
+  },
+  {
+    "title": "ELK, Docker and K8S",
+    "short_description": "ELK, Docker and K8S Interview Questions",
+    "long_description": "Interview questions for containerization and logging technologies.",
+    "tags": ["Docker", "Kubernetes"],
+    "url": "https://celalaygar.github.io/main/interview_q-2/"
+  },
+  {
+    "title": "Spring & Microservices",
+    "short_description": "Spring & Microservices Interview Questions",
+    "long_description": "Interview questions for Spring framework and microservices architecture.",
+    "tags": ["Spring Boot", "Microservices"],
+    "url": "https://celalaygar.github.io/main/interview_q-3/"
+  },
+  {
+    "title": "Kafka and RabbitMQ",
+    "short_description": "Kafka and RabbitMQ Interview Questions",
+    "long_description": "Interview questions for message brokers and event streaming.",
+    "tags": ["Kafka", "RabbitMQ"],
+    "url": "https://celalaygar.github.io/main/interview_q-4/"
+  },
+  {
+    "title": "ELK Stack",
+    "short_description": "ELK Stack Interview Questions",
+    "long_description": "Interview questions for Elasticsearch, Logstash, and Kibana.",
+    "tags": ["Elasticsearch", "Logstash"],
+    "url": "https://celalaygar.github.io/main/interview_q-5/"
+  },
+  {
+    "title": "Senior Level Kubernetes",
+    "short_description": "Senior Level Kubernetes Interview Questions",
+    "long_description": "Advanced interview questions for senior Kubernetes engineers.",
+    "tags": ["Kubernetes", "Senior Level"],
+    "url": "https://celalaygar.github.io/main/interview_q-6/"
+  },
+  {
+    "title": "Redis Senior Level",
+    "short_description": "Redis Senior Level Interview Questions",
+    "long_description": "Advanced interview questions for Redis database administrators.",
+    "tags": ["Redis", "Senior Level"],
+    "url": "https://celalaygar.github.io/main/interview_q-7/"
+  }
+]
