@@ -1,0 +1,44 @@
+[
+  {
+    "title": "Database Design and Programming with SQL",
+    "organization": "ORACLE ACADEMY",
+    "date": "26 June 2016",
+    "url": "https://raw.githubusercontent.com/celalaygar/pdfs/main/sertifikalar/Database_Design_and_Programming_with_SQL.pdf"
+  },
+  {
+    "title": "REACT ile Web Programcılığı",
+    "organization": "BTK AKADEMİ",
+    "date": "May 2025",
+    "url": "https://raw.githubusercontent.com/celalaygar/pdfs/main/sertifikalar/REACT_ile_Web_Programcılığı.pdf"
+  },
+  {
+    "title": "Elasticsearch v8",
+    "organization": "BTK AKADEMİ",
+    "date": "June 2025",
+    "url": "https://raw.githubusercontent.com/celalaygar/pdfs/main/sertifikalar/Elasticsearch_v8_Sertifika.pdf"
+  },
+  {
+    "title": "Apache Kafka",
+    "organization": "BTK AKADEMİ",
+    "date": "May 2025",
+    "url": "https://raw.githubusercontent.com/celalaygar/pdfs/main/sertifikalar/Apache_Kafka.pdf"
+  },
+  {
+    "title": "NoSQL - Doküman Veritabanları",
+    "organization": "BTK AKADEMİ",
+    "date": "May 2025",
+    "url": "https://raw.githubusercontent.com/celalaygar/pdfs/main/sertifikalar/NoSQL_Doküman_Veritabanları.pdf"
+  },
+  {
+    "title": "JAVA ile Programlamaya Giriş",
+    "organization": "BTK AKADEMİ",
+    "date": "May 2025",
+    "url": "https://raw.githubusercontent.com/celalaygar/pdfs/main/sertifikalar/JAVA_ile_Programlamaya_Giriş_Sertifika.pdf"
+  },
+  {
+    "title": "İleri Seviye Java",
+    "organization": "BTK AKADEMİ",
+    "date": "May 2025",
+    "url": "https://raw.githubusercontent.com/celalaygar/pdfs/main/sertifikalar/%C4%B0leri_Seviye_Java_Sertifika.pdf"
+  }
+]
