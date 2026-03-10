@@ -1,0 +1,110 @@
+[
+  {
+    "name": "Snake Game",
+    "short_description": "Snake Game",
+    "long_description": "Classic snake game with modern graphics and smooth controls.",
+    "url": "https://celalaygar.github.io/main/game/snake-game/"
+  },
+  {
+    "name": "Flappy Bird",
+    "short_description": "Flappy Bird",
+    "long_description": "Navigate through obstacles in this addictive flying game.",
+    "url": "https://celalaygar.github.io/main/game/flappy-bird-game/"
+  },
+  {
+    "name": "Tetris",
+    "short_description": "Tetris",
+    "long_description": "Classic block-stacking puzzle game with modern twist.",
+    "url": "https://celalaygar.github.io/main/game/tetris-game/"
+  },
+  {
+    "name": "Pac Man",
+    "short_description": "Pac Man",
+    "long_description": "Navigate the maze, eat dots, and avoid ghosts in this classic.",
+    "url": "https://celalaygar.github.io/main/game/pac-man/"
+  },
+  {
+    "name": "Break Out",
+    "short_description": "Break Out",
+    "long_description": "Break blocks and score high points.",
+    "url": "https://celalaygar.github.io/main/game/breakout-game/"
+  },
+  {
+    "name": "Scrambled Word Game",
+    "short_description": "Scrambled Word Game",
+    "long_description": "Form correct words from mixed letters.",
+    "url": "https://celalaygar.github.io/main/game/scrambled-word-game/"
+  },
+  {
+    "name": "2048 Game",
+    "short_description": "2048 Game",
+    "long_description": "Try to reach 2048 by combining numbers.",
+    "url": "https://celalaygar.github.io/main/game/2048-game/"
+  },
+  {
+    "name": "Simon Says",
+    "short_description": "Simon Says",
+    "long_description": "Test your memory and repeat the color sequence.",
+    "url": "https://celalaygar.github.io/main/game/simon-says-game/"
+  },
+  {
+    "name": "Endless Runner",
+    "short_description": "Endless Runner",
+    "long_description": "Keep running by avoiding obstacles.",
+    "url": "https://celalaygar.github.io/main/game/endless-runne-game/"
+  },
+  {
+    "name": "Missing Word Game in Sentence",
+    "short_description": "Missing Word Game in Sentence",
+    "long_description": "Improve your language skills by finding the missing word in the sentence.",
+    "url": "https://celalaygar.github.io/main/game/missing-word-game-in-sentence/"
+  },
+  {
+    "name": "Sentence Builder Game",
+    "short_description": "Sentence Builder Game",
+    "long_description": "Create meaningful sentences by putting words in the correct order.",
+    "url": "https://celalaygar.github.io/main/game/sentence-builder-game/"
+  },
+  {
+    "name": "Tic Tac Toe",
+    "short_description": "X-O Game",
+    "long_description": "Beat your opponent in the classic X-O game.",
+    "url": "https://celalaygar.github.io/main/game/tic-tac-toe-game/"
+  },
+  {
+    "name": "Asteroids",
+    "short_description": "Asteroids",
+    "long_description": "Survive in space by destroying asteroids.",
+    "url": "https://celalaygar.github.io/main/game/asteroids-game/"
+  },
+  {
+    "name": "Space Invaders",
+    "short_description": "Space Invaders",
+    "long_description": "Fight to protect Earth from aliens.",
+    "url": "https://celalaygar.github.io/main/game/space-invaders-game/"
+  },
+  {
+    "name": "Helicopter",
+    "short_description": "Helicopter Game",
+    "long_description": "Control the helicopter and avoid obstacles.",
+    "url": "https://celalaygar.github.io/main/game/helicopter-game/"
+  },
+  {
+    "name": "Platform Jumper Game",
+    "short_description": "Platform Jumper Game",
+    "long_description": "Try to rise by jumping between platforms.",
+    "url": "https://celalaygar.github.io/main/game/platform-jumper-game/"
+  },
+  {
+    "name": "Tower Blocks Game",
+    "short_description": "Tower Blocks Game",
+    "long_description": "Build the highest tower by stacking blocks.",
+    "url": "https://celalaygar.github.io/main/game/tower-blocks-game/"
+  },
+  {
+    "name": "Word Search Game",
+    "short_description": "Word Search Game",
+    "long_description": "Find hidden words in the letter grid.",
+    "url": "https://celalaygar.github.io/main/game/word-search-game/"
+  }
+]
