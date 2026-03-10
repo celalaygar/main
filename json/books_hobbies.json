@@ -1,0 +1,80 @@
+[
+  {
+    "group": "Books",
+    "items": [
+      {
+        "title": "Borsa 101",
+        "author": "Aysel Gündoğdu",
+        "publisher": "SCALA Yayıncılık"
+      },
+      {
+        "title": "Assassin's Creed - Shao Jun'un Kılıcı",
+        "author": "Senpai",
+        "publisher": ""
+      },
+      {
+        "title": "Yönetim Becerileri",
+        "author": "Harvard Business Review Press",
+        "publisher": "OPTMİSİT"
+      },
+      {
+        "title": "Gerçekten Bilmeniz Gereken 50 Ekonomi Fikri",
+        "author": "Edmund Conways",
+        "publisher": "Domingo Yayınevi"
+      },
+      {
+        "title": "Siber Araçlar Ansiklopedisi",
+        "author": "Mustafa Atakan Kasacı",
+        "publisher": "ABAKÜS KİTAP"
+      },
+      {
+        "title": "Bilişimin Karanlık Yüzü",
+        "author": "Kamil Burlu",
+        "publisher": "Nirvana Yayınları"
+      },
+      {
+        "title": "Ethical Hacking",
+        "author": "Ömer Çıtak",
+        "publisher": "ABAKÜS KİTAP"
+      },
+      {
+        "title": "Spring Framework",
+        "author": "Mimar Aslan",
+        "publisher": "LEVEL"
+      }
+    ]
+  },
+  {
+    "group": "Hobbies",
+    "items": [
+      {
+        "en": "Playing Chess",
+        "tr": "Satranç Oynamak"
+      },
+      {
+        "en": "Watching movies, Series, Anime",
+        "tr": "Film, Dizi, Anime İzlemek"
+      },
+      {
+        "en": "Following Technological Channels",
+        "tr": "Teknolojik Kanalları Takip Etmek"
+      },
+      {
+        "en": "Learning New Technologies",
+        "tr": "Yeni Teknolojiler Öğrenmek"
+      },
+      {
+        "en": "Solving puzzles (Sudoku, Word games, Logic problems)",
+        "tr": "Bulmaca Çözmek (Sudoku, Kelime oyunları, Mantık problemleri)"
+      },
+      {
+        "en": "Running / Gym",
+        "tr": "Koşu / Spor Salonu"
+      },
+      {
+        "en": "Attending meetups and conferences",
+        "tr": "Toplantılara ve Konferanslara Katılmak"
+      }
+    ]
+  }
+]
