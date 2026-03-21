@@ -1527,7 +1527,7 @@
             </div>
             <span class="text-xl font-bold gradient-text">celalaygar</span>
           </div>
-          <p class="mt-2 text-gray-400 text-sm" data-i18n="footer_text">© 2026 Full Stack Developer & Java Geliştirici
+          <p class="mt-2 text-gray-400 text-sm" data-i18n="footer_text">© 2023 Full Stack Developer & Java Geliştirici
           </p>
         </div>
         <div class="text-sm text-gray-400">
@@ -1808,6 +1808,29 @@
           element.placeholder = translations[lang][key];
         }
       });
+
+      // Update dropdown options
+      const dropdownItems = document.querySelectorAll('#subjectDropdownContent .dropdown-item');
+      dropdownItems.forEach(item => {
+        const key = item.getAttribute('data-i18n');
+        if (translations[lang] && translations[lang][key]) {
+          item.textContent = translations[lang][key];
+        }
+      });
+
+      // Update selected subject text if a value is already selected
+      const selectedSubjectValue = document.getElementById('subject').value;
+      if (selectedSubjectValue) {
+        const selectedSubjectElement = document.getElementById('selectedSubject');
+        const selectedSubjectItem = document.querySelector(`#subjectDropdownContent .dropdown-item[data-value="${selectedSubjectValue}"]`);
+        if (selectedSubjectItem) {
+          selectedSubjectElement.textContent = selectedSubjectItem.textContent;
+        }
+      } else {
+        // If no value is selected, update placeholder text
+        const selectedSubjectElement = document.getElementById('selectedSubject');
+        selectedSubjectElement.textContent = translations[lang].form_subject_placeholder;
+      }
 
       // Update HTML lang attribute
       document.documentElement.lang = lang;
