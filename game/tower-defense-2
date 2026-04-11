@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tower Defense</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;900&family=Rajdhani:wght@400;500;600&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#06080f;--panel:#0d1220;--border:#1a2535;
+  --accent:#00d4ff;--gold:#ffd700;--red:#ff2d55;
+  --green:#39ff14;--text:#c0d0e0;--muted:#4a6080;
+}
+body{background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;height:100vh;overflow:hidden;display:flex;flex-direction:column;user-select:none}
+
+/* HUD top bar */
+#hud{display:flex;align-items:center;justify-content:space-between;padding:6px 14px;background:var(--panel);border-bottom:1px solid var(--border);flex-shrink:0;gap:10px;flex-wrap:wrap}
+.logo{font-family:'Orbitron',monospace;font-weight:900;font-size:14px;color:var(--accent);letter-spacing:2px}
+.stats{display:flex;gap:14px}
+.stat{text-align:center;min-width:46px}
+.stat-label{font-size:8px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase}
+.stat-val{font-family:'Orbitron',monospace;font-size:15px;font-weight:700}
+.val-gold{color:var(--gold)}.val-hp{color:var(--green)}.val-wave{color:var(--accent)}.val-score{color:#ff9f0a}
+#wave-prog{flex:1;max-width:180px}
+.wp-label{font-size:8px;color:var(--muted);letter-spacing:1px;margin-bottom:3px}
+.bar-track{height:4px;background:#0d1a2a;border-radius:2px}
+.bar-fill{height:100%;border-radius:2px;transition:width .1s;background:var(--accent)}
+
+/* Main layout */
+#game-wrap{flex:1;display:flex;overflow:hidden}
+canvas{display:block}
+#canvas-wrap{flex:1;position:relative;overflow:hidden}
+
+/* Sidebar */
+#sidebar{width:172px;flex-shrink:0;background:var(--panel);border-left:1px solid var(--border);display:flex;flex-direction:column;overflow-y:auto}
+.side-sec{padding:8px;border-bottom:1px solid var(--border)}
+.side-title{font-size:8px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:6px}
+.tower-card{border:1px solid var(--border);border-radius:5px;padding:6px 8px;margin-bottom:5px;cursor:pointer;transition:all .15s;background:#0a0f1a;position:relative}
+.tower-card:hover{border-color:var(--accent);background:#0e1825}
+.tower-card.selected{border-color:var(--accent);box-shadow:0 0 6px rgba(0,212,255,.2)}
+.tower-card.cant-afford{opacity:.35;cursor:not-allowed}
+.tower-name{font-size:12px;font-weight:600;color:var(--text)}
+.tower-cost{font-size:10px;color:var(--gold);font-family:'Orbitron',monospace}
+.tower-stats{font-size:9px;color:var(--muted);margin-top:2px;line-height:1.5}
+.tower-icon{float:right;font-size:16px;line-height:1}
+.btn{width:100%;padding:6px;border:1px solid var(--border);background:transparent;color:var(--text);font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:600;letter-spacing:1px;cursor:pointer;border-radius:4px;transition:all .15s;text-transform:uppercase;margin-bottom:5px}
+.btn:hover{border-color:var(--accent);color:var(--accent)}
+.btn.start-btn{border-color:var(--green);color:var(--green)}
+.btn.start-btn:hover{background:rgba(57,255,20,.08)}
+.btn.start-btn:disabled{opacity:.3;cursor:not-allowed}
+.btn.sell-btn.active{border-color:var(--red);color:var(--red)}
+
+/* Legend */
+.legend{padding:8px}
+.leg-row{display:flex;align-items:center;gap:5px;margin-bottom:4px;font-size:10px;color:var(--muted)}
+.leg-dot{width:9px;height:9px;border-radius:2px;flex-shrink:0}
+
+/* Overlay */
+#overlay{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(6,8,15,.88);backdrop-filter:blur(6px);z-index:20;transition:opacity .3s}
+#overlay.hidden{opacity:0;pointer-events:none}
+.ov-title{font-family:'Orbitron',monospace;font-size:38px;font-weight:900;letter-spacing:3px;margin-bottom:6px}
+.ov-sub{font-size:13px;color:var(--muted);letter-spacing:2px;margin-bottom:28px}
+.ov-stats{display:flex;gap:16px;margin-bottom:28px;flex-wrap:wrap;justify-content:center}
+.ov-stat{text-align:center;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:6px;padding:10px 16px}
+.ov-stat-label{font-size:8px;color:var(--muted);letter-spacing:1.5px;text-transform:uppercase}
+.ov-stat-val{font-family:'Orbitron',monospace;font-size:20px;font-weight:700;margin-top:3px}
+.play-btn{background:transparent;border:2px solid var(--accent);color:var(--accent);font-family:'Orbitron',monospace;font-size:12px;font-weight:700;letter-spacing:3px;padding:11px 32px;cursor:pointer;border-radius:5px;transition:all .2s;text-transform:uppercase}
+.play-btn:hover{background:rgba(0,212,255,.1)}
+
+/* Range ring */
+#range-canvas{position:absolute;top:0;left:0;pointer-events:none}
+
+/* Selection info box */
+#sel-info{position:absolute;bottom:10px;left:10px;background:rgba(13,18,32,.9);border:1px solid var(--border);border-radius:6px;padding:8px 12px;font-size:11px;display:none;pointer-events:none;backdrop-filter:blur(4px)}
+#sel-info.show{display:block}
+</style>
+</head>
+<body>
+
+<div id="hud">
+  <div class="logo">TD<span style="color:var(--gold)">·</span>EX</div>
+  <div class="stats">
+    <div class="stat"><div class="stat-label">Altın</div><div class="stat-val val-gold" id="s-gold">200</div></div>
+    <div class="stat"><div class="stat-label">Can</div><div class="stat-val val-hp" id="s-hp">25</div></div>
+    <div class="stat"><div class="stat-label">Dalga</div><div class="stat-val val-wave" id="s-wave">0/20</div></div>
+    <div class="stat"><div class="stat-label">Skor</div><div class="stat-val val-score" id="s-score">0</div></div>
+  </div>
+  <div id="wave-prog">
+    <div class="wp-label">DALGA İLERLEME</div>
+    <div class="bar-track"><div class="bar-fill" id="wave-bar" style="width:0%"></div></div>
+  </div>
+</div>
+
+<div id="game-wrap">
+  <div id="canvas-wrap">
+    <canvas id="canvas"></canvas>
+    <canvas id="range-canvas"></canvas>
+    <div id="sel-info"></div>
+
+    <div id="overlay">
+      <div class="ov-title" style="color:var(--accent)">TOWER DEFENSE</div>
+      <div class="ov-sub">20 Dalga · 8 Kule · S-Pist</div>
+      <div class="ov-stats">
+        <div class="ov-stat"><div class="ov-stat-label">Kule Tipleri</div><div class="ov-stat-val" style="color:var(--accent)">8</div></div>
+        <div class="ov-stat"><div class="ov-stat-label">Düşman Tipleri</div><div class="ov-stat-val" style="color:var(--red)">20</div></div>
+        <div class="ov-stat"><div class="ov-stat-label">Toplam Dalga</div><div class="ov-stat-val" style="color:var(--gold)">20</div></div>
+      </div>
+      <button class="play-btn" onclick="startGame()">BAŞLAT</button>
+    </div>
+  </div>
+
+  <div id="sidebar">
+    <div class="side-sec">
+      <div class="side-title">Kule Seç</div>
+      <!-- filled by JS -->
+      <div id="tower-list"></div>
+    </div>
+    <div class="side-sec">
+      <div class="side-title">Kontrol</div>
+      <button class="btn start-btn" id="btn-start" onclick="startWave()" disabled>▶ DALGA BAŞLAT</button>
+      <button class="btn sell-btn" id="btn-sell" onclick="toggleSell()">✂ SAT (%50)</button>
+      <button class="btn" onclick="resetGame()">↺ YENİDEN</button>
+    </div>
+    <div class="side-sec">
+      <div class="side-title">İpucu</div>
+      <div style="font-size:10px;color:var(--muted);line-height:1.7">
+        • Gri kareye tıkla → kule<br>
+        • SAT modunda tıkla → sat<br>
+        • Yolu engelleme!<br>
+        • Düşmanlar sağdan girer
+      </div>
+    </div>
+    <div class="legend">
+      <div class="side-title">Düşmanlar</div>
+      <div class="leg-row"><div class="leg-dot" style="background:#4ecdc4"></div>Normal (1-5)</div>
+      <div class="leg-row"><div class="leg-dot" style="background:#ff6b6b"></div>Hızlı (6-10)</div>
+      <div class="leg-row"><div class="leg-dot" style="background:#a855f7"></div>Zırhlı (11-15)</div>
+      <div class="leg-row"><div class="leg-dot" style="background:#f59e0b"></div>Boss (16-20)</div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+// ═══════════════════════════════════════════════════
+// CONSTANTS & CONFIG
+// ═══════════════════════════════════════════════════
+const GW=20,GH=14,CS=1;
+
+// ── 8 Tower Types ──────────────────────────────────
+const TOWER_DEFS=[
+  {id:'basic',    name:'Temel',       cost:50,  dmg:18,  range:3.2, rate:1.2, splash:0,   col:0x00aaff, projCol:0x00d4ff, icon:'🔵', desc:'Hasar:18 Menzil:3.2 Hız:1.2/s'},
+  {id:'sniper',   name:'Nişancı',     cost:120, dmg:85,  range:7.0, rate:0.35,splash:0,   col:0x9b59b6, projCol:0xcc88ff, icon:'🟣', desc:'Hasar:85 Menzil:7.0 Hız:0.35/s'},
+  {id:'rapid',    name:'Hızlı Ateş',  cost:90,  dmg:10,  range:2.6, rate:4.5, splash:0,   col:0xffd700, projCol:0xffee44, icon:'🟡', desc:'Hasar:10 Menzil:2.6 Hız:4.5/s'},
+  {id:'bomb',     name:'Bomba',       cost:140, dmg:55,  range:2.8, rate:0.6, splash:1.8, col:0xff2d55, projCol:0xff6b35, icon:'🔴', desc:'Hasar:55 Menzil:2.8 Alan:1.8'},
+  {id:'freeze',   name:'Dondurucu',   cost:110, dmg:8,   range:3.0, rate:0.9, splash:1.5, col:0x00ffee, projCol:0x88ffff, icon:'🔷', desc:'Hasar:8 Menzil:3.0 Yavaşlatır'},
+  {id:'laser',    name:'Lazer',       cost:200, dmg:5,   range:5.0, rate:12,  splash:0,   col:0xff0080, projCol:0xff44aa, icon:'🔺', desc:'Hasar:5/atış Menzil:5.0 Hız:12/s'},
+  {id:'mortar',   name:'Havan',       cost:180, dmg:90,  range:6.0, rate:0.4, splash:2.5, col:0x8b4513, projCol:0xcc8844, icon:'🟫', desc:'Hasar:90 Menzil:6.0 Alan:2.5'},
+  {id:'tesla',    name:'Tesla',       cost:250, dmg:40,  range:3.5, rate:2.0, splash:1.0, col:0xffffff, projCol:0xaaddff, icon:'⚡', desc:'Hasar:40 Menzil:3.5 Zincir:1.0'},
+];
+
+// ── 20 Enemy Types ─────────────────────────────────
+const ENEMY_DEFS=[
+  // Normal tier (1-5)
+  {id:'scout',   col:0x4ecdc4,hp:50,   spd:1.8, reward:8,  sz:0.25,armor:0},
+  {id:'runner',  col:0x3aa8a0,hp:80,   spd:2.2, reward:10, sz:0.27,armor:0},
+  {id:'trooper', col:0x2d8a85,hp:130,  spd:1.5, reward:14, sz:0.30,armor:0.1},
+  {id:'grunt',   col:0x1e6b66,hp:200,  spd:1.3, reward:18, sz:0.33,armor:0.1},
+  {id:'soldier', col:0x0f4d4a,hp:280,  spd:1.2, reward:22, sz:0.36,armor:0.15},
+  // Fast tier (6-10)
+  {id:'speeder', col:0xff6b6b,hp:60,   spd:3.8, reward:12, sz:0.22,armor:0},
+  {id:'dasher',  col:0xff4444,hp:90,   spd:4.2, reward:15, sz:0.22,armor:0},
+  {id:'sprinter',col:0xff2222,hp:120,  spd:4.8, reward:18, sz:0.23,armor:0.05},
+  {id:'rusher',  col:0xdd1111,hp:160,  spd:5.2, reward:22, sz:0.23,armor:0.05},
+  {id:'blitz',   col:0xbb0000,hp:220,  spd:5.8, reward:28, sz:0.25,armor:0.1},
+  // Heavy tier (11-15)
+  {id:'brute',   col:0xa855f7,hp:400,  spd:1.0, reward:30, sz:0.40,armor:0.3},
+  {id:'tank',    col:0x8b3dda,hp:600,  spd:0.85,reward:40, sz:0.44,armor:0.35},
+  {id:'juggernaut',col:0x7025c2,hp:900, spd:0.7, reward:55, sz:0.48,armor:0.4},
+  {id:'destroyer',col:0x5510a0,hp:1300,spd:0.6, reward:70, sz:0.52,armor:0.45},
+  {id:'fortress', col:0x3a0080,hp:1800,spd:0.5, reward:90, sz:0.56,armor:0.5},
+  // Boss tier (16-20)
+  {id:'boss1',   col:0xf59e0b,hp:2500, spd:0.9, reward:150,sz:0.65,armor:0.3},
+  {id:'boss2',   col:0xef4444,hp:4000, spd:0.75,reward:220,sz:0.70,armor:0.4},
+  {id:'boss3',   col:0xec4899,hp:6000, spd:0.65,reward:300,sz:0.75,armor:0.5},
+  {id:'boss4',   col:0x8b5cf6,hp:9000, spd:0.55,reward:400,sz:0.80,armor:0.55},
+  {id:'overlord',col:0xff0000,hp:14000,spd:0.45,reward:600,sz:0.90,armor:0.6},
+];
+
+// ── 20 Waves ───────────────────────────────────────
+const WAVES=[
+  [{t:'scout',   n:6, iv:1.2}],
+  [{t:'scout',   n:5, iv:1.0},{t:'runner',n:3,iv:1.5}],
+  [{t:'runner',  n:8, iv:0.9},{t:'speeder',n:4,iv:1.2}],
+  [{t:'trooper', n:5, iv:1.1},{t:'speeder',n:6,iv:0.8}],
+  [{t:'trooper', n:6, iv:1.0},{t:'dasher', n:5,iv:0.8},{t:'scout',n:4,iv:1.0}],
+  [{t:'grunt',   n:4, iv:1.2},{t:'dasher', n:8,iv:0.7}],
+  [{t:'grunt',   n:5, iv:1.0},{t:'sprinter',n:6,iv:0.8},{t:'runner',n:5,iv:0.9}],
+  [{t:'soldier', n:4, iv:1.2},{t:'sprinter',n:8,iv:0.7},{t:'trooper',n:4,iv:1.0}],
+  [{t:'soldier', n:6, iv:1.0},{t:'rusher',  n:5,iv:0.8}],
+  [{t:'soldier', n:5, iv:0.9},{t:'rusher',  n:6,iv:0.7},{t:'grunt',n:4,iv:1.0}],
+  [{t:'brute',   n:3, iv:2.0},{t:'blitz',   n:8,iv:0.6}],
+  [{t:'brute',   n:4, iv:1.8},{t:'blitz',   n:10,iv:0.6},{t:'soldier',n:4,iv:1.0}],
+  [{t:'tank',    n:2, iv:2.5},{t:'brute',   n:4, iv:1.5},{t:'rusher',n:6,iv:0.8}],
+  [{t:'tank',    n:3, iv:2.0},{t:'juggernaut',n:1,iv:4},{t:'blitz',n:8,iv:0.7}],
+  [{t:'juggernaut',n:2,iv:3},{t:'destroyer',n:1,iv:5},{t:'tank',n:3,iv:2.0}],
+  [{t:'boss1',   n:1, iv:5},{t:'juggernaut',n:2,iv:2.5},{t:'destroyer',n:2,iv:3}],
+  [{t:'boss1',   n:2, iv:6},{t:'boss2',n:1,iv:8},{t:'fortress',n:2,iv:3}],
+  [{t:'boss2',   n:2, iv:7},{t:'boss3',n:1,iv:10},{t:'destroyer',n:3,iv:2.5}],
+  [{t:'boss3',   n:1, iv:10},{t:'boss4',n:1,iv:12},{t:'fortress',n:3,iv:3},{t:'juggernaut',n:4,iv:2}],
+  [{t:'overlord',n:1, iv:15},{t:'boss4',n:2,iv:8},{t:'boss3',n:2,iv:6},{t:'fortress',n:4,iv:2.5}],
+];
+
+// ═══════════════════════════════════════════════════
+// S-CURVE PATH  (col,row tuples)
+// ═══════════════════════════════════════════════════
+const PATH_SEQ=[];
+// Right edge → left sweeping S
+const rawPath=[
+  // Segment 1: right side, row 7, col 19→10
+  ...[19,18,17,16,15,14,13,12,11,10].map(c=>[c,7]),
+  // Turn up: col 10, row 7→3
+  ...[6,5,4,3].map(r=>[10,r]),
+  // Go left: row 3, col 10→3
+  ...[9,8,7,6,5,4,3].map(c=>[c,3]),
+  // Turn down: col 3, row 3→10
+  ...[4,5,6,7,8,9,10].map(r=>[3,r]),
+  // Go right: row 10, col 3→16
+  ...[4,5,6,7,8,9,10,11,12,13,14,15,16].map(c=>[c,10]),
+  // Turn up: col 16, row 10→4
+  ...[9,8,7,6,5,4].map(r=>[16,r]),
+  // Final run left to exit: row 4, col 16→0
+  ...[15,14,13,12,11,10,9,8,7,6,5,4,3,2,1,0].map(c=>[c,4]),
+];
+
+// Deduplicate consecutive
+for(let i=0;i<rawPath.length;i++){
+  const [c,r]=rawPath[i];
+  if(!PATH_SEQ.length||PATH_SEQ[PATH_SEQ.length-1][0]!==c||PATH_SEQ[PATH_SEQ.length-1][1]!==r)
+    PATH_SEQ.push([c,r]);
+}
+
+const pathSet=new Set(PATH_SEQ.map(([c,r])=>`${c},${r}`));
+
+function cellToWorld(col,row){
+  return {x:col*CS-GW/2+CS/2, z:row*CS-GH/2+CS/2};
+}
+
+// Build 3D waypoints
+const waypoints3D=[];
+{
+  let prev=null;
+  for(const [c,r] of PATH_SEQ){
+    const w=cellToWorld(c,r);
+    if(!prev||prev.x!==w.x||prev.z!==w.z){waypoints3D.push(new THREE.Vector3(w.x,0,w.z));prev=w;}
+  }
+}
+
+// ═══════════════════════════════════════════════════
+// THREE.JS SETUP
+// ═══════════════════════════════════════════════════
+const canvasEl=document.getElementById('canvas');
+const cWrap=document.getElementById('canvas-wrap');
+
+const renderer=new THREE.WebGLRenderer({canvas:canvasEl,antialias:true});
+renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+renderer.shadowMap.enabled=true;
+renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+renderer.setClearColor(0x06080f,1);
+
+const scene=new THREE.Scene();
+scene.fog=new THREE.Fog(0x06080f,35,65);
+
+const camera=new THREE.PerspectiveCamera(46,1,0.1,100);
+camera.position.set(0,18,12);
+camera.lookAt(0,0,-1);
+
+function resizeAll(){
+  const w=cWrap.clientWidth,h=cWrap.clientHeight;
+  renderer.setSize(w,h);
+  camera.aspect=w/h;
+  camera.updateProjectionMatrix();
+  const rc=document.getElementById('range-canvas');
+  rc.width=w;rc.height=h;rc.style.width=w+'px';rc.style.height=h+'px';
+}
+resizeAll();
+window.addEventListener('resize',resizeAll);
+
+// Lights
+const amb=new THREE.AmbientLight(0x1a2a4a,1.4);scene.add(amb);
+const sun=new THREE.DirectionalLight(0xffffff,0.9);
+sun.position.set(8,16,8);sun.castShadow=true;
+sun.shadow.mapSize.set(2048,2048);
+['left','right','top','bottom'].forEach((k,i)=>sun.shadow.camera[k]=[-16,16,14,-14][i]);
+scene.add(sun);
+const fill=new THREE.PointLight(0x003366,0.5,30);fill.position.set(-8,8,-4);scene.add(fill);
+
+// ═══════════════════════════════════════════════════
+// GRID CELLS
+// ═══════════════════════════════════════════════════
+const cellMeshes=[],towerGrid=[];
+for(let r=0;r<GH;r++){cellMeshes.push([]);towerGrid.push([]);}
+
+for(let r=0;r<GH;r++){
+  for(let c=0;c<GW;c++){
+    const isPath=pathSet.has(`${c},${r}`);
+    const geo=new THREE.BoxGeometry(CS-.04,.1,CS-.04);
+    const mat=new THREE.MeshStandardMaterial({color:isPath?0x1a3010:0x0d1520,roughness:.9,metalness:.1});
+    const m=new THREE.Mesh(geo,mat);
+    const wp=cellToWorld(c,r);
+    m.position.set(wp.x,-.05,wp.z);
+    m.receiveShadow=true;
+    m.userData={col:c,row:r,isPath};
+    scene.add(m);
+    cellMeshes[r].push(m);
+    towerGrid[r].push(null);
+  }
+}
+
+// Path surface
+for(const [c,r] of PATH_SEQ){
+  const geo=new THREE.BoxGeometry(CS-.06,.02,CS-.06);
+  const mat=new THREE.MeshStandardMaterial({color:0x243814,roughness:1});
+  const m=new THREE.Mesh(geo,mat);
+  const wp=cellToWorld(c,r);
+  m.position.set(wp.x,.01,wp.z);
+  scene.add(m);
+}
+
+// Start/end markers
+function makeMarker(col,row,col3){
+  const geo=new THREE.BoxGeometry(.5,.15,.5);
+  const mat=new THREE.MeshStandardMaterial({color:col3,emissive:col3,emissiveIntensity:.4});
+  const m=new THREE.Mesh(geo,mat);
+  const wp=cellToWorld(col,row);
+  m.position.set(wp.x,.08,wp.z);
+  scene.add(m);
+}
+makeMarker(PATH_SEQ[0][0],PATH_SEQ[0][1],0x00ff88);
+makeMarker(PATH_SEQ[PATH_SEQ.length-1][0],PATH_SEQ[PATH_SEQ.length-1][1],0xff2255);
+
+// ═══════════════════════════════════════════════════
+// RAYCASTER
+// ═══════════════════════════════════════════════════
+const raycaster=new THREE.Raycaster();
+const mouse2=new THREE.Vector2();
+canvasEl.addEventListener('click',onCanvasClick);
+
+function onCanvasClick(e){
+  if(!gameRunning&&!waveActive)return;
+  const rect=canvasEl.getBoundingClientRect();
+  mouse2.x=((e.clientX-rect.left)/rect.width)*2-1;
+  mouse2.y=-((e.clientY-rect.top)/rect.height)*2+1;
+  raycaster.setFromCamera(mouse2,camera);
+  const flat=cellMeshes.flat();
+  const hits=raycaster.intersectObjects(flat);
+  if(!hits.length)return;
+  const {col,row,isPath}=hits[0].object.userData;
+  if(selling){removeTower(col,row);return;}
+  if(isPath||towerGrid[row][col])return;
+  const def=TOWER_DEFS[selectedTower];
+  if(gold<def.cost){flashHUD('s-gold');return;}
+  placeTower(col,row,selectedTower);
+}
+
+// Hover for range preview
+canvasEl.addEventListener('mousemove',onCanvasHover);
+function onCanvasHover(e){
+  const rect=canvasEl.getBoundingClientRect();
+  mouse2.x=((e.clientX-rect.left)/rect.width)*2-1;
+  mouse2.y=-((e.clientY-rect.top)/rect.height)*2+1;
+  raycaster.setFromCamera(mouse2,camera);
+  const hits=raycaster.intersectObjects(cellMeshes.flat());
+  const rc=document.getElementById('range-canvas');
+  const ctx=rc.getContext('2d');
+  ctx.clearRect(0,0,rc.width,rc.height);
+  if(!hits.length)return;
+  const {col,row,isPath}=hits[0].object.userData;
+  const existing=towerGrid[row][col];
+
+  // Show selected tower range on hover if cell is empty+not path, or existing tower info
+  if(existing){
+    showSelInfo(existing);
+    drawRangeRing(existing.mesh.position,existing.def.range,rc,ctx);
+  } else if(!isPath){
+    hideSelInfo();
+    const def=TOWER_DEFS[selectedTower];
+    const wp=cellToWorld(col,row);
+    drawRangeRing(new THREE.Vector3(wp.x,.5,wp.z),def.range,rc,ctx);
+  } else {
+    hideSelInfo();
+  }
+}
+
+function drawRangeRing(pos3,range,rc,ctx){
+  // project center to screen
+  const v=pos3.clone().project(camera);
+  const cx=(v.x*.5+.5)*rc.width;
+  const cy=(-(v.y)*.5+.5)*rc.height;
+
+  // project a point on the edge
+  const edge=new THREE.Vector3(pos3.x+range,pos3.y,pos3.z).project(camera);
+  const ex=(edge.x*.5+.5)*rc.width;
+  const ey=(-(edge.y)*.5+.5)*rc.height;
+  const r=Math.sqrt((ex-cx)**2+(ey-cy)**2);
+
+  ctx.strokeStyle='rgba(0,212,255,0.25)';
+  ctx.lineWidth=1.5;
+  ctx.setLineDash([4,4]);
+  ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.stroke();
+  ctx.setLineDash([]);
+}
+
+function showSelInfo(tower){
+  const el=document.getElementById('sel-info');
+  el.classList.add('show');
+  el.innerHTML=`<b style="color:var(--accent)">${tower.def.name}</b><br>${tower.def.desc}<br><span style="color:var(--gold)">Sat: ${Math.floor(tower.def.cost*.5)} 💰</span>`;
+}
+function hideSelInfo(){document.getElementById('sel-info').classList.remove('show');}
+
+// ═══════════════════════════════════════════════════
+// TOWER PLACEMENT
+// ═══════════════════════════════════════════════════
+const towers=[];
+
+function buildTowerMesh(def,wp){
+  const g=new THREE.Group();
+  // Base plate
+  const base=new THREE.Mesh(new THREE.BoxGeometry(.75,.2,.75),new THREE.MeshStandardMaterial({color:0x1a2535,roughness:.8,metalness:.4}));
+  base.position.y=.1;base.castShadow=true;g.add(base);
+  // Body
+  const body=new THREE.Mesh(new THREE.CylinderGeometry(.2,.26,.5,8),new THREE.MeshStandardMaterial({color:def.col,roughness:.35,metalness:.6,emissive:def.col,emissiveIntensity:.18}));
+  body.position.y=.45;body.castShadow=true;g.add(body);
+  // Barrel
+  const barrel=new THREE.Mesh(new THREE.CylinderGeometry(.055,.07,.6,6),new THREE.MeshStandardMaterial({color:0x2a3a4a,roughness:.3,metalness:.9}));
+  barrel.position.set(0,.68,0);barrel.rotation.x=Math.PI/2;barrel.castShadow=true;
+  g.add(barrel);
+  g.barrel=barrel;
+  // Special: mortar has arc, tesla has coil
+  if(def.id==='mortar'){
+    barrel.rotation.x=Math.PI/4;
+  }
+  if(def.id==='tesla'){
+    const coil=new THREE.Mesh(new THREE.TorusGeometry(.15,.04,8,16),new THREE.MeshStandardMaterial({color:def.col,emissive:def.col,emissiveIntensity:.6}));
+    coil.position.y=.9;g.add(coil);
+  }
+  if(def.id==='laser'){
+    const lens=new THREE.Mesh(new THREE.SphereGeometry(.08,8,8),new THREE.MeshStandardMaterial({color:def.projCol,emissive:def.projCol,emissiveIntensity:1}));
+    lens.position.set(0,.68,.32);g.add(lens);
+  }
+  g.position.set(wp.x,.01,wp.z);
+  scene.add(g);
+  return g;
+}
+
+function placeTower(col,row,typeIdx){
+  const def=TOWER_DEFS[typeIdx];
+  gold-=def.cost;updateHUD();
+  const wp=cellToWorld(col,row);
+  const mesh=buildTowerMesh(def,wp);
+  const t={mesh,def,col,row,cooldown:0,target:null,kills:0};
+  towers.push(t);
+  towerGrid[row][col]=t;
+  cellMeshes[row][col].material.color.setHex(0x0f1e30);
+}
+
+function removeTower(col,row){
+  const t=towerGrid[row][col];
+  if(!t)return;
+  const refund=Math.floor(t.def.cost*.5);
+  gold+=refund;updateHUD();
+  scene.remove(t.mesh);
+  towers.splice(towers.indexOf(t),1);
+  towerGrid[row][col]=null;
+  const isP=pathSet.has(`${col},${row}`);
+  cellMeshes[row][col].material.color.setHex(isP?0x1a3010:0x0d1520);
+  selling=false;
+  document.getElementById('btn-sell').classList.remove('active');
+}
+
+// ═══════════════════════════════════════════════════
+// TOWER UPDATE (targeting + fire)
+// ═══════════════════════════════════════════════════
+function updateTowers(dt){
+  for(const t of towers){
+    t.cooldown=Math.max(0,t.cooldown-dt);
+    if(t.cooldown>0)continue;
+
+    // Validate current target
+    if(t.target&&(t.target.dead||!inRange(t,t.target)))t.target=null;
+
+    // Find new target (first strategy — furthest along path)
+    if(!t.target){
+      let best=null,bestP=-1;
+      for(const e of enemies){
+        if(e.dead)continue;
+        if(!inRange(t,e))continue;
+        if(e.pathProgress>bestP){bestP=e.pathProgress;best=e;}
+      }
+      t.target=best;
+    }
+    if(!t.target)continue;
+
+    // Aim barrel
+    aimBarrel(t,t.target);
+
+    // Fire
+    fireTower(t,t.target);
+    t.cooldown=1/t.def.rate;
+  }
+}
+
+function inRange(tower,enemy){
+  const tx=tower.mesh.position.x,tz=tower.mesh.position.z;
+  const ex=enemy.mesh.position.x,ez=enemy.mesh.position.z;
+  const d=Math.sqrt((tx-ex)**2+(tz-ez)**2);
+  return d<=tower.def.range;
+}
+
+function aimBarrel(tower,enemy){
+  const dx=enemy.mesh.position.x-tower.mesh.position.x;
+  const dz=enemy.mesh.position.z-tower.mesh.position.z;
+  const angle=Math.atan2(dx,dz);
+  if(tower.mesh.barrel){
+    tower.mesh.barrel.parent.rotation.y=-angle;
+  }
+}
+
+function fireTower(tower,target){
+  if(tower.def.splash>0){
+    // Splash projectile
+    spawnProjectile(tower,target,true);
+  } else {
+    spawnProjectile(tower,target,false);
+  }
+  // Muzzle flash particle
+  spawnParticle(tower.mesh.position.x,0.7,tower.mesh.position.z,tower.def.projCol,.15,.05);
+}
+
+// ═══════════════════════════════════════════════════
+// ENEMIES
+// ═══════════════════════════════════════════════════
+const enemies=[];
+
+function waypointPos(progress){
+  const i=Math.min(Math.floor(progress),waypoints3D.length-2);
+  const t=progress-i;
+  const a=waypoints3D[i],b=waypoints3D[Math.min(i+1,waypoints3D.length-1)];
+  return new THREE.Vector3(a.x+(b.x-a.x)*t,0,a.z+(b.z-a.z)*t);
+}
+
+class Enemy{
+  constructor(defId){
+    const def=ENEMY_DEFS.find(d=>d.id===defId)||ENEMY_DEFS[0];
+    this.def=def;
+    this.hp=def.hp*(1+waveIndex*.08);// scale with wave
+    this.maxHp=this.hp;
+    this.speed=def.spd;
+    this.pathProgress=0;
+    this.dead=false;
+    this.slowTimer=0;
+
+    // Mesh
+    const geo=defId.startsWith('boss')||defId==='overlord'
+      ?new THREE.BoxGeometry(def.sz*2,def.sz*1.8,def.sz*2)
+      :new THREE.SphereGeometry(def.sz,16,12);
+    const mat=new THREE.MeshStandardMaterial({color:def.col,roughness:.5,metalness:.35,emissive:def.col,emissiveIntensity:.15});
+    this.mesh=new THREE.Mesh(geo,mat);
+    this.mesh.castShadow=true;
+    const sp=waypointPos(0);
+    this.mesh.position.set(sp.x,def.sz,sp.z);
+    scene.add(this.mesh);
+
+    // HP bar
+    this.hpBg=new THREE.Mesh(new THREE.PlaneGeometry(.6,.07),new THREE.MeshBasicMaterial({color:0x330000,side:THREE.DoubleSide}));
+    this.hpFg=new THREE.Mesh(new THREE.PlaneGeometry(.6,.07),new THREE.MeshBasicMaterial({color:0x00ff44,side:THREE.DoubleSide}));
+    this.hpBg.rotation.x=-Math.PI/2;this.hpFg.rotation.x=-Math.PI/2;
+    scene.add(this.hpBg);scene.add(this.hpFg);
+  }
+
+  update(dt){
+    if(this.dead)return;
+    const spd=this.slowTimer>0?this.speed*.4:this.speed;
+    this.slowTimer=Math.max(0,this.slowTimer-dt);
+    this.pathProgress+=spd*dt;
+    if(this.pathProgress>=waypoints3D.length-1){
+      this.dead=true;
+      hp=Math.max(0,hp-1);
+      updateHUD();
+      this.destroy();
+      if(hp<=0)triggerLose();
+      return;
+    }
+    const pos=waypointPos(this.pathProgress);
+    this.mesh.position.x=pos.x;
+    this.mesh.position.z=pos.z;
+    this.mesh.position.y=this.def.sz;
+    this.mesh.rotation.y+=dt*1.2;
+
+    // HP bar
+    const ratio=Math.max(0,this.hp/this.maxHp);
+    const y=this.def.sz*2+.15;
+    this.hpBg.position.set(pos.x,y,pos.z);
+    this.hpFg.position.set(pos.x-(1-ratio)*.3,y+.001,pos.z);
+    this.hpFg.scale.x=Math.max(0,ratio);
+    this.hpFg.material.color.setHex(ratio>.5?0x00ff44:ratio>.25?0xffaa00:0xff2244);
+  }
+
+  takeDamage(dmg,isSplash,splashPos,splashR){
+    if(this.dead)return;
+    // Armor reduces damage
+    const reduced=dmg*(1-this.def.armor);
+    if(isSplash&&splashR>0){
+      // Already handled by projectile
+    } else {
+      this.hp-=reduced;
+      if(this.hp<=0)this.die();
+    }
+  }
+
+  die(){
+    if(this.dead)return;
+    this.dead=true;
+    gold+=this.def.reward;
+    score+=this.def.reward*12;
+    updateHUD();
+    spawnBurst(this.mesh.position.clone(),this.def.col);
+    this.destroy();
+  }
+
+  destroy(){
+    scene.remove(this.mesh,this.hpBg,this.hpFg);
+  }
+}
+
+// ═══════════════════════════════════════════════════
+// PROJECTILES
+// ═══════════════════════════════════════════════════
+const projectiles=[];
+
+function spawnProjectile(tower,target,splash){
+  const geo=new THREE.SphereGeometry(splash?.1:.07,8,8);
+  const mat=new THREE.MeshBasicMaterial({color:tower.def.projCol});
+  const m=new THREE.Mesh(geo,mat);
+  m.position.copy(tower.mesh.position);
+  m.position.y=.7;
+  scene.add(m);
+  const spd=tower.def.id==='mortar'?6:tower.def.id==='sniper'?18:tower.def.id==='laser'?25:10;
+  projectiles.push({mesh:m,target,dmg:tower.def.dmg,splash:tower.def.splash,
+    speed:spd,done:false,isSplash:splash,
+    isFreeze:tower.def.id==='freeze',isTesla:tower.def.id==='tesla'});
+}
+
+function updateProjectiles(dt){
+  for(const p of projectiles){
+    if(p.done){scene.remove(p.mesh);p.removed=true;continue;}
+    if(p.target.dead){p.done=true;continue;}
+    const tx=p.target.mesh.position.x,tz=p.target.mesh.position.z,ty=p.target.def.sz;
+    const dx=tx-p.mesh.position.x,dy=ty-p.mesh.position.y,dz=tz-p.mesh.position.z;
+    const dist=Math.sqrt(dx*dx+dy*dy+dz*dz);
+    if(dist<.25){
+      p.done=true;
+      scene.remove(p.mesh);
+      onProjectileHit(p,new THREE.Vector3(tx,ty,tz));
+    } else {
+      const s=p.speed*dt/dist;
+      p.mesh.position.x+=dx*s;p.mesh.position.y+=dy*s;p.mesh.position.z+=dz*s;
+    }
+  }
+  for(let i=projectiles.length-1;i>=0;i--)if(projectiles[i].removed)projectiles.splice(i,1);
+}
+
+function onProjectileHit(p,pos){
+  if(p.isSplash&&p.splash>0){
+    // Splash damage
+    for(const e of enemies){
+      if(e.dead)continue;
+      const ex=e.mesh.position.x,ez=e.mesh.position.z;
+      const d=Math.sqrt((ex-pos.x)**2+(ez-pos.z)**2);
+      if(d<=p.splash){
+        const reduced=p.dmg*(1-e.def.armor);
+        e.hp-=reduced*(1-d/p.splash*.5);// falloff
+        if(e.hp<=0)e.die();
+        if(p.isFreeze)e.slowTimer=2.0;
+      }
+    }
+    spawnBurst(pos,0xff6b35,16);
+  } else if(p.isTesla){
+    // Chain lightning: hit up to 3 nearby enemies
+    const hit=new Set([p.target]);
+    p.target.hp-=p.dmg*(1-p.target.def.armor);
+    if(p.target.hp<=0)p.target.die();
+    let last=p.target;
+    for(let chain=0;chain<2;chain++){
+      let nearest=null,nd=999;
+      for(const e of enemies){
+        if(e.dead||hit.has(e))continue;
+        const d=e.mesh.position.distanceTo(last.mesh.position);
+        if(d<1.2&&d<nd){nd=d;nearest=e;}
+      }
+      if(!nearest)break;
+      hit.add(nearest);
+      const dmg=p.dmg*(1-nearest.def.armor)*(chain===0?.7:.4);
+      nearest.hp-=dmg;
+      if(nearest.hp<=0)nearest.die();
+      last=nearest;
+    }
+    spawnParticle(pos.x,pos.y,pos.z,0xaaddff,.4,.12);
+  } else {
+    // Direct damage
+    const e=p.target;
+    if(!e.dead){
+      const reduced=p.dmg*(1-e.def.armor);
+      e.hp-=reduced;
+      if(p.isFreeze)e.slowTimer=2.0;
+      if(e.hp<=0)e.die();
+    }
+    spawnParticle(pos.x,pos.y,pos.z,p.target.def.col,.3,.08);
+  }
+}
+
+// ═══════════════════════════════════════════════════
+// PARTICLES
+// ═══════════════════════════════════════════════════
+const particles=[];
+
+function spawnParticle(x,y,z,color,life,size){
+  const m=new THREE.Mesh(new THREE.SphereGeometry(size,6,6),new THREE.MeshBasicMaterial({color,transparent:true,opacity:1}));
+  m.position.set(x,y,z);
+  scene.add(m);
+  particles.push({mesh:m,vx:(Math.random()-.5)*4,vy:Math.random()*3+1,vz:(Math.random()-.5)*4,life,maxLife:life,done:false});
+}
+
+function spawnBurst(pos,color,count=10){
+  for(let i=0;i<count;i++)spawnParticle(pos.x,pos.y||.5,pos.z,color,.5,.08+Math.random()*.07);
+}
+
+function updateParticles(dt){
+  for(const p of particles){
+    if(p.done)continue;
+    p.life-=dt*1.8;
+    if(p.life<=0){p.done=true;scene.remove(p.mesh);continue;}
+    p.mesh.position.x+=p.vx*dt;p.mesh.position.y+=p.vy*dt;p.mesh.position.z+=p.vz*dt;
+    p.vy-=7*dt;
+    p.mesh.material.opacity=p.life/p.maxLife;
+    p.mesh.scale.setScalar(p.life/p.maxLife);
+  }
+  for(let i=particles.length-1;i>=0;i--)if(particles[i].done)particles.splice(i,1);
+}
+
+// ═══════════════════════════════════════════════════
+// WAVE SYSTEM
+// ═══════════════════════════════════════════════════
+let waveIndex=0,waveActive=false,waveTimer=0;
+let spawnQueue=[],spawnProgress=0;
+
+function startWave(){
+  if(waveActive||waveIndex>=WAVES.length)return;
+  waveActive=true;
+  waveTimer=0;
+  document.getElementById('btn-start').disabled=true;
+
+  // Build spawn queue
+  spawnQueue=[];
+  let t=0;
+  for(const group of WAVES[waveIndex]){
+    for(let i=0;i<group.n;i++){
+      spawnQueue.push({type:group.t,time:t});
+      t+=group.iv;
+    }
+  }
+  spawnQueue.sort((a,b)=>a.time-b.time);
+  document.getElementById('s-wave').textContent=`${waveIndex+1}/20`;
+}
+
+function updateWave(dt){
+  if(!waveActive)return;
+  waveTimer+=dt;
+
+  for(const s of spawnQueue){
+    if(!s.spawned&&waveTimer>=s.time){
+      s.spawned=true;
+      enemies.push(new Enemy(s.type));
+    }
+  }
+
+  const totalSpawned=spawnQueue.every(s=>s.spawned);
+  const allDead=enemies.every(e=>e.dead);
+  spawnProgress=totalSpawned
+    ?Math.max(0,1-enemies.filter(e=>!e.dead).length/Math.max(1,spawnQueue.length))
+    :waveTimer/(spawnQueue.length?spawnQueue[spawnQueue.length-1].time+1:1);
+  document.getElementById('wave-bar').style.width=(Math.min(1,spawnProgress)*100)+'%';
+
+  if(totalSpawned&&allDead){
+    waveActive=false;
+    waveIndex++;
+    gold+=30+waveIndex*5; // wave clear bonus
+    updateHUD();
+    if(waveIndex>=WAVES.length){triggerWin();return;}
+    document.getElementById('btn-start').disabled=false;
+    document.getElementById('s-wave').textContent=`${waveIndex}/20`;
+  }
+}
+
+// ═══════════════════════════════════════════════════
+// GAME STATE
+// ═══════════════════════════════════════════════════
+let gold=200,hp=25,score=0,gameRunning=false,selling=false,selectedTower=0;
+
+function updateHUD(){
+  document.getElementById('s-gold').textContent=gold;
+  document.getElementById('s-hp').textContent=hp;
+  document.getElementById('s-score').textContent=score;
+  // Grey out unaffordable towers
+  document.querySelectorAll('.tower-card').forEach((el,i)=>{
+    el.classList.toggle('cant-afford',gold<TOWER_DEFS[i].cost);
+  });
+}
+
+function flashHUD(id){
+  const el=document.getElementById(id);
+  el.style.color='var(--red)';
+  setTimeout(()=>el.style.color='',500);
+}
+
+function startGame(){
+  document.getElementById('overlay').classList.add('hidden');
+  gameRunning=true;
+  document.getElementById('btn-start').disabled=false;
+  updateHUD();
+}
+
+function triggerWin(){
+  gameRunning=false;
+  showEndOverlay('🏆 ZAFEr!','#ffd700',`Tüm 20 dalga temizlendi!`);
+}
+function triggerLose(){
+  gameRunning=false;
+  showEndOverlay('OYUN BİTTİ','var(--red)',`Dalga ${waveIndex+1} · Skor: ${score}`);
+}
+
+function showEndOverlay(title,color,sub){
+  const ov=document.getElementById('overlay');
+  ov.innerHTML=`
+    <div class="ov-title" style="color:${color}">${title}</div>
+    <div class="ov-sub">${sub}</div>
+    <div class="ov-stats">
+      <div class="ov-stat"><div class="ov-stat-label">Skor</div><div class="ov-stat-val" style="color:var(--accent)">${score}</div></div>
+      <div class="ov-stat"><div class="ov-stat-label">Dalga</div><div class="ov-stat-val" style="color:var(--gold)">${waveIndex}/20</div></div>
+    </div>
+    <button class="play-btn" onclick="resetGame()">TEKRAR OYNA</button>`;
+  ov.classList.remove('hidden');
+}
+
+function resetGame(){
+  // Cleanup
+  [...towers].forEach(t=>{scene.remove(t.mesh);});
+  [...enemies].forEach(e=>e.destroy());
+  [...projectiles].forEach(p=>scene.remove(p.mesh));
+  [...particles].forEach(p=>scene.remove(p.mesh));
+  towers.length=0;enemies.length=0;projectiles.length=0;particles.length=0;spawnQueue.length=0;
+  for(let r=0;r<GH;r++)for(let c=0;c<GW;c++){
+    towerGrid[r][c]=null;
+    const isP=pathSet.has(`${c},${r}`);
+    cellMeshes[r][c].material.color.setHex(isP?0x1a3010:0x0d1520);
+  }
+  gold=200;hp=25;score=0;waveIndex=0;waveActive=false;selling=false;selectedTower=0;
+  document.getElementById('s-wave').textContent='0/20';
+  document.getElementById('wave-bar').style.width='0%';
+  document.getElementById('btn-start').disabled=false;
+  document.querySelectorAll('.tower-card').forEach((el,i)=>el.classList.toggle('selected',i===0));
+  updateHUD();
+  document.getElementById('overlay').classList.add('hidden');
+  gameRunning=true;
+}
+
+function toggleSell(){
+  selling=!selling;
+  document.getElementById('btn-sell').classList.toggle('active',selling);
+}
+
+// ═══════════════════════════════════════════════════
+// BUILD SIDEBAR TOWER CARDS
+// ═══════════════════════════════════════════════════
+(function buildSidebar(){
+  const list=document.getElementById('tower-list');
+  TOWER_DEFS.forEach((def,i)=>{
+    const div=document.createElement('div');
+    div.className='tower-card'+(i===0?' selected':'');
+    div.id=`tc-${def.id}`;
+    div.innerHTML=`<span class="tower-icon">${def.icon}</span><div class="tower-name">${def.name}</div><div class="tower-cost">💰${def.cost}</div><div class="tower-stats">${def.desc}</div>`;
+    div.onclick=()=>{
+      selectedTower=i;selling=false;
+      document.getElementById('btn-sell').classList.remove('active');
+      document.querySelectorAll('.tower-card').forEach(el=>el.classList.remove('selected'));
+      div.classList.add('selected');
+    };
+    list.appendChild(div);
+  });
+})();
+
+// ═══════════════════════════════════════════════════
+// MAIN LOOP
+// ═══════════════════════════════════════════════════
+const clock=new THREE.Clock();
+
+function animate(){
+  requestAnimationFrame(animate);
+  const dt=Math.min(clock.getDelta(),.05);
+
+  if(gameRunning){
+    if(waveActive||spawnQueue.length){
+      updateWave(dt);
+    }
+    updateTowers(dt);
+    for(const e of enemies)e.update(dt);
+    updateProjectiles(dt);
+    updateParticles(dt);
+    // Cleanup dead enemies
+    for(let i=enemies.length-1;i>=0;i--){
+      if(enemies[i].dead)enemies.splice(i,1);
+    }
+  }
+
+  renderer.render(scene,camera);
+}
+
+animate();
+</script>
+</body>
+</html>
