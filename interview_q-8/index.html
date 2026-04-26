@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="tr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kafka & Debezium Senior Masterclass</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'], mono: ['JetBrains Mono', 'monospace'] },
+                    colors: { gray: { 850: '#1f2937', 900: '#111827', 950: '#0b0f19' } }
+                }
+            }
+        }
+    </script>
+    <style>
+        ::-webkit-scrollbar { width: 8px; } ::-webkit-scrollbar-track { background: #111827; } ::-webkit-scrollbar-thumb { background: #374151; border-radius: 4px; }
+        .mobile-menu { transition: transform 0.3s ease-in-out; transform: translateY(-150%); }
+        .mobile-menu.open { transform: translateY(0); }
+        .accordion-content { transition: max-height 0.4s cubic-bezier(0, 1, 0, 1), opacity 0.4s ease-in-out; max-height: 0; opacity: 0; overflow: hidden; }
+        .accordion-content.active { transition: max-height 0.4s ease-in-out, opacity 0.4s ease-in-out; opacity: 1; }
+        .icon-rotate { transition: transform 0.3s ease; } .icon-rotate.rotate { transform: rotate(180deg); }
+        code { background-color: rgba(255, 255, 255, 0.1); padding: 0.1rem 0.3rem; border-radius: 0.25rem; font-family: 'JetBrains Mono', monospace; font-size: 0.9em; color: #e5e7eb; }
+        .scenario-card { transition: transform 0.2s, border-color 0.2s; } .scenario-card:hover { transform: translateY(-2px); border-color: #10b981; }
+    </style>
+</head>
+<body class="bg-gray-950 text-gray-300 font-sans antialiased">
+
+    <!-- NAVIGATION -->
+    <nav class="fixed top-0 w-full z-50 bg-gray-900/95 backdrop-blur-md border-b border-gray-800 shadow-xl">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center gap-3 cursor-pointer" onclick="window.scrollTo(0,0)">
+                    <div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center shadow-lg shadow-indigo-500/20">
+                        <i class="fa-solid fa-layer-group text-white text-sm"></i>
+                    </div>
+                    <span class="text-lg font-bold text-white tracking-tight hidden sm:block">Kafka<span class="text-indigo-400">Architect</span></span>
+                </div>
+                <div class="hidden md:flex items-center space-x-1">
+                    <button onclick="scrollToSection('kafka-core')" class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-800 transition">Core</button>
+                    <button onclick="scrollToSection('debezium')" class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-800 transition">Debezium</button>
+                    <button onclick="scrollToSection('connect')" class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-800 transition">Connect</button>
+                    <button onclick="scrollToSection('advanced')" class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-800 transition">Advanced</button>
+                    <button onclick="scrollToSection('eda')" class="px-3 py-2 rounded-md text-sm font-medium text-rose-400 hover:text-rose-300 hover:bg-rose-900/20 transition border border-rose-900/50">EDA</button>
+                    <button onclick="scrollToSection('scenarios')" class="px-3 py-2 rounded-md text-sm font-medium text-emerald-400 hover:text-emerald-300 hover:bg-emerald-900/20 transition border border-emerald-900/50"><i class="fa-solid fa-lightbulb mr-1"></i> 10 Senaryo</button>
+                </div>
+                <div class="md:hidden flex items-center">
+                    <button onclick="toggleMobileMenu()" class="text-gray-300 hover:text-white focus:outline-none p-2">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="mobile-menu" class="mobile-menu fixed top-16 left-0 w-full bg-gray-900 border-b border-gray-800 shadow-2xl md:hidden">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <button onclick="mobileLink('kafka-core')" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800">Core</button>
+                <button onclick="mobileLink('debezium')" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800">Debezium</button>
+                <button onclick="mobileLink('connect')" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800">Connect</button>
+                <button onclick="mobileLink('advanced')" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-gray-800">Advanced</button>
+                <button onclick="mobileLink('eda')" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-rose-400 hover:text-rose-300 hover:bg-rose-900/20">EDA Patterns</button>
+                <button onclick="mobileLink('scenarios')" class="block w-full text-left px-3 py-2 rounded-md text-base font-medium text-emerald-400 hover:text-emerald-300 hover:bg-emerald-900/20">Gerçek Dünya Senaryoları</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-20 w-full space-y-16">
+        <div class="text-center mb-12 mt-8">
+            <h1 class="text-3xl md:text-5xl font-extrabold text-white mb-4">Kafka & Event Streaming <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">Ultimate Prep</span></h1>
+            <p class="text-lg text-gray-400 max-w-2xl mx-auto">140+ Senior Seviye Soru ve 10 Detaylı Gerçek Dünya Çözümü.</p>
+        </div>
+
+        <!-- 1. KAFKA CORE (Expanded) -->
+        <section id="kafka-core" class="scroll-mt-28">
+            <div class="flex items-center gap-4 mb-6"><div class="h-10 w-1 bg-indigo-500 rounded-full"></div><h2 class="text-2xl font-bold text-white">1. Apache Kafka Core (Derinlemesine)</h2></div>
+            <div id="list-kafka-core" class="space-y-3"></div>
+        </section>
+
+        <!-- 2. DEBEZIUM (Expanded) -->
+        <section id="debezium" class="scroll-mt-28">
+            <div class="flex items-center gap-4 mb-6"><div class="h-10 w-1 bg-blue-500 rounded-full"></div><h2 class="text-2xl font-bold text-white">2. Debezium & CDC (Derinlemesine)</h2></div>
+            <div id="list-debezium" class="space-y-3"></div>
+        </section>
+
+        <!-- 3. CONNECT (Expanded) -->
+        <section id="connect" class="scroll-mt-28">
+            <div class="flex items-center gap-4 mb-6"><div class="h-10 w-1 bg-emerald-500 rounded-full"></div><h2 class="text-2xl font-bold text-white">3. Kafka Connect (Derinlemesine)</h2></div>
+            <div id="list-connect" class="space-y-3"></div>
+        </section>
+
+        <!-- 4. ADVANCED (Expanded) -->
+        <section id="advanced" class="scroll-mt-28">
+            <div class="flex items-center gap-4 mb-6"><div class="h-10 w-1 bg-amber-500 rounded-full"></div><h2 class="text-2xl font-bold text-white">4. Advanced Topics (Derinlemesine)</h2></div>
+            <div id="list-advanced" class="space-y-3"></div>
+        </section>
+
+        <!-- 5. EDA (Expanded) -->
+        <section id="eda" class="scroll-mt-28">
+            <div class="flex items-center gap-4 mb-6"><div class="h-10 w-1 bg-rose-500 rounded-full"></div><h2 class="text-2xl font-bold text-white">5. EDA & Patterns (Derinlemesine)</h2></div>
+            <div id="list-eda" class="space-y-3"></div>
+        </section>
+
+        <!-- 6. 10 DETAILED SCENARIOS -->
+        <section id="scenarios" class="scroll-mt-28">
+            <div class="bg-gray-900 rounded-2xl p-8 border border-emerald-900/50 shadow-2xl relative overflow-hidden">
+                <div class="absolute top-0 right-0 -mt-10 -mr-10 w-40 h-40 bg-emerald-500/10 rounded-full blur-3xl"></div>
+                <div class="flex items-center gap-4 mb-8 relative z-10">
+                    <div class="h-12 w-1 bg-emerald-500 rounded-full"></div>
+                    <h2 class="text-3xl font-bold text-white">Debezium ile Çözülen 10 Gerçek Dünya Senaryosu</h2>
+                </div>
+                <p class="text-gray-300 text-lg mb-8 max-w-4xl">Aşağıdaki senaryolar, modern sistem mimarisinde Debezium ve CDC (Change Data Capture) kullanılarak nasıl kritik sorunlara kökten çözümler getirildiğini detaylandırır.</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="scenarios-grid">
+                    <!-- JS will populate this -->
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="border-t border-gray-800 bg-gray-900 py-8 text-center text-gray-500 text-sm">
+        <p>Senior Backend Developer Mülakat Kaynağı &copy; 2023</p>
+    </footer>
+
+    <script>
+        // --- DATA: 140+ Detailed Questions ---
+        const data = {
+            kafkaCore: [
+                { q: "Kafka'nın yüksek verimlilik sağlamasındaki temel mimari nedenler (Zero Copy, Sequential I/O, Page Cache) detaylandırın.", a: "Kafka performansını 3 prensibe borçludur:<br>1. <b>Zero Copy:</b> Veri diskten User Space'e kopyalanmaz. <code>sendfile</code> syscall ile doğrudan Kernel Space (Disk) -> Kernel Space (Network Socket) transfer edilir. CPU context switch sayısını azaltır.<br>2. <b>Sequential I/O:</b> Disk okuma/yazma işlemi rastgele değil, ardışık (append-only) yapılır. HDD bile olsa bu, random seek'ten çok daha hızlıdır.<br>3. <b>Page Cache:</b> Kafka veriyi JVM Heap yerine OS Page Cache'ine yazar. Java GC (Garbage Collection) işlemleri bu cache'i etkilemez ve veri OS tarafından yönetilir." },
+                { q: "Topic, Partition ve Replica ilişkisi, paralellik ve veri güvenliği açısından nasıl kurgulanmalıdır?", a: "<b>Topic:</b> Mantıksal akış.<br><b>Partition:</b> Fiziksel birim. Paralellik = Partition Sayısı. 20 partition varsa, bir consumer grubunda en fazla 20 consumer paralel çalışabilir.<br><b>Replica:</b> Partition kopyaları. <code>replication.factor=3</code> ise, her partition'ın 3 kopyası vardır. Biri Leader, 2'si Follower. Leader çökerse ISR'deki bir Follower seçilir. Veri güvenliği için replica sayısı en az 3 olmalıdır." },
+                { q: "ISR (In-Sync Replicas) ve 'min.insync.replicas' veri kaybı riskini nasıl yönetir?", a: "ISR, Leader ile senkronize (lag sınırı altında) replikalar listesidir. <code>acks=all</code> gönderildiğinde Producer, ISR'deki <b>tüm</b> replikalara yazılmasını bekler. <br><b>min.insync.replicas=2</b> ayarı ise, ISR'de en az 2 replika (1 Leader + 1 Follower) kalmazsa Producer'a hata döner. Bu, ağ kopukluğunda verinin 'kaybolmasın diye' reddedilmesini sağlar." },
+                { q: "Consumer Rebalance mekanizması ve 'Stop-the-World' etkisini azaltmak için ne yapılmalı?", a: "Rebalance, partition'ların consumerlar arasında yeniden dağıtılmasıdır. Bu sırada tüketim durur. Etkiyi azaltmak için:<br>1. <code>session.timeout.ms</code> ve <code>heartbeat.interval.ms</code> değerlerini doğru ayarlayarak gereksiz rebalance'leri önleyin.<br>2. Kafka 2.4+ ile gelen <b>Cooperative Sticky Assignor</b> (Incremental Rebalance) kullanın. Bu, tüm partition'ları devretmek yerine sadece gerekli olanları taşır, durma süresini minimize eder." },
+                { q: "High Watermark (HW) ve Log End Offset (LEO) farkları ve Consumer güvenliği.", a: "<b>LEO:</b> Log'un en sonuna eklenen verinin offset'idir.<br><b>HW:</b> ISR'deki tüm replikaların kopyaladığı son verinin offset'idir.<br>Consumer'lar sadece HW'nin altındaki verileri okuyabilir. Eğer Consumer LEO'yu okursa ve Leader çökerse, o veri kaybolabilir (çünkü diğer replikalara kopyalanmamıştır). HW, consumer'ların tutarlı (consistent) veri okumasını garanti eder." },
+                { q: "Producer 'linger.ms' ve 'batch.size' optimizasyonu (Throughput vs Latency).", a: "Kafka ağ paket sayısını azaltmak için küçük mesajları toplu (batch) gönderir.<br><code>batch.size</code>: Bellekte birikmesine izin verilen maksimum byte miktarı.<br><code>linger.ms</code>: Producer'ın batch'i doldurmadan bekleyeceği milisaniye süresi.<br><b>Trade-off:</b> Bu değerleri artırmak gecikmeyi (latency) hafifçe artırır ancak ağ verimliliğini (throughput) ve broker CPU kullanımını ciddi şekilde düşürür. Yüksek hacimli loglama için kritiktir." },
+                { q: "Log Compaction (Sıkıştırma) kullanım senaryoları ve çalışma prensibi.", a: "Log compaction, her key için sadece <b>en güncel</b> değeri tutar, eskilerini siler. <br><b>Kullanım:</b> Kullanıcı konfigürasyonları, en son kredi limiti, son cihaz durumu gibi 'state' önemli olan verilerde kullanılır.<br><b>Prensip:</b> Temizleme (cleaner) thread'i log segmentlerini tarar, aynı key'e sahip eski kayıtları siler. Bu, disk alanını korur ve Kafka'yı bir key-value store gibi kullanmaya yarar." },
+                { q: "Kafka sıralama garantisi (Ordering) ve Partitioner stratejileri.", a: "Kafka sıralamayı sadece <b>Partition</b> içinde garanti eder. Global sıralama yoktur.<br><b>Partitioner:</b> Varsayılan olarak Key'in hash'ini alır <code>hash(key) % partition_count</code>. Aynı key her zaman aynı partition'a gider.<br><b>Dikkat:</b> Partition sayısı değişirse hash modülü değişir ve sıralama bozulur. Bu nedenle partition sayısını baştan doğru seçmeli veya 'Custom Partitioner' ile sticky partitioning yapılmalıdır." },
+                { q: "Consumer 'Fetch Session Cache' nedir ve hangi problemi çözer?", a: "Büyük cluster'larda (binlerce partition), Consumer her fetch isteğinde hangi partition'ları takip ettiğini broker'a tekrar bildirmek zorunda kalır. Bu ağ trafiği yaratır. <b>Fetch Session Cache</b> ile Consumer bir oturum başlatır, broker bu listeyi hafızasında tutar. Sonraki isteklerde sadece delta değişiklikleri gönderilir. Bu, büyük sistemlerde CPU ve ağ trafiğini ciddi düşürür." },
+                { q: "Kafka neden ZooKeeper'a ihtiyaç duyar (veya KRaft)? Controller rolü nedir?", a: "ZooKeeper, küme metadata'sını (broker listesi, topic config, ACL'ler) saklar ve koordine eder. <b>Controller:</b> Broker'lardan biri ZK tarafından seçilir. Partition liderliğini yönetir, replica atamalarını yapar.<br><b>KRaft:</b> Kafka 2.8+ ile gelen, ZK'suz mod. Metadata Kafka'nın içinde Raft protokolü ile yönetilir. Daha basit deploy, daha hızlı metadata operasyonları sağlar." },
+                { q: "'Unclean Leader Election' ve veri bütünlüğü arasındaki denge.", a: "Eğer ISR listesinde hiçbir replika yoksa (hepsi çöktü), Kafka yeni bir leader seçebilir mi? <code>unclean.leader.election.enable=true</code> ise, senkronize olmayan bir replika leader olabilir. Bu, veri kaybına (data loss) neden olabilir ancak sistemi kullanılabilir (availability) tutar. <code>false</code> ise sistem durur (unavailable) ama veri kaybı olmaz. Finansal sistemlerde genellikle <code>false</code> tercih edilir." },
+                { q: "Producer Idempotence ve Transactions arasındaki fark ve 'Exactly-Once'.", a: "<b>Idempotent Producer:</b> Sadece tek partition içindir. Ağ hatası nedeniyle tekrarlanan mesajların diskte tekrar yazılmasını engeller (PID + Sequence Number).<br><b>Transactions:</b> Birden fazla partition'a atomik yazma sağlar. Tüm partition'lar başarılı veya hiçbiri.<br><b>Exactly-Once End-to-End:</b> Producer (Transactions) + Consumer (Read Committed) + Sink (Idempotent Write) birleşimi ile sağlanır." },
+                { q: "Consumer 'max.poll.records' ve 'max.poll.interval.ms' ayarlarının riskleri.", a: "<code>max.poll.records</code>: Tek poll'da çekilecek maksimum kayıt.<br><code>max.poll.interval.ms</code>: İki poll arasındaki maximum süre.<br><b>Risk:</b> Veri işleme süresi (processing time) bu süreyi aşarsa, Consumer 'dead' sanılır ve Rebalance tetiklenir. Yavaş işlemler için bu süre artırılmalı veya işleme paralelliği (async processing) sağlanmalıdır." },
+                { q: "Kafka Broker'da 'File Descriptor' limiti neden kritik?", a: "Kafka her açık network bağlantısı ve her bir log segment dosyası için bir file descriptor kullanır. Çok sayıda partition ve bağlantı varsa OS limitine (genellikle 1024) takılıp 'Too many open files' hatası alırsınız. Production'da bu limit 100,000+ seviyelerine çekilmelidir." },
+                { q: "Log Retention (Süre/Boyut) ve Log Compaction birlikte çalışabilir mi?", a: "Varsayılan olarak çalışmaz. Bir topic için ya <code>delete</code> (süre/boyut) ya da <code>compact</code> stratejisi seçilir. Ancak Kafka'da her topic için ayrı bir retention policy tanımlanabilir. Aynı topic üzerinde hem compaction hem de time-based deletion çalışmaz, ancak farklı tier'lar (örn: hot data compaction, cold data deletion) için farklı topic'ler tasarlanabilir." },
+                { q: "Producer 'buffer.memory' dolduğunda ne olur?", a: "Producer, mesajları ağa göndermeden önce buffer'da toplar. Buffer dolar ve broker cevap vermiyorsa (network sorunu):<br><code>block.on.buffer.full=true</code> (Eski sürümler): Producer bloke olur, uygulama yavaşlar.<br><code>false</code> (Yeni): Producer <code>BufferExhaustedException</code> fırlatır. Bu durumda uygulama hata yönetimi yapmalıdır. Genellikle buffer belleğin %60-70'i kadar kullanılır." },
+                { q: "Kafka 'Controller Failover' süreci nasıldır?", a: "Eğer aktif controller çökerse, ZooKeeper (veya KRaft controller) bunu tespit eder. Yeni bir controller seçilir. Yeni controller, Cluster Metadata'sını ZooKeeper'dan okuyup güncel duruma getirir ve diğer broker'lara <code>UpdateMetadata</code> request'i atar. Bu süreçte istemciler kısa bir süre hata alabilir ancak veri kaybı olmaz." },
+                { q: "Minion / Cruise Control ne işe yarar?", a: "Açık kaynaklı cluster yönetim araçlarıdır.<br><b>Cruise Control:</b> Cluster kaynak kullanımını (CPU, Disk, Network) analiz eder. Partition'ları dengesiz broker'lardan boş olanlara taşır (Rebalance). Ayrıca broker kaldırma (removal) işlemlerini otomatize eder.<br><b>Minion:</b> Cluster sağlık durumunu izler ve anomalileri raporlar." },
+                { q: "Fetch Request vs Produce Request içeriği.", a: "<b>Produce:</b> Topic, Partition, Key, Value, Compression Type, Acks, Timestamp içerir.<br><b>Fetch:</b> Topic, Partition, Fetch Offset, Max Bytes, Min Bytes, Max Wait Time içerir. Kafka Pull modeli kullandığı için Consumer veriyi çeker (Push değil)." },
+                { q: "Consumer Rebalance Listener (onPartitionsRevoked/Assigned) kullanım senaryoları.", a: "Rebalance sırasında partition'lar el değiştirir. Listener implementasyonu ile:<br><code>onPartitionsRevoked</code>: Partition'lar benden alınmadan önce DB bağlantılarını kapatmak, işlenmemiş işlemleri commit etmek için kullanılır.<br><code>onPartitionsAssigned</code>: Yeni partition'lar geldiğinde offset sıfırlamak veya yeni kaynakları başlatmak için kullanılır." },
+                { q: "'Message Format' (v0, v1, v2) farkları ve timestamp desteği.", a: "Kafka mesaj formatı evrimleşmiştir.<br>v0/v1: Timestamp yoktu.<br>v2: Her mesajda hem <b>Create Time</b> (Client side) hem <b>Log Append Time</b> (Broker side) timestamp'leri tutar. Bu, log compaction ve tüketim gecikmesi (latency) hesaplaması için kritiktir." },
+                { q: "Rack Awareness (Availability Zone) konfigürasyonu.", a: "Broker'lar farklı fiziksel lokasyonlarda (Rack/AZ) ise, Kafka partition replikalarını mümkün olduğunca farklı rack'lara yerleştirir. Böylece bir rack veya elektrik panosu çöktüğünde tüm veri kaybolmaz. <code>broker.rack</code> parametresi ile tanımlanır." },
+                { q: "Kafka 'Throttling' (Kısıtlama) mekanizmaları.", a: "Cluster kaynaklarını tüketen producer/consumer'ları limitlemek için kullanılır.<br><b>Quotas:</b> Kullanıcı veya Client ID bazlı bant genişliği ve request rate kısıtlaması.<br><b>Replication Throttling:</b> Yeni bir broker eklendiğinde veya cluster taşınırken, ağ trafiğini patlatmamak için replikasyon hızını sınırlar." },
+                { q: "Consumer 'Auto-Commit' riskleri ve manuel commit stratejisi.", a: "<code>enable.auto.commit=true</code> periyodik olarak offset'i commit eder. Eğer consumer bu arada işlenmemiş veriyle çökerse, o veri kaybolur (kaybolmuş gibi görünür).<br><b>Çözüm:</b> Auto-commit kapatılır. Veri işlendikten sonra (örn: DB'ye yazıldıktan sonra) manuel olarak <code>commitSync()</code> veya <code>commitAsync()</code> çağrılır. Böylece veri kaybı önlenir." },
+                { q: "Kafka 'Compression' (Sıkıştırma) ne zaman etkilidir?", a: "Compression (GZIP, Snappy, LZ4, ZSTD), batch'ler üzerinde yapılır. Eğer <code>linger.ms</code> ile batch'ler büyütülürse sıkıştırma oranı artar. CPU maliyeti vs Disk/Network bandwidth kazanımı hesaplanmalıdır. Genellikle LZ4 ve ZSTD en iyi dengeyi sunar." },
+                { q: "Producer 'Retries' ve 'Delivery Timeout' ilişkisi.", a: "Producer ağ hatası alırsa otomatik retry eder. <code>retries</code> limiti vardır. <code>delivery.timeout.ms</code>, bir mesajın ilk gönderilme denemesinden itibaren geçen maksimum süredir. Eğer mesaj bu sürede başarıyla onaylanamazsa Producer hata fırlatır. Bu, sonsuz döngüleri engeller." },
+                { q: "Log Segment'ler ve Index dosyaları (.index, .timeindex).", a: "Kafka log dosyaları segmentlere bölünür (örn: 1GB). Her segmentin yanında <b>.index</b> (offset -> physical position) ve <b>.timeindex</b> (timestamp -> offset) dosyaları vardır. Bu indexler, Consumer'ın log dosyası içinde istenilen offsete veya zamana çok hızlı (seek) erişmesini sağlar." }
+            ],
+            debezium: [
+                { q: "CDC (Change Data Capture) nedir ve Query-based (Polling) CDC farkı?", a: "CDC, veritabanı değişikliklerini yakalama tekniğidir.<br><b>Polling CDC:</b> Sürekli <code>SELECT * FROM table WHERE updated_at > now()</code> sorgusu atar. DB'ye yük bindirir, gerçek zamanlı değildir, değişiklikleri kaçırabilir.<br><b>Log-based CDC (Debezium)</b> Transaction log'larını (Binlog/WAL) okur. DB'ye yük bindirmez, saniyesinde gerçek zamanlıdır, 'before/after' durumunu bilir ve hiçbir değişikliği kaçırmaz." },
+                { q: "Debezium 'Change Event' Envelope yapısı (before, after, source, op) detayları.", a: "Debezium her değişikliği standart bir formatta gönderir:<br>- <b>before:</b> Güncellemeden önceki veri (UPDATE/DELETE için kritik).<br>- <b>after:</b> Yeni durum.<br>- <b>source:</b> DB adı, tablo, transaction ID, timestamp, snapshot boolean gibi meta veriler.<br>- <b>op:</b> 'c' (create), 'u' (update), 'd' (delete), 'r' (read/snapshot).<br>Bu yapı, consumer'ın olayın ne olduğunu ve içeriğini tam anlamasını sağlar." },
+                { q: "Debezium 'Initial Snapshot' mekanizması ve tutarlılık.", a: "Connector ilk başladığında mevcut verileri okumak ister (Snapshot). Debezium bunu şöyle yapar:<br>1. Global READ LOCK alır (kısa süreli).<br>2. Mevcut Binlog pozisyonunu (LSN/Binlog pos) yazar.<br>3. LOCK'ı bırakır.<br>4. Tabloyu <code>SELECT * FROM table</code> ile tarar.<br>5. Tarama bitince, not ettiği pozisyondan itibaren log okumaya devam eder. Bu sayede snapshot sırasında yapılan değişiklikler de kaybolmaz." },
+                { q: "Schema History Topic (__debezium_database_history) kritikliği.", a: "Debezium, gelecekte gelen verileri doğru deserialize edebilmek için geçmişteki tablo şema değişikliklerini bilmelidir. Bu bilgi Kafka'da saklanır. Eğer bu topic silinirse veya Debezium resetlenirse, connector çalışmaz çünkü güncel verinin şemasını geçmişle karşılaştıramaz. <b>En kritik component'tir.</b>" },
+                { q: "Outbox Pattern ve 'Dual Write Problem' çözümü.", a: "<b>Problem:</b> Service, veriyi DB'ye yazıp (1) sonra Kafka'ya mesaj atıyorsa (2), iki işlem arası çökme olursa DB'de veri var, Kafka'da yok (Tutarsızlık).<br><b>Outbox Çözümü:</b> Service, veriyi ve event'i <b>aynı DB transaction</b> içinde 'outbox' tablosuna yazar. Debezium bu tabloyu dinler. Transaction commit olmuştur, Debezium event'i alıp Kafka'ya taşır. DB ve Kafka arasındaki tutarlılık %100 sağlanır." },
+                { q: "Debezium 'Tombstone' ve Log Compaction ilişkisi.", a: "DB'de bir kayıt silindiğinde (DELETE), Debezium <code>op: 'd'</code> event'i üretir. Eğer Kafka topic'inde <b>Log Compaction</b> açıksa, Debezium <code>value: null</code> (Tombstone) olan bir mesaj daha yollar. Kafka, compaction yaparken bu key'e ait eski verileri diskten siler. Bu, Kafka'nın bir 'State Store' gibi davranmasını sağlar." },
+                { q: "PostgreSQL 'Replication Slot' ve disk dolması riski.", a: "PG, WAL loglarını tutar. Debezium bir consumer olarak bağlıdır. Eğer Debezium çok geride kalırsa veya uzun süre durursa, PG diskini doldurmamak için WAL'ları silmek ister. <b>Replication Slot</b>, PG'ye 'Bu okuyucu henüz bitmedi, bu logları silme' komutunu verir. Bu veri kaybını önler ama disk yönetimini kritik hale getirir." },
+                { q: "MySQL Binlog formatları (ROW vs STATEMENT) ve Debezium.", a: "Debezium için <b>ROW</b> formatı zorunludur.<br><b>STATEMENT:</b> Sorgunun kendisi (UPDATE users SET...) loglanır. Non-deterministik fonksiyonlarda sorun yaratır, replay edilemez.<br><b>ROW:</b> Değişen satırların <b>gerçek verileri</b> (before/after) loglanır. Debezium bunları alıp event'e dönüştürür. En güvenli yöntemdir." },
+                { q: "SMT (Single Message Transform) ve ExtractNewRecordState.", a: "Debezium default olarak karmaşık bir envelope gönderir (before, after, source...). Birçok uygulamada sadece <b>after</b> (yeni durum) verisi gerekir. <code>ExtractNewRecordState</code> SMT'si, mesajı sadece yeni veri payload'ına indirger. Bu, consumer kodunu basitleştirir." },
+                { q: "Debezium 'Signal Channel' (Sinyal Kanalı) kullanımı.", a: "Çalışan bir Debezium connector'üne dışarıdan müdahale etmek için kullanılır. Özel bir tabloya (signal tablosu) bir kayıt (örn: 'execute-snapshot') yazılır. Debezium bunu görür ve snapshot'ı tetikler veya schema'yı yeniler. Operasyonel esneklik sağlar." },
+                { q: "Schema Evolution (Şema Evrimi) yönetimi.", a: "DB şeması değişirse (Column eklendi/silindi), Debezium bunu algılar ve Schema Registry'ye yeni bir versiyon kaydeder.<br><b>Backward Compatibility:</b> Yeni şema, eski consumer'lar tarafından okunabilmeli (default değerler eklemek gibi). Debezium, schema registry ile çalışarak uyumsuzlukları (incompatible) tespit edip hata fırlatabilir." },
+                { q: "Large Objects (BLOB/CLOB) taşıma stratejileri.", a: "Büyük dosyalar Kafka'ya tıkanıklık yaratır. Çözümler:<br>1. Debezium config ile veriyi atıp yerine 'placeholder' veya S3 URL'i bırakmak.<br>2. Veriyi S3'e yazıp Debezium ile metadata'yı taşımak.<br>3. Sıkıştırmayı (compression) agresif kullanmak." },
+                { q: "Debezium 'Skipped Operations' (Atlanan İşlemler).", a: "Bazı transaction'ların (örn: DB admin işlemleri, bakım script'leri) yakalanmaması istenebilir. Debezium config'de <code>skipped.operations</code> ile belirli operation'ları veya transaction prefix'lerini filtreleyebilirsiniz." },
+                { q: "PostgreSQL 'wal_level = logical' zorunluluğu.", a: "Debezium, PostgreSQL'in Logical Decoding özelliğini kullanır. Bu özellik varsayılan kapalıdır. <code>wal_level</code> parametresi <code>replica</code> değil, <code>logical</code> olmalıdır. Bu ayar değiştirildiğinde PostgreSQL restart gerektirir ve WAL boyutunu artırabilir." },
+                { q: "Debezium 'Database History' topic'inin silinmesi durumunda kurtarma.", a: "Bu kritik bir felakettir. Connector resetlenemez. Çözümler:<br>1. Eğer varsa backup'tan geri yükle.<br>2. Connector silinip, <code>snapshot.mode=always</code> ile sıfırdan başlatılabilir (mevcut verileri tekrar yazar, duplicate riski vardır).<br>3. Topic'in compacted olması ve retention'in yüksek tutulması önerilir." },
+                { q: "Debezium 'Heartbeat' neden önemlidir?", a: "Veritabanında uzun süre hiç değişiklik olmazsa (Idle), Debezium offset commit edemez ve DB connection timeout'a uğrayabilir. Heartbeat, boş mesajlar göndererek:<br>1. Offset'i günceller (Consumer Lag'i doğru gösterir).<br>2. DB connection'unun canlı kalmasını sağlar." },
+                { q: "Debezium ile MongoDB Change Streams entegrasyonu.", a: "MongoDB zaten CDC destekler (Change Streams). Debezium, MongoDB'ye bağlanıp Change Stream API'yi dinler. Relational DB'lerden farkı (NoSQL) schema'sız olmasıdır. Debezium MongoDB document'lerini dynamic schema ile Kafka'ya (veya Schema Registry'ye) taşır." },
+                { q: "Debezium Server vs Kafka Connect Connector.", a: "<b>Connector:</b> Kafka Connect cluster'ı içinde çalışır, yönetimi kolaydır, offset'ler Kafka'dadır.<br><b>Debezium Server:</b> Bağımsız bir Java uygulaması olarak çalışır, Kafka'ya doğrudan bağlanır. Daha hafiftir, Kafka Connect kurulamayan durumlarda veya edge computing için kullanılır." },
+                { q: "Transaction Metadata ve Sıralı İşleme.", a: "Debezium, DB transaction ID'sini event'in içinde taşır. Aynı transaction içindeki tüm event'ler aynı ID'ye sahiptir. Consumer tarafında bu ID'ye göre event'leri gruplayıp atomik işlenebilir. Böylece transaction'ın parçaları birbirine karışmaz." },
+                { q: "High Availability (HA) için Debezium Deployment.", a: "Debezium connector'ları Kafka Connect Distributed modunda çalışır. Bir worker çökerse, Connect otomatik olarak connector ve task'ları diğer worker'lara yönlendirir (Rebalance). Ancak state'li bir işlemdir, bu yüzden en az 3 node'luk bir cluster önerilir." },
+                { q: "Debezium Performance Tuning ipuçları.", a: "1. <b>Snapshot Chunk Size:</b> Büyük tablolar için parçalı snapshot.<br>2. <b>Max Batch Size:</b> Bir seferde kaç event Kafka'ya gider.<br>3. <b>Mining Interval:</b> Log tarama sıklığı.<br>4. Debezium'u Read-Replica'dan okutmak (Primary'i yormamak için)." },
+                { q: "Kafka Streams ile Debezium verisi tüketimi (KTable vs KStream).", a: "Debezium verileri bir <b>Changelog</b> akışıdır. <b>KTable</b> olarak tüketmek en doğrusudur. KTable, aynı key'e gelen son veriyi tutar (UPDATE mantığı). Eğer KStream olarak tüketirseniz, UPDATE geldiğinde eskisini manuel silmeniz gerekir. KTable bunu otomatik yapar ve 'Current State' sunar." },
+                { q: "Debezium ' tombstone.on.delete' ayarı.", a: "Eğer false yapılırsa, DELETE işleminde sadece <code>op: 'd'</code> event'i gelir, value null (tombstone) gönderilmez. Bu, log compaction kullanmıyorsanız ağ trafiğini azaltır. Ancak compaction için tombstone şarttır." },
+                { q: "MySQL GTID (Global Transaction ID) ve Debezium.", a: "GTID, MySQL cluster'ında her transaction'ın benzersiz bir ID'sidir. Debezium GTID modunu kullanırsa, master'dan slave'e geçiş (failover) sırasında pozisyon kaybı yaşamaz. Transaction ID'leri evrenseldir." },
+                { q: "Debezium 'Decimal' type handling (Precision/Scale).", a: "Veritabanında <code>DECIMAL(10,2)</code> gibi veriler, Debezium'da varsayılan olarak <code>double</code> (kayıplı) veya <code>bytes</code> (kayıpsız) olarak map edilebilir. Finansal verilerde kayıpsız mod (<code>decimal.handling.mode=precise</code>) kullanılmalıdır." },
+                { q: "Debezium ile 'Source' ve 'Sink' veritabanı senkronizasyonu.", a: "Eski DB'den (Oracle) yeni DB'ye (PostgreSQL) veri taşımak için kullanılır. Debezium Oracle'ı dinler, Kafka'ya yazar, diğer taraftan JDBC Sink Connector PostgreSQL'e yazar. Uygulama tamamen yeni DB'ye geçtiğinde pipeline kapatılır. Zero-downtime migration sağlar." }
+            ],
+            connect: [
+                { q: "Kafka Connect'in Producer/Consumer API'e göre avantajları (Yönetim, Offset, Failover).", a: "Kafka Connect, veri entegrasyonu için özel bir framework'tür.<br>1. <b>Yönetim:</b> Kod yazmadan REST API ile konfigürasyon yapılır.<br>2. <b>Offset Yönetimi:</b> Otomatiktir. Offset'ler Kafka'da saklanır. Kod yazmana gerek kalmaz.<br>3. <b>Failover:</b> Worker çökerse, diğer worker task'ı devralır.<br>4. <b>Scalability:</b> Tasks ile paralellik kolayca ayarlanır." },
+                { q: "Worker Node, Connector, Task hiyerarşisi ve paralellik.", a: "<b>Worker:</b> JVM süreci (Process).<br><b>Connector:</b> Mantıksal iş tanımı (örn: 'MySQL to Orders Topic').<br><b>Task:</b> Çalışma birimidir. Connector, işi task'lara böler. Örneğin 4 tablo varsa, connector 4 task oluşturup her birini ayrı bir worker'da paralel çalıştırabilir. Paralellik Task sayısı kadardır." },
+                { q: "Standalone vs Distributed Mod farkları ve Kullanım Alanları.", a: "<b>Standalone:</b> Tek process çalışır. Offset'ler yerel dosyada. Geliştirme/test içindir.<br><b>Distributed:</b> Cluster yapısı (Birden çok Worker). Offset ve Config Kafka'da. Ölçeklenebilir, Production standardı. Bir worker çökerse sistem çalışmaya devam eder." },
+                { q: "Source Connector 'Polling' mantığı ve Offset Yönetimi.", a: "Source Connector (örn. JDBC), periyodik olarak harici kaynağa (DB) bağlanır. En son işlediği offset'i (örn. son ID veya Timestamp) Kafka'dan okur, yeni veriyi çeker, Kafka'ya yazar ve yeni offset'i Kafka'ya commit eder. Bu döngü sürekli tekrarlanır." },
+                { q: "Sink Connector 'Offset Commit' stratejisi.", a: "Sink Connector, Kafka'dan veri çeker ve hedefe yazar. Başarılı yazarlamalardan sonra, Kafka'dan okuduğu en son offset'i commit eder. Eğer hedefe yazma sırasında hata alırsa, offset commit etmez; böylece restart edildiğinde veriyi tekrar yazar (At-Least-Once)." },
+                { q: "SMT (Single Message Transform) kullanım örnekleri.", a: "Kod yazmadan mesajları manipüle etme:<br>1. <b>ReplaceField:</b> Hassas alanları (password) maskelemek.<br>2. <b>TimestampRouter:</b> Topic adına tarih eklemek (log-2023-10-27).<br>3. <b>ValueToKey:</b> Message Value'sindeki bir alanı Key yapmak (Partitioning için).<br>4. <b>ExtractField:</b> Nested JSON içindeki bir alanı köke çekmek." },
+                { q: "JDBC Source Connector 'Incrementing' vs 'Timestamp' vs 'Bulk' modları.", a: "<b>Incrementing:</b> Otomatik artan ID'ye göre (WHERE id > ?).<br><b>Timestamp:</b> Zaman damgasına göre (WHERE updated_at > ?). Silinen kayıtları yakalayamaz.<br><b>Bulk:</b> Tüm tabloyu baştan okur (Snapshot).<br><b>Best Practice:</b> Debezium (CDC) kullanılmıyorsa, Incrementing + Timestamp kombinasyonu önerilir (güncellenmeyen eski kayıtları atlamak için)." },
+                { q: "S3 Sink Connector dosyalama stratejileri (Size, Time, Schema).", a: "S3'e tek tek yazmak maliyetlidir. S3 Connector buffer'lar:<br>1. <b>Size-based:</b> Dosya 64MB olunca yazar.<br>2. <b>Time-based:</b> 5 dakika geçince yazar.<br>3. <b>Format:</b> Parquet (Sorgulama için en iyi), Avro, JSON. <b>Partitioner</b> ile klasör yapısı (year/month/day/) oluşturulabilir." },
+                { q: "Dead Letter Queue (DLQ) yapılandırması ve önemi.", a: "Sink Connector, bir kaydı hedefe yazarken hata alırsa (örn. Mapping hatası, Network timeout), default olarak task durur. Bu tüm pipeline'ı bloke eder. <b>DLQ</b> yapılandırılırsa, hatalı mesajlar özel bir topic'e (<code>errors.dlq.topic.name</code>) yönlendirilir ve connector çalışmaya devam eder." },
+                { q: "Elasticsearch Sink Connector ve 'Key.Ignore' (Upsert vs Insert).", a: "<code>key.ignore=false</code>: Kafka Message Key'i, Elasticsearch Document ID'si olur. Aynı ID'li yeni veri gelirse eskisinin üzerine yazar (Upsert). En yaygın kullanımdır.<br><code>key.ignore=true</code>: Her mesaj için yeni UUID üretilir. Sadece ekleme (append) yapılır, update yapılamaz." },
+                { q: "Schema Registry ile Converter entegrasyonu (Avro).", a: "Varsayılan <code>JsonConverter</code> verimli değildir. <code>AvroConverter</code> kullanılır:<br><code>value.converter=io.confluent.connect.avro.AvroConverter</code><br><code>value.converter.schema.registry.url=http://sr:8081</code><br>Bu sayede mesajlar binary (compact) olarak taşınır ve şema evrimi yönetilir." },
+                { q: "Confluent Hub nedir ve Connector yükleme.", a: "Confluent Hub, Kafka Connect için plugin deposudur (npm gibi).<br><code>confluent-hub install confluentinc/kafka-connect-jdbc:latest</code><br>Komutu ile connector JAR'ları indirilir ve worker'ların plugin.path klasörüne konur. Worker restart gerektirir." },
+                { q: "Exactly-Once in Kafka Connect (Sink tarafı).", a: "Kafka Connect, sink tarafında tam olarak Exactly-Once desteği sunmaz. Ancak <b>Idempotent</b> hedef sistemlerle (HDFS, S3, Redis) etkili bir way exactly-once sağlanır. Generic JDBC sink'lerde, hata durumunda tekrar denendiğinde veri tekrarlanabilir (Duplicate). Uygulama idempotent olmalıdır." },
+                { q: "Fluentd/Fluent Bit ile Kafka karşılaştırması.", a: "<b>Kafka Connect:</b> Yapılandırılmış, şema'lı, yüksek hacimli veri entegrasyonu için (DB to DB).<br><b>Fluentd/Bit:</b> Log aggregation, buffer'lama ve yönlendirme için. Hafiftir, kaynak kısıtlı cihazlarda (IoT) çalışır. Logları alıp Kafka'ya yazmak için idealdir (out_kafka2)." },
+                { q: "Connector Restart vs Task Restart.", a: "<b>Connector Restart:</b> Tüm task'lar durur, config yeniden yüklenir, task'lar yeniden başlar. Konfigürasyon değişiklikleri için yapılır.<br><b>Task Restart:</b> Sadece hataya düşen task restart edilir. Hata yönetimi için daha az kesinti yaratır. REST API ile yapılır." },
+                { q: "MirrorMaker 2.0 ve Active-Active Replication.", a: "MirrorMaker 2.0, iki Kafka cluster'ı arasında veri kopyalar.<br><b>Use Case:</b> DR (Disaster Recovery), Geo-Replication.<br><b>Active-Active Risk:</b> İki cluster'da da üretim varsa, veri geri dönebilir (Infinite Loop). MirrorMaker 2.0, topic prefix'leri ile bunu yönetebilir (<code>us-west.topic1</code> vs <code>us-east.topic1</code>)." },
+                { q: "HDFS Connector ve 'Data Lake' mimarisi.", a: "Kafka'daki gerçek zamanlı veriyi HDFS veya S3'e aktarır (Cold Storage). Böylece geçmiş veriler üzerinde Spark/Hive ile analitik sorgular çalıştırılabilir. Veri organizasyonu (Partitioning) kritiktir." },
+                { q: "Transforms (SMT) zincirleme (Chaining).", a: "Birden fazla transform ard arda uygulanabilir. Örneğin:<br/>1. <code>ExtractField</code>: JSON'dan body'i çek.<br/>2. <code>InsertField</code>: Timestamp ekle.<br/>3. <code>MaskField</code>: SSN'i maskele.<br>Config'de <code>transforms=extract,insert,mask</code> şeklinde sıralanır." },
+                { q: "Connect REST API ile Cluster yönetimi.", a: "Tüm yönetim REST üzerindedir:<br>- <code>GET /connectors</code>: Listele.<br>- <code>POST /connectors</code>: Oluştur (JSON config payload ile).<br>- <code>PUT /connectors/{name}/config</code>: Güncelle (Rebalance tetikler).<br>- <code>GET /connectors/{name}/status</code>: Durum izleme." },
+                { q: "Herder nedir?", a: "Kafka Connect'te worker'lar arasındaki koordinasyonu sağlayan mantıksal bileşendir. Hangi connector'ın hangi worker'da çalışacağına ve task'ların nasıl dağıtılacağına (Load Balancing) karar verir." },
+                { q: "JDBC Sink 'Auto Create' ve 'Auto Evolve' riskleri.", a: "<code>auto.create=true</code>: Kafka'da gelen topic için otomatik tablo oluşturur.<br><code>auto.evolve=true</code>: Kafka'da yeni bir column varsa tabloyu ALTER eder.<br><b>Risk:</b> Production'da veri tiplerinin uyuşmaması, schema drift ve performans sorunlarına yol açabilir. Genellikle false olmalıdır." },
+                { q: "Connector Config'te 'tasks.max' ayarlaması.", a: "Bir connector'ün maksimum parallelizm seviyesidir. Örneğin MySQL Source connector için 10 table varsa <code>tasks.max=4</code> yaparsak, 4 task paralel çalışır, her task birkaç table'ı okur. CPU ve Network bant genişliğine göre ayarlanmalıdır." },
+                { q: "Kafka Connect Memory Settings (Heap) ve Off-heap.", a: "Connect Worker'ı JVM'de çalışır. Büyük dosya transferleri (S3) yapılıyorsa heap ihtiyacı artar. Ancak çoğu durumunda 1-2GB heap yeterlidir. Offset ve Config yönetimi off-heap (Kafka diski) üzerinde yapılır. <code>KAFKA_HEAP_OPTS</code> ile ayarlanır." },
+                { q: "Debezium Connector'ü JDBC Source'dan ayıran temel fark.", a: "JDBC Source <code>Polling</code> yapar (Sorgu atar). Debezium Connector <b>Log-based CDC</b> yapar (Binlog/WAL okur). Debezium gerçek zamanlıdır, DB'ye yük bindirmez ve 'before/after' state bilir." },
+                { q: "Connect Cluster'ına yeni Worker eklenince ne olur?", a: "Cluster otomatik olarak bir 'Rebalance' tetikler. Mevcut task'lar ve connector'lar, yeni worker'a dağıtılır. Bu, scale-out işlemini otomatikleştirir. Kısa bir süre için connector'lar durabilir." },
+                { q: "Message Header'ları ve Connect.", a: "Kafka Connect, mesaj header'larını okuyabilir ve yazabilir. Sink connector'lerde, header'daki bilgiler (örn: source-timestamp) hedef sisteme meta-data olarak eklenebilir. Header'lar body'den ayrıldığı için deserialize etmeden okunabilir." },
+                { q: "Error Handling in Connect (Retries, DLQ).", a: "Hata alındığında:<br>1. <code>retry.limit</code> kadar otomatik yeniden dener.<br>2. Başarısız olursa ve DLQ varsa oraya yazar.<br>3. DLQ yoksa task fails (STOPPED). <code>errors.retry.delay</code> ile bekleme süresi ayarlanabilir (Exponential backoff)." }
+            ],
+            advanced: [
+                { q: "Kafka Streams vs Spark Streaming / Flink (Architectural Farklar).", a: "<b>Kafka Streams:</b> Client-side kütüphanesi. Kafka cluster'ına ek bir infrastructure gerekmez. Microservice olarak deploy edilir. Kafka ile tam entegre (Compact topics, Exactly-Once).<br><b>Spark/Flink:</b> Ayrı bir cluster yönetimi (YARN/K8s) gerektirir. Daha ağır analytics işlemleri, ML pipeline'ları için kullanılır." },
+                { q: "KStream vs KStream vs KTable (Stateful Processing).", a: "<b>KStream:</b> Sonsuz veri akışı (Record Stream). Her mesaj yeni bir olaydır (Insert-Only).<br><b>KTable:</b> Changelog Stream. Aynı Key'e gelen yeni veri, eskisinin üzerine yazar (Update/Upsert). Güncel durumu (State) tutar. Join işlemlerinde KTable kritiktir." },
+                { q: "State Store (RocksDB) ve Changelog Topic ilişkisi.", a: "Kafka Streams, aggregation/join gibi işlemler için state (durum) tutar. Bu state default olarak <b>RocksDB</b> (disk tabanlı) üzerinde tutulur.<br><b>Kritik:</b> Uygulama çökerse state kaybolur. Bu yüzden Kafka Streams, state store'u arka planda bir Kafka topic'ine (changelog) yedekler. Restart edildiğinde bu topic'ten state'i restore eder." },
+                { q: "Stream Join Tipleri (Stream-Stream, Table-Table, Stream-Table).", a: "<b>Stream-Stream Join:</b> İki akışın zaman penceresine göre birleşmesi (Co-partitioning şart).<br><b>Table-Table Join:</b> İki tablonun (KTable) birleşimi. Her iki taraf da güncel durumu temsil eder. Sonuç yine bir KTable'dır.<br><b>Stream-Table Join:</b> En yaygını. Event (Stream), Enrichment verisi (Table) ile birleşir (örn: Sipariş + Müşteri Bilgisi)." },
+                { q: "Interactive Queries ve Stateful Microservices.", a: "Kafka Streams uygulamaları sadece veriyi işlemez, içindeki State Store'u HTTP üzerinden dışarıya açabilir (Query). Bu sayede uygulama hem işlemci (processor) hem de veri sağlayıcı (server) olur. Örn: 'Şu anki kullanıcı sayısı?' sorusuna doğrudan pod'lardan cevap alırsınız." },
+                { q: "Windowing Tipleri (Tumbling, Hopping, Session).", a: "<b>Tumbling:</b> Bitişik, örtüşmez pencereler (09:00-09:05).<br><b>Hopping:</b> Örtüşen pencereler (Her 1 dk ilerleyen 5 dk'lık pencereler).<br><b>Session:</b> Dinamik pencereler. Veri akışı durduğunda (inactivity gap) pencere kapanır. Kullanıcı oturum analizi için idealdir." },
+                { q: "ksqlDB vs Kafka Streams.", a: "<b>ksqlDB:</b> Kafka Streams üzerine inşa edilmiş SQL arayüzü. Kod yazmadan (<code>CREATE STREAM AS SELECT...</code>) stream processing yapar. Analitik, prototip, dashboard verisi için idealdir.<br><b>Kafka Streams:</b> Java/Scala ile kompleks business logic yazmak için idealdir." },
+                { q: "Kafka Güvenlik (SASL, SSL, ACL) detayları.", a: "3 Katman vardır:<br>1. <b>Encryption (SSL/TLS)</b> Veriyi şifreler.<br>2. <b>Authentication (SASL)</b> Kimlik doğrulama (PLAIN, SCRAM-SHA-256/512, GSSAPI/Kerberos, OAUTHBEARER).<br>3. <b>Authorization (ACL)</b> Yetkilendirme. <code>Allow principal User:A on Topic:T with Operation:READ</code>." },
+                { q: "Producer Transactions ve 'Read Committed' Consumer.", a: "Producer, birden fazla partition'a atomik yazmak isterse <code>transactional.id</code> tanımlar. Consumer ise <code>isolation.level=read_committed</code> ayarlamalıdır. Böylece Consumer, transaction'ı tamamlanmamış (abort edilmiş) mesajları okumaz. Sadece commit edilmiş verileri görür." },
+                { q: "Kafka Performance Tuning (OS, JVM, File System).", a: "<b>Filesystem:</b> XFS dosya sistemi, ext4'e göre Kafka için daha uygundur (alan tahsisi konusunda).<br><b>OS:</b> Swap kapatılmalı (<code>vm.swappiness=1</code>). File descriptor limiti yüksek olmalı.<br><b>JVM:</b> Heap 6GB civarı yeterlidir (Page Cache kullanılır). GC pauses'ı azaltmak için G1GC önerilir." },
+                { q: "Consumer Lag izleme ve Burrow.", a: "Consumer Lag = Producer Log End Offset - Consumer Current Offset. Lag artıyorsa sistem tıkanıyor demektir. <b>Burrow</b>, lag hesaplayıp consumer group'ın durumunu (Rebalance gerekli mi?) otomatik tespit eden ve API sunan bir araçtır." },
+                { q: "Cruise Control ve Self-Healing Kafka.", a: "Cruise Control, cluster'ı dengeler. Broker'lar arası disk/ ağ yükünü analiz eder. Bir broker çökerse, Cruise Control otomatik olarak partition'ları sağlam broker'lara yeniden dağıtarak cluster'ı kendini iyileştirebilir (Self-Healing)." },
+                { q: "Log Compaction vs Time-based Retention.", a: "<b>Time-based (Delete)</b> Eski veriyi siler. Loglama için.<br><b>Compaction:</b> Eski key'i siler, en son key'i tutar. Kullanıcı durumu (State) için.<br><b>Kritik:</b> Aynı topic için ikisi birden aktif edilemez, ancak farklı tier'lar tasarlanabilir." },
+                { q: "Rack Awareness ve AZ Failure.", a: "Fiziksel cluster birden fazla Availability Zone (AZ) yayılıyorsa, Kafka partition replikalarını mümkün olduğunca farklı AZ'lere yerleştirir. Böylece bir AZ çökerse veri kaybı yaşanmaz (Data Locality). <code>broker.rack</code> config ile yapılır." },
+                { q: "Idempotent Producer ve 'Max In Flight Requests'.", a: "Idempotent Producer, tekrarlanan mesajları engeller. <code>max.in.flight.requests.per.connection</code>, cevap beklemeden kaç istek uçabileceğini belirler. Sıralama önemliyse (ve idempotent yoksa) bu 1 olmalıdır. Idempotent varsa 5'e kadar çıkabilir." },
+                { q: "Kafka Monitoring Metrics (JMX).", a: "<b>Under Replicated Partitions:</b> 0 olmalı (Replikalar senkronize değil).<br><b>Request Latency (p99)</b> İstemci gecikmesi.<br><b>Bytes In/Out:</b> Network trafiği.<br><b>Log Flush Time:</b> Disk yazma süresi.<br>Bu metrikler Prometheus/Grafana ile görselleştirilmelidir." },
+                { q: "KRaft Mode (KIP-500) ve ZooKiper'siz Kafka.", a: "Kafka 2.8+ ile gelen, ZooKeeper bağımlılığını kaldıran mod. Kafka'nın kendi iç metadata'sını Raft protokolü ile yönetir. Avantajları: Daha basit deploy, daha hızlı metadata operasyonları, daha fazla partition desteği. Tam üretim (Production) ready hale gelmektedir." },
+                { q: "Schema Evolution (Backward, Forward, Full).", a: "<b>Backward:</b> Eski consumer yeni şemayı okuyabilir mi? (Default değer eklemek).<br><b>Forward:</b> Yeni consumer eski şemayı okuyabilir mi? (Field silmek - tersi mümkün değil).<br><b>Full:</b> Her iki tarafta da okunabilir. En güvenli moddur." },
+                { q: "Kafka Partition Reassignment (Reassign Partitions Tool).", a: "Partition'ları broker'lar arasında taşımak için kullanılır. Manual yapılırsa ağ trafiğini tıkanabilir. Cruise Control bu işi otomatik ve throttled (kısıtlı) yapar. Yüksek trafikli saatlerde manual reassignment yapılmamalıdır." },
+                { q: "Global KTable vs Distributed KTable.", a: "<b>Distributed KTable:</b> Partition'lar dağıtılmıştır, her instance kendi kısmını tutar. Join işlemlerinde veri ağ üzerinden gelir.<br><b>Global KTable:</b> Tüm partition'ların kopyası <b>her instance</b>'da vardır. Join işlemleri yerel ve çok hızlıdır ancak memory tüketimi yüksektir. Küçük referans verileri için idealdir." },
+                { q: "Circuit Breaker pattern in Kafka Consumers.", a: "Downstream servis (örn. API) sürekli hata veriyorsa, Consumer onu sürekli dener ve kaynak tüketir. Circuit Breaker devreye girer, downstream'ı bir süre 'açık' sayar (boş geçer). Bu, sistemin domino etkisiyle çökmesini engeller (Resilience4j kütüphanesi ile implement edilir)." },
+                { q: "Kafka Streams 'Topology' ve 'Processor API'.", a: "<b>DSL (Domain Specific Language)</b> <code>stream.filter(...).map(...)</code> gibi yüksek seviyeli API. Kolaydır.<br><b>Processor API:</b> Düşük seviye API. Direct access to state store, custom scheduling ve complex logic için kullanılır. Daha zor ama daha güçlüdür." },
+                { q: "Dead Letter Topic (DLT) in Kafka Streams.", a: "Stream processing sırasında hata alan bir mesaj (örn. parsing hatası) işlemi durdurur. Bu mesajı DLT'ye yönlendirip ana akışı devam ettirmek gerekir. <code>.branch()</code> veya <code> deserializationExceptionHandler </code> ile yapılır." },
+                { q: "Exactly-Once in Kafka Streams (EOS).", a: "Kafka Streams, 'read-process-write' döngüsünü Exactly-Once yapabilir. Gereksinimler:<br>1. <code>processing.guarantee=exactly_once_v2</code>.<br>2. Producer Transactions aktif.<br>3. Consumer <code>read_committed</code>.<br>4. State store'lar (RocksDB) enable'dır." },
+                { q: "Kafka 'Controller' Failover ve Quorum.", a: "KRaft modunda, Controller bir 'Quorum' (çoğunluk) tarafından seçilir. Active Controller çökerse, Quorum içindeki bir Standby Controller yeni Active olur. Bu saniyeler içinde gerçekleşir. Eğer Quorum kaybedilirse (çoğunluk çökerse) cluster durur." },
+                { q: "Producer 'Buffer Exhaustion' yönetimi.", a: "Producer buffer'ı dolar ve <code>block.on.buffer.full=false</code> ise exception fırlatır. Uygulama bu exception'ı yakalayıp, kullanıcıya 'Sistem yoğun, lütfen bekleyin' mesajı vermelidir veya veriyi yerel bir diske (örn. Pulsar'daki buffer gibi) yazmalıdır." },
+                { q: "Kafka ve Microservices Communication Styles.", a: "Kafka, asenkron iletişim için kullanılır.<br>1. <b>Event Notification:</b> 'Sipariş oluşturuldu'.<br>2. <b>Event Carried State Transfer:</b> 'Sipariş oluşturuldu, detaylar şunlar'. (Tutarlılık için daha iyi).<br>3. <b>Request-Reply (via Kafka)</b> RPC gibi davranmak (Kafka Requester API), nadirdir." }
+            ],
+            eda: [
+                { q: "Event-Driven Architecture (EDA) prensipleri.", a: "Servisler birbirine doğrudan çağrı (RPC/HTTP) yapmak yerine, olayları (events) yayınlar ve dinler.<br><b>Avantajlar:</b> Loose Coupling (Gevşek bağlılık), Asynchronous Processing (Senkron bekleme yok), Scalability (Yük dağıtımı).<br><b>Dezavantajlar:</b> Event Sourcing karmaşıklığı, Debugging zorluğu, Event Ordering." },
+                { q: "Event Notification vs Event-Carried State Transfer.", a: "<b>Notification:</b> 'Bir şey oldu!'. Veri içermez veya az içerir. Consumer veriye ihtiyaç duyarsa kaynağa geri döner (Query).<br><b>State Transfer:</b> 'Bir şey oldu ve işte veri!'. Event içinde veri taşınır. Consumer'ın sorgu yapmasına gerek kalmaz, daha performanslıdır ancak veri boyutu artar." },
+                { q: "Saga Pattern (Choreography vs Orchestration).", a: "Dağıtık transaction'ları yönetmek için kullanılır.<br><b>Choreography:</b> Merkezi koordinatör yoktur. Servisler event dinler, kendi işini yapıp yeni event yayınlar. Yönetimi zordur, 'spaghetti events' riski vardır.<br><b>Orchestration:</b> Bir 'Orchestrator' servis vardır. Tüm adımları sırayla yönetir. Daha kontrollü ama Orchestrator'a bağımlılık yaratır." },
+                { q: "Compensating Transaction (Telafici İşlem).", a: "Saga pattern'da bir adım başarısız olursa (örn. Ödeme başarısız), Sipariş ve Stok işlemleri geri alınmalıdır. Bu işlemler 'Compensating Transactions'dır (Sipariş İptal, Stok Ekle). Sistemin tutarlı duruma dönmesini sağlar." },
+                { q: "CQRS (Command Query Responsibility Segregation).", a: "Sistemin Yazma (Command) ve Okuma (Query) modellerini ayırır.<br><b>Command:</b> DB'ye yazar, Event yayınlar (Kafka).<br><b>Query:</b> Event'leri dinler, okumaya özel bir DB'ye (Elasticsearch/Redis) yazar. Bu sayede yazma ve okuma performansı ayrı ayrı optimize edilebilir." },
+                { q: "Event Sourcing ve Traditional CRUD farkı.", a: "<b>CRUD:</b> Son durumu (State) saklar. Geçmişi kaybedersiniz.<br><b>Event Sourcing:</b> Durumu değil, olayları (Events) saklar. Durum, eventler yeniden oynatılarak (replay) edilir. Tam denetim (Audit) ve Time-Travel sağlar ancak karmaşıktır." },
+                { q: "Dual Write Problem ve Çözümleri.", a: "Bir servis veriyi DB'ye ve Kafka'ya aynı anda yazıyorsa, ikisi arasında tutarsızlık olabilir.<br/><b>Çözümler:</b> 1. <b>Transactional Outbox:</b> DB'ye birlikte yaz, CDC ile taşı. 2. <b>Two-Phase Commit (2PC)</b> Yavaş ve karmaşık. 3. <b>Saga:</b> Sonradan düzeltme." },
+                { q: "Event Sourcing'de Snapshot stratejisi.", a: "Entity 1 milyon event geçirdiyse, durumunu hesaplamak (replay) çok sürer. Belirli aralıklarla (örn. her 100 event) o anki durumun anlık görüntüsü (Snapshot) alınır. Yükleme sırasında snapshot yüklenir, kalan event'ler oynatılır." },
+                { q: "Schema Evolution ve Backward Compatibility.", a: "Event şemaları zamanla değişir. Eski consumer'ların çökmemesi için <b>Backward Compatible</b> tasarım şarttır.<br>Örn: Yeni bir field eklerken <code>optional</code> (null olabilir) yapmalısınız. Field silmek asla backward compatible değildir." },
+                { q: "Correlation ID ve Causation ID.", a: "Distributed tracing için kritik.<br><b>Correlation ID:</b> İşlemin başından sonuna kadar aynı kalır (Trace ID).<br><b>Causation ID:</b> Bu event hangi event'ten türetildi? (Parent Event ID). Zincirleme ilişkiyi gösterir." },
+                { q: "Consumer Idempotency sağlama yöntemleri.", a: "Aynı event tekrar gelebilir (At-Least-Once delivery). Tüketici bunu engellemeli:<br>1. <b>Database Unique Key:</b> Event ID veya Business Key (OrderID) unique constraint ile.<br>2. <b>Deduplication Table:</b> İşlenmiş event ID'lerini sakla, geleni kontrol et." },
+                { q: "Dead Letter Queue (DLQ) pattern.", a: "Bir event sürekli hata veriyorsa (poison pill), sistem sonsuz döngüye girer. Event DLQ'ya yönlendirilir. Daha sonra manuel olarak düzeltilip tekrar ana akışa alınabilir." },
+                { q: "Event Store (Kafka) rolü.", a: "Kafka, Event Sourcing için mükemmel bir 'Event Store' tur. Retention policy ile event'leri saklar. Compaction ile 'State' tutabilir. Log compaction açık ise, bir entity'nin son durumunu Key-Value store gibi alabilirsiniz." },
+                { q: "Splitter ve Aggregator Desenleri.", a: "<b>Splitter:</b> Büyük bir event'i (örn: Sipariş içinde 100 ürün) parçalara bölüp ayrı event'ler olarak yayar.<br><b>Aggregator:</b> Ayrı event'leri toplayıp tek bir büyük event veya rapor haline getirir (örn: Dakikalık satışları günlüğe çevirmek)." },
+                { q: "Event Time vs Processing Time.", a: "<b>Processing Time:</b> Event'in sisteme girdiği zaman (Kafka timestamp). Network gecikmesi nedeniyle yanıltıcı olabilir.<br><b>Event Time:</b> Event'in gerçekte oluştuğu zaman (Kullanıcının butona bastığı an). Windowing işlemlerinde Event Time kullanmak, geç kalmış verilerin (late data) doğru pencereye düşmesini sağlar." },
+                { q: "Outbox Pattern Implementasyon detayları.", a: "1. DB Transaction başlat.<br>2. İş verisini ana tabloya yaz.<br>3. Event'i Outbox tablosuna yaz (status: PENDING).<br>4. Commit.<br>5. Debezium Outbox'ı dinler, Kafka'ya yazar.<br>6. Debezium (veya job) Outbox'taki kaydı SENT yapar." },
+                { q: "At-Least-Once vs At-Most-Once.", a: "<b>At-Most-Once:</b> Veri kaybolabilir. (Mesajı al, işle, offset'i commit et).<br><b>At-Least-Once:</b> Veri tekrar gelebilir. (Mesajı al, işle, başarılıysa offset'i commit et).<br>Kafka default olarak At-Least-Once sunar." },
+                { q: "Retry Pattern (Exponential Backoff).", a: "Hata alan consumer hemen pes etmez. Bekleme süresini her seferinde katlayarak artırır (1s, 2s, 4s, 8s...). Bu, sistem (downstream) toparlanana kadar bekler ve thundering herd (hepsi aynı anda tekrar dener) sorununu önler." },
+                { q: "Circuit Breaker Pattern.", a: "Downstream servis sürekli hata veriyorsa, onu 'korumak' ve kendi kaynaklarını tüketmemek için bağlantıyı keser (Open state). Belirli bir süre sonra (Half-Open) tek bir istek atar, başarılı ise bağlantıyı açar." },
+                { q: "Chaos Engineering in Event Systems.", a: "Sistemin dayanıklılığını test etmek için:<br>1. Bir Broker'ı kapat (Failover testi).<br>2. Network gecikmesini artır (Lag testi).<br>3. Schema Registry'yi durdur (Compatibility testi).<br>Netflix Chaos Monkey benzeri araçlarla yapılır." },
+                { q: "Contract Testing (Pact).", a: "Event üreticisi ve tüketicisi arasındaki anlaşmayı (Contract) test eder. Producer, yeni bir event sürümü çıkardığında, Consumer'ların bunu destekleyip desteklemediğini otomatik test eder. Breaking change'leri production'a girmeden yakalar." },
+                { q: "Event Versioning Strategies.", a: "1. <b>Envelope Versioning:</b> Event'in içinde `version: 2` field'ı tutmak.<br>2. <b>Topic Versioning:</b> Yeni sürüm için yeni topic (`orders-v2`) oluşturmak.<br>3. <b>Schema Evolution:</b> Mevcut topic üzerinde, backward compatible değişiklikler yapmak." },
+                { q: "Materialized View (Görünüm) Entegrasyonu.", a: "Event'ler işlenirken, sorgulama için optimize edilmiş bir görünüm oluşturulur. Örn: `User` event'leri dinlenip `UserSummary` tablosu güncellenir. Bu, CQRS'nin query tarafını oluşturur." },
+                { q: "Saga 'Orchestration' örneği (Sipariş Süreci).", a: "Orchestrator servis: 1. Create Order. 2. Call Payment Service. 3. If OK, Call Inventory. 4. If Fail, Compensate Payment. 5. If Inventory OK, Call Shipping. Tüm akış tek bir servis tarafından yönetilir." },
+                { q: "Monolith'ten Microservice'e Geçiş (Strangler Fig).", a: "Eski sistemi yavaş yarak boğarak (strangle) parçalar. Yeni servisler Kafka kullanarak iletişim kurar. Eski sistem ile yeni sistem arasındaki veri akışı Kafka üzerinden sağlanır. Geçiş sırasında sistem canlı kalır." }
+            ]
+        };
+
+        // --- SCENARIOS DATA (10 Detailed Items) ---
+        const scenarios = [
+            {
+                title: "1. Cache Invalidation (Önbellek Temizleme)",
+                icon: "fa-bolt",
+                problem: "Kullanıcı verisini DB'de güncellediğinde, Redis cache'indeki eski veri (stale data) nedeniyle sistem eski bilgiyi göstermeye devam eder. Cache'i ne zaman temizleyeceksiniz? (TTL mi bekleyeceksiniz?)",
+                solution: "Debezium, DB transaction log'unu dinler. Bir UPDATE event'i geldiğinde otomatik olarak ilgili Key'i Redis'den siler veya günceller. Uygulama kodu cache'ten sorumlu değildir.",
+                benefit: "%100 Tutarlılık. Kod karmaşıklığı azalır. Cache invalidation hatası riski ortadan kalkar."
+            },
+            {
+                title: "2. Polyglot Persistence (Çoklu Veritabanı)",
+                icon: "fa-database",
+                problem: "Sipariş servisi PostgreSQL kullanıyor, ancak arama (Elasticsearch) ve veri ambarı (Snowflake) farklı sistemler. Tümüne REST API ile veri göndermek sistemin yavaşlamasına ve sıkı bağlara (coupling) neden olur.",
+                solution: "Debezium PostgreSQL'den değişiklikleri dinler ve farklı topic'lere yazar. Elasticsearch Connector ve Snowflake Connector bu topic'leri dinleyip kendi veritabanlarını günceller.",
+                benefit: "Servisler birbirine bağımlı değildir (Decoupled). Her servis kendi veritabanını yönetir. Performans artar."
+            },
+            {
+                title: "3. Full-Text Search Sync (Elasticsearch)",
+                icon: "fa-magnifying-glass",
+                problem: "Ürün kataloğunda arama yapmak için Elasticsearch kullanılıyor. Ürün bilgisi DB'de güncelleniyor ancak ES'de güncellenmiyor, bu yüzden arama sonuçları yanlış çıkıyor.",
+                solution: "Debezium, Product tablosundaki INSERT/UPDATE/DELETE işlemlerini dinler ve doğrudan Kafka üzerinden Elasticsearch Sink Connector'a iletir. Index güncellemesi milisaniyeler içinde gerçekleşir.",
+                benefit: "Arama motoru her zaman güncel. Uygulama koduna 'ES güncelleme' mantığı eklenmez."
+            },
+            {
+                title: "4. Audit Log (Denetim Kaydı)",
+                icon: "fa-box-archive",
+                problem: "'Kim bu ürünü silmiş?', 'Müşteri adresini ne zaman değiştirdi?' gibi sorulara cevap vermek için her tabloya ayrı audit tablosu veya loglama kodu yazmak zordur ve unutulabilir.",
+                solution: "Debezium <b>before</b> ve <b>after</b> state'ini tutar. Bütün DB değişiklikleri otomatik olarak bir Kafka Topic'ine düşer. Bu topic Elasticsearch veya Data Lake'e atılarak saniyeler içinde raporlanabilir.",
+                benefit: "Kod yazmaya gerek yok. Tüm değişiklikler tam kapsamlı ve zaman damgalı olarak saklanır. Compliance için kritik."
+            },
+            {
+                title: "5. Data Warehousing (Snowflake/BigQuery)",
+                icon: "fa-chart-pie",
+                problem: "Analytics ekibi geçmiş verilere ihtiyaç duyuyor. Production DB'yi sorgulamak sistemi yavaşlatıyor. ETL job'ları gece çalıştığı için data daima eski (stale) kalıyor.",
+                solution: "Debezium, gerçek zamanlı değişiklikleri 'Raw Data Topic'ine yazar. Kafka Connect, bu verileri S3/GCS'e parçalı olarak yükler. Snowflake/BigQuery S3 üzerinden veriyi otomatik olarak yükler.",
+                benefit: "Near Real-Time Analytics. Production DB yükü azalır. Geçmiş veriler kaybolmaz."
+            },
+            {
+                title: "6. Inventory Sync & Race Conditions (Stok Senkronizasyonu)",
+                icon: "fa-boxes-stacked",
+                problem: "E-ticaret sisteminde aynı ürün aynı anda 2 farklı siparişte alınabilir. Stok kontrolü yapan servisler arası race condition oluşabilir ve 'oversell' (aşırı satış) yapılabilir.",
+                solution: "Debezium, Stok tablosundaki değişimleri stream eder. Inventory Service, bu stream'i dinler. <code>isolation.level=read_committed</code> ile sadece onaylı işlemleri alır ve kendi lokal state'ini günceller.",
+                benefit: "Dağıtık stok yönetimi tek bir noktadan (DB) yönetilir. Diğer servisler asenkron olarak güncellenir."
+            },
+            {
+                title: "7. GDPR / Right to be Forgotten (Silme Hakkı)",
+                icon: "fa-user-shield",
+                problem: "Kullanıcı verilerini silme talebi geldiğinde, sadece ana DB'deki veriyi silmek yetmez. Elasticsearch, S3, Cache gibi tüm sistemlerden de silmek gerekir.",
+                solution: "DB'de kullanıcı soft-delete edilir (tombstone). Debezium bu DELETE event'ini dinler ve sink connector'lar (ES, S3) vasıtasıyla diğer sistemlerden de veriyi siler.",
+                benefit: "Merkezi uyumluluk yönetimi. Veri tüm sistemlerden temizlenir."
+            },
+            {
+                title: "8. Microservices Decoupling (Servis Bağımsızlığı)",
+                icon: "fa-link-slash",
+                problem: "Sipariş oluşturulduğunda 'Fatura', 'Kargo', 'Bildirim' servislerine HTTP çağrısı yapmak zorundasınız. Kargo servisi çökerse Sipariş de başarısız olur.",
+                solution: "Sipariş servisi sadece DB'ye yazar. Debezium 'Sipariş Oluşturuldu' event'ini yayınlar. Diğer servisler bu event'i kendi hızlarında tüketir. Kargo servisi çökerse event Kafka'da bekler.",
+                benefit: "Sistem dayanıklılığı (Resilience) artar. Servisler birbirini beklemek zorunda kalmaz."
+            },
+            {
+                title: "9. Zero Downtime Migration (Sıfır Kesintiyle Göç)",
+                icon: "fa-right-left",
+                problem: "Eski veritabanından (Oracle) yenisine (PostgreSQL) geçiş yapmak istiyorsunuz ancak uygulama durdurulamaz.",
+                solution: "Debezium Oracle'ı dinleyip PostgreSQL'e yazar (CDC Pipeline). Önce mevcut veriler (Snapshot) taşınır, ardından devam eden değişiklikler aktarılır. Uygulama tamamen yeni DB'ye geçtiğinde pipeline kapatılır.",
+                benefit: "Kesintisiz geçiş. Veri kaybı olmadan göç. Roll-back kolaydır."
+            },
+            {
+                title: "10. Fraud Detection (Dolandırıcılık Tespiti)",
+                icon: "fa-user-secret",
+                problem: "Kredi kartı işleminde dolandırıcılığı tespit etmek için milisaniyeler içinde analitik yapılmalı. DB sorgusu bu kadar hızlı olmayabilir.",
+                solution: "Debezium, Transaction tablosunu dinler. Kafka Streams veya Flink, bu event'i anlık olarak (stream) alır, kurallar (örn: 1 dk içinde 3 farklı ülkeden işlem) çalıştırır ve şüpheli işlemleri engeller.",
+                benefit: "Gerçek zamanlı güvenlik. DB yükü düşer. Karmaşık analitik mantığı data layer'dan ayrılır."
+            },
+            {
+                title: "11. Real-Time Personalization (Gerçek Zamanlı Kişiselleştirme)",
+                icon: "fa-user",
+                problem: "Kullanıcı davranışlarına göre anlık öneriler sunmak istiyorsunuz ancak DB sorguları gecikmeye neden oluyor.",
+                solution: "Debezium, User Activity tablosunu dinler. Kafka Streams, bu aktiviteleri analiz eder ve kullanıcıya özel öneriler üretir. Bu öneriler anında cache'e yazılır ve kullanıcıya gösterilir.",
+                benefit: "Kişiselleştirilmiş deneyim. Gerçek zamanlı öneriler. DB yükü azalır."
+            },
+            {
+                title: "12. Real-Time Inventory Management (Gerçek Zamanlı Envanter Yönetimi)",
+                icon: "fa-warehouse",
+                problem: "Fiziksel mağazalar ve online platform arasında stok bilgisi senkronize değil. Müşteri sipariş verirken stokta olmayan ürünler gösteriliyor.",
+                solution: "Debezium, Stok tablosunu dinler. Kafka Streams, stok seviyelerini gerçek zamanlı olarak günceller ve bu bilgiyi tüm kanallara (web, mobil, POS) dağıtır.",
+                benefit: "Güncel stok bilgisi. Müşteri memnuniyeti artar. Stok yönetimi iyileşir."
+            }
+        ];
+
+        // --- RENDER LOGIC ---
+        function renderSection(containerId, sectionData, badgeColor) {
+            const container = document.getElementById(containerId);
+            let html = '';
+            sectionData.forEach((item, index) => {
+                html += `
+                <div class="group bg-gray-900 border border-gray-800 rounded-lg overflow-hidden hover:border-gray-600 transition-all duration-200 shadow-lg">
+                    <button class="w-full px-5 py-4 flex justify-between items-center text-left focus:outline-none" onclick="toggleAccordion(this)">
+                        <div class="flex items-start gap-4">
+                            <span class="flex-shrink-0 mt-1 w-6 h-6 rounded-full bg-${badgeColor}-900/50 text-${badgeColor}-400 text-xs font-bold flex items-center justify-center border border-${badgeColor}-700">${index + 1}</span>
+                            <span class="font-medium text-gray-200 group-hover:text-white transition-colors pr-2 leading-snug">${item.q}</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-down text-gray-600 mt-1 icon-rotate group-hover:text-${badgeColor}-400 transition-colors"></i>
+                    </button>
+                    <div class="accordion-content bg-gray-950/50 border-t border-gray-800">
+                        <div class="p-5 pl-14 text-gray-400 text-sm md:text-base leading-relaxed space-y-2">
+                            ${item.a}
+                        </div>
+                    </div>
+                </div>`;
+            });
+            container.innerHTML = html;
+        }
+
+        function renderScenarios() {
+            const container = document.getElementById('scenarios-grid');
+            let html = '';
+            scenarios.forEach(s => {
+                html += `
+                <div class="scenario-card bg-gray-950 border border-gray-800 p-6 rounded-xl flex flex-col gap-4">
+                    <div class="flex items-center gap-3 text-emerald-400 mb-2">
+                        <i class="fa-solid ${s.icon} text-xl"></i>
+                        <h3 class="font-bold text-lg text-white leading-tight">${s.title}</h3>
+                    </div>
+                    
+                    <div class="space-y-3 text-sm flex-grow">
+                        <div>
+                            <span class="text-red-400 font-semibold uppercase text-xs tracking-wider">Problem:</span>
+                            <p class="text-gray-400 mt-1">${s.problem}</p>
+                        </div>
+                        <div>
+                            <span class="text-emerald-400 font-semibold uppercase text-xs tracking-wider">Çözüm:</span>
+                            <p class="text-gray-300 mt-1">${s.solution}</p>
+                        </div>
+                    </div>
+
+                    <div class="pt-3 border-t border-gray-800">
+                        <span class="text-blue-400 font-semibold text-xs uppercase tracking-wider">Kazanım:</span>
+                        <p class="text-gray-400 text-xs mt-1">${s.benefit}</p>
+                    </div>
+                </div>`;
+            });
+            container.innerHTML = html;
+        }
+
+        function toggleAccordion(btn) {
+            const content = btn.nextElementSibling;
+            const icon = btn.querySelector('.icon-rotate');
+            if (content.style.maxHeight) {
+                content.style.maxHeight = null; content.classList.remove('active'); icon.classList.remove('rotate');
+            } else {
+                content.style.maxHeight = content.scrollHeight + "px"; content.classList.add('active'); icon.classList.add('rotate');
+            }
+        }
+
+        function toggleMobileMenu() {
+            document.getElementById('mobile-menu').classList.toggle('open');
+        }
+
+        function mobileLink(id) {
+            toggleMobileMenu(); scrollToSection(id);
+        }
+
+        function scrollToSection(id) {
+            const el = document.getElementById(id);
+            if (el) {
+                const y = el.getBoundingClientRect().top + window.pageYOffset - 100;
+                window.scrollTo({top: y, behavior: 'smooth'});
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderSection('list-kafka-core', data.kafkaCore, 'indigo');
+            renderSection('list-debezium', data.debezium, 'blue');
+            renderSection('list-connect', data.connect, 'emerald');
+            renderSection('list-advanced', data.advanced, 'amber');
+            renderSection('list-eda', data.eda, 'rose');
+            renderScenarios();
+        });
+    </script>
+</body>
+</html>
