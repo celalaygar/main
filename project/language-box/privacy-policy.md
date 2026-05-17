@@ -1,4 +1,4 @@
-Privacy Policy for WixBook: Language Box
+Privacy Policy for WixTory: Language Box
 
 Effective Date: February 8, 2026
 1. No Personal Data Collection
