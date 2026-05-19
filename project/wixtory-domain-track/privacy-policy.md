@@ -1,4 +1,4 @@
-# Privacy Policy for WixTory: Language Box
+# Privacy Policy for Wixtory: Domain Track
 
 **Effective Date:** February 8, 2026
 
@@ -6,23 +6,23 @@
 
 ## 1. No Personal Data Collection
 
-We believe in your privacy. Language Box does not collect, store, or transmit any personally identifiable information. We do not ask for your name, email address, phone number, or any other personal credentials.
+We believe in your privacy. Wixtory Domain Track does not collect, store, or transmit any personally identifiable information. We do not ask for your name, email address, phone number, or any other personal credentials.
 
 ---
 
-## 2. Local Progress Tracking (Caching)
+## 2. Local Data Storage
 
-To provide a seamless learning experience, the App tracks your progress (e.g., current question number and game statistics) locally on your device:
+The App saves your domain search data locally on your device:
 
-- **How it works:** We use a local Cache Service to remember where you left off in each game mode (Sentence Builder, Scrambled Word, etc.).
-- **Data Location:** This data stays on your phone. It is not linked to any personal identity.
-- **Control:** You can use the "Clear Cache" button in the settings at any time to permanently delete this progress data from your device.
+- **How it works:** The App saves your domain search history and favorite domains locally on your device using a local Cache Service, so you can easily access them later.
+- **Data Location:** This data stays on your device. It is not linked to any personal identity or account.
+- **Control:** You can use the "Clear Cache" button in the settings at any time to permanently delete your search history and favorites data from your device.
 
 ---
 
-## 3. Statistics
+## 3. Search Statistics
 
-The App displays your skill levels based on your performance in the games. These statistics are generated locally for your own viewing and are not shared with third parties.
+The App may display search statistics such as the number of domains searched and your most checked extensions. These statistics are generated locally on your device for your own viewing and are not shared with third parties.
 
 ---
 
@@ -34,7 +34,7 @@ The App includes third-party advertisements (Google AdMob) to remain free to use
 
 ## 5. Data Security
 
-Since we do not collect personal data, there is no risk of your personal identity being compromised through our database. We use secure communication (HTTPS) between the App and our backend server to fetch game content (questions and answers).
+Since we do not collect personal data, there is no risk of your personal identity being compromised through our database. We use secure communication (HTTPS) between the App and our backend server to check domain availability in real-time.
 
 ---
 
